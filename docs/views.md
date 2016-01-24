@@ -1,16 +1,14 @@
 # View Wireframes
 
-## New User
+## New User / New Session
 ![new-user]
-
-## New Session
-![new-session]
 
 ## Root / BoardsIndex / BoardIndexItem
 ![boards_index]
 
 ## BoardDetailView / List / Card / CardDetailView
 ![board_detail_view]
+
 <!--
 ## NoteBookForm
 ![notebook-form]
@@ -19,7 +17,6 @@
 ![component-heirarchy] -->
 
 [new-user]: ./wireframes/new_user.png
-[new-session]: ./wireframes/new_session.png
 [boards_index]: ./wireframes/boards_index.png
 [board_detail_view]: ./wireframes/board_detail_view.png
 
