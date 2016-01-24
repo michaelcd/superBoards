@@ -1,38 +1,43 @@
-# Phase 2: Flux Architecture and Note CRUD (2 days)
+# Phase 2: Flux Architecture, Board and List CRUD (2.5 days)
 
 ## Rails
 ### Models
+* List
+* Card
 
 ### Controllers
+* Api::ListsController (create, destroy, index, update)
+* Api::CardsController (create, destroy, index, show, update)
 
 ### Views
 
 ## Flux
 ### Views (React Components)
-* NotesIndex
-  - NotesIndexItem
-* NoteForm
+* BoardsIndex
+  - BoardsIndexItem
+  - NewBoardIndexItem
+* BoardDetailView
+  - ListView
 
 ### Stores
-* Note
+* Board
 
 ### Actions
-* ApiActions.receiveAllNotes -> triggered by ApiUtil
-* ApiActions.receiveSingleNote
-* ApiActions.deleteNote
-* NoteActions.fetchAllNotes -> triggers ApiUtil
-* NoteActions.fetchSingleNote 
-* NoteActions.createNote
-* NoteActions.editNote 
-* NoteActions.destroyNote
+* ApiActions.receiveAllBoards -> triggered by ApiUtil
+* ApiActions.receiveSingleBoard
+* ApiActions.deleteBoard
+* NoteActions.fetchAllBoards -> triggers ApiUtil
+* NoteActions.fetchSingleBoard
+* NoteActions.createBoard
+* NoteActions.editBoard
+* NoteActions.destroyBoard
 
 ### ApiUtil
-* ApiUtil.fetchAllNotes
-* ApiUtil.fetchSingleNote
-* ApiUtil.createNote
-* ApiUtil.editNote
-* ApiUtil.destroyNote
+* ApiUtil.fetchAllBoards
+* ApiUtil.fetchSingleBoard
+* ApiUtil.createBoard
+* ApiUtil.editBoard
+* ApiUtil.destroyBoard
 
 ## Gems/Libraries
 * Flux Dispatcher (npm)
-* Twitter Bootstrap
