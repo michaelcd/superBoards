@@ -1,44 +1,43 @@
-# Phase 3: Notebooks and Tags (2 days)
+# Phase 3: Card CRUD and Tags (2 days)
 
 ## Rails
 ### Models
-* Notebook
+* Card
 * Tag
-* Tagging
 
 ### Controllers
-* Api::NotebooksController (create, destroy, index, show, update)
+* Api::CardsController (create, destroy, index, show, update)
 
 ### Views
-* notebooks/index.json.jbuilder
-* notebooks/show.json.jbuilder
+* cards/index.json.jbuilder
+* cards/show.json.jbuilder
 * tags/show.json.jbuilder
 
 ## Flux
 ### Views (React Components)
-* NotebooksIndex
-  - NotebookIndexItem
-* NotebookForm
-* SearchIndex
+* ListView
+  - Card
+  - NewListItem
+* CardDetailView
 
 ### Stores
-* Notebook
+* Card
 
 ### Actions
-* ApiActions.receiveAllNotebooks -> triggered by ApiUtil
-* ApiActions.receiveSingleNotebook
-* ApiActions.deleteNotebook
-* NotebookActions.fetchAllNotebooks -> triggers ApiUtil
-* NotebookActions.fetchSingleNotebook
-* NotebookActions.createNotebook
-* NotebookActions.editNotebook
-* NotebookActions.destroyNotebook
+* ApiActions.receiveAllCards -> triggered by ApiUtil
+* ApiActions.receiveSingleCard
+* ApiActions.deleteCard
+* CardActions.fetchAllCards -> triggers ApiUtil
+* CardActions.fetchSingleCard
+* CardActions.createCard
+* CardActions.editCard
+* CardActions.destroyCard
 
 ### ApiUtil
-* ApiUtil.fetchAllNotebooks
-* ApiUtil.fetchSingleNotebook
-* ApiUtil.createNotebook
-* ApiUtil.editNotebook
-* ApiUtil.destroyNotebook
+* ApiUtil.fetchAllCards
+* ApiUtil.fetchSingleCard
+* ApiUtil.createCard
+* ApiUtil.editCard
+* ApiUtil.destroyCard
 
 ## Gems/Libraries
