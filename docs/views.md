@@ -9,16 +9,10 @@
 ## BoardDetailView / List / Card / CardDetailView
 ![board_detail_view]
 
-<!--
-## NoteBookForm
-![notebook-form]
-
 ## Component Heirarchy
-![component-heirarchy] -->
+![component-heirarchy]
 
 [new-user]: ./wireframes/new_user.png
 [boards_index]: ./wireframes/boards_index.png
 [board_detail_view]: ./wireframes/board_detail_view.png
-
-[notebook-form]: ./wireframes/notebook_form.png
 [component-heirarchy]: ./wireframes/component_heirarchy.png
