@@ -15,4 +15,4 @@
 [new-user]: ./wireframes/new_user.png
 [boards_index]: ./wireframes/boards_index.png
 [board_detail_view]: ./wireframes/board_detail_view.png
-[component-heirarchy]: ./wireframes/component_heirarchy.png
+[component-heirarchy]: ./wireframes/component_hierarchy.png
