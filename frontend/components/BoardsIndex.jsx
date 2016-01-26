@@ -28,6 +28,7 @@ var BoardsIndex = React.createClass({
         <h2>My Boards</h2>
         <ul>
           {indexItems}
+          
         </ul>
       </div>
     );

@@ -26,11 +26,11 @@
 * ApiActions.receiveAllBoards -> triggered by ApiUtil
 * ApiActions.receiveSingleBoard
 * ApiActions.deleteBoard
-* NoteActions.fetchAllBoards -> triggers ApiUtil
-* NoteActions.fetchSingleBoard
-* NoteActions.createBoard
-* NoteActions.editBoard
-* NoteActions.destroyBoard
+* BoardActions.fetchAllBoards -> triggers ApiUtil
+* BoardActions.fetchSingleBoard
+* BoardActions.createBoard
+* BoardActions.editBoard
+* BoardActions.destroyBoard
 
 ### ApiUtil
 * ApiUtil.fetchAllBoards

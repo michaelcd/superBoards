@@ -54,15 +54,20 @@ Phase 3 will add Card CRUD functionality to the application. Card data will be a
 
 [Details][phase-three]
 
-### Phase 4: Comment CRUD added to cards (1 day)
+### Phase 4: Drag and drop fuctionality for Lists and Cards (1.5 days)
 
-In Phase 4, Comment CRUD functionality will be added within the `CardDetailView`. The `CommentIndexView` will be added along with nested `CommentIndexItem`s and a `NewCommentForm` component.
+Using React Drag and Drop, drag-and-drop functionality will be added to Lists and Cards within the BoardDetailView.
+
 
 [Details][phase-four]
 
-### Phase 5: Styling Cleanup and Seeding (1 day)
+### Phase 5: Comment CRUD added to cards (1 day)
+
+In Phase 4, Comment CRUD functionality will be added within the `CardDetailView`. The `CommentIndexView` will be added along with nested `CommentIndexItem`s and a `NewCommentForm` component.
 
 [Details][phase-five]
+
+
 
 
 
