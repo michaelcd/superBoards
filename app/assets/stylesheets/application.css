@@ -14,8 +14,54 @@
  *= require_self
  */
 
+ html, body, section, article, h1, h2, p {
+    margin: 0;
+    border: 0;
+    padding: 0;
+    font: inherit;
+    text-align: inherit;
+    text-decoration: inherit;
+    color: inherit;
+    background: transparent;
+  }
+
+  .group:after {
+    content:"";
+    display:block;
+    clear:both;
+  }
+
+ .Navbar {
+   display:block;
+   font-family: sans-serif;
+   background: #026aa7;;
+   color:white;
+ }
+
+ .NavbarLogo {
+
+ }
+
+ .Navbar .button {
+
+ }
+
+ .Navbar .Boards {
+   
+ }
+
+ .Navbar .User {
+
+ }
+
+/* Auth HTML pages:*/
+
  .authForm {
   width: 500px;
   margin:auto;
   text-align: center;
  }
+
+.temp {
+  display:none;
+}
