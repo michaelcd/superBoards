@@ -20,6 +20,13 @@
   "bugs": {
     "url": "https://github.com/michaelcd/superBoards/issues"
   },
+  "engines": {
+  "node": "4.1.1",
+  "npm": "2.1.x"
+  },
+  "scripts": {
+  "postinstall": "./node_modules/.bin/webpack"
+  },
   "homepage": "https://github.com/michaelcd/superBoards#readme",
   "dependencies": {
   "babel-core": "^6.1.4",
