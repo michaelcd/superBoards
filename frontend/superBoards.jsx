@@ -4,22 +4,16 @@ var ReactRouter = require('react-router');
 var Router = ReactRouter.Router;
 var Route = ReactRouter.Route;
 var IndexRoute = ReactRouter.IndexRoute;
-BoardStore = require("./stores/board");
+var BoardsIndex = require('./components/boardsindex');
+var App = require('./components/app.jsx');
 
-var App = React.createClass({
-  render: function () {
-    return (
-      <div>
-        <header><h1>superBoards</h1></header>
-        {this.props.children}
-      </div>
-    );
-  }
-});
+
+BoardStore = require('./stores/board');
+
+
 
 var routes = (
   <Route path="/" component={App}>
-    <IndexRoute />
   </Route>
 );
 
