@@ -18,12 +18,11 @@ var BoardsIndex = React.createClass({
   },
 
   render: function () {
-    console.log(this.state);
     var indexItems = (
       this.state.boards.map(function (board) {
         return <BoardsIndexItem key={board.id} className="BoardsIndexItem" board={board} />;
       })
-    ); // map all boards in state to Index item components
+    );
     return (
       <div className="BoardsIndex">
         {indexItems}

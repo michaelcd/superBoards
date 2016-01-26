@@ -9,4 +9,6 @@
 
 User.create(username: "GuestUser", password: "GuestUser")
 User.create(username: "GuestUser2", password: "GuestUser2")
-User.create(username: "michael", password: "michael")
+Board.create(title: "Groceries", author_id: 12)
+Board.create(title: "Class Notes", author_id: 12)
+Board.create(title: "Projects", author_id: 12)

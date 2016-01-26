@@ -10,8 +10,6 @@ var App = require('./components/app.jsx');
 
 BoardStore = require('./stores/board');
 
-
-
 var routes = (
   <Route path="/" component={App}>
   </Route>
