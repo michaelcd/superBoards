@@ -24334,7 +24334,16 @@
 	    return React.createElement(
 	      'div',
 	      { className: 'BoardsIndex' },
-	      indexItems
+	      React.createElement(
+	        'h2',
+	        null,
+	        'My Boards'
+	      ),
+	      React.createElement(
+	        'ul',
+	        null,
+	        indexItems
+	      )
 	    );
 	  }
 	});
@@ -24355,7 +24364,7 @@
 	
 	  render: function () {
 	    return React.createElement(
-	      'div',
+	      'li',
 	      { className: 'BoardsIndexItem' },
 	      this.props.board.title
 	    );

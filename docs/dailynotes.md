@@ -10,6 +10,10 @@ BoardIndex View
 check out fontawesome for icons
 https://fortawesome.github.io/Font-Awesome/
 
+Drop and reseed database:
+rake db:drop db:create db:migrate db:seed
+
+
 Review Lily's email
 Review JBuilder
 - JBuilder templates required once List / Cards added
