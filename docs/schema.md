@@ -8,10 +8,18 @@ author_id   | integer   | not null, foreign key (references users), indexed
 title       | string    | not null
 archived    | boolean   | not null, default: false
 
+## board shares
+column name | data type | details
+------------|-----------|-----------------------
+id          | integer   | not null, primary key
+board_id    | text      | not null
+user_id     | integer   | not null, foreign key (references users), indexed
+
 ## lists
 column name | data type | details
 ------------|-----------|-----------------------
 id          | integer   | not null, primary key
+ord         | integer   | not null
 title       | string    | not null
 board_id    | integer   | not null, foreign key (references board), indexed
 archived    | boolean   | not null, default: false
@@ -20,6 +28,7 @@ archived    | boolean   | not null, default: false
 column name | data type | details
 ------------|-----------|-----------------------
 id          | integer   | not null, primary key
+ord         | integer   | not null
 title       | string    | not null
 body        | text      | not null
 author_id   | integer   | not null, foreign key (references users), indexed
