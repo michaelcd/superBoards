@@ -1,7 +1,7 @@
 var React = require('react');
 var BoardsIndexItem = require('./boardsindexitem');
 
-// Has individual board under this.props.board
+// this.props.board - Board object passed in by BoardsIndex
 
 var BoardsIndexItem = React.createClass({
   render: function () {

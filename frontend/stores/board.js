@@ -8,15 +8,10 @@ var _board = {};
 var BoardStore = new Store (AppDispatcher);
 
 var resetBoards = function (boards) {
-  // boards is an object, want to convert to an array to use .map later
-  // CONFIRM THIS IS WORKING
   Object.keys(boards).forEach(function (key) {
     _boards.push(boards[key]);
   });
 };
-
-
-
 
 var resetBoard = function (board) {
   _board = board;
