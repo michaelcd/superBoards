@@ -2920,3 +2920,67 @@ Processing by Api::BoardsController#index as JSON
   [1m[36mUser Load (0.3ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT 1[0m  [["session_token", "-3wqBMggM_cT5mTkW5JE9g"]]
   [1m[35mBoard Load (0.6ms)[0m  SELECT "boards".* FROM "boards" WHERE "boards"."author_id" = $1  [["author_id", 10]]
 Completed 200 OK in 16ms (Views: 2.1ms | ActiveRecord: 3.1ms)
+
+
+Started DELETE "/sessions" for ::1 at 2016-01-26 12:15:59 -0500
+Processing by SessionsController#destroy as HTML
+  Parameters: {"authenticity_token"=>"vIX0MUbnZq3BvykUqwTArwEXyQIn1gmmFrC3t+emckqTgKHtZnv0aArL00WKSmxF640gU7/LbP/Mqc9aGjGdfg=="}
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT 1[0m  [["session_token", "-3wqBMggM_cT5mTkW5JE9g"]]
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mUser Exists (1.0ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE ("users"."username" = 'GuestUser' AND "users"."id" != 10) LIMIT 1[0m
+  [1m[35mSQL (0.6ms)[0m  UPDATE "users" SET "session_token" = $1, "updated_at" = $2 WHERE "users"."id" = $3  [["session_token", "GZQwq_Zc3Q0UyewaZNhxLA"], ["updated_at", "2016-01-26 17:15:59.987585"], ["id", 10]]
+  [1m[36m (0.4ms)[0m  [1mCOMMIT[0m
+Redirected to http://localhost:3000/sessions/new
+Completed 302 Found in 42ms (ActiveRecord: 5.3ms)
+
+
+Started GET "/sessions/new" for ::1 at 2016-01-26 12:15:59 -0500
+Processing by SessionsController#new as HTML
+  Rendered sessions/new.html.erb within layouts/application (1.2ms)
+Completed 200 OK in 644ms (Views: 643.1ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/users/new" for ::1 at 2016-01-26 12:16:03 -0500
+Processing by UsersController#new as HTML
+  Rendered users/new.html.erb within layouts/application (0.9ms)
+Completed 200 OK in 24ms (Views: 23.8ms | ActiveRecord: 0.0ms)
+
+
+Started POST "/users" for ::1 at 2016-01-26 12:16:08 -0500
+Processing by UsersController#create as HTML
+  Parameters: {"authenticity_token"=>"mTzd9z0yuYQnubNMGLxWlVQhPadwcuIt3u66K469vjO2OYgrHa4rQezNSR058vp/vrvU9uhvh3QE98LGcypRBw==", "user"=>{"username"=>"Newguy", "password"=>"[FILTERED]"}}
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mUser Exists (0.4ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."username" = 'Newguy' LIMIT 1[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "users" ("username", "password_digest", "session_token", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["username", "Newguy"], ["password_digest", "$2a$10$t.PmoZ9yM9Ls79c.q/rhluiM68hGG7nb76ZpbtODNzeaBzgvSeoxC"], ["session_token", "dBMvP9qNcqmF6ibiiHAnyA"], ["created_at", "2016-01-26 17:16:08.914998"], ["updated_at", "2016-01-26 17:16:08.914998"]]
+  [1m[36m (0.5ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mUser Exists (0.4ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE ("users"."username" = 'Newguy' AND "users"."id" != 11) LIMIT 1[0m
+  [1m[35mSQL (0.3ms)[0m  UPDATE "users" SET "session_token" = $1, "updated_at" = $2 WHERE "users"."id" = $3  [["session_token", "eYTun9tvPf8UnMR_1I-G_Q"], ["updated_at", "2016-01-26 17:16:08.919374"], ["id", 11]]
+  [1m[36m (0.4ms)[0m  [1mCOMMIT[0m
+Redirected to http://localhost:3000/
+Completed 302 Found in 84ms (ActiveRecord: 2.7ms)
+
+
+Started GET "/" for ::1 at 2016-01-26 12:16:08 -0500
+Processing by StaticPagesController#root as HTML
+  [1m[35mUser Load (0.4ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT 1  [["session_token", "eYTun9tvPf8UnMR_1I-G_Q"]]
+  Rendered static_pages/root.html.erb within layouts/application (2.9ms)
+Completed 200 OK in 26ms (Views: 25.4ms | ActiveRecord: 0.4ms)
+
+
+Started DELETE "/sessions" for ::1 at 2016-01-26 12:16:13 -0500
+Processing by SessionsController#destroy as HTML
+  Parameters: {"authenticity_token"=>"ECc6URRB1Wdmj7rJAUG/Ts5KgHVwNtnF1u3O0Q5G0EA/Im+NNN1Hoq37QJggDxOkJNBpJOgrvJwM9LY889E/dA=="}
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT 1[0m  [["session_token", "eYTun9tvPf8UnMR_1I-G_Q"]]
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mUser Exists (0.5ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE ("users"."username" = 'Newguy' AND "users"."id" != 11) LIMIT 1[0m
+  [1m[35mSQL (0.4ms)[0m  UPDATE "users" SET "session_token" = $1, "updated_at" = $2 WHERE "users"."id" = $3  [["session_token", "Kx_nt3pr3WABrHM991YaXg"], ["updated_at", "2016-01-26 17:16:13.761783"], ["id", 11]]
+  [1m[36m (0.4ms)[0m  [1mCOMMIT[0m
+Redirected to http://localhost:3000/sessions/new
+Completed 302 Found in 6ms (ActiveRecord: 1.8ms)
+
+
+Started GET "/sessions/new" for ::1 at 2016-01-26 12:16:13 -0500
+Processing by SessionsController#new as HTML
+  Rendered sessions/new.html.erb within layouts/application (0.5ms)
+Completed 200 OK in 19ms (Views: 18.7ms | ActiveRecord: 0.0ms)
