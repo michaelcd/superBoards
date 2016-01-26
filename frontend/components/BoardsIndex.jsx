@@ -25,7 +25,10 @@ var BoardsIndex = React.createClass({
     );
     return (
       <div className="BoardsIndex">
-        {indexItems}
+        <h2>My Boards</h2>
+        <ul>
+          {indexItems}
+        </ul>
       </div>
     );
   }

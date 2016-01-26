@@ -10,13 +10,14 @@ superBoards is a web application inspired by Trello built using Ruby on Rails an
 
 <!-- This is a Markdown checklist. Use it to keep track of your progress! -->
 
-- [ ] Create an account
-- [ ] Log in / Log out
+- [X] Create an account
+- [X] Log in / Log out
 - [ ] Create, read, edit, and delete boards
 - [ ] Create, read, edit, and delete lists
 - [ ] Create, read, edit, and delete cards
 - [ ] Organize cards and lists within boards
 - [ ] Create, read, edit, and delete comments on cards
+- [ ] Boards can be shared between users
 - [ ] Tag cards with multiple tags and search cards by tag
 - [ ] Search through cards for blocks of text
 
@@ -68,7 +69,6 @@ In Phase 4, Comment CRUD functionality will be added within the `CardDetailView`
 ### Bonus Features (TBD)
 - [ ] Changelogs for Cards
 - [ ] Multiple sessions
-- [ ] Boards can be shared between users
 
 [phase-one]: ./docs/phases/phase1.md
 [phase-two]: ./docs/phases/phase2.md

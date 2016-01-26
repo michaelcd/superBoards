@@ -14,7 +14,15 @@
  *= require_self
  */
 
- html, body, section, article, h1, h2, p {
+ html, body, header, nav, main,
+ section, article, footer, small {
+   display: block;
+ }
+
+ html, body, header, nav, h1, a, ul, li,
+ strong, main, section, img, div, h2, p,
+ form, fieldset, label, input, textarea,
+ button, article, footer, small {
     margin: 0;
     border: 0;
     padding: 0;
@@ -23,6 +31,17 @@
     text-decoration: inherit;
     color: inherit;
     background: transparent;
+  }
+
+  body {
+    display:block;
+    font-family: sans-serif;
+    background: #eee;
+    margin: inherit;
+  }
+
+  ul {
+    list-style: none;
   }
 
   .group:after {
@@ -35,8 +54,7 @@
 
  .Navbar {
    display:block;
-   font-family: sans-serif;
-   background: #026aa7;;
+   background: #026aa7;
    color:white;
  }
 
@@ -58,8 +76,21 @@
 
 /* Content section */
 
+.BoardsIndex {
+
+}
+
 .BoardsIndexItem {
-  
+  line-height: 20px;
+  min-height: 18px;
+  border-radius: 3px;
+  color: white;
+  border: 1px solid black;
+  background: #026aa7;
+  padding: 20px;
+  width:100px;
+  text-align: center;
+  margin: 0 1pc 0 0;
 }
 
 
