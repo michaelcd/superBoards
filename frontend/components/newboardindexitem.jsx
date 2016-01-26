@@ -3,7 +3,9 @@ var React = require('react');
 NewBoardIndexItem = React.createClass({
   render: function () {
     return (
-      <li></li>
+      <div>
+        <li className="NewBoard">Create New Board</li>
+      </div>
     );
   }
 });

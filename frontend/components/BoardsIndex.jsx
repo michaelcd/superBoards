@@ -1,5 +1,6 @@
 var React = require('react');
 var BoardsIndexItem = require('./boardsindexitem');
+var NewBoardIndexItem = require('./newboardindexitem');
 var BoardStore = require('../stores/board');
 var ApiUtil = require('../util/api_util');
 
@@ -28,7 +29,7 @@ var BoardsIndex = React.createClass({
         <h2>My Boards</h2>
         <ul>
           {indexItems}
-          
+          <NewBoardIndexItem />
         </ul>
       </div>
     );

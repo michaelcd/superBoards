@@ -36,7 +36,7 @@
   body {
     display:block;
     font-family: sans-serif;
-    background: #eee;
+    background: #fff;
     margin: inherit;
   }
 
@@ -81,17 +81,32 @@
 }
 
 .BoardsIndexItem {
+  float:left;
   line-height: 20px;
   min-height: 18px;
   border-radius: 3px;
   color: white;
-  border: 1px solid black;
   background: #026aa7;
   padding: 20px;
-  width:100px;
-  text-align: center;
+  width:150px;
+
   margin: 0 1pc 0 0;
 }
+
+.NewBoard  {
+  float:left;
+  line-height: 20px;
+  min-height: 18px;
+  border-radius: 3px;
+  color: white;
+  background-color: #e2e4e6;
+  color: #8c8c8c;
+  padding: 20px;
+  width: 150px;
+  
+  margin: 0 1pc 0 0;
+}
+
 
 
 

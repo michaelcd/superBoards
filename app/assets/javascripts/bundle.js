@@ -51,9 +51,9 @@
 	var Route = ReactRouter.Route;
 	var IndexRoute = ReactRouter.IndexRoute;
 	var BoardsIndex = __webpack_require__(208);
-	var App = __webpack_require__(235);
+	var App = __webpack_require__(236);
 	
-	BoardStore = __webpack_require__(210);
+	BoardStore = __webpack_require__(211);
 	
 	var routes = React.createElement(Route, { path: '/', component: App });
 	
@@ -24308,8 +24308,9 @@
 
 	var React = __webpack_require__(1);
 	var BoardsIndexItem = __webpack_require__(209);
-	var BoardStore = __webpack_require__(210);
-	var ApiUtil = __webpack_require__(233);
+	var NewBoardIndexItem = __webpack_require__(210);
+	var BoardStore = __webpack_require__(211);
+	var ApiUtil = __webpack_require__(234);
 	
 	var BoardsIndex = React.createClass({
 	  displayName: 'BoardsIndex',
@@ -24342,7 +24343,8 @@
 	      React.createElement(
 	        'ul',
 	        null,
-	        indexItems
+	        indexItems,
+	        React.createElement(NewBoardIndexItem, null)
 	      )
 	    );
 	  }
@@ -24377,9 +24379,33 @@
 /* 210 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var AppDispatcher = __webpack_require__(211);
-	var Store = __webpack_require__(215).Store;
-	var BoardConstants = __webpack_require__(232);
+	var React = __webpack_require__(1);
+	
+	NewBoardIndexItem = React.createClass({
+	  displayName: "NewBoardIndexItem",
+	
+	  render: function () {
+	    return React.createElement(
+	      "div",
+	      null,
+	      React.createElement(
+	        "li",
+	        { className: "NewBoard" },
+	        "Create New Board"
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = NewBoardIndexItem;
+
+/***/ },
+/* 211 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var AppDispatcher = __webpack_require__(212);
+	var Store = __webpack_require__(216).Store;
+	var BoardConstants = __webpack_require__(233);
 	
 	var _boards = [];
 	var _board = {};
@@ -24420,15 +24446,15 @@
 	module.exports = BoardStore;
 
 /***/ },
-/* 211 */
+/* 212 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Dispatcher = __webpack_require__(212).Dispatcher;
+	var Dispatcher = __webpack_require__(213).Dispatcher;
 	
 	module.exports = new Dispatcher();
 
 /***/ },
-/* 212 */
+/* 213 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -24440,11 +24466,11 @@
 	 * of patent rights can be found in the PATENTS file in the same directory.
 	 */
 	
-	module.exports.Dispatcher = __webpack_require__(213);
+	module.exports.Dispatcher = __webpack_require__(214);
 
 
 /***/ },
-/* 213 */
+/* 214 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -24466,7 +24492,7 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 	
-	var invariant = __webpack_require__(214);
+	var invariant = __webpack_require__(215);
 	
 	var _prefix = 'ID_';
 	
@@ -24681,7 +24707,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 214 */
+/* 215 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -24736,7 +24762,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 215 */
+/* 216 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -24748,15 +24774,15 @@
 	 * of patent rights can be found in the PATENTS file in the same directory.
 	 */
 	
-	module.exports.Container = __webpack_require__(216);
-	module.exports.MapStore = __webpack_require__(219);
-	module.exports.Mixin = __webpack_require__(231);
-	module.exports.ReduceStore = __webpack_require__(220);
-	module.exports.Store = __webpack_require__(221);
+	module.exports.Container = __webpack_require__(217);
+	module.exports.MapStore = __webpack_require__(220);
+	module.exports.Mixin = __webpack_require__(232);
+	module.exports.ReduceStore = __webpack_require__(221);
+	module.exports.Store = __webpack_require__(222);
 
 
 /***/ },
-/* 216 */
+/* 217 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -24778,10 +24804,10 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var FluxStoreGroup = __webpack_require__(217);
+	var FluxStoreGroup = __webpack_require__(218);
 	
-	var invariant = __webpack_require__(214);
-	var shallowEqual = __webpack_require__(218);
+	var invariant = __webpack_require__(215);
+	var shallowEqual = __webpack_require__(219);
 	
 	var DEFAULT_OPTIONS = {
 	  pure: true,
@@ -24939,7 +24965,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 217 */
+/* 218 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -24958,7 +24984,7 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 	
-	var invariant = __webpack_require__(214);
+	var invariant = __webpack_require__(215);
 	
 	/**
 	 * FluxStoreGroup allows you to execute a callback on every dispatch after
@@ -25020,7 +25046,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 218 */
+/* 219 */
 /***/ function(module, exports) {
 
 	/**
@@ -25075,7 +25101,7 @@
 	module.exports = shallowEqual;
 
 /***/ },
-/* 219 */
+/* 220 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -25096,10 +25122,10 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var FluxReduceStore = __webpack_require__(220);
-	var Immutable = __webpack_require__(230);
+	var FluxReduceStore = __webpack_require__(221);
+	var Immutable = __webpack_require__(231);
 	
-	var invariant = __webpack_require__(214);
+	var invariant = __webpack_require__(215);
 	
 	/**
 	 * This is a simple store. It allows caching key value pairs. An implementation
@@ -25225,7 +25251,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 220 */
+/* 221 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -25246,10 +25272,10 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var FluxStore = __webpack_require__(221);
+	var FluxStore = __webpack_require__(222);
 	
-	var abstractMethod = __webpack_require__(229);
-	var invariant = __webpack_require__(214);
+	var abstractMethod = __webpack_require__(230);
+	var invariant = __webpack_require__(215);
 	
 	var FluxReduceStore = (function (_FluxStore) {
 	  _inherits(FluxReduceStore, _FluxStore);
@@ -25332,7 +25358,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 221 */
+/* 222 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -25351,11 +25377,11 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 	
-	var _require = __webpack_require__(222);
+	var _require = __webpack_require__(223);
 	
 	var EventEmitter = _require.EventEmitter;
 	
-	var invariant = __webpack_require__(214);
+	var invariant = __webpack_require__(215);
 	
 	/**
 	 * This class should be extended by the stores in your application, like so:
@@ -25515,7 +25541,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 222 */
+/* 223 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -25528,14 +25554,14 @@
 	 */
 	
 	var fbemitter = {
-	  EventEmitter: __webpack_require__(223)
+	  EventEmitter: __webpack_require__(224)
 	};
 	
 	module.exports = fbemitter;
 
 
 /***/ },
-/* 223 */
+/* 224 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -25554,11 +25580,11 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 	
-	var EmitterSubscription = __webpack_require__(224);
-	var EventSubscriptionVendor = __webpack_require__(226);
+	var EmitterSubscription = __webpack_require__(225);
+	var EventSubscriptionVendor = __webpack_require__(227);
 	
-	var emptyFunction = __webpack_require__(228);
-	var invariant = __webpack_require__(227);
+	var emptyFunction = __webpack_require__(229);
+	var invariant = __webpack_require__(228);
 	
 	/**
 	 * @class BaseEventEmitter
@@ -25732,7 +25758,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 224 */
+/* 225 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -25753,7 +25779,7 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var EventSubscription = __webpack_require__(225);
+	var EventSubscription = __webpack_require__(226);
 	
 	/**
 	 * EmitterSubscription represents a subscription with listener and context data.
@@ -25785,7 +25811,7 @@
 	module.exports = EmitterSubscription;
 
 /***/ },
-/* 225 */
+/* 226 */
 /***/ function(module, exports) {
 
 	/**
@@ -25839,7 +25865,7 @@
 	module.exports = EventSubscription;
 
 /***/ },
-/* 226 */
+/* 227 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -25858,7 +25884,7 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 	
-	var invariant = __webpack_require__(227);
+	var invariant = __webpack_require__(228);
 	
 	/**
 	 * EventSubscriptionVendor stores a set of EventSubscriptions that are
@@ -25948,7 +25974,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 227 */
+/* 228 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -26004,7 +26030,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 228 */
+/* 229 */
 /***/ function(module, exports) {
 
 	/**
@@ -26047,7 +26073,7 @@
 	module.exports = emptyFunction;
 
 /***/ },
-/* 229 */
+/* 230 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -26064,7 +26090,7 @@
 	
 	'use strict';
 	
-	var invariant = __webpack_require__(214);
+	var invariant = __webpack_require__(215);
 	
 	function abstractMethod(className, methodName) {
 	   true ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Subclasses of %s must override %s() with their own implementation.', className, methodName) : invariant(false) : undefined;
@@ -26074,7 +26100,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 230 */
+/* 231 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -31061,7 +31087,7 @@
 	}));
 
 /***/ },
-/* 231 */
+/* 232 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -31078,9 +31104,9 @@
 	
 	'use strict';
 	
-	var FluxStoreGroup = __webpack_require__(217);
+	var FluxStoreGroup = __webpack_require__(218);
 	
-	var invariant = __webpack_require__(214);
+	var invariant = __webpack_require__(215);
 	
 	/**
 	 * `FluxContainer` should be preferred over this mixin, but it requires using
@@ -31184,7 +31210,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 232 */
+/* 233 */
 /***/ function(module, exports) {
 
 	module.exports = {
@@ -31193,10 +31219,10 @@
 	};
 
 /***/ },
-/* 233 */
+/* 234 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var BoardActions = __webpack_require__(234);
+	var BoardActions = __webpack_require__(235);
 	
 	var ApiUtil = {
 	  fetchAllBoards: function () {
@@ -31259,11 +31285,11 @@
 	module.exports = ApiUtil;
 
 /***/ },
-/* 234 */
+/* 235 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Dispatcher = __webpack_require__(211);
-	var BoardConstants = __webpack_require__(232);
+	var Dispatcher = __webpack_require__(212);
+	var BoardConstants = __webpack_require__(233);
 	
 	module.exports = {
 	  receiveAllBoards: function (boards) {
@@ -31282,11 +31308,11 @@
 	};
 
 /***/ },
-/* 235 */
+/* 236 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var Navbar = __webpack_require__(236);
+	var Navbar = __webpack_require__(237);
 	var BoardsIndex = __webpack_require__(208);
 	
 	module.exports = React.createClass({
@@ -31304,7 +31330,7 @@
 	});
 
 /***/ },
-/* 236 */
+/* 237 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
