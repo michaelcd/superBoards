@@ -1,25 +1,24 @@
-# Phase 4: Allow Complex Styling in Notes (1 day)
+# Phase 4: Drag and drop fuctionality for Lists and Cards (1.5 days)
 
 ## Rails
 ### Models
-* Comment
 
 ### Controllers
-Api::CommentsController (create, destroy, index, update)
 
 ### Views
-* comments/index.json.jbuilder
 
 ## Flux
 ### Views (React Components)
-* CardDetailView
-  - CommentIndexView
-    - CommentIndexItem
-    - NewCommentForm
+
 
 ### Stores
 
+
 ### Actions
 
+
+### ApiUtil
+
+
 ## Gems/Libraries
-* react-quill (npm)
+* React DnD
