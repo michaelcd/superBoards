@@ -29,7 +29,7 @@
 * BoardActions.fetchAllBoards -> triggers ApiUtil
 * BoardActions.fetchSingleBoard
 * BoardActions.createBoard
-* BoardActions.editBoard
+* BoardActions.updatesBoard
 * BoardActions.destroyBoard
 
 ### ApiUtil

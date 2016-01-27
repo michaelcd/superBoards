@@ -5,5 +5,6 @@
 
   namespace :api, defaults: {format: :json} do
     resources :boards, except: [:new, :edit]
+    resources :lists, only: [:create, :update, :index, :destroy]
   end
 end

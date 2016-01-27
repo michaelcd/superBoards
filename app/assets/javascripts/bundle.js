@@ -24344,7 +24344,7 @@
 	    });
 	    return React.createElement(
 	      'div',
-	      { className: 'BoardsIndex' },
+	      { className: 'boards-index group' },
 	      React.createElement(
 	        'h2',
 	        null,
@@ -24404,7 +24404,11 @@
 	  },
 	
 	  itemClickHandler: function () {
-	    this.setState({ indexItem: "hidden", form: "BoardForm" });
+	    this.setState({ indexItem: "hidden", form: "board-form group" });
+	  },
+	
+	  cancelHandler: function () {
+	    this.setState({ indexItem: "NewBoard", form: "hidden" });
 	  },
 	
 	  formOnSubmit: function (event) {
@@ -24437,13 +24441,22 @@
 	        'form',
 	        { className: this.state.form, onSubmit: this.formOnSubmit },
 	        React.createElement(
-	          'h2',
-	          null,
-	          'Create Board'
+	          'div',
+	          { className: 'form-head-container group' },
+	          React.createElement(
+	            'div',
+	            { className: 'form-create-board' },
+	            'Create Board'
+	          ),
+	          React.createElement(
+	            'a',
+	            { href: '#', onClick: this.cancelHandler, className: 'cancel-icon' },
+	            'X'
+	          )
 	        ),
 	        React.createElement(
-	          'h3',
-	          null,
+	          'div',
+	          { className: 'form-title' },
 	          'Title'
 	        ),
 	        React.createElement('input', { onChange: this.formChangeHandler })
@@ -31458,16 +31471,23 @@
 	var React = __webpack_require__(1);
 	var BoardStore = __webpack_require__(211);
 	var ApiUtil = __webpack_require__(234);
+	var List = __webpack_require__(239);
+	var NewList = __webpack_require__(240);
 	
 	BoardDetailView = React.createClass({
 	  displayName: 'BoardDetailView',
 	
 	  getInitialState: function () {
-	    return { board: BoardStore.single() };
+	    return {
+	      board: BoardStore.single(),
+	      title: BoardStore.single().title,
+	      titleClass: "board-title",
+	      form: "hidden" };
 	  },
 	
 	  _onChange: function () {
-	    this.setState({ board: BoardStore.single() });
+	    this.setState({ board: BoardStore.single(), title: BoardStore.single().title });
+	    console.log(this.state.board);
 	  },
 	
 	  componentDidMount: function () {
@@ -31479,20 +31499,133 @@
 	    this.boardListener.remove();
 	  },
 	
+	  nameClickHandler: function () {
+	    this.setState({ form: "name-update group" });
+	  },
+	
+	  formChangeHandler: function (event) {
+	    this.setState({ title: event.currentTarget.value });
+	  },
+	
+	  formSubmitHandler: function (event) {
+	    event.preventDefault();
+	    this.state.board.title = this.state.title;
+	    ApiUtil.updateBoard(this.state.board);
+	    this.setState({ form: "hidden" });
+	  },
+	
+	  cancelHandler: function () {
+	    this.setState({ indexItem: "NewBoard", form: "hidden" });
+	  },
+	
 	  render: function () {
+	    var lists;
+	    if (this.state.board.lists !== undefined) {
+	      lists = this.state.board.lists.map(function (list) {
+	        return React.createElement(List, { list: list, key: list.id });
+	      });
+	    } else {
+	      lists = React.createElement('div', null);
+	    }
+	
 	    return React.createElement(
 	      'div',
-	      { className: 'board-detail-view' },
+	      { className: 'board-detail-view group' },
 	      React.createElement(
-	        'h2',
-	        { className: 'board-title' },
+	        'div',
+	        { className: 'board-title', onClick: this.nameClickHandler },
 	        this.state.board.title
-	      )
+	      ),
+	      React.createElement(
+	        'form',
+	        { className: this.state.form, onSubmit: this.formSubmitHandler },
+	        React.createElement(
+	          'div',
+	          { className: 'name-update-container group' },
+	          React.createElement(
+	            'div',
+	            { className: 'name-update-title' },
+	            'Rename Board'
+	          ),
+	          React.createElement(
+	            'a',
+	            { href: '#', className: 'name-update-cancel', onClick: this.form },
+	            'X'
+	          )
+	        ),
+	        React.createElement('input', { type: 'text', value: this.state.title,
+	          onChange: this.formChangeHandler }),
+	        React.createElement(
+	          'button',
+	          null,
+	          'Rename'
+	        )
+	      ),
+	      lists,
+	      React.createElement(NewList, null)
 	    );
 	  }
 	});
 	
 	module.exports = BoardDetailView;
+
+/***/ },
+/* 239 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var ApiUtil = __webpack_require__(234);
+	
+	var List = React.createClass({
+	  displayName: 'List',
+	
+	  render: function () {
+	    var cards;
+	
+	    return React.createElement(
+	      'div',
+	      { className: 'list' },
+	      React.createElement(
+	        'h2',
+	        null,
+	        this.props.list.title
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'cards group' },
+	        cards
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = List;
+
+/***/ },
+/* 240 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var ApiUtil = __webpack_require__(234);
+	
+	var NewList = React.createClass({
+	  displayName: 'NewList',
+	
+	  render: function () {
+	
+	    return React.createElement(
+	      'div',
+	      { className: 'new-list' },
+	      React.createElement(
+	        'h2',
+	        null,
+	        'Add a list...'
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = NewList;
 
 /***/ }
 /******/ ]);

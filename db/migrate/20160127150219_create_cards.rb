@@ -5,7 +5,7 @@ class CreateCards < ActiveRecord::Migration
       t.integer :ord, null: false
       t.integer :author_id, null: false
       t.string :title, null: false
-      t.text :body, null: false
+      t.text :description, default: ""
       t.boolean :archived, default: false
 
       t.timestamps null: false

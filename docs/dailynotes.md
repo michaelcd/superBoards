@@ -1,18 +1,38 @@
 Current Notes
 
+Schedule:
+Weds - ListsController, ListsStore
+Thurs -
+Fri -
+
+
+
 Priorities:
-Lists in BoardDetailView
+ListsController
+CardsController
+
+ListStore
+CardStore
 
 
 
 
+
+Cards in detail view
+Create a list in detail view
+
+
+
+
+Cards object data available within board show view
 
 Outstanding issues:
+
 - Logout button somewhere (temporary version)
 - Minor issue: Value persists in Create Board form after board creation; will later
 route to BoardDetailView so should be a nonissue;
 - refactor: no camel case names in CSS class names. prefer dashed names
-
+- File upload: attachments to cards
 
 
 
