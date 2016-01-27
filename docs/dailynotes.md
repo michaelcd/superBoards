@@ -2,12 +2,16 @@ Current Notes
 
 Priority for tomorrow:
 - Logout button somewhere (temporary version)
-- Create new Boards in BoardsIndex
 
--- Create new component: NewBoardsIndexItem
---- Shows up with similar styling as index items, but on
-    click opens form to create new board. After creation,
-    redirect to BoardDetailView.
+Minor issue: Value persists in Create Board form after board creation; will later
+route to BoardDetailView so should be a nonissue;
+
+
+
+
+
+
+
 
 
 
@@ -27,3 +31,11 @@ https://fortawesome.github.io/Font-Awesome/
 
 Drop and reseed database:
 rake db:drop db:create db:migrate db:seed
+
+daily setup:
+cd desktop
+git clone https://github.com/michaelcd/superBoards.git
+cd superBoards
+npm install
+rake db:create db:migrate db:seed
+atom .

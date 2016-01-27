@@ -14,6 +14,7 @@ var resetBoards = function (boards) {
 };
 
 var resetBoard = function (board) {
+  _boards.push(board);
   _board = board;
 };
 

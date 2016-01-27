@@ -8,6 +8,7 @@ var Navbar = React.createClass({
           <div className="BoardsList"></div>
         <div className="NavbarLogo">superBoards</div>
         <div className="User button" id="UserIcon">Username</div>
+        <a href="#">Logout</a>
       </div>
     );
   }
