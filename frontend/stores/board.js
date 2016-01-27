@@ -22,7 +22,6 @@ var resetBoard = function (board) {
 };
 
 BoardStore.findBoard = function (id) {
-  // find Board in current store with corresponding ID
   var board = {};
 
   for (var i = 0; i < _boards.length; i++) {

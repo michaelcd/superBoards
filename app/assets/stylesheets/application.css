@@ -74,7 +74,7 @@
 
  }
 
-/* Content section */
+/* board index view section */
 
 .hidden {
   display: none;
@@ -138,6 +138,16 @@
   border: 1px solid #ccc;
 }
 
+/* board detail view section */
+
+.board-detail-view {
+  background-color: rgb(0, 121, 191);
+}
+
+.board-title {
+  color:white;
+  font-weight: 700;
+}
 
 
 

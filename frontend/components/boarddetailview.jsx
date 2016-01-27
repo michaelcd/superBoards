@@ -22,8 +22,8 @@ BoardDetailView = React.createClass({
 
   render: function () {
     return (
-      <div>
-        {this.state.board.title}
+      <div className="board-detail-view">
+        <h2 className="board-title">{this.state.board.title}</h2>
       </div>
     );
   }

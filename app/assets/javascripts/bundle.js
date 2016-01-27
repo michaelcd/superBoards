@@ -24391,9 +24391,13 @@
 
 	var React = __webpack_require__(1);
 	var ApiUtil = __webpack_require__(234);
+	var BoardStore = __webpack_require__(211);
+	var History = __webpack_require__(159).History;
 	
 	NewBoardIndexItem = React.createClass({
 	  displayName: 'NewBoardIndexItem',
+	
+	  mixins: [History],
 	
 	  getInitialState: function () {
 	    return { indexItem: "NewBoard", form: "hidden", formValue: "" };
@@ -24408,6 +24412,11 @@
 	    var board = { title: this.state.formValue };
 	    ApiUtil.createBoard(board);
 	    this.setState({ indexItem: "NewBoard", form: "hidden", formValue: "" });
+	
+	    var that = this;
+	    setTimeout(function () {
+	      that.history.pushState(null, "/boards/" + BoardStore.single().id);
+	    }, 500);
 	  },
 	
 	  formChangeHandler: function (event) {
@@ -24473,7 +24482,6 @@
 	};
 	
 	BoardStore.findBoard = function (id) {
-	  // find Board in current store with corresponding ID
 	  var board = {};
 	
 	  for (var i = 0; i < _boards.length; i++) {
@@ -31474,8 +31482,12 @@
 	  render: function () {
 	    return React.createElement(
 	      'div',
-	      null,
-	      this.state.board.title
+	      { className: 'board-detail-view' },
+	      React.createElement(
+	        'h2',
+	        { className: 'board-title' },
+	        this.state.board.title
+	      )
 	    );
 	  }
 	});

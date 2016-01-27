@@ -15,7 +15,6 @@ class Api::BoardsController < ApplicationController
 
   def index
     @boards = current_user.boards.sort_by { |board| board.title }
-    render json: @boards
   end
 
   def show
