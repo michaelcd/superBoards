@@ -17,7 +17,7 @@
   - BoardsIndexItem
   - NewBoardIndexItem
 * BoardDetailView
-  - ListView
+  - List
 
 ### Stores
 * Board
