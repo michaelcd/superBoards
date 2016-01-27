@@ -76,6 +76,10 @@
 
 /* Content section */
 
+.hidden {
+  display: none;
+}
+
 .BoardsIndex {
 
 }
@@ -88,9 +92,9 @@
   color: white;
   background: #026aa7;
   padding: 20px;
-  width:150px;
+  width:200px;
 
-  margin: 0 1pc 0 0;
+  margin: 1pc 1pc 0 0;
 }
 
 .NewBoard  {
@@ -102,9 +106,36 @@
   background-color: #e2e4e6;
   color: #8c8c8c;
   padding: 20px;
-  width: 150px;
-  
-  margin: 0 1pc 0 0;
+  width: 200px;
+
+  margin: 1pc 1pc 0 0;
+}
+
+.BoardForm {
+  float:left;
+  line-height: 20px;
+  min-height: 18px;
+  border-radius: 3px;
+  color: black;
+  background-color: white;
+  border: 1px solid #ccc;
+  /*color: #8c8c8c;*/
+  padding: 15px;
+  width: 200px;
+  margin: 1pc 1pc 0 0;
+}
+
+.BoardForm > h2 {
+  text-size: 12px;
+}
+
+.BoardForm > h3 {
+  text-size: 12px;
+}
+
+.BoardForm > input {
+  background: white;
+  border: 1px solid #ccc;
 }
 
 
@@ -113,6 +144,7 @@
 /* Auth HTML pages:*/
 
  .authForm {
+  background: #eee;
   width: 500px;
   margin:auto;
   text-align: center;

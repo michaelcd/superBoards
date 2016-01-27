@@ -24380,18 +24380,53 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
+	var ApiUtil = __webpack_require__(234);
 	
 	NewBoardIndexItem = React.createClass({
-	  displayName: "NewBoardIndexItem",
+	  displayName: 'NewBoardIndexItem',
+	
+	  getInitialState: function () {
+	    return { indexItem: "NewBoard", form: "hidden", formValue: "" };
+	  },
+	
+	  itemClickHandler: function () {
+	    this.setState({ indexItem: "hidden", form: "BoardForm" });
+	  },
+	
+	  formOnSubmit: function (event) {
+	    event.preventDefault();
+	    var board = { title: this.state.formValue };
+	    ApiUtil.createBoard(board);
+	    this.setState({ indexItem: "NewBoard", form: "hidden", formValue: "" });
+	  },
+	
+	  formChangeHandler: function (event) {
+	    this.setState({ formValue: event.target.value });
+	  },
 	
 	  render: function () {
 	    return React.createElement(
-	      "div",
+	      'div',
 	      null,
 	      React.createElement(
-	        "li",
-	        { className: "NewBoard" },
-	        "Create New Board"
+	        'li',
+	        { className: this.state.indexItem, onClick: this.itemClickHandler },
+	        'Create New Board'
+	      ),
+	      React.createElement(
+	        'form',
+	        { className: this.state.form, onSubmit: this.formOnSubmit },
+	        React.createElement(
+	          'h2',
+	          null,
+	          'Create Board'
+	        ),
+	        React.createElement(
+	          'h3',
+	          null,
+	          'Title'
+	        ),
+	        React.createElement('input', { onChange: this.formChangeHandler })
 	      )
 	    );
 	  }
@@ -24419,6 +24454,7 @@
 	};
 	
 	var resetBoard = function (board) {
+	  _boards.push(board);
 	  _board = board;
 	};
 	
@@ -31357,6 +31393,11 @@
 	        "div",
 	        { className: "User button", id: "UserIcon" },
 	        "Username"
+	      ),
+	      React.createElement(
+	        "a",
+	        { href: "#" },
+	        "Logout"
 	      )
 	    );
 	  }
