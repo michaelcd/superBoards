@@ -1,5 +1,12 @@
 Current Notes
 
+Priorities:
+Lists in BoardDetailView
+
+
+
+
+
 Outstanding issues:
 - Logout button somewhere (temporary version)
 - Minor issue: Value persists in Create Board form after board creation; will later

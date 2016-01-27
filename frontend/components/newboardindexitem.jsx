@@ -1,7 +1,12 @@
 var React = require('react');
 var ApiUtil = require('../util/api_util');
+var BoardStore = require('../stores/board');
+var History = require('react-router').History;
+
 
 NewBoardIndexItem = React.createClass({
+  mixins: [History],
+
   getInitialState: function () {
     return ({indexItem: "NewBoard", form: "hidden", formValue: ""});
   },
@@ -15,6 +20,11 @@ NewBoardIndexItem = React.createClass({
     var board = {title: this.state.formValue};
     ApiUtil.createBoard(board);
     this.setState({indexItem: "NewBoard", form: "hidden", formValue: ""});
+
+    var that = this;
+    setTimeout(function () {
+      that.history.pushState(null, "/boards/" + BoardStore.single().id);
+    }, 500);
   },
 
   formChangeHandler: function (event) {
