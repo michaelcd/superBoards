@@ -4,6 +4,7 @@ Outstanding issues:
 - Logout button somewhere (temporary version)
 - Minor issue: Value persists in Create Board form after board creation; will later
 route to BoardDetailView so should be a nonissue;
+- refactor: no camel case names in CSS class names. prefer dashed names
 
 
 

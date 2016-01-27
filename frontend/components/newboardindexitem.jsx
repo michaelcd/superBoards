@@ -22,9 +22,11 @@ NewBoardIndexItem = React.createClass({
   },
 
   render: function () {
+
     return (
       <div>
         <li className={this.state.indexItem} onClick={this.itemClickHandler}>Create New Board</li>
+
         <form className={this.state.form} onSubmit={this.formOnSubmit}>
           <h2>Create Board</h2>
           <h3>Title</h3>

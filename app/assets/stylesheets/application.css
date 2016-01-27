@@ -86,27 +86,27 @@
 
 .BoardsIndexItem {
   float:left;
+  font-weight: 700;
   line-height: 20px;
-  min-height: 18px;
+  min-height: 80px;
+  padding: 8px 9pt;
   border-radius: 3px;
   color: white;
   background: #026aa7;
-  padding: 20px;
-  width:200px;
-
+  width:160px;
   margin: 1pc 1pc 0 0;
 }
 
 .NewBoard  {
   float:left;
+  padding: 8px 9pt;
   line-height: 20px;
-  min-height: 18px;
+  min-height: 80px;
   border-radius: 3px;
   color: white;
   background-color: #e2e4e6;
   color: #8c8c8c;
-  padding: 20px;
-  width: 200px;
+  width:160px;
 
   margin: 1pc 1pc 0 0;
 }

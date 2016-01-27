@@ -18,6 +18,10 @@ var BoardsIndex = React.createClass({
     this.boardListener = BoardStore.addListener(this._onChange);
   },
 
+  componetWillUnmount: function () {
+    this.boardListener.remove();
+  },
+
   render: function () {
     var indexItems = (
       this.state.boards.map(function (board) {

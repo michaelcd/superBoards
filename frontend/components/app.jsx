@@ -7,7 +7,6 @@ module.exports = React.createClass({
     return (
       <div>
         <Navbar />
-        <BoardsIndex />
         {this.props.children}
       </div>
     );

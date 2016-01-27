@@ -18,11 +18,25 @@ var resetBoard = function (board) {
   _board = board;
 };
 
+BoardStore.findBoard = function (id) {
+  // find Board in current store with corresponding ID
+  var board;
+
+  for (var i = 0; i < _boards.length; i++) {
+    if (_boards[i].id === id) {
+      board = _boards[i];
+    }
+  }
+
+  return board;
+};
+
 BoardStore.all = function () {
   return _boards;
 };
 
 BoardStore.single = function () {
+  console.log(_board);
   return _board;
 };
 

@@ -13,6 +13,18 @@ var ApiUtil = {
    });
   },
 
+  fetchBoard: function (id) {
+    $.ajax({
+     url: "api/boards/" + id,
+     success: function (board) {
+      BoardActions.receiveSingleBoard(board);
+     },
+     failure: function () {
+       console.log("failure");
+     }
+   });
+  },
+
   createBoard: function (board) {
     $.ajax({
      url: "api/boards",
