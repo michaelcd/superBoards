@@ -29,7 +29,7 @@ var BoardsIndex = React.createClass({
       })
     );
     return (
-      <div className="BoardsIndex">
+      <div className="boards-index group">
         <h2>My Boards</h2>
         <ul>
           {indexItems}

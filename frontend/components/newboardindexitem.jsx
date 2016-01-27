@@ -12,7 +12,11 @@ NewBoardIndexItem = React.createClass({
   },
 
   itemClickHandler: function () {
-    this.setState({indexItem: "hidden", form: "BoardForm"});
+    this.setState({indexItem: "hidden", form: "board-form group"});
+  },
+
+  cancelHandler: function () {
+    this.setState({indexItem: "NewBoard", form: "hidden"});
   },
 
   formOnSubmit: function (event) {
@@ -38,8 +42,9 @@ NewBoardIndexItem = React.createClass({
         <li className={this.state.indexItem} onClick={this.itemClickHandler}>Create New Board</li>
 
         <form className={this.state.form} onSubmit={this.formOnSubmit}>
-          <h2>Create Board</h2>
-          <h3>Title</h3>
+          <div className="form-head-container group"><div className="form-create-board">Create Board</div>
+          <a href="#" onClick={this.cancelHandler} className="cancel-icon">X</a></div>
+          <div className="form-title">Title</div>
             <input onChange={this.formChangeHandler}></input>
         </form>
       </div>

@@ -19,13 +19,14 @@ class Api::BoardsController < ApplicationController
 
   def show
     @board = Board.find_by_id(params[:id])
-    render json: @board
+    @lists = @board.lists
   end
 
   def update
     @board = Board.find_by_id(params[:board][:id])
     @board.title = params[:board][:title]
     @board.save
-    render json: @board
+    @lists = @board.lists
+    render :show
   end
 end
