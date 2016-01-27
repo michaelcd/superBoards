@@ -12,11 +12,11 @@ BoardDetailView = React.createClass({
   },
 
   componentDidMount: function () {
-    ApiUtil.fetchBoard(this.props.params.id);
     this.boardListener = BoardStore.addListener(this._onChange);
+    ApiUtil.fetchBoard(this.props.params.id);
   },
 
-  componetWillUnmount: function () {
+  componentWillUnmount: function () {
     this.boardListener.remove();
   },
 
