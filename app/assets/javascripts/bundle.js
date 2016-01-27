@@ -52,10 +52,16 @@
 	var IndexRoute = ReactRouter.IndexRoute;
 	var BoardsIndex = __webpack_require__(208);
 	var App = __webpack_require__(236);
+	var BoardDetailView = __webpack_require__(238);
 	
 	BoardStore = __webpack_require__(211);
 	
-	var routes = React.createElement(Route, { path: '/', component: App });
+	var routes = React.createElement(
+	  Route,
+	  { path: '/', component: App },
+	  React.createElement(IndexRoute, { component: BoardsIndex }),
+	  React.createElement(Route, { path: '/boards/:id', component: BoardDetailView })
+	);
 	
 	document.addEventListener("DOMContentLoaded", function () {
 	  var root = document.getElementById('content');
@@ -24328,6 +24334,10 @@
 	    this.boardListener = BoardStore.addListener(this._onChange);
 	  },
 	
+	  componetWillUnmount: function () {
+	    this.boardListener.remove();
+	  },
+	
 	  render: function () {
 	    var indexItems = this.state.boards.map(function (board) {
 	      return React.createElement(BoardsIndexItem, { key: board.id, className: 'BoardsIndexItem', board: board });
@@ -24366,8 +24376,8 @@
 	
 	  render: function () {
 	    return React.createElement(
-	      'li',
-	      { className: 'BoardsIndexItem' },
+	      'a',
+	      { href: "#/boards/" + this.props.board.id, className: 'BoardsIndexItem' },
 	      this.props.board.title
 	    );
 	  }
@@ -24405,6 +24415,7 @@
 	  },
 	
 	  render: function () {
+	
 	    return React.createElement(
 	      'div',
 	      null,
@@ -24458,11 +24469,25 @@
 	  _board = board;
 	};
 	
+	BoardStore.findBoard = function (id) {
+	  // find Board in current store with corresponding ID
+	  var board;
+	
+	  for (var i = 0; i < _boards.length; i++) {
+	    if (_boards[i].id === id) {
+	      board = _boards[i];
+	    }
+	  }
+	
+	  return board;
+	};
+	
 	BoardStore.all = function () {
 	  return _boards;
 	};
 	
 	BoardStore.single = function () {
+	  console.log(_board);
 	  return _board;
 	};
 	
@@ -31273,6 +31298,18 @@
 	    });
 	  },
 	
+	  fetchBoard: function (id) {
+	    $.ajax({
+	      url: "api/boards/" + id,
+	      success: function (board) {
+	        BoardActions.receiveSingleBoard(board);
+	      },
+	      failure: function () {
+	        console.log("failure");
+	      }
+	    });
+	  },
+	
 	  createBoard: function (board) {
 	    $.ajax({
 	      url: "api/boards",
@@ -31359,7 +31396,6 @@
 	      'div',
 	      null,
 	      React.createElement(Navbar, null),
-	      React.createElement(BoardsIndex, null),
 	      this.props.children
 	    );
 	  }
@@ -31404,6 +31440,45 @@
 	});
 	
 	module.exports = Navbar;
+
+/***/ },
+/* 238 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var BoardStore = __webpack_require__(211);
+	var ApiUtil = __webpack_require__(234);
+	
+	BoardDetailView = React.createClass({
+	  displayName: 'BoardDetailView',
+	
+	  getInitialState: function () {
+	    return { board: BoardStore.single() };
+	  },
+	
+	  _onChange: function () {
+	    this.setState({ board: BoardStore.single() });
+	  },
+	
+	  componentDidMount: function () {
+	    ApiUtil.fetchBoard(this.props.params.id);
+	    this.boardListener = BoardStore.addListener(this._onChange);
+	  },
+	
+	  componetWillUnmount: function () {
+	    this.boardListener.remove();
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      null,
+	      this.state.board.title
+	    );
+	  }
+	});
+	
+	module.exports = BoardDetailView;
 
 /***/ }
 /******/ ]);
