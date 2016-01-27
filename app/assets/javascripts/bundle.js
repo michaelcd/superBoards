@@ -24330,11 +24330,11 @@
 	  },
 	
 	  componentDidMount: function () {
-	    ApiUtil.fetchAllBoards();
 	    this.boardListener = BoardStore.addListener(this._onChange);
+	    ApiUtil.fetchAllBoards();
 	  },
 	
-	  componetWillUnmount: function () {
+	  componentWillUnmount: function () {
 	    this.boardListener.remove();
 	  },
 	
@@ -24459,19 +24459,22 @@
 	var BoardStore = new Store(AppDispatcher);
 	
 	var resetBoards = function (boards) {
+	  _boards = [];
 	  Object.keys(boards).forEach(function (key) {
 	    _boards.push(boards[key]);
 	  });
 	};
 	
 	var resetBoard = function (board) {
-	  _boards.push(board);
+	  if (BoardStore.findBoard(board.id) === {}) {
+	    _boards.push(board);
+	  }
 	  _board = board;
 	};
 	
 	BoardStore.findBoard = function (id) {
 	  // find Board in current store with corresponding ID
-	  var board;
+	  var board = {};
 	
 	  for (var i = 0; i < _boards.length; i++) {
 	    if (_boards[i].id === id) {
@@ -24487,7 +24490,6 @@
 	};
 	
 	BoardStore.single = function () {
-	  console.log(_board);
 	  return _board;
 	};
 	
@@ -31421,8 +31423,8 @@
 	      ),
 	      React.createElement("div", { className: "BoardsList" }),
 	      React.createElement(
-	        "div",
-	        { className: "NavbarLogo" },
+	        "a",
+	        { href: "#/", className: "NavbarLogo" },
 	        "superBoards"
 	      ),
 	      React.createElement(
@@ -31461,11 +31463,11 @@
 	  },
 	
 	  componentDidMount: function () {
-	    ApiUtil.fetchBoard(this.props.params.id);
 	    this.boardListener = BoardStore.addListener(this._onChange);
+	    ApiUtil.fetchBoard(this.props.params.id);
 	  },
 	
-	  componetWillUnmount: function () {
+	  componentWillUnmount: function () {
 	    this.boardListener.remove();
 	  },
 	

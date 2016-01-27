@@ -6,7 +6,7 @@ var Navbar = React.createClass({
       <div className="Navbar group">
         <div className="Boards button" id="BoardsIcon">Boards</div>
           <div className="BoardsList"></div>
-        <div className="NavbarLogo">superBoards</div>
+        <a href="#/" className="NavbarLogo">superBoards</a>
         <div className="User button" id="UserIcon">Username</div>
         <a href="#">Logout</a>
       </div>

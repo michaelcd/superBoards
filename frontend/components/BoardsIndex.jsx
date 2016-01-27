@@ -14,11 +14,11 @@ var BoardsIndex = React.createClass({
   },
 
   componentDidMount: function () {
-    ApiUtil.fetchAllBoards();
     this.boardListener = BoardStore.addListener(this._onChange);
+    ApiUtil.fetchAllBoards();
   },
 
-  componetWillUnmount: function () {
+  componentWillUnmount: function () {
     this.boardListener.remove();
   },
 
