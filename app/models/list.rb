@@ -3,5 +3,6 @@ class List < ActiveRecord::Base
   validates :archived, inclusion: [true, false]
 
   belongs_to :board
+  has_many :cards
 
 end

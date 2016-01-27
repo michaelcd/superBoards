@@ -4,6 +4,7 @@ class Board < ActiveRecord::Base
   validates :archived, inclusion: [true, false]
 
   has_many :lists
+  has_many :cards, through: :lists
   # board has many users, through board shares
 
 
