@@ -1,9 +1,8 @@
 Current Notes
 
-Priority for tomorrow:
+Outstanding issues:
 - Logout button somewhere (temporary version)
-
-Minor issue: Value persists in Create Board form after board creation; will later
+- Minor issue: Value persists in Create Board form after board creation; will later
 route to BoardDetailView so should be a nonissue;
 
 
