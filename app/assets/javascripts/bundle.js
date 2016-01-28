@@ -31494,30 +31494,35 @@
 	var Navbar = React.createClass({
 	  displayName: "Navbar",
 	
+	  getInitialState: function () {
+	    return { boardsList: false };
+	  },
+	
 	  render: function () {
+	    var list;
+	
+	    if (this.state.boardsList === true) {
+	      list = React.createElement("div", { className: "boards-list" });
+	    }
+	
 	    return React.createElement(
 	      "div",
-	      { className: "Navbar group" },
+	      { className: "navbar group" },
 	      React.createElement(
 	        "div",
-	        { className: "Boards button", id: "BoardsIcon" },
+	        { className: "boards-button", id: "BoardsIcon" },
 	        "Boards"
 	      ),
-	      React.createElement("div", { className: "BoardsList" }),
+	      list,
 	      React.createElement(
 	        "a",
-	        { href: "#/", className: "NavbarLogo" },
+	        { href: "#/", className: "navbar-logo" },
 	        "superBoards"
 	      ),
 	      React.createElement(
 	        "div",
-	        { className: "User button", id: "UserIcon" },
+	        { className: "navbar-user", id: "UserIcon" },
 	        "Username"
-	      ),
-	      React.createElement(
-	        "a",
-	        { href: "#" },
-	        "Logout"
 	      )
 	    );
 	  }

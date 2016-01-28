@@ -1,14 +1,23 @@
 var React = require('react');
 
 var Navbar = React.createClass({
+  getInitialState: function () {
+    return ({boardsList: false});
+  },
+
   render: function () {
+    var list;
+
+    if (this.state.boardsList === true) {
+      list = <div className="boards-list"></div>;
+    }
+
     return(
-      <div className="Navbar group">
-        <div className="Boards button" id="BoardsIcon">Boards</div>
-          <div className="BoardsList"></div>
-        <a href="#/" className="NavbarLogo">superBoards</a>
-        <div className="User button" id="UserIcon">Username</div>
-        <a href="#">Logout</a>
+      <div className="navbar group">
+        <div className="boards-button" id="BoardsIcon">Boards</div>
+          {list}
+        <a href="#/" className="navbar-logo">superBoards</a>
+        <div className="navbar-user" id="UserIcon">Username</div>
       </div>
     );
   }
