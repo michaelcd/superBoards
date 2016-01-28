@@ -52,26 +52,34 @@
 
 /* Navbar elements */
 
- .Navbar {
+ .navbar {
    display:block;
    background: #026aa7;
    color:white;
+   font-size: 14px;
+   font-weight: 700;
+   line-height: 30px;
  }
 
- .NavbarLogo {
-
+ .navbar-logo {
+  background: #4F96BF;
+  float:left;
  }
 
- .Navbar .button {
+ .boards-button {
 
+   border-radius: 3px;
+   background: #4F96BF;
+   float:left;
  }
 
- .Navbar .Boards {
-
+ .boards-list {
+   display:block;
  }
 
- .Navbar .User {
-
+ .navbar-user {
+   background: #4F96BF;
+   float:right;
  }
 
 /* board index view section */
