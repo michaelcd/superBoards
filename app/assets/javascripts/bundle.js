@@ -24545,7 +24545,19 @@
 	    });
 	  },
 	
-	  createList: function () {}
+	  createList: function (list) {
+	    $.ajax({
+	      url: "api/lists",
+	      method: "POST",
+	      data: { list: list },
+	      success: function (board) {
+	        BoardActions.receiveSingleBoard(board);
+	      },
+	      failure: function () {
+	        console.log("failure");
+	      }
+	    });
+	  }
 	};
 	
 	module.exports = ApiUtil;
@@ -31623,10 +31635,11 @@
 	  },
 	
 	  itemClickHandler: function () {
-	    this.setState({ listItem: "hidden", form: "board-form group" });
+	    this.setState({ listItem: "hidden", form: "list-form group" });
 	  },
 	
-	  cancelHandler: function () {
+	  cancelHandler: function (event) {
+	    event.preventDefault();
 	    this.setState({ listItem: "add-list-button", form: "hidden" });
 	  },
 	
@@ -31647,17 +31660,26 @@
 	      { className: 'new-list' },
 	      React.createElement(
 	        'div',
-	        { className: this.state.listItem },
+	        { className: this.state.listItem, onClick: this.itemClickHandler },
 	        'Add a list...'
 	      ),
 	      React.createElement(
 	        'div',
 	        { className: this.state.form },
-	        React.createElement('input', { type: 'text', value: this.state.inputVal, onChange: this.formChangeHandler }),
 	        React.createElement(
-	          'button',
-	          { className: 'new-list-save' },
-	          'Save'
+	          'form',
+	          { onSubmit: this.formOnSubmit },
+	          React.createElement('input', { type: 'text', className: 'list-form-input', value: this.state.inputVal, onChange: this.formChangeHandler }),
+	          React.createElement(
+	            'button',
+	            { className: 'list-form-save' },
+	            'Save'
+	          ),
+	          React.createElement(
+	            'a',
+	            { href: '#', className: 'list-form-cancel', onClick: this.cancelHandler },
+	            'X'
+	          )
 	        )
 	      )
 	    );

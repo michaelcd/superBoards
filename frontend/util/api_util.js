@@ -67,7 +67,19 @@ var ApiUtil = {
    });
   },
 
-  createList: function () {}
+  createList: function (list) {
+    $.ajax({
+     url: "api/lists",
+     method: "POST",
+     data: {list: list},
+     success: function (board) {
+      BoardActions.receiveSingleBoard(board);
+     },
+     failure: function () {
+      console.log("failure");
+     }
+   });
+  }
 };
 
 module.exports = ApiUtil;
