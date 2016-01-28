@@ -7,6 +7,9 @@ Thursday - List and Cards CRUD in React
 Friday - Drag and drop
 
 Thursday:
+[ ] - Issue - cancel board rename redirects to index
+
+
 [ ] - Flux cycle for List CRUD
 [ ] - NewList component; List creation in BoardDetail
 [ ] - ListNameUpdate; Edit List name in BoardDetail
@@ -15,10 +18,7 @@ Thursday:
 [ ] - Change BoardsController#show to retrieve only non-archived lists/cards
 [ ] - Implement Card component (basic list item with title to start)
 [ ] - CardDetailView for CRUD options
-[ ] -
-[ ] -
-[ ] -
-[ ] -
+
 
 Friday
 [ ] - Drag and drop
