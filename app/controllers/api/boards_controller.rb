@@ -19,14 +19,15 @@ class Api::BoardsController < ApplicationController
 
   def show
     @board = Board.find_by_id(params[:id])
-    @lists = @board.lists
+    @lists = @board.lists.sort_by {|list| list.ord}
+    render :show
   end
 
   def update
     @board = Board.find_by_id(params[:board][:id])
     @board.title = params[:board][:title]
     @board.save
-    @lists = @board.lists
+    @lists = @board.lists.sort_by {|list| list.ord}
     render :show
   end
 end
