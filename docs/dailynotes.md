@@ -10,7 +10,7 @@ Thursday:
 [X] - Issue - cancel board rename redirects to index
 [X] - Flux cycle for List CRUD
 [X] - NewList component; List creation in BoardDetail
-[ ] - ListNameUpdate; Edit List name in BoardDetail
+[X] - ListNameUpdate; Edit List name in BoardDetail
 [ ] - Board Options Menu - archival / destroy
 [ ] - Change BoardsController#index to retrieve only non-archived boards
 [ ] - Change BoardsController#show to retrieve only non-archived lists/cards
@@ -23,6 +23,7 @@ Friday
 [ ] - Board Sharing
 
 Outstanding issues:
+- NewList component: retains previous new list name after list created
 - Refactor List controller and views (right now duplicates board partials)
 - Logout button somewhere (temporary version)
 - Minor issue: Value persists in Create Board form after board creation; will later
