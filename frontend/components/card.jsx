@@ -5,7 +5,7 @@ var Card = React.createClass({
   render: function () {
     return(
       <div className="card">
-        <div>{this.props.card.title}</div>
+        <div className="card-title">{this.props.card.title}</div>
       </div>
     );
   }

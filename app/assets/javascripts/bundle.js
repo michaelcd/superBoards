@@ -31597,40 +31597,48 @@
 	
 	    return React.createElement(
 	      'div',
-	      { className: 'board-detail-view group' },
+	      { className: 'board-detail-view' },
 	      React.createElement(
 	        'div',
-	        { className: 'board-title', onClick: this.nameClickHandler },
-	        this.state.board.title
-	      ),
-	      React.createElement(
-	        'form',
-	        { className: this.state.form, onSubmit: this.formSubmitHandler },
+	        { className: 'board-header group' },
 	        React.createElement(
 	          'div',
-	          { className: 'name-update-container group' },
+	          { className: 'board-title', onClick: this.nameClickHandler },
+	          this.state.board.title
+	        ),
+	        React.createElement(
+	          'form',
+	          { className: this.state.form, onSubmit: this.formSubmitHandler },
 	          React.createElement(
 	            'div',
-	            { className: 'name-update-title' },
-	            'Rename Board'
+	            { className: 'name-update-container group' },
+	            React.createElement(
+	              'div',
+	              { className: 'name-update-title' },
+	              'Rename Board'
+	            ),
+	            React.createElement(
+	              'a',
+	              { href: '#', className: 'name-update-cancel', onClick: this.cancelHandler },
+	              'X'
+	            )
 	          ),
+	          React.createElement('input', { type: 'text', value: this.state.title,
+	            onChange: this.formChangeHandler }),
 	          React.createElement(
-	            'a',
-	            { href: '#', className: 'name-update-cancel', onClick: this.cancelHandler },
-	            'X'
+	            'button',
+	            null,
+	            'Rename'
 	          )
 	        ),
-	        React.createElement('input', { type: 'text', value: this.state.title,
-	          onChange: this.formChangeHandler }),
-	        React.createElement(
-	          'button',
-	          null,
-	          'Rename'
-	        )
+	        React.createElement(BoardMenu, { board: this.state.board })
 	      ),
-	      React.createElement(BoardMenu, { board: this.state.board }),
-	      lists,
-	      React.createElement(NewList, { board: this.state.board })
+	      React.createElement(
+	        'ul',
+	        { className: 'list-container' },
+	        lists,
+	        React.createElement(NewList, { board: this.state.board })
+	      )
 	    );
 	  }
 	});
@@ -31643,6 +31651,7 @@
 
 	var React = __webpack_require__(1);
 	var Card = __webpack_require__(242);
+	var NewCard = __webpack_require__(243);
 	var ApiUtil = __webpack_require__(211);
 	
 	var List = React.createClass({
@@ -31684,8 +31693,8 @@
 	    });
 	
 	    return React.createElement(
-	      'div',
-	      { className: 'list group' },
+	      'li',
+	      { className: 'list' },
 	      React.createElement(
 	        'div',
 	        { className: 'list-title-container' },
@@ -31715,9 +31724,10 @@
 	      ),
 	      React.createElement(
 	        'div',
-	        { className: 'cards group' },
+	        { className: 'cards' },
 	        cards
-	      )
+	      ),
+	      React.createElement(NewCard, null)
 	    );
 	  }
 	});
@@ -31766,7 +31776,7 @@
 	
 	  render: function () {
 	    return React.createElement(
-	      'div',
+	      'li',
 	      { className: 'new-list' },
 	      React.createElement(
 	        'div',
@@ -31904,7 +31914,7 @@
 	      { className: 'card' },
 	      React.createElement(
 	        'div',
-	        null,
+	        { className: 'card-title' },
 	        this.props.card.title
 	      )
 	    );
@@ -31912,6 +31922,31 @@
 	});
 	
 	module.exports = Card;
+
+/***/ },
+/* 243 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var ApiUtil = __webpack_require__(211);
+	
+	var NewCard = React.createClass({
+	  displayName: 'NewCard',
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      { className: 'new-card' },
+	      React.createElement(
+	        'div',
+	        { className: 'new-card-title' },
+	        'Add a card...'
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = NewCard;
 
 /***/ }
 /******/ ]);
