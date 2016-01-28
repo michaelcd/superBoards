@@ -3,6 +3,8 @@ var Card = require('./card');
 var NewCard = require('./newcard');
 var ApiUtil = require('../util/api_util');
 
+// this.props.list
+
 var List = React.createClass({
   getInitialState: function () {
     return ({
@@ -57,7 +59,7 @@ var List = React.createClass({
         <div className="cards">
           {cards}
         </div>
-        <NewCard />
+        <NewCard list={this.props.list} />
       </li>
     );
   }
