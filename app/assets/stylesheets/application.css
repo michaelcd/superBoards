@@ -244,6 +244,31 @@
 }
 
 .list-form-cancel {
+
+}
+
+.list-rename-form {
+  border-radius: 3px;
+  background: #eee;
+  float:left;
+  font-weight: 700;
+  width: 270px;
+  margin: 0 5px;
+  height: 100%;
+  vertical-align: top;
+}
+
+.list-rename-input {
+  
+}
+
+.list-rename-button {
+  float:left;
+  background: #61bd4f;
+  color:white;
+  border-radius: 3px;
+  font-weight: 700;
+  padding: 5px 10px;
 }
 
 

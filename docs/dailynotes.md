@@ -8,7 +8,7 @@ Friday - Drag and drop
 
 Thursday:
 [X] - Issue - cancel board rename redirects to index
-[ ] - Flux cycle for List CRUD
+[X] - Flux cycle for List CRUD
 [X] - NewList component; List creation in BoardDetail
 [ ] - ListNameUpdate; Edit List name in BoardDetail
 [ ] - Board Options Menu - archival / destroy
