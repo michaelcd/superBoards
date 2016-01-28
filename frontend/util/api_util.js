@@ -125,7 +125,7 @@ var ApiUtil = {
  updateCard: function (card) {
    $.ajax({
     url: "api/cards/" + card.id,
-    method: "patch",
+    method: "PATCH",
     data: {card: card},
     success: function (board) {
      BoardActions.receiveSingleBoard(board);
@@ -134,6 +134,19 @@ var ApiUtil = {
      console.log("failure");
     }
   });
+  },
+
+  destroyCard: function (card) {
+    $.ajax({
+     url: "api/cards/" + card.id,
+     method: "DELETE",
+     success: function (board) {
+      BoardActions.receiveSingleBoard(board);
+     },
+     failure: function () {
+      console.log("failure");
+     }
+   });
   }
 };
 

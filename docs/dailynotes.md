@@ -3,29 +3,16 @@ Current Notes
 Phase 2.5
 
 Schedule:
-Thursday - List and Cards CRUD in React
 Friday - Drag and drop
 
-Thursday:
-[X] - Issue - cancel board rename redirects to index
-[X] - ApiUtil for List CRUD
-[X] - NewList component; List creation in BoardDetail
-[X] - ListNameUpdate; Edit List name in BoardDetail
-[X] - Change BoardsController#index to retrieve only non-archived boards
-[X] - Change BoardsController#show to retrieve only non-archived lists
-[X] - Implement Card component (basic list item with title to start)
-[X] - Implement Board Archival
-[X] - CSS styling - board detail page, cards
-[X] - Card creation inside List
-[X] - NewList + NewCard component: retains previous new list name after list created
-
-[ ] - BoardMenu component
+Friday 01/29/16
+[ ] - Refactor pop up forms using if/else and variables
+  [ ] - NewBoardIndexItem
+  [ ] - BoardMenu
+  [ ] - BoardDetailView - board renaming pop up
+  [ ] - BoardMenu component
 [ ] - SeedData
-
-
-
-[ ] - Archived Boards View
-[ ] - CardDetailView for CRUD options
+[ ] - CardDetailView, CRUD functions
 [ ] - Change BoardsController#show to retrieve only non-archived cards
 
 Friday
@@ -33,9 +20,12 @@ Friday
 [ ] - React Auth
 [ ] - Board Sharing
 
+
+[ ] - Archived Boards View
+[ ]- Refactor List controller and views (right now duplicates board partials)
+
 Outstanding issues:
 
-- Refactor List controller and views (right now duplicates board partials)
 - Logout button somewhere (temporary version)
 - Minor issue: Value persists in Create Board form after board creation; will later
 route to BoardDetailView so should be a nonissue;
@@ -60,3 +50,19 @@ cd superBoards
 npm install
 rake db:create db:migrate db:seed
 atom .
+
+
+
+Thursday 01/28/16
+[X] - Issue - cancel board rename redirects to index
+[X] - ApiUtil for List CRUD
+[X] - NewList component; List creation in BoardDetail
+[X] - ListNameUpdate; Edit List name in BoardDetail
+[X] - Change BoardsController#index to retrieve only non-archived boards
+[X] - Change BoardsController#show to retrieve only non-archived lists
+[X] - Implement Card component (basic list item with title to start)
+[X] - Implement Board Archival
+[X] - CSS styling - board detail page, cards
+[X] - Card creation inside List
+[X] - NewList + NewCard component: retains previous new list name after list created
+[X] - ApiUtil Card functions (destroyCard)
