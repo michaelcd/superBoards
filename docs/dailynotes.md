@@ -16,8 +16,9 @@ Thursday:
 [X] - Implement Card component (basic list item with title to start)
 [X] - Implement Board Archival
 [X] - CSS styling - board detail page, cards
+[X] - Card creation inside List
 
-[ ] - Card creation inside List
+
 [ ] - NewList + NewCard component: retains previous new list name after list created
 
 [ ] - BoardMenu component

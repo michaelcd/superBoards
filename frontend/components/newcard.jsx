@@ -40,8 +40,8 @@ var NewCard = React.createClass({
       form = (
         <form className="new-card-form">
           <input className="new-card-input"
-            type="text" onChange={this.formChangeHandler}
-            value={this.state.input} />
+            type="text" onChange={this.formChangeHandler}>
+          </input>
           <button className="new-card-button" onClick={this.submitHandler}>
             Add</button>
           <a href="#" className="new-card-cancel"
@@ -50,13 +50,15 @@ var NewCard = React.createClass({
       );
     } else {
       form = (
-        <a href="#" className="new-card-title"
-          onClick={this.clickHandler}>Add a card...</a>
+        <div className="new-card">
+          <a href="#" className="new-card-title"
+            onClick={this.clickHandler}>Add a card...</a>
+        </div>
       );
     }
 
     return(
-      <div className="new-card">
+      <div className="new-card-container">
         {form}
       </div>
     );

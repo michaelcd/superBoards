@@ -271,7 +271,7 @@ float:left;
   border-radius: 3px;
   background: #E2E4E6;
   font-weight: 700;
-  min-width: 270px;
+  width: 270px;
   margin: 5px 5px;
 }
 
@@ -290,11 +290,41 @@ float:left;
   border-bottom: 1px solid #ccc;
 }
 
+.new-card-container {
+
+}
+
 .new-card {
   color: #8c8c8c;
   font-size: 14px;
   font-weight: normal;
-  padding:  8px 34px 8px 10px;
+  padding: 8px 34px 8px 10px;
+}
+
+.new-card-form {
+  font-weight: normal;
+  background: #fff;
+  font-size: 14px;
+  border-radius: 3px;
+  width: 250px;
+  margin:auto;
+  margin-bottom: 6px;
+  border-bottom: 1px solid #ccc;
+}
+
+.new-card-input {
+  margin:auto;
+  padding: 6px 8px 4px 8px;
+}
+
+.new-card-button {
+  float:left;
+  display: block;
+}
+
+.new-card-cancel {
+  float:right;
+  display: block;
 }
 
 .card-title {
