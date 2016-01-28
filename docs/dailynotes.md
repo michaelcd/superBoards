@@ -14,7 +14,7 @@ Thursday:
 [ ] - Board Options Menu - archival / destroy
 [ ] - Change BoardsController#index to retrieve only non-archived boards
 [ ] - Change BoardsController#show to retrieve only non-archived lists/cards
-[ ] - Implement Card component (basic list item with title to start)
+[X] - Implement Card component (basic list item with title to start)
 [ ] - CardDetailView for CRUD options
 [ ] - ReactAuth
 
