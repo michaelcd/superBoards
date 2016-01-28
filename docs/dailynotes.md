@@ -13,7 +13,8 @@ Thursday:
 [X] - ListNameUpdate; Edit List name in BoardDetail
 [ ] - Board Options Menu - archival / destroy
 [X] - Change BoardsController#index to retrieve only non-archived boards
-[ ] - Change BoardsController#show to retrieve only non-archived lists/cards
+[X] - Change BoardsController#show to retrieve only non-archived lists
+[ ] - Change BoardsController#show to retrieve only non-archived cards
 [X] - Implement Card component (basic list item with title to start)
 [ ] - CardDetailView for CRUD options
 

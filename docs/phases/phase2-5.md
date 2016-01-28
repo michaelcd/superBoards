@@ -6,7 +6,7 @@
 * Card
 
 ### Controllers
-* Api::ListsController (create, destroy, index, update)
+* Api::ListsController (create, destroy, update)
 * Api::CardsController (create, destroy, index, show, update)
 
 ### Views

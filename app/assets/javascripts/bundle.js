@@ -24571,6 +24571,19 @@
 	        console.log("failure");
 	      }
 	    });
+	  },
+	
+	  destroyList: function (list) {
+	    $.ajax({
+	      url: "api/lists/" + list.id,
+	      method: "DELETE",
+	      success: function (board) {
+	        BoardActions.receiveSingleBoard(board);
+	      },
+	      failure: function () {
+	        console.log("failure");
+	      }
+	    });
 	  }
 	};
 	
