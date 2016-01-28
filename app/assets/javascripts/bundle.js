@@ -31504,6 +31504,7 @@
 	var ApiUtil = __webpack_require__(211);
 	var List = __webpack_require__(239);
 	var NewList = __webpack_require__(240);
+	var BoardMenu = __webpack_require__(241);
 	
 	BoardDetailView = React.createClass({
 	  displayName: 'BoardDetailView',
@@ -31592,6 +31593,7 @@
 	          'Rename'
 	        )
 	      ),
+	      React.createElement(BoardMenu, { board: this.state.board }),
 	      lists,
 	      React.createElement(NewList, { board: this.state.board })
 	    );
@@ -31755,6 +31757,69 @@
 	});
 	
 	module.exports = NewList;
+
+/***/ },
+/* 241 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var BoardStore = __webpack_require__(218);
+	var ApiUtil = __webpack_require__(211);
+	
+	var BoardMenu = React.createClass({
+	  displayName: 'BoardMenu',
+	
+	  getInitialState: function () {
+	    return { buttonClass: "board-menu-button", menuClass: "hidden" };
+	  },
+	
+	  buttonClick: function () {
+	    this.setState({ buttonClass: "hidden", menuClass: "board-menu-options" });
+	  },
+	
+	  menuClose: function (event) {
+	    event.preventDefault();
+	    this.setState({ buttonClass: "board-menu-button", menuClass: "hidden" });
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      { className: 'board-menu' },
+	      React.createElement(
+	        'div',
+	        { className: this.state.buttonClass, onClick: this.buttonClick },
+	        'Board Menu'
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: this.state.menuClass },
+	        React.createElement(
+	          'a',
+	          { href: '#', className: 'board-menu-close', onClick: this.menuClose },
+	          'X'
+	        ),
+	        React.createElement(
+	          'div',
+	          null,
+	          'Share Board'
+	        ),
+	        React.createElement(
+	          'div',
+	          null,
+	          'Archive Board'
+	        ),
+	        React.createElement(
+	          'div',
+	          null,
+	          'Delete Board'
+	        )
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = BoardMenu;
 
 /***/ }
 /******/ ]);

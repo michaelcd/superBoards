@@ -3,6 +3,7 @@ var BoardStore = require('../stores/board');
 var ApiUtil = require('../util/api_util');
 var List = require('./list');
 var NewList = require('./newlist');
+var BoardMenu = require('./boardmenu');
 
 BoardDetailView = React.createClass({
   getInitialState: function () {
@@ -69,6 +70,7 @@ BoardDetailView = React.createClass({
               onChange={this.formChangeHandler} />
             <button>Rename</button>
           </form>
+        <BoardMenu board={this.state.board}/>
         {lists}
         <NewList board={this.state.board} />
       </div>
