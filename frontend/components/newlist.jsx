@@ -22,7 +22,7 @@ var NewList = React.createClass({
       title: this.state.formValue,
       board_id: this.props.board.id,
       archived: false,
-      ord: this.props.board.lists.length
+      ord: this.props.board.lists.length + 1
     };
     ApiUtil.createList(list);
     this.setState({listItem: "add-list-button", form: "hidden", formValue: ""});

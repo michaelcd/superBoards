@@ -31519,6 +31519,7 @@
 	
 	  _onChange: function () {
 	    this.setState({ board: BoardStore.single(), title: BoardStore.single().title });
+	    console.log(this.state.board.lists);
 	  },
 	
 	  componentDidMount: function () {
@@ -31607,6 +31608,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
+	var Card = __webpack_require__(242);
 	var ApiUtil = __webpack_require__(211);
 	
 	var List = React.createClass({
@@ -31642,6 +31644,10 @@
 	
 	  render: function () {
 	    var cards;
+	    var that = this;
+	    cards = this.props.list.cards.map(function (card) {
+	      return React.createElement(Card, { key: card.id, card: card });
+	    });
 	
 	    return React.createElement(
 	      'div',
@@ -31714,7 +31720,7 @@
 	      title: this.state.formValue,
 	      board_id: this.props.board.id,
 	      archived: false,
-	      ord: this.props.board.lists.length
+	      ord: this.props.board.lists.length + 1
 	    };
 	    ApiUtil.createList(list);
 	    this.setState({ listItem: "add-list-button", form: "hidden", formValue: "" });
@@ -31820,6 +31826,31 @@
 	});
 	
 	module.exports = BoardMenu;
+
+/***/ },
+/* 242 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var ApiUtil = __webpack_require__(211);
+	
+	var Card = React.createClass({
+	  displayName: 'Card',
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      { className: 'card' },
+	      React.createElement(
+	        'div',
+	        null,
+	        this.props.card.title
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = Card;
 
 /***/ }
 /******/ ]);

@@ -1,4 +1,5 @@
 var React = require('react');
+var Card = require('./card');
 var ApiUtil = require('../util/api_util');
 
 var List = React.createClass({
@@ -32,6 +33,10 @@ var List = React.createClass({
 
   render: function () {
     var cards;
+    var that = this;
+    cards = this.props.list.cards.map(function (card) {
+      return <Card key={card.id} card={card}/>;
+    });
 
     return(
       <div className="list group">

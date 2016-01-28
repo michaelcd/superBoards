@@ -205,7 +205,7 @@
   float:left;
   font-weight: 700;
   width: 270px;
-  margin: 0 5px;
+  margin: 5px 5px;
   height: 100%;
   vertical-align: top;
 }
@@ -213,7 +213,7 @@
 .new-list {
   border-radius: 3px;
   background: #026aa7;
-  margin: 0 5px;
+  margin: 5px 5px;
   width: 270px;
   float:left;
   color: rgba(255,255,255,.7);
@@ -259,7 +259,7 @@
 }
 
 .list-rename-input {
-  
+
 }
 
 .list-rename-button {
