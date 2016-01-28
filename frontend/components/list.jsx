@@ -1,5 +1,6 @@
 var React = require('react');
 var Card = require('./card');
+var NewCard = require('./newcard');
 var ApiUtil = require('../util/api_util');
 
 var List = React.createClass({
@@ -39,7 +40,7 @@ var List = React.createClass({
     });
 
     return(
-      <div className="list group">
+      <li className="list">
         <div className="list-title-container">
           <div onClick={this.titleClick} className={this.state.titleClass}>
             {this.props.list.title}</div>
@@ -53,10 +54,11 @@ var List = React.createClass({
             <a href="#" className="list-rename-cancel" onClick={this.cancelHandler}>X</a>
           </div>
         </div>
-        <div className="cards group">
+        <div className="cards">
           {cards}
         </div>
-      </div>
+        <NewCard />
+      </li>
     );
   }
 });

@@ -8,21 +8,25 @@ Friday - Drag and drop
 
 Thursday:
 [X] - Issue - cancel board rename redirects to index
-[X] - Flux cycle for List CRUD
+[X] - ApiUtil for List CRUD
 [X] - NewList component; List creation in BoardDetail
 [X] - ListNameUpdate; Edit List name in BoardDetail
 [X] - Change BoardsController#index to retrieve only non-archived boards
 [X] - Change BoardsController#show to retrieve only non-archived lists
 [X] - Implement Card component (basic list item with title to start)
-
-before lunch (1 hr)
 [X] - Implement Board Archival
+[X] - CSS styling - board detail page, cards
+
+[ ] - Card creation inside List
+
+[ ] - BoardMenu component
+[ ] - SeedData
+
+
+
 [ ] - Archived Boards View
-
-[ ] - Change BoardsController#show to retrieve only non-archived cards
 [ ] - CardDetailView for CRUD options
-
-
+[ ] - Change BoardsController#show to retrieve only non-archived cards
 
 Friday
 [ ] - Drag and drop

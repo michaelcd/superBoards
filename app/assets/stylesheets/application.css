@@ -14,73 +14,76 @@
  *= require_self
  */
 
- html, body, header, nav, main,
- section, article, footer, small {
-   display: block;
- }
+html, body, header, nav, main,
+section, article, footer, small {
+ display: block;
+ overflow-y: hidden;
+}
 
- html, body, header, nav, h1, a, ul, li,
- strong, main, section, img, div, h2, p,
- form, fieldset, label, input, textarea,
- button, article, footer, small, h3, h4 {
-    margin: 0;
-    border: 0;
-    padding: 0;
-    font: inherit;
-    text-align: inherit;
-    text-decoration: inherit;
-    color: inherit;
-    background: transparent;
-  }
+html, body, header, nav, h1, a, ul, li,
+strong, main, section, img, div, h2, p,
+form, fieldset, label, input, textarea,
+button, article, footer, small, h3, h4 {
+  margin: 0;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  text-align: inherit;
+  text-decoration: inherit;
+  color: inherit;
+  background: transparent;
+}
 
-  body {
-    display:block;
-    font-family: sans-serif;
-    background: #fff;
-    margin: inherit;
-  }
+body {
+  display:block;
+  font-family: sans-serif;
+  background-color: rgb(0, 121, 191);
+  margin: inherit;
+}
 
-  ul {
-    list-style: none;
-  }
+ul {
+  list-style: none;
+}
 
-  .group:after {
-    content:"";
-    display:block;
-    clear:both;
-  }
+.group:after {
+  content:"";
+  display:block;
+  clear:both;
+}
 
 /* Navbar elements */
 
- .navbar {
-   display:block;
-   background: #026aa7;
-   color:white;
-   font-size: 14px;
-   font-weight: 700;
-   line-height: 30px;
- }
+.navbar {
+ display:block;
+ width:auto;
+ background: #026aa7;
+ color:white;
+ font-size: 14px;
+ font-weight: 700;
+ line-height: 30px;
+}
 
- .navbar-logo {
-  background: #4F96BF;
-  float:left;
- }
+.navbar-logo {
+border-radius: 3px;
+background: #4F96BF;
+float:left;
+}
 
- .boards-button {
+.boards-button {
+ border-radius: 3px;
+ background: #4F96BF;
+ float:left;
+}
 
-   border-radius: 3px;
-   background: #4F96BF;
-   float:left;
- }
+.boards-list {
+ display:block;
+}
 
- .boards-list {
-   display:block;
- }
-
- .navbar-user {
-   background: #4F96BF;
-   float:right;
- }
+.navbar-user {
+ border-radius: 3px;
+ background: #4F96BF;
+ float:right;
+}
 
 /* board index view section */
 
@@ -173,11 +176,26 @@
 
 .board-menu {
   color:white
+  float:right;
+}
+
+.board-menu-button {
+  color:white;
+  float:right;
+}
+
+.board-menu-options {
+  position:absolute;
+  background: #E2E4E6;
+  right:0;
+  float:right;
+  color:black;
 }
 
 .board-title {
   color:white;
   font-weight: 700;
+  float:left;
 }
 
 .name-update {
@@ -219,15 +237,68 @@
   padding: 5px 10px;
 }
 
-.list {
+.board-header {
+  display:block;
+}
+
+.list-container {
+  width:auto;
+  height: 1000px;
+  overflow-x: scroll;
+  white-space: nowrap;
+}
+
+/* scrollbar styling - may or may not implement in final version*/
+
+::-webkit-scrollbar {
+  background-color: rgb(0, 121, 191);
+  height:9px;
+  width:9px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #4F96BF;
   border-radius: 3px;
-  background: #eee;
+}
+
+::-webkit-scrollbar-track-piece {
+  background: #026aa7;
+}
+
+.list {
+  display:block;
   float:left;
+  border-radius: 3px;
+  background: #E2E4E6;
   font-weight: 700;
-  width: 270px;
+  min-width: 270px;
   margin: 5px 5px;
-  height: 100%;
-  vertical-align: top;
+}
+
+.list-title-container {
+  padding:8px 34px 8px 6px;
+}
+
+.card {
+  font-weight: normal;
+  background: #fff;
+  font-size: 14px;
+  border-radius: 3px;
+  width: 250px;
+  margin:auto;
+  margin-bottom: 6px;
+  border-bottom: 1px solid #ccc;
+}
+
+.new-card {
+  color: #8c8c8c;
+  font-size: 14px;
+  font-weight: normal;
+  padding:  8px 34px 8px 10px;
+}
+
+.card-title {
+  padding: 6px 8px 4px;
 }
 
 .new-list {
@@ -291,6 +362,14 @@
   padding: 5px 10px;
 }
 
+.list-title {
+  padding: 0 0 0 5px;
+
+}
+
+
+
+
 
 /* Auth HTML pages:*/
 
@@ -300,7 +379,3 @@
   margin:auto;
   text-align: center;
  }
-
-.temp {
-  display:none;
-}

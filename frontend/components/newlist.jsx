@@ -34,7 +34,7 @@ var NewList = React.createClass({
 
   render: function () {
     return(
-      <div className="new-list">
+      <li className="new-list">
         <div className={this.state.listItem} onClick={this.itemClickHandler}>Add a list...</div>
         <div className={this.state.form}>
           <form onSubmit={this.formOnSubmit}>
@@ -43,7 +43,7 @@ var NewList = React.createClass({
             <a href="#" className="list-form-cancel" onClick={this.cancelHandler}>X</a>
           </form>
         </div>
-      </div>
+      </li>
     );
   }
 });
