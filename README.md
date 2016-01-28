@@ -44,12 +44,6 @@ Phase 2 will be focused on setting up Flux, the React router, and the React comp
 
 ### Phase 3: Card CRUD and Tags (2 days)
 
-Phase 3 adds organization to the Notes. Notes belong to a Notebook, which has
-its own `Index` view. Create JSON API for Notebooks. Notes can also now be
-tagged with multiple tags. Users can bring up notes in a separate `SearchIndex`
-view by searching for their tags. Once the tag search is implemented, I will
-extend this to a fuzzy search through every Note's content.
-
 Phase 3 will add Card CRUD functionality to the application. Card data will be added to the JSON API, and `Card` components will be visible within the `ListView`. clicking a `Card` will bring the user to the `CardDetailView` where most of the data for Card objects will be accessible.
 
 [Details][phase-three]

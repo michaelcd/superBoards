@@ -24576,6 +24576,20 @@
 	    });
 	  },
 	
+	  createCard: function (card) {
+	    $.ajax({
+	      url: "api/cards",
+	      method: "POST",
+	      data: { card: card },
+	      success: function (board) {
+	        BoardActions.receiveSingleBoard(board);
+	      },
+	      failure: function () {
+	        console.log("failure");
+	      }
+	    });
+	  },
+	
 	  updateList: function (list) {
 	    $.ajax({
 	      url: "api/lists/" + list.id,
@@ -31654,6 +31668,8 @@
 	var NewCard = __webpack_require__(243);
 	var ApiUtil = __webpack_require__(211);
 	
+	// this.props.list
+	
 	var List = React.createClass({
 	  displayName: 'List',
 	
@@ -31727,7 +31743,7 @@
 	        { className: 'cards' },
 	        cards
 	      ),
-	      React.createElement(NewCard, null)
+	      React.createElement(NewCard, { list: this.props.list })
 	    );
 	  }
 	});
@@ -31930,18 +31946,75 @@
 	var React = __webpack_require__(1);
 	var ApiUtil = __webpack_require__(211);
 	
+	// this.props.list
+	
 	var NewCard = React.createClass({
 	  displayName: 'NewCard',
 	
+	  getInitialState: function () {
+	    return { form: false, input: "" };
+	  },
+	
+	  clickHandler: function (event) {
+	    event.preventDefault();
+	    this.setState({ form: true });
+	  },
+	
+	  submitHandler: function (event) {
+	    event.preventDefault();
+	    var card = {
+	      title: this.state.input,
+	      ord: this.props.list.cards.length + 1,
+	      list_id: this.props.list.id,
+	      archived: false
+	    };
+	    ApiUtil.createCard(card);
+	    this.setState({ form: false });
+	  },
+	
+	  formChangeHandler: function (event) {
+	    this.setState({ input: event.currentTarget.value });
+	  },
+	
+	  cancelHandler: function (event) {
+	    event.preventDefault();
+	    this.setState({ form: false, input: "" });
+	  },
+	
 	  render: function () {
+	    var form;
+	    if (this.state.form) {
+	      form = React.createElement(
+	        'form',
+	        { className: 'new-card-form' },
+	        React.createElement('input', { className: 'new-card-input',
+	          type: 'text', onChange: this.formChangeHandler,
+	          value: this.state.input }),
+	        React.createElement(
+	          'button',
+	          { className: 'new-card-button', onClick: this.submitHandler },
+	          'Add'
+	        ),
+	        React.createElement(
+	          'a',
+	          { href: '#', className: 'new-card-cancel',
+	            onClick: this.cancelHandler },
+	          'X'
+	        )
+	      );
+	    } else {
+	      form = React.createElement(
+	        'a',
+	        { href: '#', className: 'new-card-title',
+	          onClick: this.clickHandler },
+	        'Add a card...'
+	      );
+	    }
+	
 	    return React.createElement(
 	      'div',
 	      { className: 'new-card' },
-	      React.createElement(
-	        'div',
-	        { className: 'new-card-title' },
-	        'Add a card...'
-	      )
+	      form
 	    );
 	  }
 	});

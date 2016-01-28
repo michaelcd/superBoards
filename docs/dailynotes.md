@@ -18,6 +18,7 @@ Thursday:
 [X] - CSS styling - board detail page, cards
 
 [ ] - Card creation inside List
+[ ] - NewList + NewCard component: retains previous new list name after list created
 
 [ ] - BoardMenu component
 [ ] - SeedData
@@ -34,7 +35,7 @@ Friday
 [ ] - Board Sharing
 
 Outstanding issues:
-- NewList component: retains previous new list name after list created
+
 - Refactor List controller and views (right now duplicates board partials)
 - Logout button somewhere (temporary version)
 - Minor issue: Value persists in Create Board form after board creation; will later
