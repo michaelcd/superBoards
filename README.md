@@ -12,7 +12,7 @@ superBoards is a web application inspired by Trello built using Ruby on Rails an
 
 - [X] Create an account
 - [X] Log in / Log out
-- [ ] Create, read, edit, and delete boards
+- [X] Create, read, edit, and delete boards
 - [ ] Create, read, edit, and delete lists
 - [ ] Create, read, edit, and delete cards
 - [ ] Organize cards and lists within boards
