@@ -11,17 +11,22 @@ Thursday:
 [X] - Flux cycle for List CRUD
 [X] - NewList component; List creation in BoardDetail
 [X] - ListNameUpdate; Edit List name in BoardDetail
-[ ] - Board Options Menu - archival / destroy
 [X] - Change BoardsController#index to retrieve only non-archived boards
 [X] - Change BoardsController#show to retrieve only non-archived lists
-[ ] - Change BoardsController#show to retrieve only non-archived cards
 [X] - Implement Card component (basic list item with title to start)
+
+before lunch (1 hr)
+[X] - Implement Board Archival
+[ ] - Archived Boards View
+
+[ ] - Change BoardsController#show to retrieve only non-archived cards
 [ ] - CardDetailView for CRUD options
+
 
 
 Friday
 [ ] - Drag and drop
-[ ] - ReactAuth
+[ ] - React Auth
 [ ] - Board Sharing
 
 Outstanding issues:
@@ -37,9 +42,6 @@ Review Lily's email
 - Board sharing
 - Style and seed as you go
 - Implement search next week
-
-Review JBuilder
-- JBuilder templates required once List / Cards added
 
 check out fontawesome for icons
 https://fortawesome.github.io/Font-Awesome/

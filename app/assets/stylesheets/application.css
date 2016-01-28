@@ -84,6 +84,14 @@
 
 }
 
+.user-boards {
+
+}
+
+.shared-boards {
+
+}
+
 .BoardsIndexItem {
   float:left;
   font-weight: 700;
@@ -153,6 +161,10 @@
 
 .board-detail-view {
   background-color: rgb(0, 121, 191);
+}
+
+.board-menu {
+  color:white
 }
 
 .board-title {
