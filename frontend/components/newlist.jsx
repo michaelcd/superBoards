@@ -18,7 +18,13 @@ var NewList = React.createClass({
 
   formOnSubmit: function (event) {
     event.preventDefault();
-    var list = {title: this.state.formValue};
+    var list = {
+      title: this.state.formValue,
+      board_id: this.props.board.id,
+      archived: false,
+      ord: this.props.board.lists.length
+    };
+    console.log(list);
     ApiUtil.createList(list);
     this.setState({listItem: "add-list-button", form: "hidden", formValue: ""});
   },

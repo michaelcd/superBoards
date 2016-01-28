@@ -15,7 +15,6 @@ BoardDetailView = React.createClass({
 
   _onChange: function () {
     this.setState({board: BoardStore.single(), title: BoardStore.single().title,});
-    console.log(this.state.board);
   },
 
   componentDidMount: function () {
@@ -71,7 +70,7 @@ BoardDetailView = React.createClass({
             <button>Rename</button>
           </form>
         {lists}
-        <NewList />
+        <NewList board={this.state.board} />
       </div>
     );
   }

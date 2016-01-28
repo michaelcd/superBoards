@@ -9,21 +9,21 @@ Friday - Drag and drop
 Thursday:
 [X] - Issue - cancel board rename redirects to index
 [ ] - Flux cycle for List CRUD
-[ ] - NewList component; List creation in BoardDetail
+[X] - NewList component; List creation in BoardDetail
 [ ] - ListNameUpdate; Edit List name in BoardDetail
 [ ] - Board Options Menu - archival / destroy
 [ ] - Change BoardsController#index to retrieve only non-archived boards
 [ ] - Change BoardsController#show to retrieve only non-archived lists/cards
 [ ] - Implement Card component (basic list item with title to start)
 [ ] - CardDetailView for CRUD options
-
+[ ] - ReactAuth
 
 Friday
 [ ] - Drag and drop
 [ ] - Board Sharing
 
 Outstanding issues:
-
+- Refactor List controller and views (right now duplicates board partials)
 - Logout button somewhere (temporary version)
 - Minor issue: Value persists in Create Board form after board creation; will later
 route to BoardDetailView so should be a nonissue;

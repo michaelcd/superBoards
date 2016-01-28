@@ -24557,6 +24557,20 @@
 	        console.log("failure");
 	      }
 	    });
+	  },
+	
+	  updateList: function (list) {
+	    $.ajax({
+	      url: "api/lists/" + list.id,
+	      method: "PATCH",
+	      data: { list: list },
+	      success: function (board) {
+	        BoardActions.receiveSingleBoard(board);
+	      },
+	      failure: function () {
+	        console.log("failure");
+	      }
+	    });
 	  }
 	};
 	
@@ -31504,7 +31518,6 @@
 	
 	  _onChange: function () {
 	    this.setState({ board: BoardStore.single(), title: BoardStore.single().title });
-	    console.log(this.state.board);
 	  },
 	
 	  componentDidMount: function () {
@@ -31580,7 +31593,7 @@
 	        )
 	      ),
 	      lists,
-	      React.createElement(NewList, null)
+	      React.createElement(NewList, { board: this.state.board })
 	    );
 	  }
 	});
@@ -31645,7 +31658,13 @@
 	
 	  formOnSubmit: function (event) {
 	    event.preventDefault();
-	    var list = { title: this.state.formValue };
+	    var list = {
+	      title: this.state.formValue,
+	      board_id: this.props.board.id,
+	      archived: false,
+	      ord: this.props.board.lists.length
+	    };
+	    console.log(list);
 	    ApiUtil.createList(list);
 	    this.setState({ listItem: "add-list-button", form: "hidden", formValue: "" });
 	  },

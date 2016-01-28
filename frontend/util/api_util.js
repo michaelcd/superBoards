@@ -79,7 +79,21 @@ var ApiUtil = {
       console.log("failure");
      }
    });
-  }
+ },
+
+  updateList: function (list) {
+    $.ajax({
+     url: "api/lists/" + list.id,
+     method: "PATCH",
+     data: {list: list},
+     success: function (board) {
+      BoardActions.receiveSingleBoard(board);
+     },
+     failure: function () {
+      console.log("failure");
+     }
+   });
+  },
 };
 
 module.exports = ApiUtil;
