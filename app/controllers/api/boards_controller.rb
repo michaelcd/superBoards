@@ -26,10 +26,14 @@ class Api::BoardsController < ApplicationController
   end
 
   def update
-    @board = Board.find_by_id(params[:board][:id])
-    @board.title = params[:board][:title]
-    @board.save
+    @board = Board.find_by_id(board_params[:id])
+    @board.update!(board_params)
     @lists = @board.lists.sort_by {|list| list.ord}
     render :show
+  end
+
+  private
+  def board_params
+    params.require(:board).permit(:id, :title, :archived)
   end
 end

@@ -6,9 +6,9 @@ var BoardsIndexItem = require('./boardsindexitem');
 var BoardsIndexItem = React.createClass({
   render: function () {
     return (
-      <a href={"#/boards/" + this.props.board.id} className="BoardsIndexItem">
+      <li><a href={"#/boards/" + this.props.board.id} className="BoardsIndexItem">
         {this.props.board.title}
-      </a>
+      </a></li>
     );
   }
 });

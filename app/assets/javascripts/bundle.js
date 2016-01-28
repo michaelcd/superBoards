@@ -24346,20 +24346,33 @@
 	      'div',
 	      { className: 'boards-index group' },
 	      React.createElement(
-	        'h2',
-	        null,
-	        'My Boards'
+	        'div',
+	        { className: 'user-boards group' },
+	        React.createElement(
+	          'h2',
+	          null,
+	          'My Boards'
+	        ),
+	        React.createElement(
+	          'ul',
+	          null,
+	          indexItems,
+	          React.createElement(NewBoardIndexItem, null)
+	        )
 	      ),
 	      React.createElement(
-	        'ul',
-	        null,
-	        indexItems,
-	        React.createElement(NewBoardIndexItem, null)
+	        'div',
+	        { className: 'shared-boards group' },
+	        React.createElement(
+	          'h2',
+	          null,
+	          'Shared Boards'
+	        )
 	      ),
 	      React.createElement(
-	        'h2',
-	        null,
-	        'Shared Boards'
+	        'a',
+	        { href: '', className: 'archived-boards-link' },
+	        'View Archived Boards'
 	      )
 	    );
 	  }
@@ -24381,9 +24394,13 @@
 	
 	  render: function () {
 	    return React.createElement(
-	      'a',
-	      { href: "#/boards/" + this.props.board.id, className: 'BoardsIndexItem' },
-	      this.props.board.title
+	      'li',
+	      null,
+	      React.createElement(
+	        'a',
+	        { href: "#/boards/" + this.props.board.id, className: 'BoardsIndexItem' },
+	        this.props.board.title
+	      )
 	    );
 	  }
 	});
@@ -31783,15 +31800,25 @@
 	var React = __webpack_require__(1);
 	var BoardStore = __webpack_require__(218);
 	var ApiUtil = __webpack_require__(211);
+	var History = __webpack_require__(159).History;
+	
+	// this.props.board
 	
 	var BoardMenu = React.createClass({
 	  displayName: 'BoardMenu',
 	
+	  mixins: [History],
+	
 	  getInitialState: function () {
-	    return { buttonClass: "board-menu-button", menuClass: "hidden" };
+	    return {
+	      buttonClass: "board-menu-button",
+	      menuClass: "hidden",
+	      archiveConfirm: "hidden"
+	    };
 	  },
 	
-	  buttonClick: function () {
+	  buttonClick: function (event) {
+	    event.preventDefault();
 	    this.setState({ buttonClass: "hidden", menuClass: "board-menu-options" });
 	  },
 	
@@ -31800,13 +31827,26 @@
 	    this.setState({ buttonClass: "board-menu-button", menuClass: "hidden" });
 	  },
 	
+	  archiveBoard: function (event) {
+	    event.preventDefault();
+	    var board = this.props.board;
+	    board.archived = true;
+	    ApiUtil.updateBoard(board);
+	    this.history.pushState(null, "#/");
+	  },
+	
+	  archiveShow: function (event) {
+	    event.preventDefault();
+	    this.setState({ archiveConfirm: "archive-board-confirm" });
+	  },
+	
 	  render: function () {
 	    return React.createElement(
 	      'div',
 	      { className: 'board-menu' },
 	      React.createElement(
-	        'div',
-	        { className: this.state.buttonClass, onClick: this.buttonClick },
+	        'a',
+	        { href: '#', className: this.state.buttonClass, onClick: this.buttonClick },
 	        'Board Menu'
 	      ),
 	      React.createElement(
@@ -31823,14 +31863,18 @@
 	          'Share Board'
 	        ),
 	        React.createElement(
-	          'div',
-	          null,
+	          'a',
+	          { href: '#', onClick: this.archiveShow },
 	          'Archive Board'
 	        ),
 	        React.createElement(
 	          'div',
-	          null,
-	          'Delete Board'
+	          { className: this.state.archiveConfirm },
+	          React.createElement(
+	            'button',
+	            { onClick: this.archiveBoard },
+	            'Confirm'
+	          )
 	        )
 	      )
 	    );

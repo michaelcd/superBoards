@@ -30,12 +30,17 @@ var BoardsIndex = React.createClass({
     );
     return (
       <div className="boards-index group">
-        <h2>My Boards</h2>
-        <ul>
-          {indexItems}
-          <NewBoardIndexItem />
-        </ul>
-        <h2>Shared Boards</h2>
+        <div className="user-boards group">
+          <h2>My Boards</h2>
+          <ul>
+            {indexItems}
+            <NewBoardIndexItem />
+          </ul>
+        </div>
+        <div className="shared-boards group">
+          <h2>Shared Boards</h2>
+        </div>
+        <a href="" className="archived-boards-link">View Archived Boards</a>
       </div>
     );
   }
