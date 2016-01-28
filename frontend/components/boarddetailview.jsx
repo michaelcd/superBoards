@@ -16,7 +16,6 @@ BoardDetailView = React.createClass({
 
   _onChange: function () {
     this.setState({board: BoardStore.single(), title: BoardStore.single().title,});
-    console.log(this.state.board.lists);
   },
 
   componentDidMount: function () {
