@@ -169,6 +169,7 @@
   border: 1px solid #ccc;
   min-height: 60px;
   width: 220px;
+  border-radius: 3px;
 
 }
 
@@ -198,8 +199,6 @@
   padding: 5px 10px;
 }
 
-
-
 .list {
   border-radius: 3px;
   background: #eee;
@@ -218,6 +217,33 @@
   width: 270px;
   float:left;
   color: rgba(255,255,255,.7);
+}
+
+.list-form {
+  float:left;
+  position:absolute;
+  display:block;
+  background: white;
+  color:black;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+  min-height: 60px;
+  width: 220px;
+}
+
+.list-form-input {
+  border: 1px solid rgb(0, 121, 191);
+}
+
+.list-form-save {
+  background: #61bd4f;
+  color:white;
+  border-radius: 3px;
+  font-weight: 700;
+  padding: 5px 10px;
+}
+
+.list-form-cancel {
 }
 
 

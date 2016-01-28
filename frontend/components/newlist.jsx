@@ -8,10 +8,11 @@ var NewList = React.createClass({
   },
 
   itemClickHandler: function () {
-    this.setState({listItem: "hidden", form: "board-form group"});
+    this.setState({listItem: "hidden", form: "list-form group"});
   },
 
-  cancelHandler: function () {
+  cancelHandler: function (event) {
+    event.preventDefault();
     this.setState({listItem: "add-list-button", form: "hidden"});
   },
 
@@ -20,7 +21,6 @@ var NewList = React.createClass({
     var list = {title: this.state.formValue};
     ApiUtil.createList(list);
     this.setState({listItem: "add-list-button", form: "hidden", formValue: ""});
-
   },
 
   formChangeHandler: function (event) {
@@ -30,10 +30,13 @@ var NewList = React.createClass({
   render: function () {
     return(
       <div className="new-list">
-        <div className={this.state.listItem}>Add a list...</div>
+        <div className={this.state.listItem} onClick={this.itemClickHandler}>Add a list...</div>
         <div className={this.state.form}>
-          <input type="text" value={this.state.inputVal} onChange={this.formChangeHandler} />
-          <button className="new-list-save">Save</button>
+          <form onSubmit={this.formOnSubmit}>
+            <input type="text" className="list-form-input" value={this.state.inputVal} onChange={this.formChangeHandler} />
+            <button className="list-form-save">Save</button>
+            <a href="#" className="list-form-cancel" onClick={this.cancelHandler}>X</a>
+          </form>
         </div>
       </div>
     );
