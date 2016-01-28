@@ -1,30 +1,28 @@
 Current Notes
 
+Phase 2.5
+
 Schedule:
-Weds - ListsController, ListsStore
-Thurs -
-Fri -
+Thursday - List and Cards CRUD in React
+Friday - Drag and drop
 
+Thursday:
+[ ] - Flux cycle for List CRUD
+[ ] - NewList component; List creation in BoardDetail
+[ ] - ListNameUpdate; Edit List name in BoardDetail
+[ ] - Board Options Menu - archival / destroy
+[ ] - Change BoardsController#index to retrieve only non-archived boards
+[ ] - Change BoardsController#show to retrieve only non-archived lists/cards
+[ ] - Implement Card component (basic list item with title to start)
+[ ] - CardDetailView for CRUD options
+[ ] -
+[ ] -
+[ ] -
+[ ] -
 
-
-Priorities:
-ListsController
-CardsController
-
-ListStore
-CardStore
-
-
-
-
-
-Cards in detail view
-Create a list in detail view
-
-
-
-
-Cards object data available within board show view
+Friday
+[ ] - Drag and drop
+[ ] - Board Sharing
 
 Outstanding issues:
 
@@ -33,17 +31,6 @@ Outstanding issues:
 route to BoardDetailView so should be a nonissue;
 - refactor: no camel case names in CSS class names. prefer dashed names
 - File upload: attachments to cards
-
-
-
-
-
-
-
-
-
-BoardIndex View
-- boards are sorted alphabetically (do on Rails side)
 
 Review Lily's email
 - Board sharing

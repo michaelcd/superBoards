@@ -6,7 +6,8 @@ var NewList = React.createClass({
 
     return(
       <div className="new-list">
-        <h2>Add a list...</h2>
+        <div>Add a list...</div>
+        <div></div>
       </div>
     );
   }

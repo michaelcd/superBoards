@@ -35,6 +35,7 @@ var BoardsIndex = React.createClass({
           {indexItems}
           <NewBoardIndexItem />
         </ul>
+        <h2>Shared Boards</h2>
       </div>
     );
   }
