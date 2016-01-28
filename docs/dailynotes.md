@@ -12,14 +12,15 @@ Thursday:
 [X] - NewList component; List creation in BoardDetail
 [X] - ListNameUpdate; Edit List name in BoardDetail
 [ ] - Board Options Menu - archival / destroy
-[ ] - Change BoardsController#index to retrieve only non-archived boards
+[X] - Change BoardsController#index to retrieve only non-archived boards
 [ ] - Change BoardsController#show to retrieve only non-archived lists/cards
 [X] - Implement Card component (basic list item with title to start)
 [ ] - CardDetailView for CRUD options
-[ ] - ReactAuth
+
 
 Friday
 [ ] - Drag and drop
+[ ] - ReactAuth
 [ ] - Board Sharing
 
 Outstanding issues:

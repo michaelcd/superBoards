@@ -14,7 +14,8 @@ class Api::BoardsController < ApplicationController
   end
 
   def index
-    @boards = current_user.boards.sort_by { |board| board.title }
+    @boards = current_user.boards.where(archived: false)
+    @boards.sort_by { |board| board.title }
   end
 
   def show
