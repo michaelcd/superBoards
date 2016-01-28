@@ -4,16 +4,16 @@ var BoardStore = require('../stores/board');
 
 var NewList = React.createClass({
   getInitialState: function () {
-    return ({listItem: "add-list-button", form: "hidden", formValue: ""});
+    return ({form: false, formValue: ""});
   },
 
   itemClickHandler: function () {
-    this.setState({listItem: "hidden", form: "list-form group"});
+    this.setState({form: true});
   },
 
   cancelHandler: function (event) {
     event.preventDefault();
-    this.setState({listItem: "add-list-button", form: "hidden"});
+    this.setState({form: false});
   },
 
   formOnSubmit: function (event) {
@@ -25,24 +25,38 @@ var NewList = React.createClass({
       ord: this.props.board.lists.length + 1
     };
     ApiUtil.createList(list);
-    this.setState({listItem: "add-list-button", form: "hidden", formValue: ""});
+    this.setState({form: false, formValue: ""});
   },
 
   formChangeHandler: function (event) {
-    this.setState({formValue: event.target.value});
+    this.setState({formValue: event.currentTarget.value});
   },
 
   render: function () {
-    return(
-      <li className="new-list">
-        <div className={this.state.listItem} onClick={this.itemClickHandler}>Add a list...</div>
-        <div className={this.state.form}>
+    var content;
+    if (this.state.form === true) {
+      content = (
+        <div className="list-form group">
           <form onSubmit={this.formOnSubmit}>
-            <input type="text" className="list-form-input" value={this.state.inputVal} onChange={this.formChangeHandler} />
+            <input type="text"
+              className="list-form-input"
+              onChange={this.formChangeHandler} />
             <button className="list-form-save">Save</button>
             <a href="#" className="list-form-cancel" onClick={this.cancelHandler}>X</a>
           </form>
         </div>
+      );
+    } else {
+      content = (
+        <div className="add-list-button"
+          onClick={this.itemClickHandler}>Add a list...</div>
+      );
+    }
+
+
+    return(
+      <li className="new-list">
+        {content}
       </li>
     );
   }

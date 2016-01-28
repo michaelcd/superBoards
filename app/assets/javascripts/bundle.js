@@ -31762,16 +31762,16 @@
 	  displayName: 'NewList',
 	
 	  getInitialState: function () {
-	    return { listItem: "add-list-button", form: "hidden", formValue: "" };
+	    return { form: false, formValue: "" };
 	  },
 	
 	  itemClickHandler: function () {
-	    this.setState({ listItem: "hidden", form: "list-form group" });
+	    this.setState({ form: true });
 	  },
 	
 	  cancelHandler: function (event) {
 	    event.preventDefault();
-	    this.setState({ listItem: "add-list-button", form: "hidden" });
+	    this.setState({ form: false });
 	  },
 	
 	  formOnSubmit: function (event) {
@@ -31783,29 +31783,25 @@
 	      ord: this.props.board.lists.length + 1
 	    };
 	    ApiUtil.createList(list);
-	    this.setState({ listItem: "add-list-button", form: "hidden", formValue: "" });
+	    this.setState({ form: false, formValue: "" });
 	  },
 	
 	  formChangeHandler: function (event) {
-	    this.setState({ formValue: event.target.value });
+	    this.setState({ formValue: event.currentTarget.value });
 	  },
 	
 	  render: function () {
-	    return React.createElement(
-	      'li',
-	      { className: 'new-list' },
-	      React.createElement(
+	    var content;
+	    if (this.state.form === true) {
+	      content = React.createElement(
 	        'div',
-	        { className: this.state.listItem, onClick: this.itemClickHandler },
-	        'Add a list...'
-	      ),
-	      React.createElement(
-	        'div',
-	        { className: this.state.form },
+	        { className: 'list-form group' },
 	        React.createElement(
 	          'form',
 	          { onSubmit: this.formOnSubmit },
-	          React.createElement('input', { type: 'text', className: 'list-form-input', value: this.state.inputVal, onChange: this.formChangeHandler }),
+	          React.createElement('input', { type: 'text',
+	            className: 'list-form-input',
+	            onChange: this.formChangeHandler }),
 	          React.createElement(
 	            'button',
 	            { className: 'list-form-save' },
@@ -31817,7 +31813,20 @@
 	            'X'
 	          )
 	        )
-	      )
+	      );
+	    } else {
+	      content = React.createElement(
+	        'div',
+	        { className: 'add-list-button',
+	          onClick: this.itemClickHandler },
+	        'Add a list...'
+	      );
+	    }
+	
+	    return React.createElement(
+	      'li',
+	      { className: 'new-list' },
+	      content
 	    );
 	  }
 	});
@@ -31988,8 +31997,7 @@
 	        'form',
 	        { className: 'new-card-form' },
 	        React.createElement('input', { className: 'new-card-input',
-	          type: 'text', onChange: this.formChangeHandler,
-	          value: this.state.input }),
+	          type: 'text', onChange: this.formChangeHandler }),
 	        React.createElement(
 	          'button',
 	          { className: 'new-card-button', onClick: this.submitHandler },
@@ -32004,16 +32012,20 @@
 	      );
 	    } else {
 	      form = React.createElement(
-	        'a',
-	        { href: '#', className: 'new-card-title',
-	          onClick: this.clickHandler },
-	        'Add a card...'
+	        'div',
+	        { className: 'new-card' },
+	        React.createElement(
+	          'a',
+	          { href: '#', className: 'new-card-title',
+	            onClick: this.clickHandler },
+	          'Add a card...'
+	        )
 	      );
 	    }
 	
 	    return React.createElement(
 	      'div',
-	      { className: 'new-card' },
+	      { className: 'new-card-container' },
 	      form
 	    );
 	  }
