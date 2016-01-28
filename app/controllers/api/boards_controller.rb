@@ -20,7 +20,8 @@ class Api::BoardsController < ApplicationController
 
   def show
     @board = Board.find_by_id(params[:id])
-    @lists = @board.lists.sort_by {|list| list.ord}
+    @lists = @board.lists.where(archived: false)
+    @lists.sort_by {|list| list.ord}
     render :show
   end
 
