@@ -24576,20 +24576,6 @@
 	    });
 	  },
 	
-	  createCard: function (card) {
-	    $.ajax({
-	      url: "api/cards",
-	      method: "POST",
-	      data: { card: card },
-	      success: function (board) {
-	        BoardActions.receiveSingleBoard(board);
-	      },
-	      failure: function () {
-	        console.log("failure");
-	      }
-	    });
-	  },
-	
 	  updateList: function (list) {
 	    $.ajax({
 	      url: "api/lists/" + list.id,
@@ -24608,6 +24594,34 @@
 	    $.ajax({
 	      url: "api/lists/" + list.id,
 	      method: "DELETE",
+	      success: function (board) {
+	        BoardActions.receiveSingleBoard(board);
+	      },
+	      failure: function () {
+	        console.log("failure");
+	      }
+	    });
+	  },
+	
+	  createCard: function (card) {
+	    $.ajax({
+	      url: "api/cards",
+	      method: "POST",
+	      data: { card: card },
+	      success: function (board) {
+	        BoardActions.receiveSingleBoard(board);
+	      },
+	      failure: function () {
+	        console.log("failure");
+	      }
+	    });
+	  },
+	
+	  updateCard: function (card) {
+	    $.ajax({
+	      url: "api/cards/" + card.id,
+	      method: "patch",
+	      data: { card: card },
 	      success: function (board) {
 	        BoardActions.receiveSingleBoard(board);
 	      },

@@ -17,9 +17,7 @@ Thursday:
 [X] - Implement Board Archival
 [X] - CSS styling - board detail page, cards
 [X] - Card creation inside List
-
-
-[ ] - NewList + NewCard component: retains previous new list name after list created
+[X] - NewList + NewCard component: retains previous new list name after list created
 
 [ ] - BoardMenu component
 [ ] - SeedData
