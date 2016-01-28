@@ -54,7 +54,7 @@
 	var App = __webpack_require__(236);
 	var BoardDetailView = __webpack_require__(238);
 	
-	BoardStore = __webpack_require__(211);
+	BoardStore = __webpack_require__(218);
 	
 	var routes = React.createElement(
 	  Route,
@@ -24315,8 +24315,8 @@
 	var React = __webpack_require__(1);
 	var BoardsIndexItem = __webpack_require__(209);
 	var NewBoardIndexItem = __webpack_require__(210);
-	var BoardStore = __webpack_require__(211);
-	var ApiUtil = __webpack_require__(234);
+	var BoardStore = __webpack_require__(218);
+	var ApiUtil = __webpack_require__(211);
 	
 	var BoardsIndex = React.createClass({
 	  displayName: 'BoardsIndex',
@@ -24355,6 +24355,11 @@
 	        null,
 	        indexItems,
 	        React.createElement(NewBoardIndexItem, null)
+	      ),
+	      React.createElement(
+	        'h2',
+	        null,
+	        'Shared Boards'
 	      )
 	    );
 	  }
@@ -24390,8 +24395,8 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var ApiUtil = __webpack_require__(234);
-	var BoardStore = __webpack_require__(211);
+	var ApiUtil = __webpack_require__(211);
+	var BoardStore = __webpack_require__(218);
 	var History = __webpack_require__(159).History;
 	
 	NewBoardIndexItem = React.createClass({
@@ -24471,74 +24476,113 @@
 /* 211 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var AppDispatcher = __webpack_require__(212);
-	var Store = __webpack_require__(216).Store;
-	var BoardConstants = __webpack_require__(233);
+	var BoardActions = __webpack_require__(212);
 	
-	var _boards = [];
-	var _board = {};
+	var ApiUtil = {
+	  fetchAllBoards: function () {
+	    $.ajax({
+	      url: "api/boards",
+	      success: function (boards) {
+	        BoardActions.receiveAllBoards(boards);
+	      },
+	      failure: function () {
+	        console.log("failure");
+	      }
+	    });
+	  },
 	
-	var BoardStore = new Store(AppDispatcher);
+	  fetchBoard: function (id) {
+	    $.ajax({
+	      url: "api/boards/" + id,
+	      success: function (board) {
+	        BoardActions.receiveSingleBoard(board);
+	      },
+	      failure: function () {
+	        console.log("failure");
+	      }
+	    });
+	  },
 	
-	var resetBoards = function (boards) {
-	  _boards = [];
-	  Object.keys(boards).forEach(function (key) {
-	    _boards.push(boards[key]);
-	  });
+	  createBoard: function (board) {
+	    $.ajax({
+	      url: "api/boards",
+	      method: "POST",
+	      data: { board: board },
+	      success: function (board) {
+	        BoardActions.receiveSingleBoard(board);
+	      },
+	      failure: function () {
+	        console.log("failure");
+	      }
+	    });
+	  },
+	
+	  updateBoard: function (board) {
+	    $.ajax({
+	      url: "api/boards/" + board.id,
+	      method: "PATCH",
+	      data: { board: board },
+	      success: function (board) {
+	        BoardActions.receiveSingleBoard(board);
+	      },
+	      failure: function () {
+	        console.log("failure");
+	      }
+	    });
+	  },
+	
+	  deleteBoard: function (board) {
+	    $.ajax({
+	      url: "api/boards/" + board.id,
+	      method: "DELETE",
+	      data: { board: board },
+	      success: function (boards) {
+	        BoardActions.receiveAllBoards(boards);
+	      },
+	      failure: function () {
+	        console.log("failure");
+	      }
+	    });
+	  },
+	
+	  createList: function () {}
 	};
 	
-	var resetBoard = function (board) {
-	  if (BoardStore.findBoard(board.id) === {}) {
-	    _boards.push(board);
-	  }
-	  _board = board;
-	};
-	
-	BoardStore.findBoard = function (id) {
-	  var board = {};
-	
-	  for (var i = 0; i < _boards.length; i++) {
-	    if (_boards[i].id === id) {
-	      board = _boards[i];
-	    }
-	  }
-	
-	  return board;
-	};
-	
-	BoardStore.all = function () {
-	  return _boards;
-	};
-	
-	BoardStore.single = function () {
-	  return _board;
-	};
-	
-	BoardStore.__onDispatch = function (payload) {
-	  switch (payload.actionType) {
-	    case BoardConstants.BOARDS_RECEIVED:
-	      resetBoards(payload.boards);
-	      BoardStore.__emitChange();
-	      break;
-	    case BoardConstants.BOARD_RECEIVED:
-	      resetBoard(payload.board);
-	      BoardStore.__emitChange();
-	      break;
-	  }
-	};
-	
-	module.exports = BoardStore;
+	module.exports = ApiUtil;
 
 /***/ },
 /* 212 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Dispatcher = __webpack_require__(213).Dispatcher;
+	var Dispatcher = __webpack_require__(213);
+	var BoardConstants = __webpack_require__(217);
+	
+	module.exports = {
+	  receiveAllBoards: function (boards) {
+	    Dispatcher.dispatch({
+	      actionType: BoardConstants.BOARDS_RECEIVED,
+	      boards: boards
+	    });
+	  },
+	
+	  receiveSingleBoard: function (board) {
+	    Dispatcher.dispatch({
+	      actionType: BoardConstants.BOARD_RECEIVED,
+	      board: board
+	    });
+	  }
+	};
+
+/***/ },
+/* 213 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Dispatcher = __webpack_require__(214).Dispatcher;
 	
 	module.exports = new Dispatcher();
 
 /***/ },
-/* 213 */
+/* 214 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -24550,11 +24594,11 @@
 	 * of patent rights can be found in the PATENTS file in the same directory.
 	 */
 	
-	module.exports.Dispatcher = __webpack_require__(214);
+	module.exports.Dispatcher = __webpack_require__(215);
 
 
 /***/ },
-/* 214 */
+/* 215 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -24576,7 +24620,7 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 	
-	var invariant = __webpack_require__(215);
+	var invariant = __webpack_require__(216);
 	
 	var _prefix = 'ID_';
 	
@@ -24791,7 +24835,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 215 */
+/* 216 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -24846,7 +24890,78 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 216 */
+/* 217 */
+/***/ function(module, exports) {
+
+	module.exports = {
+	  BOARDS_RECEIVED: "BOARDS_RECEIVED",
+	  BOARD_RECEIVED: "BOARD_RECEIVED"
+	};
+
+/***/ },
+/* 218 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var AppDispatcher = __webpack_require__(213);
+	var Store = __webpack_require__(219).Store;
+	var BoardConstants = __webpack_require__(217);
+	
+	var _boards = [];
+	var _board = {};
+	
+	var BoardStore = new Store(AppDispatcher);
+	
+	var resetBoards = function (boards) {
+	  _boards = [];
+	  Object.keys(boards).forEach(function (key) {
+	    _boards.push(boards[key]);
+	  });
+	};
+	
+	var resetBoard = function (board) {
+	  if (BoardStore.findBoard(board.id) === {}) {
+	    _boards.push(board);
+	  }
+	  _board = board;
+	};
+	
+	BoardStore.findBoard = function (id) {
+	  var board = {};
+	
+	  for (var i = 0; i < _boards.length; i++) {
+	    if (_boards[i].id === id) {
+	      board = _boards[i];
+	    }
+	  }
+	
+	  return board;
+	};
+	
+	BoardStore.all = function () {
+	  return _boards;
+	};
+	
+	BoardStore.single = function () {
+	  return _board;
+	};
+	
+	BoardStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case BoardConstants.BOARDS_RECEIVED:
+	      resetBoards(payload.boards);
+	      BoardStore.__emitChange();
+	      break;
+	    case BoardConstants.BOARD_RECEIVED:
+	      resetBoard(payload.board);
+	      BoardStore.__emitChange();
+	      break;
+	  }
+	};
+	
+	module.exports = BoardStore;
+
+/***/ },
+/* 219 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -24858,15 +24973,15 @@
 	 * of patent rights can be found in the PATENTS file in the same directory.
 	 */
 	
-	module.exports.Container = __webpack_require__(217);
-	module.exports.MapStore = __webpack_require__(220);
-	module.exports.Mixin = __webpack_require__(232);
-	module.exports.ReduceStore = __webpack_require__(221);
-	module.exports.Store = __webpack_require__(222);
+	module.exports.Container = __webpack_require__(220);
+	module.exports.MapStore = __webpack_require__(223);
+	module.exports.Mixin = __webpack_require__(235);
+	module.exports.ReduceStore = __webpack_require__(224);
+	module.exports.Store = __webpack_require__(225);
 
 
 /***/ },
-/* 217 */
+/* 220 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -24888,10 +25003,10 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var FluxStoreGroup = __webpack_require__(218);
+	var FluxStoreGroup = __webpack_require__(221);
 	
-	var invariant = __webpack_require__(215);
-	var shallowEqual = __webpack_require__(219);
+	var invariant = __webpack_require__(216);
+	var shallowEqual = __webpack_require__(222);
 	
 	var DEFAULT_OPTIONS = {
 	  pure: true,
@@ -25049,7 +25164,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 218 */
+/* 221 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -25068,7 +25183,7 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 	
-	var invariant = __webpack_require__(215);
+	var invariant = __webpack_require__(216);
 	
 	/**
 	 * FluxStoreGroup allows you to execute a callback on every dispatch after
@@ -25130,7 +25245,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 219 */
+/* 222 */
 /***/ function(module, exports) {
 
 	/**
@@ -25185,7 +25300,7 @@
 	module.exports = shallowEqual;
 
 /***/ },
-/* 220 */
+/* 223 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -25206,10 +25321,10 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var FluxReduceStore = __webpack_require__(221);
-	var Immutable = __webpack_require__(231);
+	var FluxReduceStore = __webpack_require__(224);
+	var Immutable = __webpack_require__(234);
 	
-	var invariant = __webpack_require__(215);
+	var invariant = __webpack_require__(216);
 	
 	/**
 	 * This is a simple store. It allows caching key value pairs. An implementation
@@ -25335,7 +25450,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 221 */
+/* 224 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -25356,10 +25471,10 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var FluxStore = __webpack_require__(222);
+	var FluxStore = __webpack_require__(225);
 	
-	var abstractMethod = __webpack_require__(230);
-	var invariant = __webpack_require__(215);
+	var abstractMethod = __webpack_require__(233);
+	var invariant = __webpack_require__(216);
 	
 	var FluxReduceStore = (function (_FluxStore) {
 	  _inherits(FluxReduceStore, _FluxStore);
@@ -25442,7 +25557,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 222 */
+/* 225 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -25461,11 +25576,11 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 	
-	var _require = __webpack_require__(223);
+	var _require = __webpack_require__(226);
 	
 	var EventEmitter = _require.EventEmitter;
 	
-	var invariant = __webpack_require__(215);
+	var invariant = __webpack_require__(216);
 	
 	/**
 	 * This class should be extended by the stores in your application, like so:
@@ -25625,7 +25740,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 223 */
+/* 226 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -25638,14 +25753,14 @@
 	 */
 	
 	var fbemitter = {
-	  EventEmitter: __webpack_require__(224)
+	  EventEmitter: __webpack_require__(227)
 	};
 	
 	module.exports = fbemitter;
 
 
 /***/ },
-/* 224 */
+/* 227 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -25664,11 +25779,11 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 	
-	var EmitterSubscription = __webpack_require__(225);
-	var EventSubscriptionVendor = __webpack_require__(227);
+	var EmitterSubscription = __webpack_require__(228);
+	var EventSubscriptionVendor = __webpack_require__(230);
 	
-	var emptyFunction = __webpack_require__(229);
-	var invariant = __webpack_require__(228);
+	var emptyFunction = __webpack_require__(232);
+	var invariant = __webpack_require__(231);
 	
 	/**
 	 * @class BaseEventEmitter
@@ -25842,7 +25957,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 225 */
+/* 228 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -25863,7 +25978,7 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var EventSubscription = __webpack_require__(226);
+	var EventSubscription = __webpack_require__(229);
 	
 	/**
 	 * EmitterSubscription represents a subscription with listener and context data.
@@ -25895,7 +26010,7 @@
 	module.exports = EmitterSubscription;
 
 /***/ },
-/* 226 */
+/* 229 */
 /***/ function(module, exports) {
 
 	/**
@@ -25949,7 +26064,7 @@
 	module.exports = EventSubscription;
 
 /***/ },
-/* 227 */
+/* 230 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -25968,7 +26083,7 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 	
-	var invariant = __webpack_require__(228);
+	var invariant = __webpack_require__(231);
 	
 	/**
 	 * EventSubscriptionVendor stores a set of EventSubscriptions that are
@@ -26058,7 +26173,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 228 */
+/* 231 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -26114,7 +26229,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 229 */
+/* 232 */
 /***/ function(module, exports) {
 
 	/**
@@ -26157,7 +26272,7 @@
 	module.exports = emptyFunction;
 
 /***/ },
-/* 230 */
+/* 233 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -26174,7 +26289,7 @@
 	
 	'use strict';
 	
-	var invariant = __webpack_require__(215);
+	var invariant = __webpack_require__(216);
 	
 	function abstractMethod(className, methodName) {
 	   true ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Subclasses of %s must override %s() with their own implementation.', className, methodName) : invariant(false) : undefined;
@@ -26184,7 +26299,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 231 */
+/* 234 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -31171,7 +31286,7 @@
 	}));
 
 /***/ },
-/* 232 */
+/* 235 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -31188,9 +31303,9 @@
 	
 	'use strict';
 	
-	var FluxStoreGroup = __webpack_require__(218);
+	var FluxStoreGroup = __webpack_require__(221);
 	
-	var invariant = __webpack_require__(215);
+	var invariant = __webpack_require__(216);
 	
 	/**
 	 * `FluxContainer` should be preferred over this mixin, but it requires using
@@ -31294,116 +31409,6 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 233 */
-/***/ function(module, exports) {
-
-	module.exports = {
-	  BOARDS_RECEIVED: "BOARDS_RECEIVED",
-	  BOARD_RECEIVED: "BOARD_RECEIVED"
-	};
-
-/***/ },
-/* 234 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var BoardActions = __webpack_require__(235);
-	
-	var ApiUtil = {
-	  fetchAllBoards: function () {
-	    $.ajax({
-	      url: "api/boards",
-	      success: function (boards) {
-	        BoardActions.receiveAllBoards(boards);
-	      },
-	      failure: function () {
-	        console.log("failure");
-	      }
-	    });
-	  },
-	
-	  fetchBoard: function (id) {
-	    $.ajax({
-	      url: "api/boards/" + id,
-	      success: function (board) {
-	        BoardActions.receiveSingleBoard(board);
-	      },
-	      failure: function () {
-	        console.log("failure");
-	      }
-	    });
-	  },
-	
-	  createBoard: function (board) {
-	    $.ajax({
-	      url: "api/boards",
-	      method: "POST",
-	      data: { board: board },
-	      success: function (board) {
-	        BoardActions.receiveSingleBoard(board);
-	      },
-	      failure: function () {
-	        console.log("failure");
-	      }
-	    });
-	  },
-	
-	  updateBoard: function (board) {
-	    $.ajax({
-	      url: "api/boards/" + board.id,
-	      method: "PATCH",
-	      data: { board: board },
-	      success: function (board) {
-	        BoardActions.receiveSingleBoard(board);
-	      },
-	      failure: function () {
-	        console.log("failure");
-	      }
-	    });
-	  },
-	
-	  deleteBoard: function (board) {
-	    $.ajax({
-	      url: "api/boards/" + board.id,
-	      method: "DELETE",
-	      data: { board: board },
-	      success: function (boards) {
-	        BoardActions.receiveAllBoards(boards);
-	      },
-	      failure: function () {
-	        console.log("failure");
-	      }
-	    });
-	  },
-	
-	  createList: function () {}
-	};
-	
-	module.exports = ApiUtil;
-
-/***/ },
-/* 235 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Dispatcher = __webpack_require__(212);
-	var BoardConstants = __webpack_require__(233);
-	
-	module.exports = {
-	  receiveAllBoards: function (boards) {
-	    Dispatcher.dispatch({
-	      actionType: BoardConstants.BOARDS_RECEIVED,
-	      boards: boards
-	    });
-	  },
-	
-	  receiveSingleBoard: function (board) {
-	    Dispatcher.dispatch({
-	      actionType: BoardConstants.BOARD_RECEIVED,
-	      board: board
-	    });
-	  }
-	};
-
-/***/ },
 /* 236 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -31469,8 +31474,8 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var BoardStore = __webpack_require__(211);
-	var ApiUtil = __webpack_require__(234);
+	var BoardStore = __webpack_require__(218);
+	var ApiUtil = __webpack_require__(211);
 	var List = __webpack_require__(239);
 	var NewList = __webpack_require__(240);
 	
@@ -31514,7 +31519,8 @@
 	    this.setState({ form: "hidden" });
 	  },
 	
-	  cancelHandler: function () {
+	  cancelHandler: function (event) {
+	    event.preventDefault();
 	    this.setState({ indexItem: "NewBoard", form: "hidden" });
 	  },
 	
@@ -31549,7 +31555,7 @@
 	          ),
 	          React.createElement(
 	            'a',
-	            { href: '#', className: 'name-update-cancel', onClick: this.form },
+	            { href: '#', className: 'name-update-cancel', onClick: this.cancelHandler },
 	            'X'
 	          )
 	        ),
@@ -31574,7 +31580,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var ApiUtil = __webpack_require__(234);
+	var ApiUtil = __webpack_require__(211);
 	
 	var List = React.createClass({
 	  displayName: 'List',
@@ -31606,20 +31612,53 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var ApiUtil = __webpack_require__(234);
+	var ApiUtil = __webpack_require__(211);
+	var BoardStore = __webpack_require__(218);
 	
 	var NewList = React.createClass({
 	  displayName: 'NewList',
 	
-	  render: function () {
+	  getInitialState: function () {
+	    return { listItem: "add-list-button", form: "hidden", formValue: "" };
+	  },
 	
+	  itemClickHandler: function () {
+	    this.setState({ listItem: "hidden", form: "board-form group" });
+	  },
+	
+	  cancelHandler: function () {
+	    this.setState({ listItem: "add-list-button", form: "hidden" });
+	  },
+	
+	  formOnSubmit: function (event) {
+	    event.preventDefault();
+	    var list = { title: this.state.formValue };
+	    ApiUtil.createList(list);
+	    this.setState({ listItem: "add-list-button", form: "hidden", formValue: "" });
+	  },
+	
+	  formChangeHandler: function (event) {
+	    this.setState({ formValue: event.target.value });
+	  },
+	
+	  render: function () {
 	    return React.createElement(
 	      'div',
 	      { className: 'new-list' },
 	      React.createElement(
-	        'h2',
-	        null,
+	        'div',
+	        { className: this.state.listItem },
 	        'Add a list...'
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: this.state.form },
+	        React.createElement('input', { type: 'text', value: this.state.inputVal, onChange: this.formChangeHandler }),
+	        React.createElement(
+	          'button',
+	          { className: 'new-list-save' },
+	          'Save'
+	        )
 	      )
 	    );
 	  }

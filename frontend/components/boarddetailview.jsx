@@ -42,7 +42,8 @@ BoardDetailView = React.createClass({
     this.setState({form: "hidden"});
   },
 
-  cancelHandler: function () {
+  cancelHandler: function (event) {
+    event.preventDefault();
     this.setState({indexItem: "NewBoard", form: "hidden"});
   },
 
@@ -63,7 +64,7 @@ BoardDetailView = React.createClass({
         <form className={this.state.form} onSubmit={this.formSubmitHandler}>
             <div className="name-update-container group">
               <div className="name-update-title">Rename Board</div>
-              <a href="#" className="name-update-cancel" onClick={this.form}>X</a>
+              <a href="#" className="name-update-cancel" onClick={this.cancelHandler}>X</a>
             </div>
             <input type="text" value={this.state.title}
               onChange={this.formChangeHandler} />
