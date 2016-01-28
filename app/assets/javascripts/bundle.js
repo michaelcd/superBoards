@@ -31610,16 +31610,66 @@
 	var List = React.createClass({
 	  displayName: 'List',
 	
+	  getInitialState: function () {
+	    return {
+	      titleClass: "list-title",
+	      formClass: "hidden",
+	      formVal: this.props.list.title
+	    };
+	  },
+	
+	  formChange: function (event) {
+	    this.setState({ formVal: event.currentTarget.value });
+	  },
+	
+	  formSubmit: function (event) {
+	    event.preventDefault();
+	    this.props.list.title = this.state.formVal;
+	    ApiUtil.updateList(this.props.list);
+	    this.setState({ titleClass: "list-title", formClass: "hidden" });
+	  },
+	
+	  titleClick: function () {
+	    this.setState({ titleClass: "hidden", formClass: "list-rename-form" });
+	  },
+	
+	  cancelHandler: function (event) {
+	    event.preventDefault();
+	    this.setState({ titleClass: "list-title", formClass: "hidden" });
+	  },
+	
 	  render: function () {
 	    var cards;
 	
 	    return React.createElement(
 	      'div',
-	      { className: 'list' },
+	      { className: 'list group' },
 	      React.createElement(
-	        'h2',
-	        null,
-	        this.props.list.title
+	        'div',
+	        { className: 'list-title-container' },
+	        React.createElement(
+	          'div',
+	          { onClick: this.titleClick, className: this.state.titleClass },
+	          this.props.list.title
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: this.state.formClass },
+	          React.createElement('input', { className: 'list-rename-input',
+	            type: 'text',
+	            onChange: this.formChange,
+	            value: this.state.formVal }),
+	          React.createElement(
+	            'button',
+	            { className: 'list-rename-button', onClick: this.formSubmit },
+	            'Rename List'
+	          ),
+	          React.createElement(
+	            'a',
+	            { href: '#', className: 'list-rename-cancel', onClick: this.cancelHandler },
+	            'X'
+	          )
+	        )
 	      ),
 	      React.createElement(
 	        'div',
@@ -31664,7 +31714,6 @@
 	      archived: false,
 	      ord: this.props.board.lists.length
 	    };
-	    console.log(list);
 	    ApiUtil.createList(list);
 	    this.setState({ listItem: "add-list-button", form: "hidden", formValue: "" });
 	  },

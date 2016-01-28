@@ -7,7 +7,9 @@ class Api::ListsController < ApplicationController
   end
 
   def update
-    list = List.update(list_params)
+    @list = List.find_by_id(list_params[:id])
+    @list.update(list_params)
+
     @board = Board.find_by_id(list_params[:board_id])
     @lists = @board.lists.sort_by {|list| list.ord}
     render 'api/boards/show'
@@ -15,7 +17,7 @@ class Api::ListsController < ApplicationController
 
   private
   def list_params
-    params.require(:list).permit(:title, :board_id, :archived, :ord)
+    params.require(:list).permit(:id, :title, :board_id, :archived, :ord)
   end
 
 end
