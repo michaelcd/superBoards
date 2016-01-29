@@ -8,24 +8,18 @@ Moves that placeholder to the dragged location
 Puts list into that placeholder when dropped
 
 Friday 01/29/16
-[ ] - eliminated bugs related to board presentation / JSON object sorting
-[ ] - add logic to card.rb and list.rb : moving card/list when
+[X] - eliminated bugs related to board presentation / JSON object sorting
+[X] - add logic to card.rb and list.rb : moving card/list when
       from < to
-
-
-
-
-
 [X] - CSS styling on new list form
 [X] - DRY up CSS styles for forms, cards
 [X] - FIXED: lists aren't sorted when initially sent to BoardDetailView
-
+[X] - DnD for Lists
+[X] - Cards within one list
 
 [ ] - Drag and drop implementation
-  [X] - DnD for Lists
   [ ] - DnD for Cards
-   [ ] - Cards within one list
-   [ ] - Cards between lists
+  [ ] - Cards between lists
 [ ] - Refactor pop up forms using if/else and variables
   [ ] - NewBoardIndexItem
   [ ] - BoardMenu
