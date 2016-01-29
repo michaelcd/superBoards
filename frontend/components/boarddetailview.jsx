@@ -2,6 +2,7 @@ var React = require('react');
 var BoardStore = require('../stores/board');
 var ApiUtil = require('../util/api_util');
 var List = require('./list');
+var ListWrapper = require('./listwrapper');
 var NewList = require('./newlist');
 var BoardMenu = require('./boardmenu');
 var DragDropContext = require('react-dnd').DragDropContext;
@@ -54,7 +55,7 @@ BoardDetailView = React.createClass({
     var lists;
     if (this.state.board.lists !== undefined) {
       lists = (this.state.board.lists.map(function (list) {
-        return <div className="list-wrapper" key={list.ord}><List list={list} /></div>;
+        return <ListWrapper key={list.ord} list={list} ord={list.ord} />;
       }));
     } else {
       lists = (<div></div>);

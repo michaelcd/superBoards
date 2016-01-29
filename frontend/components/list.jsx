@@ -2,10 +2,31 @@ var React = require('react');
 var Card = require('./card');
 var NewCard = require('./newcard');
 var ApiUtil = require('../util/api_util');
+var DragSource = require('react-dnd').DragSource;
+var ItemTypes = require('../constants/itemtypes');
+var PropTypes = React.PropTypes;
 
 // this.props.list
 
+var listSource = {
+  beginDrag: function (props) {
+    return { id: props.list.id };
+  }
+};
+
+function collect(connect, monitor) {
+  return {
+    connectDragSource: connect.dragSource(),
+    isDragging: monitor.isDragging()
+  };
+}
+
 var List = React.createClass({
+  propTypes: {
+    connectDragSource: PropTypes.func.isRequired,
+    isDragging: PropTypes.bool.isRequired
+  },
+
   getInitialState: function () {
     return ({
       titleClass: "list-title",
@@ -41,7 +62,10 @@ var List = React.createClass({
       return <Card key={card.id} card={card}/>;
     });
 
-    return(
+    var connectDragSource = this.props.connectDragSource;
+    var isDragging = this.props.isDragging;
+
+    return connectDragSource(
       <li className="list">
         <div className="list-title-container">
           <div onClick={this.titleClick} className={this.state.titleClass}>
@@ -66,3 +90,4 @@ var List = React.createClass({
 });
 
 module.exports = List;
+module.exports = DragSource(ItemTypes.LIST, listSource, collect)(List);
