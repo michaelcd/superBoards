@@ -12,22 +12,10 @@ class Card < ActiveRecord::Base
     cards.delete(changed_card)
     cards.insert(to, changed_card)
 
-    # 
-    # if from > to
-    # else
-    #   cards.insert(to + 1, changed_card)
-    # end
-
     cards.each_with_index do |card, index|
       card.ord = index
       card.save
     end
-  end
-
-  def self.sort_ord(cards)
-    cards = cards.sort_by { |card| card.ord }
-
-
   end
 
 end
