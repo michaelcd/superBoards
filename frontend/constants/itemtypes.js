@@ -1,5 +1,6 @@
 var ItemTypes = {
-  CARD: 'Card'
+  CARD: 'Card',
+  LIST: 'List'
 };
 
 module.exports = ItemTypes;

@@ -24502,6 +24502,34 @@
 	var BoardActions = __webpack_require__(212);
 	
 	var ApiUtil = {
+	  moveList: function (list) {
+	    $.ajax({
+	      url: "api/lists/" + list.id,
+	      method: "PATCH",
+	      data: { list: list, reorder: true },
+	      success: function (board) {
+	        BoardActions.receiveSingleBoard(board);
+	      },
+	      failure: function () {
+	        console.log("failure");
+	      }
+	    });
+	  },
+	
+	  moveCard: function (card) {
+	    $.ajax({
+	      url: "api/cards/" + card.id,
+	      method: "PATCH",
+	      data: { card: card, reorder: true },
+	      success: function (board) {
+	        BoardActions.receiveSingleBoard(board);
+	      },
+	      failure: function () {
+	        console.log("failure");
+	      }
+	    });
+	  },
+	
 	  fetchAllBoards: function () {
 	    $.ajax({
 	      url: "api/boards",
@@ -31585,6 +31613,7 @@
 	var BoardStore = __webpack_require__(218);
 	var ApiUtil = __webpack_require__(211);
 	var List = __webpack_require__(239);
+	var ListWrapper = __webpack_require__(352);
 	var NewList = __webpack_require__(242);
 	var BoardMenu = __webpack_require__(243);
 	var DragDropContext = __webpack_require__(244).DragDropContext;
@@ -31635,14 +31664,11 @@
 	  },
 	
 	  render: function () {
+	    console.log(this.state.board);
 	    var lists;
 	    if (this.state.board.lists !== undefined) {
 	      lists = this.state.board.lists.map(function (list) {
-	        return React.createElement(
-	          'div',
-	          { className: 'list-wrapper', key: list.ord },
-	          React.createElement(List, { list: list })
-	        );
+	        return React.createElement(ListWrapper, { key: list.id, list: list, ord: list.ord });
 	      });
 	    } else {
 	      lists = React.createElement('div', null);
@@ -31707,14 +31733,35 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var Card = __webpack_require__(240);
+	var CardWrapper = __webpack_require__(353);
 	var NewCard = __webpack_require__(241);
 	var ApiUtil = __webpack_require__(211);
+	var DragSource = __webpack_require__(244).DragSource;
+	var ItemTypes = __webpack_require__(351);
+	var PropTypes = React.PropTypes;
 	
 	// this.props.list
 	
+	var listSource = {
+	  beginDrag: function (props) {
+	    return { list: props.list };
+	  }
+	};
+	
+	function collect(connect, monitor) {
+	  return {
+	    connectDragSource: connect.dragSource(),
+	    isDragging: monitor.isDragging()
+	  };
+	}
+	
 	var List = React.createClass({
 	  displayName: 'List',
+	
+	  propTypes: {
+	    connectDragSource: PropTypes.func.isRequired,
+	    isDragging: PropTypes.bool.isRequired
+	  },
 	
 	  getInitialState: function () {
 	    return {
@@ -31724,7 +31771,7 @@
 	    };
 	  },
 	
-	  formChange: function (event) {
+	  formChangeHandler: function (event) {
 	    this.setState({ formVal: event.currentTarget.value });
 	  },
 	
@@ -31732,11 +31779,11 @@
 	    event.preventDefault();
 	    this.props.list.title = this.state.formVal;
 	    ApiUtil.updateList(this.props.list);
-	    this.setState({ titleClass: "list-title", formClass: "hidden" });
+	    this.setState({ form: false });
 	  },
 	
 	  titleClick: function () {
-	    this.setState({ titleClass: "hidden", formClass: "list-rename-form" });
+	    this.setState({ form: true });
 	  },
 	
 	  cancelHandler: function (event) {
@@ -31747,51 +31794,66 @@
 	  render: function () {
 	    var cards;
 	    var that = this;
+	    var pos = 1;
 	    cards = this.props.list.cards.map(function (card) {
-	      return React.createElement(Card, { key: card.id, card: card });
+	      pos += 1;
+	      return React.createElement(CardWrapper, { pos: pos, key: card.id, card: card, ord: card.ord });
 	    });
 	
-	    return React.createElement(
-	      'li',
-	      { className: 'list' },
-	      React.createElement(
+	    var connectDragSource = this.props.connectDragSource;
+	    var isDragging = this.props.isDragging;
+	
+	    var content;
+	    if (this.state.form === true) {
+	      content = React.createElement(
+	        'div',
+	        { className: 'list-form group' },
+	        React.createElement(
+	          'form',
+	          { onSubmit: this.formSubmit },
+	          React.createElement('textarea', { type: 'text',
+	            className: 'list-form-input',
+	            onChange: this.formChangeHandler,
+	            value: this.state.formVal }),
+	          React.createElement(
+	            'button',
+	            { className: 'list-form-save' },
+	            'Rename'
+	          ),
+	          React.createElement(
+	            'a',
+	            { href: '#', className: 'list-form-cancel', onClick: this.cancelHandler },
+	            'X'
+	          )
+	        )
+	      );
+	    } else {
+	      content = React.createElement(
 	        'div',
 	        { className: 'list-title-container' },
 	        React.createElement(
 	          'div',
-	          { onClick: this.titleClick, className: this.state.titleClass },
+	          { onClick: this.titleClick, className: 'list-title' },
 	          this.props.list.title
-	        ),
-	        React.createElement(
-	          'div',
-	          { className: this.state.formClass },
-	          React.createElement('input', { className: 'list-rename-input',
-	            type: 'text',
-	            onChange: this.formChange,
-	            value: this.state.formVal }),
-	          React.createElement(
-	            'button',
-	            { className: 'list-rename-button', onClick: this.formSubmit },
-	            'Rename List'
-	          ),
-	          React.createElement(
-	            'a',
-	            { href: '#', className: 'list-rename-cancel', onClick: this.cancelHandler },
-	            'X'
-	          )
 	        )
-	      ),
+	      );
+	    }
+	
+	    return connectDragSource(React.createElement(
+	      'li',
+	      { className: 'list' },
+	      content,
 	      React.createElement(
 	        'div',
 	        { className: 'cards' },
 	        cards
 	      ),
 	      React.createElement(NewCard, { list: this.props.list })
-	    );
+	    ));
 	  }
 	});
 	
-	module.exports = List;
+	module.exports = DragSource(ItemTypes.LIST, listSource, collect)(List);
 
 /***/ },
 /* 240 */
@@ -31799,12 +31861,37 @@
 
 	var React = __webpack_require__(1);
 	var ApiUtil = __webpack_require__(211);
+	var DragSource = __webpack_require__(244).DragSource;
+	var PropTypes = React.PropTypes;
+	var ItemTypes = __webpack_require__(351);
+	var DropTarget = __webpack_require__(244).DropTarget;
+	
+	var cardSource = {
+	  beginDrag: function (props) {
+	    return { card: props.card };
+	  }
+	};
+	
+	function collect(connect, monitor) {
+	  return {
+	    connectDragSource: connect.dragSource(),
+	    isDragging: monitor.isDragging()
+	  };
+	}
 	
 	var Card = React.createClass({
 	  displayName: 'Card',
 	
+	  propTypes: {
+	    connectDragSource: PropTypes.func.isRequired,
+	    isDragging: PropTypes.bool.isRequired
+	  },
+	
 	  render: function () {
-	    return React.createElement(
+	    var connectDragSource = this.props.connectDragSource;
+	    var isDragging = this.props.isDragging;
+	
+	    return connectDragSource(React.createElement(
 	      'div',
 	      { className: 'card' },
 	      React.createElement(
@@ -31812,11 +31899,11 @@
 	        { className: 'card-title' },
 	        this.props.card.title
 	      )
-	    );
+	    ));
 	  }
 	});
 	
-	module.exports = Card;
+	module.exports = DragSource(ItemTypes.CARD, cardSource, collect)(Card);
 
 /***/ },
 /* 241 */
@@ -31843,7 +31930,7 @@
 	    event.preventDefault();
 	    var card = {
 	      title: this.state.input,
-	      ord: this.props.list.cards.length + 1,
+	      ord: this.props.list.cards.length,
 	      list_id: this.props.list.id,
 	      archived: false
 	    };
@@ -31933,7 +32020,7 @@
 	      title: this.state.formValue,
 	      board_id: this.props.board.id,
 	      archived: false,
-	      ord: this.props.board.lists.length + 1
+	      ord: this.props.board.lists.length
 	    };
 	    ApiUtil.createList(list);
 	    this.setState({ form: false, formValue: "" });
@@ -31952,7 +32039,7 @@
 	        React.createElement(
 	          'form',
 	          { onSubmit: this.formOnSubmit },
-	          React.createElement('input', { type: 'text',
+	          React.createElement('textarea', { type: 'text',
 	            className: 'list-form-input',
 	            onChange: this.formChangeHandler }),
 	          React.createElement(
@@ -31972,7 +32059,11 @@
 	        'div',
 	        { className: 'add-list-button',
 	          onClick: this.itemClickHandler },
-	        'Add a list...'
+	        React.createElement(
+	          'div',
+	          { className: 'add-list-text' },
+	          'Add a list...'
+	        )
 	      );
 	    }
 	
@@ -38249,6 +38340,124 @@
 	}
 	
 	module.exports = exports['default'];
+
+/***/ },
+/* 351 */
+/***/ function(module, exports) {
+
+	var ItemTypes = {
+	  CARD: 'Card',
+	  LIST: 'List'
+	};
+	
+	module.exports = ItemTypes;
+
+/***/ },
+/* 352 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var List = __webpack_require__(239);
+	var NewCard = __webpack_require__(241);
+	var DragSource = __webpack_require__(244).DragSource;
+	var PropTypes = React.PropTypes;
+	var ItemTypes = __webpack_require__(351);
+	var DropTarget = __webpack_require__(244).DropTarget;
+	var BoardDetailView = __webpack_require__(238);
+	var ApiUtil = __webpack_require__(211);
+	
+	// this.props.list
+	// render list, aware of position
+	
+	var listTarget = {
+	  drop: function (props, monitor) {
+	    var draggedList = monitor.getItem().list;
+	    if (draggedList.ord !== props.ord) {
+	      draggedList.ord = props.ord;
+	      ApiUtil.moveList(draggedList);
+	    }
+	  }
+	};
+	
+	function collect(connect, monitor) {
+	  return {
+	    connectDropTarget: connect.dropTarget(),
+	    isOver: monitor.isOver()
+	  };
+	}
+	
+	var ListWrapper = React.createClass({
+	  displayName: 'ListWrapper',
+	
+	  propTypes: {
+	    ord: PropTypes.number.isRequired
+	  },
+	
+	  render: function () {
+	    var connectDropTarget = this.props.connectDropTarget;
+	
+	    return connectDropTarget(React.createElement(
+	      'div',
+	      { className: 'list-wrapper' },
+	      React.createElement(List, { list: this.props.list })
+	    ));
+	  }
+	});
+	
+	module.exports = DropTarget(ItemTypes.LIST, listTarget, collect)(ListWrapper);
+
+/***/ },
+/* 353 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var ApiUtil = __webpack_require__(211);
+	var Card = __webpack_require__(240);
+	var DragSource = __webpack_require__(244).DragSource;
+	var PropTypes = React.PropTypes;
+	var ItemTypes = __webpack_require__(351);
+	var DropTarget = __webpack_require__(244).DropTarget;
+	
+	var cardTarget = {
+	  drop: function (props, monitor) {
+	    var draggedCard = monitor.getItem().card;
+	    // console.log(draggedCard);
+	    console.log("from:" + draggedCard.ord + "to:" + props.card.ord);
+	
+	    if (draggedCard.ord !== props.card.ord) {
+	      draggedCard.ord = props.card.ord;
+	      ApiUtil.moveCard(draggedCard);
+	    }
+	  }
+	};
+	
+	function collect(connect, monitor) {
+	  return {
+	    connectDropTarget: connect.dropTarget(),
+	    isOver: monitor.isOver()
+	  };
+	}
+	
+	var CardWrapper = React.createClass({
+	  displayName: 'CardWrapper',
+	
+	  propTypes: {
+	    pos: PropTypes.number.isRequired,
+	    ord: PropTypes.number.isRequired
+	  },
+	
+	  render: function () {
+	    var connectDropTarget = this.props.connectDropTarget;
+	
+	    return connectDropTarget(React.createElement(
+	      'div',
+	      { className: 'card-wrapper' },
+	      React.createElement(Card, { card: this.props.card })
+	    ));
+	  }
+	});
+	
+	module.exports = DropTarget(ItemTypes.CARD, cardTarget, collect)(CardWrapper);
 
 /***/ }
 /******/ ]);

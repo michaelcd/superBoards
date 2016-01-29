@@ -1,6 +1,34 @@
 var BoardActions = require('../actions/board_actions.js');
 
 var ApiUtil = {
+  moveList: function (list) {
+    $.ajax({
+     url: "api/lists/" + list.id,
+     method: "PATCH",
+     data: {list: list, reorder: true},
+     success: function (board) {
+      BoardActions.receiveSingleBoard(board);
+     },
+     failure: function () {
+      console.log("failure");
+     }
+   });
+ },
+
+ moveCard: function (card) {
+   $.ajax({
+    url: "api/cards/" + card.id,
+    method: "PATCH",
+    data: {card: card, reorder: true},
+    success: function (board) {
+     BoardActions.receiveSingleBoard(board);
+    },
+    failure: function () {
+     console.log("failure");
+    }
+  });
+},
+
   fetchAllBoards: function () {
     $.ajax({
      url: "api/boards",

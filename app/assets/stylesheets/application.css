@@ -275,7 +275,6 @@ float:left;
 }
 
 .list {
-  max-height:100%;
   display:inline-block;
   vertical-align: top;
   border-radius: 3px;
@@ -285,13 +284,120 @@ float:left;
 }
 
 .new-list {
+  font-size: 14px;
   display:inline-block;
+  vertical-align: top;
   border-radius: 3px;
   background: #026aa7;
-  margin: 5px 5px;
   width: 270px;
   color: rgba(255,255,255,.7);
 }
+
+
+.list-form {
+  display:block;
+  background: #E2E4E6;
+  color:black;
+  border-radius: 3px;
+  /*border: 1px solid #ccc;*/
+  min-height: 60px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
+
+.list-form-input {
+  overflow:hidden;
+  word-wrap: break-word;
+  display:block;
+  font-weight: normal;
+  width:245px;
+  max-height: 20px;
+  background: #DBDDDF;
+  border-radius: 3px;
+  border: 1px solid #aaa;
+  margin-left:auto;
+  margin-right: auto;
+  margin-bottom: 4px;
+  line-height: 18px;
+  padding: 7px 7px;
+}
+
+.list-form-save {
+  margin-left: 4px;
+  background: #61bd4f;
+  color:white;
+  border-radius: 3px;
+  font-weight: 700;
+  padding: 5px 10px;
+}
+
+.list-form-cancel {
+  font-size: 20px;
+  font-weight: 400;
+  color: #999;
+  padding: 0 0 0 7px;
+}
+
+.list-rename-form {
+  width: 270px;
+  font-size: 14px;
+  /*border-radius: 3px;
+  background: #eee;
+  float:left;
+  font-weight: 700;
+  width: 270px;
+  margin: 0 5px;
+  height: 100%;
+  vertical-align: top;*/
+  display:block;
+  background: #E2E4E6;
+  color:black;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+  min-height: 60px;
+  padding-bottom: 3px;
+}
+
+.list-rename-input {
+  overflow:hidden;
+  word-wrap: break-word;
+  display:block;
+  font-weight: normal;
+  width:245px;
+  max-height: 20px;
+  background: #DBDDDF;
+  border-radius: 3px;
+  border: 1px solid #aaa;
+  margin-left:auto;
+  margin-right: auto;
+  margin-bottom: 4px;
+  line-height: 18px;
+  padding: 7px 7px;
+}
+
+.list-rename-button {
+  float:left;
+  background: #61bd4f;
+  color:white;
+  border-radius: 3px;
+  font-weight: 700;
+  padding: 5px 10px;
+}
+
+.list-title {
+  padding: 0 0 0 5px;
+
+}
+
+.add-list-button {
+  padding:8px 34px 8px 6px;
+}
+
+.new-list-text {
+
+}
+
+
 
 .list-title-container {
   padding:8px 34px 8px 6px;
@@ -349,62 +455,6 @@ float:left;
   padding: 6px 8px 4px 8px;
 }
 
-.list-form {
-  float:left;
-  position:absolute;
-  display:block;
-  background: white;
-  color:black;
-  border-radius: 3px;
-  border: 1px solid #ccc;
-  min-height: 60px;
-  width: 220px;
-}
-
-.list-form-input {
-  border: 1px solid rgb(0, 121, 191);
-}
-
-.list-form-save {
-  background: #61bd4f;
-  color:white;
-  border-radius: 3px;
-  font-weight: 700;
-  padding: 5px 10px;
-}
-
-.list-form-cancel {
-
-}
-
-.list-rename-form {
-  border-radius: 3px;
-  background: #eee;
-  float:left;
-  font-weight: 700;
-  width: 270px;
-  margin: 0 5px;
-  height: 100%;
-  vertical-align: top;
-}
-
-.list-rename-input {
-
-}
-
-.list-rename-button {
-  float:left;
-  background: #61bd4f;
-  color:white;
-  border-radius: 3px;
-  font-weight: 700;
-  padding: 5px 10px;
-}
-
-.list-title {
-  padding: 0 0 0 5px;
-
-}
 
 /* Auth HTML pages:*/
 
