@@ -38,7 +38,7 @@ var NewList = React.createClass({
       content = (
         <div className="list-form group">
           <form onSubmit={this.formOnSubmit}>
-            <input type="text"
+            <textarea type="text"
               className="list-form-input"
               onChange={this.formChangeHandler} />
             <button className="list-form-save">Save</button>
@@ -49,7 +49,9 @@ var NewList = React.createClass({
     } else {
       content = (
         <div className="add-list-button"
-          onClick={this.itemClickHandler}>Add a list...</div>
+          onClick={this.itemClickHandler}>
+          <div className="add-list-text">Add a list...</div>
+        </div>
       );
     }
 
