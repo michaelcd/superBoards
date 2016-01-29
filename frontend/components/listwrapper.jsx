@@ -14,9 +14,10 @@ var ApiUtil = require('../util/api_util');
 var listTarget = {
   drop: function (props, monitor) {
     var draggedList = monitor.getItem().list;
-    draggedList.ord = props.ord;
-    console.log(draggedList);
-    ApiUtil.moveList(draggedList);
+    if (draggedList.ord !== props.ord) {
+      draggedList.ord = props.ord;
+      ApiUtil.moveList(draggedList);
+    }
   }
 };
 
@@ -34,7 +35,6 @@ var ListWrapper = React.createClass({
 
 
   render: function () {
-    var x = this.props.ord;
     var connectDropTarget = this.props.connectDropTarget;
 
     return connectDropTarget(

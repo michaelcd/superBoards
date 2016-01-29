@@ -1,5 +1,5 @@
 var React = require('react');
-var Card = require('./card');
+var CardWrapper = require('./cardwrapper');
 var NewCard = require('./newcard');
 var ApiUtil = require('../util/api_util');
 var DragSource = require('react-dnd').DragSource;
@@ -35,7 +35,7 @@ var List = React.createClass({
     });
   },
 
-  formChange: function (event) {
+  formChangeHandler: function (event) {
     this.setState({formVal: event.currentTarget.value});
   },
 
@@ -43,11 +43,11 @@ var List = React.createClass({
     event.preventDefault();
     this.props.list.title = this.state.formVal;
     ApiUtil.updateList(this.props.list);
-    this.setState({titleClass: "list-title", formClass: "hidden"});
+    this.setState({form: false});
   },
 
   titleClick: function () {
-    this.setState({titleClass: "hidden", formClass:"list-rename-form"});
+    this.setState({ form: true });
   },
 
   cancelHandler: function (event) {
@@ -56,31 +56,44 @@ var List = React.createClass({
   },
 
   render: function () {
-    console.log(this.state.title + "," + this.state.ord);
     var cards;
     var that = this;
+    var pos = 1;
     cards = this.props.list.cards.map(function (card) {
-      return <Card key={card.id} card={card}/>;
+      pos += 1;
+      return <CardWrapper pos={pos} key={card.id} card={card} ord={card.ord}/>;
     });
 
     var connectDragSource = this.props.connectDragSource;
     var isDragging = this.props.isDragging;
 
-    return connectDragSource(
-      <li className="list">
-        <div className="list-title-container">
-          <div onClick={this.titleClick} className={this.state.titleClass}>
-            {this.props.list.title}</div>
-          <div className={this.state.formClass}>
-            <input className="list-rename-input"
-              type="text"
-              onChange={this.formChange}
+    var content;
+    if (this.state.form === true) {
+      content = (
+        <div className="list-form group">
+          <form onSubmit={this.formSubmit}>
+            <textarea type="text"
+              className="list-form-input"
+              onChange={this.formChangeHandler}
               value={this.state.formVal} />
-            <button className="list-rename-button" onClick={this.formSubmit}>
-              Rename List</button>
-            <a href="#" className="list-rename-cancel" onClick={this.cancelHandler}>X</a>
+            <button className="list-form-save">Rename</button>
+            <a href="#" className="list-form-cancel" onClick={this.cancelHandler}>X</a>
+          </form>
+        </div>
+      );
+    } else {
+      content = (
+        <div className="list-title-container">
+          <div onClick={this.titleClick} className="list-title">
+            {this.props.list.title}
           </div>
         </div>
+      );
+    }
+
+    return connectDragSource(
+      <li className="list">
+        {content}
         <div className="cards">
           {cards}
         </div>
@@ -90,5 +103,4 @@ var List = React.createClass({
   }
 });
 
-module.exports = List;
 module.exports = DragSource(ItemTypes.LIST, listSource, collect)(List);
