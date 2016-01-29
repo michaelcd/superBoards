@@ -4,4 +4,29 @@ class Card < ActiveRecord::Base
 
   belongs_to :list
   has_one :board, through: :list
+
+  def self.reorder_cards(from, to, cards)
+    cards = cards.sort_by { |card| card.ord }
+
+    changed_card = cards[from]
+    cards.delete(changed_card)
+
+    if from > to
+      cards.insert(to, changed_card)
+    else
+      
+    end
+
+    cards.each_with_index do |card, index|
+      card.ord = index
+      card.save
+    end
+  end
+
+  def self.sort_ord(cards)
+    cards = cards.sort_by { |card| card.ord }
+
+
+  end
+
 end

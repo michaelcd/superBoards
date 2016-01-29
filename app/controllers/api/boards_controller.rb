@@ -10,25 +10,21 @@ class Api::BoardsController < ApplicationController
   def destroy
     @board = Board.find_by_id(params[:id])
     @board.destroy
-    self.index
+    @boards = current_user.boards.where(archived: false)
+    render :index
   end
 
   def index
     @boards = current_user.boards.where(archived: false)
-    @boards.sort_by { |board| board.title }
   end
 
   def show
     @board = Board.find_by_id(params[:id])
-    @lists = @board.lists.where(archived: false)
-    @lists.sort_by {|list| list.ord}
-    render :show
   end
 
   def update
     @board = Board.find_by_id(board_params[:id])
     @board.update!(board_params)
-    @lists = @board.lists.sort_by {|list| list.ord}
     render :show
   end
 
