@@ -22,7 +22,7 @@ var NewList = React.createClass({
       title: this.state.formValue,
       board_id: this.props.board.id,
       archived: false,
-      ord: this.props.board.lists.length + 1
+      ord: this.props.board.lists.length
     };
     ApiUtil.createList(list);
     this.setState({form: false, formValue: ""});

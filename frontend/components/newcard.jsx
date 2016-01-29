@@ -17,7 +17,7 @@ var NewCard = React.createClass({
     event.preventDefault();
     var card = {
       title: this.state.input,
-      ord: this.props.list.cards.length + 1,
+      ord: this.props.list.cards.length,
       list_id: this.props.list.id,
       archived: false
     };
