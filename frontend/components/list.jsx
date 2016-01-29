@@ -10,7 +10,7 @@ var PropTypes = React.PropTypes;
 
 var listSource = {
   beginDrag: function (props) {
-    return { id: props.list.id };
+    return { list: props.list };
   }
 };
 
@@ -56,6 +56,7 @@ var List = React.createClass({
   },
 
   render: function () {
+    console.log(this.state.title + "," + this.state.ord);
     var cards;
     var that = this;
     cards = this.props.list.cards.map(function (card) {

@@ -8,7 +8,6 @@ var BoardMenu = require('./boardmenu');
 var DragDropContext = require('react-dnd').DragDropContext;
 var HTML5Backend = require('react-dnd-html5-backend');
 
-
 BoardDetailView = React.createClass({
   getInitialState: function () {
     return({
@@ -55,7 +54,7 @@ BoardDetailView = React.createClass({
     var lists;
     if (this.state.board.lists !== undefined) {
       lists = (this.state.board.lists.map(function (list) {
-        return <ListWrapper key={list.ord} list={list} ord={list.ord} />;
+        return <ListWrapper key={list.id} list={list} ord={list.ord} />;
       }));
     } else {
       lists = (<div></div>);
