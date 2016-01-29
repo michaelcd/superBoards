@@ -242,32 +242,15 @@ float:left;
 }
 
 .list-container {
-  width:auto;
-  height: 1000px;
-  overflow-x: scroll;
+  width:100%;
+  display:block;
   white-space: nowrap;
-}
-
-/* scrollbar styling - may or may not implement in final version*/
-
-::-webkit-scrollbar {
-  background-color: rgb(0, 121, 191);
-  height:9px;
-  width:9px;
-}
-
-::-webkit-scrollbar-thumb {
-  background-color: #4F96BF;
-  border-radius: 3px;
-}
-
-::-webkit-scrollbar-track-piece {
-  background: #026aa7;
+  overflow-x:scroll;
 }
 
 .list {
-  display:block;
-  float:left;
+  display:inline-block;
+  vertical-align: top;
   border-radius: 3px;
   background: #E2E4E6;
   font-weight: 700;
@@ -275,11 +258,21 @@ float:left;
   margin: 5px 5px;
 }
 
+.new-list {
+  display:inline-block;
+  border-radius: 3px;
+  background: #026aa7;
+  margin: 5px 5px;
+  width: 270px;
+  color: rgba(255,255,255,.7);
+}
+
 .list-title-container {
   padding:8px 34px 8px 6px;
 }
 
 .card {
+  display:block;
   font-weight: normal;
   background: #fff;
   font-size: 14px;
@@ -288,6 +281,19 @@ float:left;
   margin:auto;
   margin-bottom: 6px;
   border-bottom: 1px solid #ccc;
+}
+
+.new-card-input {
+  display:block;
+  font-weight: normal;
+  background: #fff;
+  font-size: 14px;
+  border-radius: 3px;
+  width: 235px;
+  margin:auto;
+  border-bottom: 1px solid #ccc;
+  padding: 6px 7px 4px 8px;
+  margin-bottom: 6px;
 }
 
 .new-card-container {
@@ -301,25 +307,9 @@ float:left;
   padding: 8px 34px 8px 10px;
 }
 
-.new-card-form {
-  font-weight: normal;
-  background: #fff;
-  font-size: 14px;
-  border-radius: 3px;
-  width: 250px;
-  margin:auto;
-  margin-bottom: 6px;
-  border-bottom: 1px solid #ccc;
-}
-
-.new-card-input {
-  margin:auto;
-  padding: 6px 8px 4px 8px;
-}
-
 .new-card-button {
   float:left;
-  display: block;
+  display:block;
 }
 
 .new-card-cancel {
@@ -328,16 +318,9 @@ float:left;
 }
 
 .card-title {
-  padding: 6px 8px 4px;
-}
-
-.new-list {
-  border-radius: 3px;
-  background: #026aa7;
-  margin: 5px 5px;
-  width: 270px;
-  float:left;
-  color: rgba(255,255,255,.7);
+  white-space: normal;
+  word-wrap: break-word;
+  padding: 6px 8px 4px 8px;
 }
 
 .list-form {
@@ -397,10 +380,6 @@ float:left;
 
 }
 
-
-
-
-
 /* Auth HTML pages:*/
 
  .authForm {
@@ -408,4 +387,22 @@ float:left;
   width: 500px;
   margin:auto;
   text-align: center;
+ }
+
+
+ /* scrollbar styling - may or may not implement in final version*/
+
+ ::-webkit-scrollbar {
+   background-color: rgb(0, 121, 191);
+   height:9px;
+   width:9px;
+ }
+
+ ::-webkit-scrollbar-thumb {
+   background-color: #4F96BF;
+   border-radius: 3px;
+ }
+
+ ::-webkit-scrollbar-track-piece {
+   background: #026aa7;
  }

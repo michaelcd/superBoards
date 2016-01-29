@@ -77,7 +77,6 @@ BoardDetailView = React.createClass({
           {lists}
           <NewList board={this.state.board} />
         </ul>
-
       </div>
     );
   }
