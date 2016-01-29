@@ -14,11 +14,12 @@ Friday 01/29/16
 [ ] - SeedData
 [ ] - CardDetailView, CRUD functions
 [ ] - Change BoardsController#show to retrieve only non-archived cards
-
-Friday
-[ ] - Drag and drop
 [ ] - React Auth
 [ ] - Board Sharing
+
+
+
+
 
 
 [ ] - Archived Boards View

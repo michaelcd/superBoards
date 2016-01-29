@@ -4,6 +4,9 @@ var ApiUtil = require('../util/api_util');
 var List = require('./list');
 var NewList = require('./newlist');
 var BoardMenu = require('./boardmenu');
+var DragDropContext = require('react-dnd').DragDropContext;
+var HTML5Backend = require('react-dnd-html5-backend');
+
 
 BoardDetailView = React.createClass({
   getInitialState: function () {
@@ -51,7 +54,7 @@ BoardDetailView = React.createClass({
     var lists;
     if (this.state.board.lists !== undefined) {
       lists = (this.state.board.lists.map(function (list) {
-        return <List list={list} key={list.id}/>;
+        return <div className="list-wrapper" key={list.ord}><List list={list} /></div>;
       }));
     } else {
       lists = (<div></div>);
@@ -75,11 +78,11 @@ BoardDetailView = React.createClass({
         </div>
         <ul className="list-container">
           {lists}
-          <NewList board={this.state.board} />
+          <div className="list-wrapper"><NewList board={this.state.board} /></div>
         </ul>
       </div>
     );
   }
 });
 
-module.exports = BoardDetailView;
+module.exports = DragDropContext(HTML5Backend)(BoardDetailView);

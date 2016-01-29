@@ -8,7 +8,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "postinstall": "./node_modules/.bin/webpack"
   },
   "repository": {
     "type": "git",
@@ -21,23 +21,22 @@
     "url": "https://github.com/michaelcd/superBoards/issues"
   },
   "engines": {
-  "node": "4.1.1",
-  "npm": "2.1.x"
-  },
-  "scripts": {
-  "postinstall": "./node_modules/.bin/webpack"
+    "node": "4.1.1",
+    "npm": "2.1.x"
   },
   "homepage": "https://github.com/michaelcd/superBoards#readme",
   "dependencies": {
-  "babel-core": "^6.1.4",
-  "babel-loader": "^6.1.0",
-  "babel-preset-react": "^6.1.4",
-  "flux": "^2.1.1",
-  "history": "1.13.x",
-  "react": "^0.14.2",
-  "react-addons-linked-state-mixin": "^0.14.2",
-  "react-dom": "^0.14.2",
-  "react-router": "1.0.2",
-  "webpack": "^1.12.4"
+    "babel-core": "^6.1.4",
+    "babel-loader": "^6.1.0",
+    "babel-preset-react": "^6.1.4",
+    "flux": "^2.1.1",
+    "history": "1.13.x",
+    "react": "^0.14.2",
+    "react-addons-linked-state-mixin": "^0.14.2",
+    "react-dnd": "^2.0.2",
+    "react-dnd-html5-backend": "^2.0.2",
+    "react-dom": "^0.14.2",
+    "react-router": "1.0.2",
+    "webpack": "^1.12.4"
   }
 }
