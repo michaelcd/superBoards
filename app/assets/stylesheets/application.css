@@ -394,13 +394,13 @@ float:left;
 
  ::-webkit-scrollbar {
    background-color: rgb(0, 121, 191);
-   height:9px;
-   width:9px;
+   height:14px;
+   width:14px;
  }
 
  ::-webkit-scrollbar-thumb {
    background-color: #4F96BF;
-   border-radius: 3px;
+   border-radius: 5px;
  }
 
  ::-webkit-scrollbar-track-piece {
