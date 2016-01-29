@@ -13,6 +13,8 @@ Puts list into that placeholder when dropped
 [ ] - Drag and drop implementation
   [ ] - DnD for Cards
   [ ] - Cards between lists
+[ ] - CSS - board rename form under list components
+[ ] - CSS - scrollbar at bottom of window
 
 
 
