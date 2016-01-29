@@ -13,13 +13,6 @@ class List < ActiveRecord::Base
     lists.delete(changed_list)
     lists.insert(to, changed_list)
 
-    # 
-    # if from > to
-    # elsif from < to
-    #   lists.insert(to + 1, changed_list)
-    # end
-
-
     lists.each_with_index do |list, index|
       list.ord = index
       list.save

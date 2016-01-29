@@ -7,24 +7,21 @@ Trello creates a placeholder wrapper element when dragged
 Moves that placeholder to the dragged location
 Puts list into that placeholder when dropped
 
-Friday 01/29/16
-[X] - eliminated bugs related to board presentation / JSON object sorting
-[X] - add logic to card.rb and list.rb : moving card/list when
-      from < to
-[X] - CSS styling on new list form
-[X] - DRY up CSS styles for forms, cards
-[X] - FIXED: lists aren't sorted when initially sent to BoardDetailView
-[X] - DnD for Lists
-[X] - Cards within one list
 
+[ ] - List.jsx: CancelHandler no longer works - refactor for if/else statement
+  on form render
 [ ] - Drag and drop implementation
   [ ] - DnD for Cards
   [ ] - Cards between lists
+
+
+
 [ ] - Refactor pop up forms using if/else and variables
   [ ] - NewBoardIndexItem
   [ ] - BoardMenu
   [ ] - BoardDetailView - board renaming pop up
   [ ] - BoardMenu component
+
 [ ] - SeedData
 [ ] - CardDetailView, CRUD functions
 [ ] - Change BoardsController#show to retrieve only non-archived cards
@@ -51,6 +48,9 @@ Review Lily's email
 - Board sharing
 - Style and seed as you go
 - Implement search next week
+
+React DnD tutorial:
+http://gaearon.github.io/react-dnd/docs-tutorial.html
 
 check out fontawesome for icons
 https://fortawesome.github.io/Font-Awesome/
@@ -81,3 +81,14 @@ Thursday 01/28/16
 [X] - Card creation inside List
 [X] - NewList + NewCard component: retains previous new list name after list created
 [X] - ApiUtil Card functions (destroyCard)
+
+Friday 01/29/16
+[X] - Refactored Jbuilder views and Board/List/Card controllers
+[X] - eliminated bugs related to board presentation / JSON object sorting
+[X] - add logic to card.rb and list.rb : moving card/list when
+      from < to
+[X] - CSS styling on new list form
+[X] - DRY up CSS styles for forms, cards
+[X] - FIXED: lists aren't sorted when initially sent to BoardDetailView
+[X] - Drag and drop for Lists
+[X] - Drag and drop Cards within one list

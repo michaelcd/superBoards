@@ -31553,7 +31553,7 @@
 	  render: function () {
 	    return React.createElement(
 	      'div',
-	      null,
+	      { className: 'App' },
 	      React.createElement(Navbar, null),
 	      this.props.children
 	    );

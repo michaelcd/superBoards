@@ -6,7 +6,7 @@ var BoardsIndex = require('./boardsindex');
 module.exports = React.createClass({
   render: function () {
     return (
-      <div>
+      <div className="App">
         <Navbar />
         {this.props.children}
       </div>
