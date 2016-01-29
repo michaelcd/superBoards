@@ -10,12 +10,13 @@ class Card < ActiveRecord::Base
 
     changed_card = cards[from]
     cards.delete(changed_card)
+    cards.insert(to, changed_card)
 
-    if from > to
-      cards.insert(to, changed_card)
-    else
-      
-    end
+    # 
+    # if from > to
+    # else
+    #   cards.insert(to + 1, changed_card)
+    # end
 
     cards.each_with_index do |card, index|
       card.ord = index
