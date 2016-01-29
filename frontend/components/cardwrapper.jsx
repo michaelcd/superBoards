@@ -10,9 +10,9 @@ var cardTarget = {
   drop: function (props, monitor) {
     var draggedCard = monitor.getItem().card;
     // console.log(draggedCard);
-    // console.log("from:" + draggedCard.ord + "to:" + props.pos);
+    console.log("from:" + draggedCard.ord + "to:" + props.card.ord);
 
-    if (draggedCard.ord !== props.pos) {
+    if (draggedCard.ord !== props.card.ord) {
       draggedCard.ord = props.card.ord;
       ApiUtil.moveCard(draggedCard);
     }
