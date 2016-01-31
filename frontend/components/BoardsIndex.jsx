@@ -30,7 +30,12 @@ var BoardsIndex = React.createClass({
     );
     return (
       <div className="boards-index group">
-        <div className="boards-index-title">My Boards</div>
+        <div className="boards-index-title-container">
+          <div className="icon-container">
+            <i className="fa fa-user fa-fw"></i>
+          </div>
+          <div className="boards-index-title">My Boards</div>
+        </div>
         <div className="user-boards group">
           <ul>
             {indexItems}
