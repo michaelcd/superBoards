@@ -8,22 +8,23 @@ NewBoardIndexItem = React.createClass({
   mixins: [History],
 
   getInitialState: function () {
-    return ({indexItem: "NewBoard", form: "hidden", formValue: ""});
+    return ({indexItem: "new-board", form: "hidden", formValue: ""});
   },
 
-  itemClickHandler: function () {
+  itemClickHandler: function (event) {
+    event.preventDefault();
     this.setState({indexItem: "hidden", form: "board-form group"});
   },
 
   cancelHandler: function () {
-    this.setState({indexItem: "NewBoard", form: "hidden"});
+    this.setState({indexItem: "new-board", form: "hidden"});
   },
 
   formOnSubmit: function (event) {
     event.preventDefault();
     var board = {title: this.state.formValue};
     ApiUtil.createBoard(board);
-    this.setState({indexItem: "NewBoard", form: "hidden", formValue: ""});
+    this.setState({indexItem: "new-board", form: "hidden", formValue: ""});
 
     var that = this;
     setTimeout(function () {
@@ -39,7 +40,7 @@ NewBoardIndexItem = React.createClass({
 
     return (
       <div>
-        <li className={this.state.indexItem} onClick={this.itemClickHandler}>Create New Board</li>
+        <a href="#" className={this.state.indexItem} onClick={this.itemClickHandler}>Create New Board</a>
 
         <form className={this.state.form} onSubmit={this.formOnSubmit}>
           <div className="form-head-container group"><div className="form-create-board">Create Board</div>

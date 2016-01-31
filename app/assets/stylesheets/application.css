@@ -142,42 +142,60 @@ html, body {
 }
 
 .boards-index {
+  padding: 16px;
+  margin-top: 16px;
+}
 
+.boards-index-title {
+  padding-bottom: 12px;
+  color: #4D4D4D;
+  display:inline-block;
+  margin-top: 3px;
+  line-height: 24px;
+  font-size: 16px;
+  font-weight: bold;
 }
 
 .user-boards {
-
+  margin-bottom: 20px;
 }
 
 .shared-boards {
 
 }
 
-.BoardsIndexItem {
+.board-index-item-wrapper {
+  margin-right: 16px;
   float:left;
   font-weight: 700;
   line-height: 20px;
   min-height: 80px;
-  padding: 8px 9pt;
   border-radius: 3px;
   color: white;
+  width:246px;
+  display: block;
+  padding: 8px 12px;
   background: #026aa7;
-  width:160px;
-  margin: 1pc 1pc 0 0;
 }
 
-.NewBoard  {
+.boards-index-item-title {
+  display: block;
+  text-align: left;
+}
+
+.new-board  {
   float:left;
-  padding: 8px 9pt;
+  margin-right: 16px;
+  text-align: center;
   line-height: 20px;
   min-height: 80px;
+  line-height: 80px;
+  padding: 8px 12px;
   border-radius: 3px;
   color: white;
+  width:246px;
   background-color: #e2e4e6;
   color: #8c8c8c;
-  width:160px;
-
-  margin: 1pc 1pc 0 0;
 }
 
 .board-form {

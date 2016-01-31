@@ -24353,12 +24353,12 @@
 	      { className: 'boards-index group' },
 	      React.createElement(
 	        'div',
+	        { className: 'boards-index-title' },
+	        'My Boards'
+	      ),
+	      React.createElement(
+	        'div',
 	        { className: 'user-boards group' },
-	        React.createElement(
-	          'h2',
-	          null,
-	          'My Boards'
-	        ),
 	        React.createElement(
 	          'ul',
 	          null,
@@ -24370,14 +24370,14 @@
 	        'div',
 	        { className: 'shared-boards group' },
 	        React.createElement(
-	          'h2',
-	          null,
+	          'div',
+	          { className: 'boards-index-title' },
 	          'Shared Boards'
 	        )
 	      ),
 	      React.createElement(
 	        'a',
-	        { href: '', className: 'archived-boards-link' },
+	        { href: '', className: 'boards-index-title' },
 	        'View Archived Boards'
 	      )
 	    );
@@ -24404,8 +24404,13 @@
 	      null,
 	      React.createElement(
 	        'a',
-	        { href: "#/boards/" + this.props.board.id, className: 'BoardsIndexItem' },
-	        this.props.board.title
+	        { href: "#/boards/" + this.props.board.id,
+	          className: 'board-index-item-wrapper' },
+	        React.createElement(
+	          'div',
+	          { className: 'boards-index-item-title' },
+	          this.props.board.title
+	        )
 	      )
 	    );
 	  }
@@ -24428,22 +24433,23 @@
 	  mixins: [History],
 	
 	  getInitialState: function () {
-	    return { indexItem: "NewBoard", form: "hidden", formValue: "" };
+	    return { indexItem: "new-board", form: "hidden", formValue: "" };
 	  },
 	
-	  itemClickHandler: function () {
+	  itemClickHandler: function (event) {
+	    event.preventDefault();
 	    this.setState({ indexItem: "hidden", form: "board-form group" });
 	  },
 	
 	  cancelHandler: function () {
-	    this.setState({ indexItem: "NewBoard", form: "hidden" });
+	    this.setState({ indexItem: "new-board", form: "hidden" });
 	  },
 	
 	  formOnSubmit: function (event) {
 	    event.preventDefault();
 	    var board = { title: this.state.formValue };
 	    ApiUtil.createBoard(board);
-	    this.setState({ indexItem: "NewBoard", form: "hidden", formValue: "" });
+	    this.setState({ indexItem: "new-board", form: "hidden", formValue: "" });
 	
 	    var that = this;
 	    setTimeout(function () {
@@ -24461,8 +24467,8 @@
 	      'div',
 	      null,
 	      React.createElement(
-	        'li',
-	        { className: this.state.indexItem, onClick: this.itemClickHandler },
+	        'a',
+	        { href: '#', className: this.state.indexItem, onClick: this.itemClickHandler },
 	        'Create New Board'
 	      ),
 	      React.createElement(

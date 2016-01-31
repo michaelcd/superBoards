@@ -1,17 +1,20 @@
 Current Notes
 
-Drag and drop notes:
-Drag and drop objects wrap your existing componenets
-
-Trello creates a placeholder wrapper element when dragged
-Moves that placeholder to the dragged location
-Puts list into that placeholder when dropped
+fontawesome icons to use:
+archive
+user
+search
+plus
+minus
+columns
 
 Weekend:
 [X] - List.jsx: CancelHandler no longer works - refactor for if/else statement on form render
 [X] - CSS - scrollbar at bottom of window
-
 [ ] - Drag and drop cards between lists
+[ ] - Card and List options menus
+[ ] - Card renaming / Card Detail view
+[ ] - Card and List archival
 
 
 
