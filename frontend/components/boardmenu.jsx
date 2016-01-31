@@ -18,12 +18,12 @@ var BoardMenu = React.createClass({
 
   buttonClick: function (event) {
     event.preventDefault();
-    this.setState({buttonClass: "hidden", menuClass: "board-menu-options"});
+    this.setState({menu: true, menuClass: "board-menu-options"});
   },
 
   menuClose: function (event) {
     event.preventDefault();
-    this.setState({buttonClass: "board-menu-button", menuClass: "hidden"});
+    this.setState({menu: false});
   },
 
   archiveBoard: function (event) {
@@ -36,23 +36,38 @@ var BoardMenu = React.createClass({
 
   archiveShow: function (event) {
     event.preventDefault();
-    this.setState({archiveConfirm: "archive-board-confirm"});
+    this.setState({archiveConfirm: true});
 
   },
 
   render: function () {
-    return (
-      <div className="board-menu">
-        <a href="#" className={this.state.buttonClass} onClick={this.buttonClick}>
-          Board Menu</a>
-        <div className={this.state.menuClass}>
+    var content;
+    var archiveConfirm;
+    if (this.state.archiveConfirm === true) {
+      var archiveConfirm = (
+        <div className="archive-board-confirm">
+          <button onClick={this.archiveBoard}>Confirm</button>
+        </div>
+      );
+    }
+    if (this.state.menu === true) {
+      content = (
+        <div className="board-menu-options">
           <a href="#" className="board-menu-close" onClick={this.menuClose}>X</a>
           <div>Share Board</div>
           <a href="#" onClick={this.archiveShow}>Archive Board</a>
-            <div className={this.state.archiveConfirm}>
-              <button onClick={this.archiveBoard}>Confirm</button>
-            </div>
+          {archiveConfirm}
         </div>
+      );
+    } else {
+      content = (
+        <a href="#" className="board-menu-button" onClick={this.buttonClick}>
+          Show Menu</a>
+      );
+    }
+    return (
+      <div className="board-menu">
+        {content}
       </div>
     );
   }

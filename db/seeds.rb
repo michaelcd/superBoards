@@ -46,6 +46,6 @@ Card.create(title: "Soho", list_id: 5, ord: 3, archived: false, author_id: 1)
 List.create(title: "Jonathan", board_id: 1, ord: 5, archived: false)
 Card.create(title: "You can do it!", list_id: 6, ord: 0, archived: false, author_id: 1)
 
-# AppTourt board and lists
+# AppTour board and lists
 
 Board.create(title: "superBoards Tour", author_id: 1)

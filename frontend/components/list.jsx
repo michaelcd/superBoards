@@ -47,12 +47,12 @@ var List = React.createClass({
   },
 
   titleClick: function () {
-    this.setState({ form: true });
+    this.setState({form: true});
   },
 
   cancelHandler: function (event) {
     event.preventDefault();
-    this.setState({titleClass: "list-title", formClass: "hidden"});
+    this.setState({form: false});
   },
 
   render: function () {

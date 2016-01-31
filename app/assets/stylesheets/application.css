@@ -34,9 +34,14 @@ button, article, footer, small, h3, h4 {
   background: transparent;
 }
 
+button {
+  cursor: pointer;
+}
+
 body {
   display:block;
-  font-family: sans-serif;
+  font-family: 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  /*font-family: sans-serif;*/
   background-color: white;
   margin: inherit;
 }
@@ -77,28 +82,33 @@ body > * {
  font-size: 14px;
  font-weight: 700;
  line-height: 30px;
+ padding: 5px 5px;
 }
 
 .navbar-logo {
-border-radius: 3px;
-background: #4F96BF;
-float:left;
+  position: absolute;
+}
+
+.navbar-button {
+  padding: 0 8px;
+  border-radius: 3px;
+  background: #4F96BF;
 }
 
 .boards-button {
- border-radius: 3px;
- background: #4F96BF;
- float:left;
+  float:left;
+}
+
+.user-button {
+ float:right;
 }
 
 .boards-list {
  display:block;
 }
 
-.navbar-user {
- border-radius: 3px;
- background: #4F96BF;
- float:right;
+.user-button-text {
+
 }
 
 /* board index view section */
@@ -191,17 +201,27 @@ float:left;
   background-color: rgb(0, 121, 191);
 }
 
+.board-header {
+  z-index: 5;
+  display:block;
+  padding: 8px 4px 8px 8px;
+}
+
 .board-menu {
   color: white;
   float: right;
 }
 
 .board-menu-button {
+  padding-right: 8px;
+  font-size: 12px;
+  text-decoration: underline;
   color:white;
   float:right;
 }
 
 .board-menu-options {
+  z-index: 5;
   position:absolute;
   background: #E2E4E6;
   right:0;
@@ -211,11 +231,14 @@ float:left;
 
 .board-title {
   color:white;
-  font-weight: 700;
+  font-family: 'Helvetica Neue';
+  font-weight: bold;
+  font-size: 18px;
   float:left;
 }
 
 .name-update {
+  z-index: 5;
   float:left;
   position:absolute;
   display:block;
@@ -252,10 +275,6 @@ float:left;
   border-radius: 3px;
   font-weight: 700;
   padding: 5px 10px;
-}
-
-.board-header {
-  display:block;
 }
 
 .list-container {
@@ -378,6 +397,7 @@ float:left;
 }
 
 .list-title {
+  font-size: 15px;
   padding: 0 0 0 5px;
 }
 
