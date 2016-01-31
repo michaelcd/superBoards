@@ -107,6 +107,24 @@ html, body {
 
 .boards-button {
   float:left;
+  padding:0;
+  padding-left: 26px;
+}
+
+.boards-button-text {
+  float:left;
+  padding: 0 8px;
+
+}
+
+.boards-button-icon {
+  line-height: 30px;
+  height:30px;
+  width:30px;
+  font-size: 16px;
+  left:6px;
+  position:absolute;
+  text-align: center;
 }
 
 .user-button {
@@ -155,6 +173,7 @@ html, body {
   height:30px;
   width:30px;
   line-height: 30px;
+  color: #4D4D4D;
 }
 
 .boards-index-title-container {

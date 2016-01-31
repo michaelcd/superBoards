@@ -17,6 +17,9 @@ var Navbar = React.createClass({
       <div className="navbar group">
       <a href="#/" className="navbar-logo">superBoards</a>
         <button className="boards-button navbar-button">
+          <div className="boards-button-icon">
+            <i className="fa fa-columns fa-fw"></i>
+          </div>
           <div className="boards-button-text">Boards</div>
         </button>
         <Search />

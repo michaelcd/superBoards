@@ -31609,6 +31609,11 @@
 	        { className: 'boards-button navbar-button' },
 	        React.createElement(
 	          'div',
+	          { className: 'boards-button-icon' },
+	          React.createElement('i', { className: 'fa fa-columns fa-fw' })
+	        ),
+	        React.createElement(
+	          'div',
 	          { className: 'boards-button-text' },
 	          'Boards'
 	        )
