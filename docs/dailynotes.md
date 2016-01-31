@@ -1,6 +1,10 @@
 Current Notes
 
+<i class="fa fa-EXAMPLE fa-fw">
 fontawesome icons to use:
+fa-caret-square-o-down
+angle-down
+angle-double-down
 archive
 pencil
 search
@@ -53,9 +57,6 @@ Review Lily's email
 
 React DnD tutorial:
 http://gaearon.github.io/react-dnd/docs-tutorial.html
-
-check out fontawesome for icons
-https://fortawesome.github.io/Font-Awesome/
 
 Drop and reseed database:
 rake db:drop db:create db:migrate db:seed

@@ -294,14 +294,20 @@ html, body {
 }
 
 .board-menu-button {
+  border-radius: 3px;
   height: 30px;
   line-height: 30px;
   margin-right: 4px;
+  padding-left: 8px;
   padding-right: 8px;
   font-size: 12px;
   text-decoration: underline;
   color:white;
   float:right;
+}
+
+.board-menu-button:hover {
+  background: #006BA9;
 }
 
 .board-menu-options {
@@ -314,10 +320,19 @@ html, body {
 }
 
 .board-title-button {
+  display:block;
   padding-left:4px;
+  cursor: pointer;
+  border-radius: 3px;
+  float:left;
+}
+
+.board-title-button:hover {
+  background: #006BA9;
 }
 
 .board-title {
+  display: block;
   line-height: 30px;
   color:white;
   line-height: 30px;
@@ -326,7 +341,6 @@ html, body {
   font-family: 'Helvetica Neue';
   font-weight: bold;
   font-size: 18px;
-  float:left;
 }
 
 .name-update {
@@ -470,6 +484,12 @@ html, body {
   line-height: 18px;
 }
 
+.list-title-container:hover {
+  background:#CDD2D4;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+}
+
 .add-list-button {
   padding:8px 34px 8px 6px;
 }
@@ -520,6 +540,10 @@ html, body {
   font-size: 14px;
   font-weight: normal;
   padding: 8px 10px 8px 10px;
+}
+
+.new-card-title:hover {
+  background:#CDD2D4;
 }
 
 .new-card-input {

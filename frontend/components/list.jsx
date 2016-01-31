@@ -83,8 +83,8 @@ var List = React.createClass({
       );
     } else {
       content = (
-        <div className="list-title-container">
-          <div onClick={this.titleClick} className="list-title">
+        <div onClick={this.titleClick} className="list-title-container">
+          <div className="list-title">
             {this.props.list.title}
           </div>
         </div>

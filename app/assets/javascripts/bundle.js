@@ -31869,10 +31869,10 @@
 	    } else {
 	      content = React.createElement(
 	        'div',
-	        { className: 'list-title-container' },
+	        { onClick: this.titleClick, className: 'list-title-container' },
 	        React.createElement(
 	          'div',
-	          { onClick: this.titleClick, className: 'list-title' },
+	          { className: 'list-title' },
 	          this.props.list.title
 	        )
 	      );
@@ -36664,9 +36664,13 @@
 	      );
 	    } else {
 	      content = React.createElement(
-	        'a',
-	        { href: '#', className: 'board-menu-button', onClick: this.buttonClick },
-	        'Show Menu'
+	        'div',
+	        { className: 'board-menu-button', onClick: this.buttonClick },
+	        React.createElement(
+	          'div',
+	          { className: 'board-menu-button-text' },
+	          'Show Menu'
+	        )
 	      );
 	    }
 	    return React.createElement(
