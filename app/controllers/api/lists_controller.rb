@@ -16,15 +16,15 @@ class Api::ListsController < ApplicationController
       @list.update(list_params)
     end
 
-    @board = Board.find_by_id(list_params[:board_id])
+    @board = @list.board
     render 'api/boards/show'
   end
 
   def destroy
-    @list = List.find_by_id(list_params[:id])
+    @list = List.find_by_id(params[:id])
+    @board = @list.board
     @list.destroy
 
-    @board = Board.find_by_id(list_params[:board_id])
     render 'api/boards/show'
   end
 

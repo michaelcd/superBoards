@@ -290,7 +290,8 @@ html, body {
 }
 
 .board-header {
-  z-index: 5;
+  z-index: 1;
+  position:relative;
   display:block;
   height: 30px;
   padding: 8px 4px 8px 8px;
@@ -480,6 +481,7 @@ html, body {
 }
 
 .list-title-container {
+  position:relative;
   white-space: normal;
   line-height: 18px;
   min-height: 19px;
@@ -487,16 +489,90 @@ html, body {
 }
 
 .list-title {
+  display: inline-block;
   color: #4D4D4D;
   font-size: 15px;
   line-height: 18px;
 }
 
-.list-title-container:hover {
+/*.list-title-container:hover {
   background:#CDD2D4;
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;
+}*/
+
+.list-title-menu-button {
+  cursor: pointer;
+  display: block;
+  position:absolute;
+  top:0;
+  right:0;
+  padding:8px;
+  font-size: 15px;
+  line-height: 15px;
+  color: #4D4D4D;
 }
+
+.list-actions-menu {
+  border-radius: 3px;
+  z-index: 150;
+  line-height: 18px;
+  display:block;
+  position:absolute;
+  top: 10px;
+  left:240px;
+  width:300px;
+  background: white;
+  border: 1px solid #D6DADC;
+  border-bottom-color:#c4c9cc;
+}
+
+.list-actions-header {
+  font-size: 14px;
+  color: #8c8c8c;
+  font-weight: normal;
+  text-align: center;
+  border-bottom: 1px solid #D6DADC;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-bottom: 8px;
+}
+
+.list-actions-title {
+  box-sizing: border-box;
+  width: 280px;
+  line-height: 36px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.list-actions-cancel {
+  /*color: #4D4D4D;*/
+  cursor: pointer;
+  position:absolute;
+  top:0;
+  right:0;
+  padding: 10px;
+  padding-left: 4px;
+}
+
+.list-actions-options-list {
+  padding: 10px;
+  padding-top: 0;
+}
+
+.list-actions-option {
+  font-size: 14px;
+  display:block;
+  line-height: 18px;
+  padding: 6px 10px;
+}
+
+.list-actions-option:hover {
+  background: #298FCA;
+  color:white;
+}
+
 
 .add-list-button {
   padding:8px 34px 8px 6px;
@@ -515,7 +591,9 @@ html, body {
 }
 
 .card {
+  cursor: pointer;
   display:block;
+  position:relative;
   font-weight: normal;
   background: #fff;
   font-size: 14px;
@@ -528,12 +606,34 @@ html, body {
   padding: 6px 6px 2px 8px;
 }
 
-  /*padding: 6px 8px 4px 8px;*/
+.card:hover {
+  background:#EDEFF0;
+}
+
+.card:hover .card-menu-button {
+  display:block;
+}
 
 .card-title {
   white-space: normal;
   word-wrap: break-word;
   margin-bottom: 4px;
+}
+
+.card-menu-button {
+  display: none;
+  cursor: pointer;
+  position:absolute;
+  top:0;
+  right:0;
+  padding:8px;
+  font-size: 15px;
+  line-height: 15px;
+  color: #999;
+}
+
+.card-menu-button:hover {
+  color:black;
 }
 
 .new-card-container {
@@ -577,6 +677,51 @@ html, body {
   display: block;
 }
 
+/* Card Detail View */
+
+.window-overlay {
+  z-index: 10;
+  background-color: rgba(0,0,0,.6);
+  position:fixed;
+  top:0;
+  left:0;
+  height:100%;
+  width:100%;
+}
+
+.window-content {
+  width: 730px;
+  position:relative;
+  border-radius: 3px;
+  background: #EDEFF0;
+  margin-top: 48px;
+  display:block;
+  z-index: 15;
+  margin-left:auto;
+  margin-right: auto;
+}
+
+.card-detail-view {
+  position:relative;
+  z-index: 16;
+  display:block;
+}
+
+.card-detail-header {
+  margin: 4px 40px 4px 38px;
+  color: #8c8c8c;
+
+}
+
+.card-detail-title {
+  color:#4D4D4D;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 21.6px;
+  margin-bottom: 9px;
+  margin-right: 4px;
+
+}
 
 
 

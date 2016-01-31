@@ -7,6 +7,7 @@ var IndexRoute = ReactRouter.IndexRoute;
 var BoardsIndex = require('./components/boardsindex');
 var App = require('./components/app.jsx');
 var BoardDetailView = require('./components/boarddetailview');
+var CardDetail = require('./components/cards/carddetail');
 
 
 BoardStore = require('./stores/board');
@@ -14,7 +15,9 @@ BoardStore = require('./stores/board');
 var routes = (
   <Route path="/" component={App}>
     <IndexRoute component={BoardsIndex} />
-    <Route path="/boards/:id" component={BoardDetailView} />
+    <Route path="/boards/:id" component={BoardDetailView} >
+      <Route path="/cards/:id" component={CardDetail} />
+    </Route>
   </Route>
 );
 

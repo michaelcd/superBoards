@@ -10,10 +10,9 @@ pencil
 search
 plus
 minus
+ellipsis-h
 
-Weekend:
-[X] - List.jsx: CancelHandler no longer works - refactor for if/else statement on form render
-[X] - CSS - scrollbar at bottom of window
+
 [ ] - Drag and drop cards between lists
 [ ] - Card and List options menus
 [ ] - Card renaming / Card Detail view
@@ -95,3 +94,8 @@ Friday 01/29/16
 [X] - FIXED: lists aren't sorted when initially sent to BoardDetailView
 [X] - Drag and drop for Lists
 [X] - Drag and drop Cards within one list
+
+Weekend:
+[X] - List.jsx: CancelHandler no longer works - refactor for if/else statement on form render
+[X] - CSS - scrollbar at bottom of window
+[X] - List CRUD complete (create, reorder, rename, archive, destroy)

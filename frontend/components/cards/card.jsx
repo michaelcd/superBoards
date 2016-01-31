@@ -1,9 +1,11 @@
 var React = require('react');
-var ApiUtil = require('../util/api_util');
+var ApiUtil = require('../../util/api_util');
 var DragSource = require('react-dnd').DragSource;
 var PropTypes = React.PropTypes;
-var ItemTypes = require('../constants/itemtypes');
+var ItemTypes = require('../../constants/itemtypes');
 var DropTarget = require('react-dnd').DropTarget;
+var CardMenu = require('./cardmenu');
+var CardDetail = require('./carddetail');
 
 var cardSource = {
   beginDrag: function (props) {
@@ -24,13 +26,31 @@ var Card = React.createClass({
     isDragging: PropTypes.bool.isRequired
   },
 
+  getInitialState: function () {
+    return ({detail: false});
+  },
+
+  titleClick: function () {
+    this.setState({detail: true})
+  },
+
   render: function () {
     var connectDragSource = this.props.connectDragSource;
     var isDragging = this.props.isDragging;
+    var detail;
+
+    if (this.state.detail === true) {
+      detail = (
+        <CardDetail list={this.props.list} card={this.props.card} />
+      );
+    }
 
     return connectDragSource(
       <div className="card">
-        <div className="card-title">{this.props.card.title}</div>
+        <div onClick={this.titleClick}
+          className="card-title">{this.props.card.title}</div>
+        {detail}
+        <CardMenu card={this.props.card}/>
       </div>
     );
   }
