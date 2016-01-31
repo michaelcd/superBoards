@@ -31584,10 +31584,15 @@
 	      "div",
 	      { className: "navbar group" },
 	      React.createElement(
-	        "div",
-	        { className: "boards-button", id: "BoardsIcon" },
-	        "Boards"
+	        "button",
+	        { className: "boards-button navbar-button" },
+	        React.createElement(
+	          "div",
+	          { className: "boards-button-text" },
+	          "Boards"
+	        )
 	      ),
+	      React.createElement("div", { className: "navbar-search-container" }),
 	      list,
 	      React.createElement(
 	        "a",
@@ -31595,9 +31600,13 @@
 	        "superBoards"
 	      ),
 	      React.createElement(
-	        "div",
-	        { className: "navbar-user", id: "UserIcon" },
-	        "Username"
+	        "button",
+	        { className: "user-button navbar-button" },
+	        React.createElement(
+	          "div",
+	          { className: "user-button-text" },
+	          "Username"
+	        )
 	      )
 	    );
 	  }
@@ -31788,7 +31797,7 @@
 	
 	  cancelHandler: function (event) {
 	    event.preventDefault();
-	    this.setState({ titleClass: "list-title", formClass: "hidden" });
+	    this.setState({ form: false });
 	  },
 	
 	  render: function () {
@@ -36567,12 +36576,12 @@
 	
 	  buttonClick: function (event) {
 	    event.preventDefault();
-	    this.setState({ buttonClass: "hidden", menuClass: "board-menu-options" });
+	    this.setState({ menu: true, menuClass: "board-menu-options" });
 	  },
 	
 	  menuClose: function (event) {
 	    event.preventDefault();
-	    this.setState({ buttonClass: "board-menu-button", menuClass: "hidden" });
+	    this.setState({ menu: false });
 	  },
 	
 	  archiveBoard: function (event) {
@@ -36585,21 +36594,27 @@
 	
 	  archiveShow: function (event) {
 	    event.preventDefault();
-	    this.setState({ archiveConfirm: "archive-board-confirm" });
+	    this.setState({ archiveConfirm: true });
 	  },
 	
 	  render: function () {
-	    return React.createElement(
-	      'div',
-	      { className: 'board-menu' },
-	      React.createElement(
-	        'a',
-	        { href: '#', className: this.state.buttonClass, onClick: this.buttonClick },
-	        'Board Menu'
-	      ),
-	      React.createElement(
+	    var content;
+	    var archiveConfirm;
+	    if (this.state.archiveConfirm === true) {
+	      var archiveConfirm = React.createElement(
 	        'div',
-	        { className: this.state.menuClass },
+	        { className: 'archive-board-confirm' },
+	        React.createElement(
+	          'button',
+	          { onClick: this.archiveBoard },
+	          'Confirm'
+	        )
+	      );
+	    }
+	    if (this.state.menu === true) {
+	      content = React.createElement(
+	        'div',
+	        { className: 'board-menu-options' },
 	        React.createElement(
 	          'a',
 	          { href: '#', className: 'board-menu-close', onClick: this.menuClose },
@@ -36615,16 +36630,19 @@
 	          { href: '#', onClick: this.archiveShow },
 	          'Archive Board'
 	        ),
-	        React.createElement(
-	          'div',
-	          { className: this.state.archiveConfirm },
-	          React.createElement(
-	            'button',
-	            { onClick: this.archiveBoard },
-	            'Confirm'
-	          )
-	        )
-	      )
+	        archiveConfirm
+	      );
+	    } else {
+	      content = React.createElement(
+	        'a',
+	        { href: '#', className: 'board-menu-button', onClick: this.buttonClick },
+	        'Show Menu'
+	      );
+	    }
+	    return React.createElement(
+	      'div',
+	      { className: 'board-menu' },
+	      content
 	    );
 	  }
 	});

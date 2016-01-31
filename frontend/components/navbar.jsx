@@ -14,10 +14,15 @@ var Navbar = React.createClass({
 
     return(
       <div className="navbar group">
-        <div className="boards-button" id="BoardsIcon">Boards</div>
-          {list}
-        <a href="#/" className="navbar-logo">superBoards</a>
-        <div className="navbar-user" id="UserIcon">Username</div>
+        <button className="boards-button navbar-button">
+          <div className="boards-button-text">Boards</div>
+        </button>
+        <div className="navbar-search-container"></div>
+        {list}
+      <a href="#/" className="navbar-logo">superBoards</a>
+        <button className="user-button navbar-button">
+          <div className="user-button-text">Username</div>
+        </button>
       </div>
     );
   }
