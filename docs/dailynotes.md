@@ -8,10 +8,11 @@ Moves that placeholder to the dragged location
 Puts list into that placeholder when dropped
 
 Weekend:
-[X] - List.jsx: CancelHandler no longer works - refactor for if/else statement
-  on form render
+[X] - List.jsx: CancelHandler no longer works - refactor for if/else statement on form render
+[X] - CSS - scrollbar at bottom of window
+
 [ ] - Drag and drop cards between lists
-[ ] - CSS - scrollbar at bottom of window
+
 
 
 
