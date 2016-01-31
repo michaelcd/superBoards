@@ -17,7 +17,7 @@
 html, body, header, nav, main,
 section, article, footer, small {
  display: block;
- overflow-y: hidden;
+
 }
 
 html, body, header, nav, h1, a, ul, li,
@@ -53,6 +53,7 @@ ul {
 html, body {
   height: 100%;
   width:100%;
+  overflow-y:hidden;
 }
 
 .group:after {
@@ -65,6 +66,7 @@ html, body {
 
 .App {
   height:100%;
+  z-index: -1;
 }
 
 #content {
@@ -219,9 +221,10 @@ html, body {
 /* board detail view section */
 
 .board-detail-view {
-  height: 100%;
   width:100%;
+  height: calc(100%);
   background-color: rgb(0, 121, 191);
+  /*margin-bottom: 10px;*/
 }
 
 .board-header {
@@ -283,7 +286,6 @@ html, body {
   min-height: 60px;
   width: 220px;
   border-radius: 3px;
-
 }
 
 .name-update-container {
@@ -313,21 +315,22 @@ html, body {
 }
 
 .list-container {
-  /*padding-left:5px;*/
-  position:relative;
-  width:100%;
-  height: auto;
   display:block;
   white-space: nowrap;
+  background: transparent;
+  background-color: rgb(0, 121, 191);
+  width:100%;
+  height: calc(100% - 96px);
+  overflow-y: hidden;
   overflow-x:auto;
 }
 
-.list-container:first-child {
+.list-container > div:first-child {
   margin-left:10px;
 }
 
 .list-wrapper {
-  height: 100%;
+  /*height: 100%;*/
   display:inline-block;
   width: 270px;
   vertical-align: top;
@@ -512,8 +515,10 @@ html, body {
  ::-webkit-scrollbar-thumb {
    background-color: #4F96BF;
    border-radius: 5px;
+
  }
 
  ::-webkit-scrollbar-track-piece {
    background: #026aa7;
+
  }

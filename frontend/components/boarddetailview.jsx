@@ -80,7 +80,7 @@ BoardDetailView = React.createClass({
             </form>
           <BoardMenu board={this.state.board}/>
         </div>
-        <ul className="list-container">
+        <ul className="list-container group">
           {lists}
           <div className="list-wrapper"><NewList board={this.state.board} /></div>
         </ul>
