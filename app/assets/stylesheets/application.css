@@ -146,6 +146,22 @@ html, body {
   margin-top: 16px;
 }
 
+.icon-container {
+  position:absolute;
+  display: block;
+  text-align: center;
+  top:0;
+  left: -38px;
+  height:30px;
+  width:30px;
+  line-height: 30px;
+}
+
+.boards-index-title-container {
+  position:relative;
+  margin-left:38px;
+}
+
 .boards-index-title {
   padding-bottom: 12px;
   color: #4D4D4D;
@@ -166,6 +182,7 @@ html, body {
 
 .board-index-item-wrapper {
   margin-right: 16px;
+  margin-bottom: 16px;
   float:left;
   font-weight: 700;
   line-height: 20px;

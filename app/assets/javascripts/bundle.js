@@ -24353,8 +24353,17 @@
 	      { className: 'boards-index group' },
 	      React.createElement(
 	        'div',
-	        { className: 'boards-index-title' },
-	        'My Boards'
+	        { className: 'boards-index-title-container' },
+	        React.createElement(
+	          'div',
+	          { className: 'icon-container' },
+	          React.createElement('i', { className: 'fa fa-user fa-fw' })
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'boards-index-title' },
+	          'My Boards'
+	        )
 	      ),
 	      React.createElement(
 	        'div',
