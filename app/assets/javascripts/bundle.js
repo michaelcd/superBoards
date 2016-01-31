@@ -31565,9 +31565,10 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
+	var Search = __webpack_require__(354);
 	
 	var Navbar = React.createClass({
-	  displayName: "Navbar",
+	  displayName: 'Navbar',
 	
 	  getInitialState: function () {
 	    return { boardsList: false };
@@ -31577,35 +31578,40 @@
 	    var list;
 	
 	    if (this.state.boardsList === true) {
-	      list = React.createElement("div", { className: "boards-list" });
+	      list = React.createElement('div', { className: 'boards-list' });
 	    }
 	
 	    return React.createElement(
-	      "div",
-	      { className: "navbar group" },
+	      'div',
+	      { className: 'navbar group' },
 	      React.createElement(
-	        "button",
-	        { className: "boards-button navbar-button" },
+	        'a',
+	        { href: '#/', className: 'navbar-logo' },
+	        'superBoards'
+	      ),
+	      React.createElement(
+	        'button',
+	        { className: 'boards-button navbar-button' },
 	        React.createElement(
-	          "div",
-	          { className: "boards-button-text" },
-	          "Boards"
+	          'div',
+	          { className: 'boards-button-text' },
+	          'Boards'
 	        )
 	      ),
-	      React.createElement("div", { className: "navbar-search-container" }),
+	      React.createElement(Search, null),
 	      list,
 	      React.createElement(
-	        "a",
-	        { href: "#/", className: "navbar-logo" },
-	        "superBoards"
-	      ),
-	      React.createElement(
-	        "button",
-	        { className: "user-button navbar-button" },
+	        'button',
+	        { className: 'user-button navbar-button' },
 	        React.createElement(
-	          "div",
-	          { className: "user-button-text" },
-	          "Username"
+	          'div',
+	          { className: 'user-button-initials' },
+	          'UN'
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'user-button-name' },
+	          'Username'
 	        )
 	      )
 	    );
@@ -31691,8 +31697,12 @@
 	        { className: 'board-header group' },
 	        React.createElement(
 	          'div',
-	          { className: 'board-title', onClick: this.nameClickHandler },
-	          this.state.board.title
+	          { className: 'board-title-button' },
+	          React.createElement(
+	            'div',
+	            { className: 'board-title', onClick: this.nameClickHandler },
+	            this.state.board.title
+	          )
 	        ),
 	        React.createElement(
 	          'form',
@@ -38480,6 +38490,27 @@
 	}
 	
 	module.exports = exports['default'];
+
+/***/ },
+/* 354 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	
+	var Search = React.createClass({
+	  displayName: "Search",
+	
+	  render: function () {
+	    return React.createElement(
+	      "div",
+	      { className: "navbar-search-container navbar-button" },
+	      React.createElement("input", { className: "navbar-search-input" }),
+	      React.createElement("div", { className: "navbar-search-icon" })
+	    );
+	  }
+	});
+	
+	module.exports = Search;
 
 /***/ }
 /******/ ]);
