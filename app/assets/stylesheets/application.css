@@ -214,6 +214,10 @@ html, body {
   background: #026aa7;
 }
 
+.board-index-item-wrapper:hover {
+  background:#005B90;
+}
+
 .boards-index-item-title {
   display: block;
   text-align: left;
@@ -232,6 +236,10 @@ html, body {
   width:246px;
   background-color: #e2e4e6;
   color: #8c8c8c;
+}
+
+.new-board:hover {
+  background:#D6DADC;
 }
 
 .board-form {
