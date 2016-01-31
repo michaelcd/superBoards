@@ -2,11 +2,10 @@ Current Notes
 
 fontawesome icons to use:
 archive
-user
+pencil
 search
 plus
 minus
-columns
 
 Weekend:
 [X] - List.jsx: CancelHandler no longer works - refactor for if/else statement on form render
