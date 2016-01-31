@@ -64,8 +64,11 @@ BoardDetailView = React.createClass({
     return (
       <div className="board-detail-view">
         <div className="board-header group">
-          <div className="board-title" onClick={this.nameClickHandler}>
-            {this.state.board.title}</div>
+          <div className="board-title-button">
+            <div className="board-title" onClick={this.nameClickHandler}>
+            {this.state.board.title}
+            </div>
+          </div>
           <form className={this.state.form} onSubmit={this.formSubmitHandler}>
               <div className="name-update-container group">
                 <div className="name-update-title">Rename Board</div>

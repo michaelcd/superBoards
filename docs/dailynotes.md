@@ -7,13 +7,10 @@ Trello creates a placeholder wrapper element when dragged
 Moves that placeholder to the dragged location
 Puts list into that placeholder when dropped
 
-
-[ ] - List.jsx: CancelHandler no longer works - refactor for if/else statement
+Weekend:
+[X] - List.jsx: CancelHandler no longer works - refactor for if/else statement
   on form render
-[ ] - Drag and drop implementation
-  [ ] - DnD for Cards
-  [ ] - Cards between lists
-[ ] - CSS - board rename form under list components
+[ ] - Drag and drop cards between lists
 [ ] - CSS - scrollbar at bottom of window
 
 

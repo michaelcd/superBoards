@@ -27,6 +27,7 @@ button, article, footer, small, h3, h4 {
   margin: 0;
   border: 0;
   padding: 0;
+  border:0;
   font: inherit;
   text-align: inherit;
   text-decoration: inherit;
@@ -41,7 +42,6 @@ button {
 body {
   display:block;
   font-family: 'Helvetica Neue', Arial, Helvetica, sans-serif;
-  /*font-family: sans-serif;*/
   background-color: white;
   margin: inherit;
 }
@@ -52,10 +52,7 @@ ul {
 
 html, body {
   height: 100%;
-}
-
-body > * {
-
+  width:100%;
 }
 
 .group:after {
@@ -76,7 +73,6 @@ body > * {
 
 .navbar {
  display:block;
- width:auto;
  background: #026aa7;
  color:white;
  font-size: 14px;
@@ -86,13 +82,25 @@ body > * {
 }
 
 .navbar-logo {
+  display: block;
   position: absolute;
+  left: 50%;
+  text-align: center;
 }
 
 .navbar-button {
   padding: 0 8px;
+  margin-right: 8px;
   border-radius: 3px;
   background: #4F96BF;
+}
+
+.navbar-button:hover {
+  background: #63A2C6;
+}
+
+.navbar-search-container {
+  float:left;
 }
 
 .boards-button {
@@ -101,14 +109,28 @@ body > * {
 
 .user-button {
  float:right;
+ padding:0;
 }
 
 .boards-list {
  display:block;
 }
 
-.user-button-text {
+.user-button-initials {
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+  background: #d6dadc;
+  color: #4D4D4D;
+  font-size: 12px;
+  width:30px;
+  font-weight: bold;
+  text-align: center;
+  float:left;
+}
 
+.user-button-name {
+  padding: 0 8px;
+  float:left;
 }
 
 /* board index view section */
@@ -198,12 +220,14 @@ body > * {
 
 .board-detail-view {
   height: 100%;
+  width:100%;
   background-color: rgb(0, 121, 191);
 }
 
 .board-header {
   z-index: 5;
   display:block;
+  height: 30px;
   padding: 8px 4px 8px 8px;
 }
 
@@ -213,6 +237,9 @@ body > * {
 }
 
 .board-menu-button {
+  height: 30px;
+  line-height: 30px;
+  margin-right: 4px;
   padding-right: 8px;
   font-size: 12px;
   text-decoration: underline;
@@ -229,8 +256,16 @@ body > * {
   color:black;
 }
 
+.board-title-button {
+  padding-left:4px;
+}
+
 .board-title {
+  line-height: 30px;
   color:white;
+  line-height: 30px;
+  padding-left: 6px;
+  padding-right: 8px;
   font-family: 'Helvetica Neue';
   font-weight: bold;
   font-size: 18px;
@@ -278,20 +313,26 @@ body > * {
 }
 
 .list-container {
+  /*padding-left:5px;*/
   position:relative;
   width:100%;
+  height: auto;
   display:block;
   white-space: nowrap;
-  overflow-x:scroll;
+  overflow-x:auto;
+}
+
+.list-container:first-child {
+  margin-left:10px;
 }
 
 .list-wrapper {
-  flex-grow: 1;
   height: 100%;
   display:inline-block;
   width: 270px;
   vertical-align: top;
-  margin: 5px 5px;
+  margin-left: 5px;
+  margin-right: 5px;
 }
 
 .list {
@@ -333,6 +374,7 @@ body > * {
   width:245px;
   max-height: 20px;
   background: #DBDDDF;
+  color: #4D4D4D;
   border-radius: 3px;
   border: 1px solid #aaa;
   margin-left:auto;
@@ -358,47 +400,17 @@ body > * {
   padding: 0 0 0 7px;
 }
 
-.list-rename-form {
-  width: 270px;
-  font-size: 14px;
-  display:block;
-  background: #E2E4E6;
-  color:black;
-  border-radius: 3px;
-  border: 1px solid #ccc;
-  min-height: 60px;
-  padding-bottom: 3px;
-}
-
-.list-rename-input {
-  overflow:hidden;
-  word-wrap: break-word;
-  display:block;
-  font-weight: normal;
-  width:245px;
-  max-height: 20px;
-  background: #DBDDDF;
-  border-radius: 3px;
-  border: 1px solid #aaa;
-  margin-left:auto;
-  margin-right: auto;
-  margin-bottom: 4px;
+.list-title-container {
+  white-space: normal;
   line-height: 18px;
-  padding: 7px 7px;
-}
-
-.list-rename-button {
-  float:left;
-  background: #61bd4f;
-  color:white;
-  border-radius: 3px;
-  font-weight: 700;
-  padding: 5px 10px;
+  min-height: 19px;
+  padding:8px 34px 8px 10px;
 }
 
 .list-title {
+  color: #4D4D4D;
   font-size: 15px;
-  padding: 0 0 0 5px;
+  line-height: 18px;
 }
 
 .add-list-button {
@@ -409,11 +421,12 @@ body > * {
 
 }
 
-
-
-.list-title-container {
-  white-space: normal;
-  padding:8px 34px 8px 6px;
+.card-wrapper {
+  margin-left: 4px;
+  margin-right: 2px;
+  margin-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 9px;
 }
 
 .card {
@@ -422,10 +435,34 @@ body > * {
   background: #fff;
   font-size: 14px;
   border-radius: 3px;
-  width: 250px;
+  height:24px;
+  line-height: 18px;
+  width: 236px;
   margin:auto;
-  margin-bottom: 6px;
   border-bottom: 1px solid #ccc;
+  padding: 6px 6px 2px 8px;
+}
+
+  /*padding: 6px 8px 4px 8px;*/
+
+.card-title {
+  white-space: normal;
+  word-wrap: break-word;
+  margin-bottom: 4px;
+}
+
+.new-card-container {
+
+}
+
+.new-card-title {
+  display:block;
+  color: #8c8c8c;
+  height: 18px;
+  line-height: 18px;
+  font-size: 14px;
+  font-weight: normal;
+  padding: 8px 10px 8px 10px;
 }
 
 .new-card-input {
@@ -441,17 +478,6 @@ body > * {
   margin-bottom: 6px;
 }
 
-.new-card-container {
-
-}
-
-.new-card {
-  color: #8c8c8c;
-  font-size: 14px;
-  font-weight: normal;
-  padding: 8px 34px 8px 10px;
-}
-
 .new-card-button {
   float:left;
   display:block;
@@ -462,11 +488,7 @@ body > * {
   display: block;
 }
 
-.card-title {
-  white-space: normal;
-  word-wrap: break-word;
-  padding: 6px 8px 4px 8px;
-}
+
 
 
 /* Auth HTML pages:*/
