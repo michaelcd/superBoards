@@ -31733,7 +31733,7 @@
 	      ),
 	      React.createElement(
 	        'ul',
-	        { className: 'list-container' },
+	        { className: 'list-container group' },
 	        lists,
 	        React.createElement(
 	          'div',
