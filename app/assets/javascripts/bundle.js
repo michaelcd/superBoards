@@ -53,6 +53,7 @@
 	var BoardsIndex = __webpack_require__(208);
 	var App = __webpack_require__(236);
 	var BoardDetailView = __webpack_require__(238);
+	var CardDetail = __webpack_require__(360);
 	
 	BoardStore = __webpack_require__(218);
 	
@@ -60,7 +61,11 @@
 	  Route,
 	  { path: '/', component: App },
 	  React.createElement(IndexRoute, { component: BoardsIndex }),
-	  React.createElement(Route, { path: '/boards/:id', component: BoardDetailView })
+	  React.createElement(
+	    Route,
+	    { path: '/boards/:id', component: BoardDetailView },
+	    React.createElement(Route, { path: '/cards/:id', component: CardDetail })
+	  )
 	);
 	
 	document.addEventListener("DOMContentLoaded", function () {
@@ -31760,7 +31765,8 @@
 	          { className: 'list-wrapper' },
 	          React.createElement(NewList, { board: this.state.board })
 	        )
-	      )
+	      ),
+	      this.props.children
 	    );
 	  }
 	});
@@ -31772,12 +31778,13 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var CardWrapper = __webpack_require__(240);
+	var CardWrapper = __webpack_require__(358);
 	var NewCard = __webpack_require__(319);
 	var ApiUtil = __webpack_require__(211);
 	var DragSource = __webpack_require__(242).DragSource;
 	var ItemTypes = __webpack_require__(318);
 	var PropTypes = React.PropTypes;
+	var ListMenu = __webpack_require__(356);
 	
 	// this.props.list
 	
@@ -31836,13 +31843,19 @@
 	    var pos = 1;
 	    cards = this.props.list.cards.map(function (card) {
 	      pos += 1;
-	      return React.createElement(CardWrapper, { pos: pos, key: card.id, card: card, ord: card.ord });
+	      return React.createElement(CardWrapper, {
+	        pos: pos,
+	        key: card.id,
+	        card: card,
+	        list: that.props.list,
+	        ord: card.ord });
 	    });
 	
 	    var connectDragSource = this.props.connectDragSource;
 	    var isDragging = this.props.isDragging;
 	
 	    var content;
+	
 	    if (this.state.form === true) {
 	      content = React.createElement(
 	        'div',
@@ -31869,12 +31882,13 @@
 	    } else {
 	      content = React.createElement(
 	        'div',
-	        { onClick: this.titleClick, className: 'list-title-container' },
+	        { className: 'list-title-container' },
 	        React.createElement(
 	          'div',
-	          { className: 'list-title' },
+	          { onClick: this.titleClick, className: 'list-title' },
 	          this.props.list.title
-	        )
+	        ),
+	        React.createElement(ListMenu, { list: this.props.list })
 	      );
 	    }
 	
@@ -31895,109 +31909,8 @@
 	module.exports = DragSource(ItemTypes.LIST, listSource, collect)(List);
 
 /***/ },
-/* 240 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var ApiUtil = __webpack_require__(211);
-	var Card = __webpack_require__(241);
-	var DragSource = __webpack_require__(242).DragSource;
-	var PropTypes = React.PropTypes;
-	var ItemTypes = __webpack_require__(318);
-	var DropTarget = __webpack_require__(242).DropTarget;
-	
-	var cardTarget = {
-	  drop: function (props, monitor) {
-	    var draggedCard = monitor.getItem().card;
-	    // console.log(draggedCard);
-	    console.log("from:" + draggedCard.ord + "to:" + props.card.ord);
-	
-	    if (draggedCard.ord !== props.card.ord) {
-	      draggedCard.ord = props.card.ord;
-	      ApiUtil.moveCard(draggedCard);
-	    }
-	  }
-	};
-	
-	function collect(connect, monitor) {
-	  return {
-	    connectDropTarget: connect.dropTarget(),
-	    isOver: monitor.isOver()
-	  };
-	}
-	
-	var CardWrapper = React.createClass({
-	  displayName: 'CardWrapper',
-	
-	  propTypes: {
-	    pos: PropTypes.number.isRequired,
-	    ord: PropTypes.number.isRequired
-	  },
-	
-	  render: function () {
-	    var connectDropTarget = this.props.connectDropTarget;
-	
-	    return connectDropTarget(React.createElement(
-	      'div',
-	      { className: 'card-wrapper' },
-	      React.createElement(Card, { card: this.props.card })
-	    ));
-	  }
-	});
-	
-	module.exports = DropTarget(ItemTypes.CARD, cardTarget, collect)(CardWrapper);
-
-/***/ },
-/* 241 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var ApiUtil = __webpack_require__(211);
-	var DragSource = __webpack_require__(242).DragSource;
-	var PropTypes = React.PropTypes;
-	var ItemTypes = __webpack_require__(318);
-	var DropTarget = __webpack_require__(242).DropTarget;
-	
-	var cardSource = {
-	  beginDrag: function (props) {
-	    return { card: props.card };
-	  }
-	};
-	
-	function collect(connect, monitor) {
-	  return {
-	    connectDragSource: connect.dragSource(),
-	    isDragging: monitor.isDragging()
-	  };
-	}
-	
-	var Card = React.createClass({
-	  displayName: 'Card',
-	
-	  propTypes: {
-	    connectDragSource: PropTypes.func.isRequired,
-	    isDragging: PropTypes.bool.isRequired
-	  },
-	
-	  render: function () {
-	    var connectDragSource = this.props.connectDragSource;
-	    var isDragging = this.props.isDragging;
-	
-	    return connectDragSource(React.createElement(
-	      'div',
-	      { className: 'card' },
-	      React.createElement(
-	        'div',
-	        { className: 'card-title' },
-	        this.props.card.title
-	      )
-	    ));
-	  }
-	});
-	
-	module.exports = DragSource(ItemTypes.CARD, cardSource, collect)(Card);
-
-/***/ },
+/* 240 */,
+/* 241 */,
 /* 242 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -38535,6 +38448,356 @@
 	});
 	
 	module.exports = Search;
+
+/***/ },
+/* 355 */,
+/* 356 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var ApiUtil = __webpack_require__(211);
+	
+	// this.props.list
+	
+	var ListMenu = React.createClass({
+	  displayName: 'ListMenu',
+	
+	  getInitialState: function () {
+	    return { menu: false };
+	  },
+	
+	  openMenu: function () {
+	    this.setState({ menu: true });
+	  },
+	
+	  closeMenu: function () {
+	    this.setState({ menu: false });
+	  },
+	
+	  archiveList: function (event) {
+	    event.preventDefault();
+	    var list = this.props.list;
+	    list.archived = true;
+	    ApiUtil.updateList(list);
+	    this.setState({ menu: false });
+	  },
+	
+	  deleteList: function (event) {
+	    event.preventDefault();
+	    ApiUtil.destroyList(this.props.list);
+	    this.setState({ menu: false });
+	  },
+	
+	  render: function () {
+	    var menu;
+	
+	    if (this.state.menu === true) {
+	      menu = React.createElement(
+	        'div',
+	        { className: 'list-actions-menu' },
+	        React.createElement(
+	          'div',
+	          { className: 'list-actions-header group' },
+	          React.createElement(
+	            'div',
+	            { className: 'list-actions-title' },
+	            'List Actions'
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'list-actions-cancel', onClick: this.closeMenu },
+	            React.createElement('i', { className: 'fa fa-times fa-fw' })
+	          )
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'list-actions-options-list' },
+	          React.createElement(
+	            'a',
+	            { href: '#', onClick: this.archiveList,
+	              className: 'list-actions-option' },
+	            'Archive List'
+	          ),
+	          React.createElement(
+	            'a',
+	            { href: '#', onClick: this.deleteList,
+	              className: 'list-actions-option' },
+	            'Delete List'
+	          )
+	        )
+	      );
+	    }
+	
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        'div',
+	        { onClick: this.openMenu, className: 'list-title-menu-button' },
+	        React.createElement('i', { className: 'fa fa-angle-double-down fa-fw' })
+	      ),
+	      menu
+	    );
+	  }
+	});
+	
+	module.exports = ListMenu;
+
+/***/ },
+/* 357 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var ApiUtil = __webpack_require__(211);
+	
+	// this.props.card
+	
+	var CardMenu = React.createClass({
+	  displayName: 'CardMenu',
+	
+	  getInitialState: function () {
+	    return { menu: false };
+	  },
+	
+	  openMenu: function () {
+	    this.setState({ menu: true });
+	  },
+	
+	  closeMenu: function () {
+	    this.setState({ menu: false });
+	  },
+	
+	  archiveCard: function (event) {
+	    event.preventDefault();
+	    var card = this.props.card;
+	    card.archived = true;
+	    ApiUtil.updateCard(card);
+	    this.setState({ menu: false });
+	  },
+	
+	  deleteCard: function (event) {
+	    event.preventDefault();
+	    ApiUtil.destroyCard(this.props.card);
+	    this.setState({ menu: false });
+	  },
+	
+	  render: function () {
+	    var menu;
+	
+	    if (this.state.menu === true) {
+	      menu = React.createElement(
+	        'div',
+	        { className: 'list-actions-menu' },
+	        React.createElement(
+	          'div',
+	          { className: 'list-actions-header group' },
+	          React.createElement(
+	            'div',
+	            { className: 'list-actions-title' },
+	            'Card Actions'
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'list-actions-cancel', onClick: this.closeMenu },
+	            React.createElement('i', { className: 'fa fa-times fa-fw' })
+	          )
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'list-actions-options-list' },
+	          React.createElement(
+	            'a',
+	            { href: '#', onClick: this.archiveCard,
+	              className: 'list-actions-option' },
+	            'Archive Card'
+	          ),
+	          React.createElement(
+	            'a',
+	            { href: '#', onClick: this.deleteCard,
+	              className: 'list-actions-option' },
+	            'Delete Card'
+	          )
+	        )
+	      );
+	    }
+	
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        'div',
+	        { onClick: this.openMenu, className: 'card-menu-button' },
+	        React.createElement('i', { className: 'fa fa-pencil fa-fw' })
+	      ),
+	      menu
+	    );
+	  }
+	});
+	
+	module.exports = CardMenu;
+
+/***/ },
+/* 358 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var ApiUtil = __webpack_require__(211);
+	var Card = __webpack_require__(359);
+	var DragSource = __webpack_require__(242).DragSource;
+	var PropTypes = React.PropTypes;
+	var ItemTypes = __webpack_require__(318);
+	var DropTarget = __webpack_require__(242).DropTarget;
+	
+	var cardTarget = {
+	  drop: function (props, monitor) {
+	    var draggedCard = monitor.getItem().card;
+	    // console.log(draggedCard);
+	    console.log("from:" + draggedCard.ord + "to:" + props.card.ord);
+	
+	    if (draggedCard.ord !== props.card.ord) {
+	      draggedCard.ord = props.card.ord;
+	      ApiUtil.moveCard(draggedCard);
+	    }
+	  }
+	};
+	
+	function collect(connect, monitor) {
+	  return {
+	    connectDropTarget: connect.dropTarget(),
+	    isOver: monitor.isOver()
+	  };
+	}
+	
+	var CardWrapper = React.createClass({
+	  displayName: 'CardWrapper',
+	
+	  propTypes: {
+	    pos: PropTypes.number.isRequired,
+	    ord: PropTypes.number.isRequired
+	  },
+	
+	  render: function () {
+	    var connectDropTarget = this.props.connectDropTarget;
+	
+	    return connectDropTarget(React.createElement(
+	      'div',
+	      { className: 'card-wrapper' },
+	      React.createElement(Card, { list: this.props.list, card: this.props.card })
+	    ));
+	  }
+	});
+	
+	module.exports = DropTarget(ItemTypes.CARD, cardTarget, collect)(CardWrapper);
+
+/***/ },
+/* 359 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var ApiUtil = __webpack_require__(211);
+	var DragSource = __webpack_require__(242).DragSource;
+	var PropTypes = React.PropTypes;
+	var ItemTypes = __webpack_require__(318);
+	var DropTarget = __webpack_require__(242).DropTarget;
+	var CardMenu = __webpack_require__(357);
+	var CardDetail = __webpack_require__(360);
+	
+	var cardSource = {
+	  beginDrag: function (props) {
+	    return { card: props.card };
+	  }
+	};
+	
+	function collect(connect, monitor) {
+	  return {
+	    connectDragSource: connect.dragSource(),
+	    isDragging: monitor.isDragging()
+	  };
+	}
+	
+	var Card = React.createClass({
+	  displayName: 'Card',
+	
+	  propTypes: {
+	    connectDragSource: PropTypes.func.isRequired,
+	    isDragging: PropTypes.bool.isRequired
+	  },
+	
+	  getInitialState: function () {
+	    return { detail: false };
+	  },
+	
+	  titleClick: function () {
+	    this.setState({ detail: true });
+	  },
+	
+	  render: function () {
+	    var connectDragSource = this.props.connectDragSource;
+	    var isDragging = this.props.isDragging;
+	    var detail;
+	
+	    if (this.state.detail === true) {
+	      detail = React.createElement(CardDetail, { list: this.props.list, card: this.props.card });
+	    }
+	
+	    return connectDragSource(React.createElement(
+	      'div',
+	      { className: 'card' },
+	      React.createElement(
+	        'div',
+	        { onClick: this.titleClick,
+	          className: 'card-title' },
+	        this.props.card.title
+	      ),
+	      detail,
+	      React.createElement(CardMenu, { card: this.props.card })
+	    ));
+	  }
+	});
+	
+	module.exports = DragSource(ItemTypes.CARD, cardSource, collect)(Card);
+
+/***/ },
+/* 360 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	
+	// this.props.list
+	// this.props.card
+	
+	var CardDetail = React.createClass({
+	  displayName: "CardDetail",
+	
+	  render: function () {
+	    return React.createElement(
+	      "div",
+	      { className: "window-overlay" },
+	      React.createElement(
+	        "div",
+	        { className: "window-content" },
+	        React.createElement("div", { className: "card-detail-view group" }),
+	        React.createElement(
+	          "div",
+	          { className: "card-detail-header" },
+	          React.createElement(
+	            "div",
+	            { className: "card-detail-title" },
+	            this.props.card.title
+	          ),
+	          "in list",
+	          React.createElement(
+	            "div",
+	            { className: "card-detail-title-list" },
+	            this.props.list.title
+	          )
+	        )
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = CardDetail;
 
 /***/ }
 /******/ ]);

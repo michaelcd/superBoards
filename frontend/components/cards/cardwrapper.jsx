@@ -1,9 +1,9 @@
 var React = require('react');
-var ApiUtil = require('../util/api_util');
+var ApiUtil = require('../../util/api_util');
 var Card = require('./card');
 var DragSource = require('react-dnd').DragSource;
 var PropTypes = React.PropTypes;
-var ItemTypes = require('../constants/itemtypes');
+var ItemTypes = require('../../constants/itemtypes');
 var DropTarget = require('react-dnd').DropTarget;
 
 var cardTarget = {
@@ -37,7 +37,7 @@ var CardWrapper = React.createClass({
 
     return connectDropTarget(
       <div className="card-wrapper">
-        <Card card={this.props.card}/>
+        <Card list={this.props.list} card={this.props.card}/>
       </div>
     );
   }

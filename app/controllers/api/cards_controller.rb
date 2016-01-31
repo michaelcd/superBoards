@@ -21,7 +21,15 @@ class Api::CardsController < ApplicationController
       @card.update(card_params)
     end
 
-    @board = Board.find_by_id(@card.list.board_id)
+    @board = @card.board
+    render 'api/boards/show'
+  end
+
+  def destroy
+    @card = Card.find_by_id(params[:id])
+    @board = @card.board
+    @card.destroy
+
     render 'api/boards/show'
   end
 

@@ -84,6 +84,7 @@ BoardDetailView = React.createClass({
           {lists}
           <div className="list-wrapper"><NewList board={this.state.board} /></div>
         </ul>
+        {this.props.children}
       </div>
     );
   }

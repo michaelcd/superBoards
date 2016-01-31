@@ -1,10 +1,11 @@
 var React = require('react');
-var CardWrapper = require('./cardwrapper');
+var CardWrapper = require('./cards/cardwrapper');
 var NewCard = require('./newcard');
 var ApiUtil = require('../util/api_util');
 var DragSource = require('react-dnd').DragSource;
 var ItemTypes = require('../constants/itemtypes');
 var PropTypes = React.PropTypes;
+var ListMenu = require('./lists/listmenu');
 
 // this.props.list
 
@@ -61,13 +62,19 @@ var List = React.createClass({
     var pos = 1;
     cards = this.props.list.cards.map(function (card) {
       pos += 1;
-      return <CardWrapper pos={pos} key={card.id} card={card} ord={card.ord}/>;
+      return <CardWrapper
+        pos={pos}
+        key={card.id}
+        card={card}
+        list={that.props.list}
+        ord={card.ord}/>;
     });
 
     var connectDragSource = this.props.connectDragSource;
     var isDragging = this.props.isDragging;
 
     var content;
+
     if (this.state.form === true) {
       content = (
         <div className="list-form group">
@@ -83,10 +90,11 @@ var List = React.createClass({
       );
     } else {
       content = (
-        <div onClick={this.titleClick} className="list-title-container">
-          <div className="list-title">
+        <div className="list-title-container">
+          <div onClick={this.titleClick} className="list-title">
             {this.props.list.title}
           </div>
+          <ListMenu list={this.props.list}/>
         </div>
       );
     }
