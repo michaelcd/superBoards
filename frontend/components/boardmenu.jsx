@@ -61,8 +61,9 @@ var BoardMenu = React.createClass({
       );
     } else {
       content = (
-        <a href="#" className="board-menu-button" onClick={this.buttonClick}>
-          Show Menu</a>
+        <div className="board-menu-button" onClick={this.buttonClick}>
+          <div className="board-menu-button-text">Show Menu</div>
+        </div>
       );
     }
     return (
