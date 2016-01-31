@@ -342,14 +342,6 @@ float:left;
 .list-rename-form {
   width: 270px;
   font-size: 14px;
-  /*border-radius: 3px;
-  background: #eee;
-  float:left;
-  font-weight: 700;
-  width: 270px;
-  margin: 0 5px;
-  height: 100%;
-  vertical-align: top;*/
   display:block;
   background: #E2E4E6;
   color:black;
@@ -387,7 +379,6 @@ float:left;
 
 .list-title {
   padding: 0 0 0 5px;
-
 }
 
 .add-list-button {
@@ -401,6 +392,7 @@ float:left;
 
 
 .list-title-container {
+  white-space: normal;
   padding:8px 34px 8px 6px;
 }
 
