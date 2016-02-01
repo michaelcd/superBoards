@@ -51,7 +51,6 @@ BoardDetailView = React.createClass({
   },
 
   render: function () {
-    console.log(this.state.board);
     var lists;
     if (this.state.board.lists !== undefined) {
       lists = (this.state.board.lists.map(function (list) {

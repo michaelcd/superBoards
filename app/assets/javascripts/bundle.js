@@ -25145,6 +25145,18 @@
 	  return board;
 	};
 	
+	BoardStore.findList = function (id) {
+	  var list = {};
+	
+	  for (var i = 0; i < _board.lists.length; i++) {
+	    if (_board.lists[i].id === id) {
+	      board = _board.lists[i];
+	    }
+	  }
+	
+	  return list;
+	};
+	
 	BoardStore.all = function () {
 	  return _boards;
 	};
@@ -31625,6 +31637,7 @@
 	var BoardsIndex = __webpack_require__(208);
 	var SessionsApiUtil = __webpack_require__(361);
 	var CurrentUserStore = __webpack_require__(364);
+	var LoadingScreen = __webpack_require__(369);
 	
 	var App = React.createClass({
 	  displayName: 'App',
@@ -31640,11 +31653,7 @@
 	
 	  render: function () {
 	    if (!CurrentUserStore.userHasBeenFetched()) {
-	      return React.createElement(
-	        'p',
-	        null,
-	        'PLEASE WAIT'
-	      );
+	      return React.createElement(LoadingScreen, null);
 	    }
 	
 	    return React.createElement(
@@ -31739,7 +31748,6 @@
 	  },
 	
 	  render: function () {
-	    console.log(this.state.board);
 	    var lists;
 	    if (this.state.board.lists !== undefined) {
 	      lists = this.state.board.lists.map(function (list) {
@@ -36557,7 +36565,11 @@
 	  displayName: 'CardDetail',
 	
 	  getInitialState: function () {
-	    return { card: CardStore.card(), board_id: BoardStore.single().id };
+	    return {
+	      card: CardStore.card(),
+	      board_id: BoardStore.single().id,
+	      list: {}
+	    };
 	  },
 	
 	  componentDidMount: function () {
@@ -36570,7 +36582,11 @@
 	  },
 	
 	  _onChange: function () {
-	    this.setState({ card: CardStore.card(), board_id: BoardStore.single().id });
+	    this.setState({
+	      card: CardStore.card(),
+	      board_id: BoardStore.single().id,
+	      list: BoardStore.findList(card.list_id)
+	    });
 	  },
 	
 	  render: function () {
@@ -36603,7 +36619,7 @@
 	              React.createElement(
 	                'div',
 	                { className: 'card-detail-header-list-title' },
-	                'list title placeholder'
+	                'list placeholder'
 	              )
 	            )
 	          )
@@ -39266,6 +39282,30 @@
 	});
 	
 	module.exports = SessionForm;
+
+/***/ },
+/* 369 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	
+	var LoadingScreen = React.createClass({
+	  displayName: "LoadingScreen",
+	
+	  render: function () {
+	    return React.createElement(
+	      "div",
+	      { className: "loading-screen" },
+	      React.createElement(
+	        "div",
+	        { className: "auth-form-window" },
+	        "Loading..."
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = LoadingScreen;
 
 /***/ }
 /******/ ]);

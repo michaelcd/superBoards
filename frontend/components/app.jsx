@@ -3,6 +3,7 @@ var Navbar = require('./navbar/navbar');
 var BoardsIndex = require('./boardsindex');
 var SessionsApiUtil = require('./../util/sessions_api_util');
 var CurrentUserStore = require("./../stores/currentuser");
+var LoadingScreen = require('./loadingscreen');
 
 
  var App = React.createClass({
@@ -14,11 +15,11 @@ var CurrentUserStore = require("./../stores/currentuser");
 
    componentWillUnmount: function () {
     this.appListener.remove();
-   },
+  },
 
   render: function () {
     if (!CurrentUserStore.userHasBeenFetched()) {
-      return <p>PLEASE WAIT</p>;
+      return <LoadingScreen />;
     }
 
     return (

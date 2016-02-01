@@ -12,21 +12,28 @@ plus
 minus
 ellipsis-h
 
-Beginning of the day:
-write out goals for next few days, review readme and phase docs
-
+Monday - Feb 1st
 [X] - React Auth
 [X] - Bug: new list no longer works
 [X] - refactor CSS and pop-up menus
 [X] - User menu - logout option
-[ ] - React login
-[ ] - redirect to login
-[ ] - rewrite loading screen
+[X] - React login
+[X] - redirect to login
+
+
+
+
+
+
 
 
 [ ] - Card renaming / Card Detail view
 [ ] - Card CRUD
 
+Polish:
+[ ] - be able to refresh carddetailview without breaking it
+[ ] - drag and drop previews
+[ ] - rewrite loading screen
 [ ] Link areas to widen: List title - click for rename
 [ ] Link areas to widen: Card title - click to bring up card detail
 

@@ -33,6 +33,18 @@ BoardStore.findBoard = function (id) {
   return board;
 };
 
+BoardStore.findList = function (id) {
+  var list = {};
+
+  for (var i = 0; i < _board.lists.length; i++) {
+    if (_board.lists[i].id === id) {
+      board = _board.lists[i];
+    }
+  }
+
+  return list;
+};
+
 BoardStore.all = function () {
   return _boards;
 };
