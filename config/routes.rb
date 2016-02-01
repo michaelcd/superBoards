@@ -8,5 +8,6 @@
     resources :boards, except: [:new, :edit]
     resources :lists, only: [:create, :update, :destroy]
     resources :cards, only: [:create, :update, :destroy, :show]
+    resources :comments, only: [:create, :destroy, :update]
   end
 end

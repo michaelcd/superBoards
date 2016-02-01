@@ -151,6 +151,20 @@ var ApiUtil = {
    });
   },
 
+  createComment: function (comment) {
+    $.ajax({
+     url: "api/comments/",
+     method: "POST",
+     data: {comment: comment},
+     success: function (card) {
+      CardActions.receiveCard(card);
+     },
+     failure: function () {
+      console.log("failure");
+     }
+   });
+   },
+
   createCard: function (card) {
     $.ajax({
      url: "api/cards",
