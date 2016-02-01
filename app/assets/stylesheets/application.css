@@ -39,6 +39,8 @@ button {
   cursor: pointer;
 }
 
+button:focus {outline:0;}s
+
 body {
   display:block;
   font-family: 'Helvetica Neue', Arial, Helvetica, sans-serif;
@@ -425,15 +427,31 @@ html, body {
 }
 
 .new-list {
+
+}
+
+.add-list-button {
   font-size: 14px;
   display:inline-block;
   vertical-align: top;
   border-radius: 3px;
   background: #026aa7;
-  width: 270px;
+  width: 262px;
+  padding:4px;
+  height: 32px;
   color: rgba(255,255,255,.7);
+  cursor:pointer;
 }
 
+.add-list-button:hover {
+  background: #005586;
+}
+
+.add-list-text {
+  padding: 7px;
+  width:248px;
+  line-height: 18px;
+}
 
 .list-form {
   display:block;
@@ -514,7 +532,7 @@ html, body {
   color: #4D4D4D;
 }
 
-.list-actions-menu {
+.pop-up-menu {
   border-radius: 3px;
   z-index: 150;
   line-height: 18px;
@@ -528,7 +546,21 @@ html, body {
   border-bottom-color:#c4c9cc;
 }
 
-.list-actions-header {
+.user-menu {
+  border-radius: 3px;
+  z-index: 150;
+  line-height: 18px;
+  display:block;
+  position:absolute;
+  top: 40px;
+  right: 10px;
+  width:300px;
+  background: white;
+  border: 1px solid #D6DADC;
+  border-bottom-color:#c4c9cc;
+}
+
+.pop-up-menu-header {
   font-size: 14px;
   color: #8c8c8c;
   font-weight: normal;
@@ -539,7 +571,7 @@ html, body {
   margin-bottom: 8px;
 }
 
-.list-actions-title {
+.pop-up-menu-title {
   box-sizing: border-box;
   width: 280px;
   line-height: 36px;
@@ -547,7 +579,7 @@ html, body {
   margin-right: auto;
 }
 
-.list-actions-cancel {
+.pop-up-menu-cancel {
   /*color: #4D4D4D;*/
   cursor: pointer;
   position:absolute;
@@ -557,31 +589,25 @@ html, body {
   padding-left: 4px;
 }
 
-.list-actions-options-list {
+.pop-up-menu-options-list {
   padding: 10px;
   padding-top: 0;
 }
 
-.list-actions-option {
+.pop-up-menu-option {
+  color: #4d4d4d;
   font-size: 14px;
   display:block;
   line-height: 18px;
   padding: 6px 10px;
 }
 
-.list-actions-option:hover {
+.pop-up-menu-option:hover {
   background: #298FCA;
   color:white;
 }
 
 
-.add-list-button {
-  padding:8px 34px 8px 6px;
-}
-
-.new-list-text {
-
-}
 
 .card-wrapper {
   margin-left: 4px;

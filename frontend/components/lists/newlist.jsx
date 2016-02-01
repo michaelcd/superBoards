@@ -1,6 +1,6 @@
 var React = require('react');
-var ApiUtil = require('../util/api_util');
-var BoardStore = require('../stores/board');
+var ApiUtil = require('../../util/api_util');
+var BoardStore = require('../../stores/board');
 
 var NewList = React.createClass({
   getInitialState: function () {

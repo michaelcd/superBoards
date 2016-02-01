@@ -1,5 +1,6 @@
 var React = require('react');
-var Search = require('./navbar/search');
+var Search = require('./search');
+var UserButton = require('./userbutton');
 
 var Navbar = React.createClass({
   getInitialState: function () {
@@ -24,10 +25,7 @@ var Navbar = React.createClass({
         </button>
         <Search />
         {list}
-        <button className="user-button navbar-button">
-          <div className="user-button-initials">UN</div>
-          <div className="user-button-name">Username</div>
-        </button>
+        <UserButton />
       </div>
     );
   }
