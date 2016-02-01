@@ -24520,6 +24520,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var BoardActions = __webpack_require__(212);
+	var CardActions = __webpack_require__(363);
 	
 	var ApiUtil = {
 	  moveList: function (list) {
@@ -24678,6 +24679,19 @@
 	      data: { card: card },
 	      success: function (board) {
 	        BoardActions.receiveSingleBoard(board);
+	      },
+	      failure: function () {
+	        console.log("failure");
+	      }
+	    });
+	  },
+	
+	  fetchCard: function (id) {
+	    $.ajax({
+	      url: "api/cards/" + id,
+	      method: "GET",
+	      success: function (card) {
+	        CardActions.receiveCard(card);
 	      },
 	      failure: function () {
 	        console.log("failure");
@@ -38744,9 +38758,8 @@
 	      'div',
 	      { className: 'card' },
 	      React.createElement(
-	        'div',
-	        { onClick: this.titleClick,
-	          className: 'card-title' },
+	        'a',
+	        { href: "#/cards/" + this.props.card.id, className: 'card-title' },
 	        this.props.card.title
 	      ),
 	      detail,
@@ -38762,34 +38775,62 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	
-	// this.props.list
-	// this.props.card
+	var CardStore = __webpack_require__(361);
+	var ApiUtil = __webpack_require__(211);
 	
 	var CardDetail = React.createClass({
-	  displayName: "CardDetail",
+	  displayName: 'CardDetail',
+	
+	  getInitialState: function () {
+	    return { card: CardStore.card(), board_id: BoardStore.single().id };
+	  },
+	
+	  componentDidMount: function () {
+	    this.cardListener = CardStore.addListener(this._onChange);
+	    ApiUtil.fetchCard(this.props.params.id);
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.cardListener.remove();
+	  },
+	
+	  _onChange: function () {
+	    this.setState({ card: CardStore.card(), board_id: BoardStore.single().id });
+	  },
 	
 	  render: function () {
 	    return React.createElement(
-	      "div",
-	      { className: "window-overlay" },
+	      'div',
+	      { className: 'window-overlay' },
 	      React.createElement(
-	        "div",
-	        { className: "window-content" },
-	        React.createElement("div", { className: "card-detail-view group" }),
+	        'div',
+	        { className: 'window-content' },
 	        React.createElement(
-	          "div",
-	          { className: "card-detail-header" },
+	          'div',
+	          { className: 'card-detail-view' },
 	          React.createElement(
-	            "div",
-	            { className: "card-detail-title" },
-	            this.props.card.title
+	            'a',
+	            { href: "#/boards/" + this.state.board_id, className: 'card-detail-cancel' },
+	            React.createElement('i', { className: 'fa fa-times fa-fw' })
 	          ),
-	          "in list",
 	          React.createElement(
-	            "div",
-	            { className: "card-detail-title-list" },
-	            this.props.list.title
+	            'div',
+	            { className: 'card-detail-header' },
+	            React.createElement(
+	              'div',
+	              { className: 'card-detail-title' },
+	              this.state.card.title
+	            ),
+	            React.createElement(
+	              'div',
+	              { className: 'card-detail-header-words' },
+	              'in list ',
+	              React.createElement(
+	                'div',
+	                { className: 'card-detail-header-list-title' },
+	                'list title placeholder'
+	              )
+	            )
 	          )
 	        )
 	      )
@@ -38798,6 +38839,60 @@
 	});
 	
 	module.exports = CardDetail;
+
+/***/ },
+/* 361 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var AppDispatcher = __webpack_require__(213);
+	var Store = __webpack_require__(219).Store;
+	var CardConstants = __webpack_require__(362);
+	
+	var _card = {};
+	var CardStore = new Store(AppDispatcher);
+	
+	var resetCard = function (card) {
+	  _card = card;
+	};
+	
+	CardStore.card = function () {
+	  return _card;
+	};
+	
+	CardStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case CardConstants.CARD_RECEIVED:
+	      resetCard(payload.card);
+	      CardStore.__emitChange();
+	      break;
+	  }
+	};
+	
+	module.exports = CardStore;
+
+/***/ },
+/* 362 */
+/***/ function(module, exports) {
+
+	module.exports = {
+	  CARD_RECEIVED: "CARD_RECEIVED"
+	};
+
+/***/ },
+/* 363 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Dispatcher = __webpack_require__(213);
+	var CardConstants = __webpack_require__(362);
+	
+	module.exports = {
+	  receiveCard: function (card) {
+	    Dispatcher.dispatch({
+	      actionType: CardConstants.CARD_RECEIVED,
+	      card: card
+	    });
+	  }
+	};
 
 /***/ }
 /******/ ]);

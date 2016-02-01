@@ -47,8 +47,8 @@ var Card = React.createClass({
 
     return connectDragSource(
       <div className="card">
-        <div onClick={this.titleClick}
-          className="card-title">{this.props.card.title}</div>
+        <a href={"#/cards/" + this.props.card.id} className="card-title">
+          {this.props.card.title}</a>
         {detail}
         <CardMenu card={this.props.card}/>
       </div>

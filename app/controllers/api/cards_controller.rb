@@ -11,6 +11,10 @@ class Api::CardsController < ApplicationController
     render 'api/boards/show'
   end
 
+  def show
+    @card = Card.find_by_id(params[:id])
+  end
+
   def update
     @card = Card.find_by_id(card_params[:id])
 
