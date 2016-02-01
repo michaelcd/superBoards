@@ -15,10 +15,19 @@ ellipsis-h
 Beginning of the day:
 write out goals for next few days, review readme and phase docs
 
+[X] - React Auth
+[X] - Bug: new list no longer works
+[X] - refactor CSS and pop-up menus
+[ ] - User menu - logout option
+[ ] - rewrite loading screen
 
-[ ] - Card and List options menus
+
 [ ] - Card renaming / Card Detail view
-[ ] - Card and List archival
+[ ] - Card CRUD
+
+[ ] Link areas to widen: List title - click for rename
+[ ] Link areas to widen: Card title - click to bring up card detail
+
 
 
 
@@ -55,6 +64,9 @@ Review Lily's email
 - Board sharing
 - Style and seed as you go
 - Implement search next week
+
+
+
 
 React DnD tutorial:
 http://gaearon.github.io/react-dnd/docs-tutorial.html

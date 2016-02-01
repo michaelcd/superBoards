@@ -13,7 +13,7 @@ var ListMenu = React.createClass({
   },
 
   closeMenu: function () {
-    this.setState({menu: false})
+    this.setState({menu: false});
   },
 
   archiveList: function (event) {
@@ -21,13 +21,13 @@ var ListMenu = React.createClass({
     var list = this.props.list;
     list.archived = true;
     ApiUtil.updateList(list);
-    this.setState({menu: false})
+    this.setState({menu: false});
   },
 
   deleteList: function (event) {
     event.preventDefault();
     ApiUtil.destroyList(this.props.list);
-    this.setState({menu: false})
+    this.setState({menu: false});
   },
 
   render: function () {
@@ -35,18 +35,18 @@ var ListMenu = React.createClass({
 
     if (this.state.menu === true) {
       menu = (
-        <div className="list-actions-menu">
-          <div className="list-actions-header group">
-            <div className="list-actions-title">List Actions</div>
-            <div className="list-actions-cancel" onClick={this.closeMenu}>
+        <div className="pop-up-menu">
+          <div className="pop-up-menu-header group">
+            <div className="pop-up-menu-title">List Actions</div>
+            <div className="pop-up-menu-cancel" onClick={this.closeMenu}>
               <i className="fa fa-times fa-fw" />
             </div>
           </div>
-          <div className="list-actions-options-list">
+          <div className="pop-up-menu-options-list">
             <a href="#" onClick={this.archiveList}
-              className="list-actions-option">Archive List</a>
+              className="pop-up-menu-option">Archive List</a>
             <a href="#" onClick={this.deleteList}
-              className="list-actions-option">Delete List</a>
+              className="pop-up-menu-option">Delete List</a>
           </div>
         </div>
       );
