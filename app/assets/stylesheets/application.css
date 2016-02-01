@@ -793,13 +793,15 @@ html, body {
 }
 
 .auth-form-container {
+  position:absolute;
   display:block;
   background: #E2E4E6;
   color: #4D4D4D;
   border-radius: 3px;
   width: 300px;
   padding:7px;
-  margin:auto;
+  top: calc(50% - 85px);
+  left: calc(50% - 150px);
 }
 
 .auth-form-title {

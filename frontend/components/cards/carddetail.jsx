@@ -5,7 +5,11 @@ var ApiUtil = require('../../util/api_util');
 
 var CardDetail = React.createClass({
   getInitialState: function () {
-    return ({card: CardStore.card(), board_id: BoardStore.single().id});
+    return ({
+      card: CardStore.card(),
+      board_id: BoardStore.single().id,
+      list: {}
+    });
   },
 
   componentDidMount: function () {
@@ -18,30 +22,34 @@ var CardDetail = React.createClass({
   },
 
   _onChange: function () {
-    this.setState({card: CardStore.card(), board_id: BoardStore.single().id});
+    this.setState({
+      card: CardStore.card(),
+      board_id: BoardStore.single().id,
+      list: BoardStore.findList(card.list_id)
+    });
   },
 
   render: function () {
     return (
-        <div className="window-overlay">
-          <div className="window-content">
-            <div className="card-detail-view">
-              <a href={"#/boards/" + this.state.board_id} className="card-detail-cancel">
-                <i className="fa fa-times fa-fw" />
-              </a>
-              <div className="card-detail-header">
-                <div className="card-detail-title">
-                  {this.state.card.title}
-                </div>
-                <div className="card-detail-header-words">
-                  in list <div className="card-detail-header-list-title">
-                    list title placeholder
-                  </div>
+      <div className="window-overlay">
+        <div className="window-content">
+          <div className="card-detail-view">
+            <a href={"#/boards/" + this.state.board_id} className="card-detail-cancel">
+              <i className="fa fa-times fa-fw" />
+            </a>
+            <div className="card-detail-header">
+              <div className="card-detail-title">
+                {this.state.card.title}
+              </div>
+              <div className="card-detail-header-words">
+                in list <div className="card-detail-header-list-title">
+                  list placeholder
                 </div>
               </div>
             </div>
           </div>
         </div>
+      </div>
     );
   }
 });
