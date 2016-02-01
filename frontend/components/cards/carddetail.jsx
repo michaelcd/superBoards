@@ -138,7 +138,7 @@ var CardDetail = React.createClass({
             </div>
           </div>
           <CardDetailActions card={this.state.card} boardId={this.props.params.board_id} />
-          <CommentView comments={this.state.card.comments}/>
+          <CommentView comments={this.state.card.comments} card={this.state.card} />
         </div>
       </div>
     );

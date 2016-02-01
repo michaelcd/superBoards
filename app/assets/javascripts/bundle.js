@@ -24685,6 +24685,20 @@
 	    });
 	  },
 	
+	  createComment: function (comment) {
+	    $.ajax({
+	      url: "api/comments/",
+	      method: "POST",
+	      data: { comment: comment },
+	      success: function (card) {
+	        CardActions.receiveCard(card);
+	      },
+	      failure: function () {
+	        console.log("failure");
+	      }
+	    });
+	  },
+	
 	  createCard: function (card) {
 	    $.ajax({
 	      url: "api/cards",
@@ -36734,7 +36748,7 @@
 	          )
 	        ),
 	        React.createElement(CardDetailActions, { card: this.state.card, boardId: this.props.params.board_id }),
-	        React.createElement(CommentView, { comments: this.state.card.comments })
+	        React.createElement(CommentView, { comments: this.state.card.comments, card: this.state.card })
 	      )
 	    );
 	  }
@@ -39494,19 +39508,27 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
+	var ApiUtil = __webpack_require__(211);
 	
 	var CommentView = React.createClass({
-	  displayName: "CommentView",
+	  displayName: 'CommentView',
 	
-	  componentDidMount: function () {
-	    // this.cardListener = CardStore.addListener(this._onChange);
-	  },
-	
-	  componentWillUnmount: function () {
-	    // this.cardListener.remove();
+	  getInitialState: function () {
+	    return { inputVal: "" };
 	  },
 	
 	  _onChange: function () {},
+	
+	  addComment: function (event) {
+	    event.preventDefault();
+	    var comment = { body: this.state.inputVal, card_id: this.props.card.id };
+	    ApiUtil.createComment(comment);
+	    this.setState({ inputVal: "" });
+	  },
+	
+	  changeHandler: function (event) {
+	    this.setState({ inputVal: event.currentTarget.value });
+	  },
 	
 	  render: function () {
 	    var commentsList;
@@ -39514,28 +39536,41 @@
 	    if (this.props.comments) {
 	      commentsList = this.props.comments.map(function (comment) {
 	        return React.createElement(
-	          "div",
-	          { key: comment.id, className: "comment" },
+	          'div',
+	          { key: comment.id, className: 'comment' },
 	          comment.body,
-	          " - ",
+	          ' - ',
 	          comment.author
 	        );
 	      });
 	    } else {
 	      commentsList = React.createElement(
-	        "div",
+	        'div',
 	        null,
-	        "There are no comments on this card."
+	        'There are no comments on this card.'
 	      );
 	    }
 	
 	    return React.createElement(
-	      "div",
-	      { className: "comment-container" },
-	      React.createElement("div", { className: "new-comment-container" }),
+	      'div',
+	      { className: 'comment-container' },
 	      React.createElement(
-	        "div",
-	        { className: "comments-list" },
+	        'div',
+	        { className: 'new-comment-container' },
+	        React.createElement(
+	          'form',
+	          { className: 'new-comment-form', onSubmit: this.addComment },
+	          React.createElement('input', { type: 'text', className: 'new-comment-input', onChange: this.changeHandler }),
+	          React.createElement(
+	            'button',
+	            { className: 'new-comment-button' },
+	            'Save Comment'
+	          )
+	        )
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'comments-list' },
 	        commentsList
 	      )
 	    );

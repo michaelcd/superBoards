@@ -1,16 +1,24 @@
 var React = require('react');
+var ApiUtil = require('../../util/api_util');
 
- var CommentView = React.createClass({
-  componentDidMount: function () {
-    // this.cardListener = CardStore.addListener(this._onChange);
-  },
-
-  componentWillUnmount: function () {
-    // this.cardListener.remove();
+var CommentView = React.createClass({
+  getInitialState: function () {
+    return ({inputVal: ""});
   },
 
   _onChange: function () {
 
+  },
+
+  addComment: function (event) {
+    event.preventDefault();
+    var comment = {body: this.state.inputVal, card_id: this.props.card.id};
+    ApiUtil.createComment(comment);
+    this.setState({inputVal: ""});
+  },
+
+  changeHandler: function (event) {
+    this.setState({inputVal: event.currentTarget.value});
   },
 
   render: function () {
@@ -32,7 +40,12 @@ var React = require('react');
 
     return (
       <div className="comment-container">
-        <div className="new-comment-container"></div>
+        <div className="new-comment-container">
+          <form className="new-comment-form" onSubmit={this.addComment}>
+            <input type="text" className="new-comment-input" onChange={this.changeHandler} />
+            <button className="new-comment-button">Save Comment</button>
+          </form>
+        </div>
         <div className="comments-list">
           {commentsList}
         </div>
