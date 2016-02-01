@@ -20,11 +20,17 @@ CurrentUserStore.userHasBeenFetched = function () {
 };
 
 CurrentUserStore.__onDispatch = function (payload) {
-  if (payload.actionType === CurrentUserConstants.CURRENT_USER_RECEIVED) {
-    // do stuff
-    _currentUserHasBeenFetched = true;
-    _currentUser = payload.currentUser;
-    CurrentUserStore.__emitChange();
+  switch (payload.actionType) {
+    case CurrentUserConstants.CURRENT_USER_RECEIVED:
+      _currentUserHasBeenFetched = true;
+      _currentUser = payload.currentUser;
+      CurrentUserStore.__emitChange();
+      break;
+    case CurrentUserConstants.LOGOUT_USER:
+      _currentUserHasBeenFetched = false;
+      _currentUser = {};
+      CurrentUserStore.__emitChange();
+      break;
   }
 };
 

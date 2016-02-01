@@ -13,7 +13,7 @@ class Api::SessionsController < ApplicationController
 
   def create
     @user = User.find_by_credentials(
-      params[:email],
+      params[:username],
       params[:password]
     )
 
@@ -22,7 +22,7 @@ class Api::SessionsController < ApplicationController
       # render :new, status: 401
       render json: ["Wrong email/password combo!"], status: 401
     else
-      sign_in!(@user)
+      sign_in(@user)
       # redirect_to root_url
       render "api/users/show"
     end
@@ -30,6 +30,9 @@ class Api::SessionsController < ApplicationController
 
   def destroy
     sign_out!
+    @user = User.new
+    render "api/users/show"
+
     # redirect_to new_session_url
   end
 

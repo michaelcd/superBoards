@@ -8,21 +8,41 @@ var BoardsIndex = require('./components/boardsindex');
 var App = require('./components/app.jsx');
 var BoardDetailView = require('./components/boarddetailview');
 var CardDetail = require('./components/cards/carddetail');
-
+var CurrentUserStore = require('./stores/currentuser');
+var SessionsApiUtil = require('./util/sessions_api_util');
+var SessionForm = require('./components/sessionform');
 
 BoardStore = require('./stores/board');
 
-var routes = (
-  <Route path="/" component={App}>
-    <IndexRoute component={BoardsIndex} />
-    <Route path="/boards/:id" component={BoardDetailView} >
-      <Route path="/cards/:id" component={CardDetail} />
+var router = (
+  <Router>
+    <Route path="login" component={SessionForm} />
+    <Route path="/" component={App} onEnter={_ensureLoggedIn}>
+      <IndexRoute component={BoardsIndex} onEnter={_ensureLoggedIn} />
+      <Route path="/boards/:id" component={BoardDetailView} >
+        <Route path="/cards/:id" component={CardDetail} />
+      </Route>
     </Route>
-  </Route>
+  </Router>
 );
+
+function _ensureLoggedIn(nextState, replace, callback) {
+  if (CurrentUserStore.userHasBeenFetched()) {
+    _redirectIfNotLoggedIn();
+  } else {
+    SessionsApiUtil.fetchCurrentUser(_redirectIfNotLoggedIn);
+  }
+
+  function _redirectIfNotLoggedIn () {
+    if (!CurrentUserStore.isLoggedIn()) {
+      replace({}, "/login");
+    }
+      callback();
+    }
+}
 
 
 document.addEventListener("DOMContentLoaded", function () {
   var root = document.getElementById('content');
-  ReactDOM.render(<Router>{routes}</Router>, root);
+  ReactDOM.render(router, root);
 });
