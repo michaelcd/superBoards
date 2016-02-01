@@ -47,6 +47,13 @@ Card.create(title: "Soho", list_id: 5, ord: 3, archived: false, author_id: 1)
 List.create(title: "Jonathan", board_id: 1, ord: 5, archived: false)
 Card.create(title: "You can do it!", list_id: 6, ord: 0, archived: false, author_id: 1)
 
+# some test comments
+Comment.create(body: "Good morning everybody!", author_id: 1, card_id: 2)
+Comment.create(body: "Breaktime everybody!", author_id: 1, card_id: 2)
+Comment.create(body: "Alright it's 6 o'clock!", author_id: 1, card_id: 2)
+Comment.create(body: "Good morning pod!", author_id: 1, card_id: 4)
+
+
 # AppTour board and lists
 
 Board.create(title: "superBoards Tour", author_id: 1)

@@ -36557,6 +36557,7 @@
 	var BoardStore = __webpack_require__(220);
 	var ApiUtil = __webpack_require__(211);
 	var CardDetailActions = __webpack_require__(370);
+	var CommentView = __webpack_require__(371);
 	
 	var CardDetail = React.createClass({
 	  displayName: 'CardDetail',
@@ -36732,7 +36733,8 @@
 	            )
 	          )
 	        ),
-	        React.createElement(CardDetailActions, { card: this.state.card, boardId: this.props.params.board_id })
+	        React.createElement(CardDetailActions, { card: this.state.card, boardId: this.props.params.board_id }),
+	        React.createElement(CommentView, { comments: this.state.card.comments })
 	      )
 	    );
 	  }
@@ -39486,6 +39488,61 @@
 	});
 	
 	module.exports = CardDetailActions;
+
+/***/ },
+/* 371 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	
+	var CommentView = React.createClass({
+	  displayName: "CommentView",
+	
+	  componentDidMount: function () {
+	    // this.cardListener = CardStore.addListener(this._onChange);
+	  },
+	
+	  componentWillUnmount: function () {
+	    // this.cardListener.remove();
+	  },
+	
+	  _onChange: function () {},
+	
+	  render: function () {
+	    var commentsList;
+	
+	    if (this.props.comments) {
+	      commentsList = this.props.comments.map(function (comment) {
+	        return React.createElement(
+	          "div",
+	          { key: comment.id, className: "comment" },
+	          comment.body,
+	          " - ",
+	          comment.author
+	        );
+	      });
+	    } else {
+	      commentsList = React.createElement(
+	        "div",
+	        null,
+	        "There are no comments on this card."
+	      );
+	    }
+	
+	    return React.createElement(
+	      "div",
+	      { className: "comment-container" },
+	      React.createElement("div", { className: "new-comment-container" }),
+	      React.createElement(
+	        "div",
+	        { className: "comments-list" },
+	        commentsList
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = CommentView;
 
 /***/ }
 /******/ ]);

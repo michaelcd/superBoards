@@ -3,7 +3,7 @@ var CardStore = require('../../stores/card');
 var BoardStore = require('../../stores/board');
 var ApiUtil = require('../../util/api_util');
 var CardDetailActions = require('./carddetail_actions');
-
+var CommentView = require('./commentview');
 
 
 var CardDetail = React.createClass({
@@ -138,6 +138,7 @@ var CardDetail = React.createClass({
             </div>
           </div>
           <CardDetailActions card={this.state.card} boardId={this.props.params.board_id} />
+          <CommentView comments={this.state.card.comments}/>
         </div>
       </div>
     );
