@@ -33,27 +33,4 @@ class Card < ActiveRecord::Base
     destination_cards = card.list.cards.to_a
     self.move_card_within_list(card.ord, destination_ord, destination_cards)
   end
-
-  # def self.move_card_between_lists(original_card, destination_list_id, destination_ord)
-  #   original_list_cards = original_card.list.cards.to_a
-  #   original_list_cards.delete(original_card)
-  #   original_list_cards = original_list_cards.sort_by { |card| card.ord }
-  #   original_list_cards.each_with_index do |card, index|
-  #     card.ord = index
-  #     card.save
-  #   end
-  #
-  #   original_card.list_id = destination_list_id
-  #   original_card.save
-  #
-  #   destination_cards = List.find_by_id(destination_list_id).cards
-  #   destination_cards = destination_cards.sort_by {|card| card.ord}
-  #   destination_cards.insert(destination_ord, original_card)
-  #
-  #   destination_cards.each_with_index do |card, index|
-  #     card.ord = index
-  #     card.save
-  #   end
-  # end
-
 end

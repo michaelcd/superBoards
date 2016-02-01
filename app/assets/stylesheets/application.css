@@ -784,6 +784,25 @@ html, body {
 
 .card-detail-main {
   padding:8px 12px 12px 12px;
+  width: 546px;
+  padding: 8px 12px 12px 12px;
+}
+
+.edit-description {
+  float:left;
+  width: 472px;
+  padding:6px 8px 6px 28px;
+  margin: 2px 0;
+  line-height: 18px;
+}
+
+.window-sidebar {
+  position:relative;
+  float:right;
+}
+
+.sidebar-action {
+  cursor:pointer;
 }
 
 /* Auth React components :*/

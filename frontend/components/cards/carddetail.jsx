@@ -2,6 +2,8 @@ var React = require('react');
 var CardStore = require('../../stores/card');
 var BoardStore = require('../../stores/board');
 var ApiUtil = require('../../util/api_util');
+var CardDetailActions = require('./carddetail_actions');
+
 
 
 var CardDetail = React.createClass({
@@ -9,6 +11,7 @@ var CardDetail = React.createClass({
     return ({
       card: CardStore.card(),
       description: false,
+      rename: false,
       descriptionVal: CardStore.card().description,
       renameVal: CardStore.card().title
     });
@@ -134,6 +137,7 @@ var CardDetail = React.createClass({
               </div>
             </div>
           </div>
+          <CardDetailActions card={this.state.card} boardId={this.props.params.board_id} />
         </div>
       </div>
     );

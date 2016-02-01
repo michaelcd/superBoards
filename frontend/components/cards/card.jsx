@@ -52,7 +52,7 @@ var Card = React.createClass({
           className="card-title">
           {this.props.card.title}</a>
         {detail}
-        <CardMenu card={this.props.card}/>
+        <CardMenu card={this.props.card} />
       </div>
     );
   }
