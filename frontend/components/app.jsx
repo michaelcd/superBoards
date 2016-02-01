@@ -7,8 +7,13 @@ var CurrentUserStore = require("./../stores/currentuser");
 
  var App = React.createClass({
    componentDidMount: function () {
-     CurrentUserStore.addListener(this.forceUpdate.bind(this));
-     SessionsApiUtil.fetchCurrentUser();
+    this.appListener =
+      CurrentUserStore.addListener(this.forceUpdate.bind(this));
+    SessionsApiUtil.fetchCurrentUser();
+   },
+
+   componentWillUnmount: function () {
+    this.appListener.remove();
    },
 
   render: function () {

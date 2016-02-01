@@ -1,7 +1,11 @@
 var React = require('react');
 var CurrentUserStore = require('../../stores/currentuser');
+var SessionsApiUtil = require('../../util/sessions_api_util');
+var History = require('react-router').History;
 
 var UserButton = React.createClass({
+  mixins: [History],
+
   getInitialState: function () {
     return ({
       currentUser: CurrentUserStore.currentUser(),
@@ -22,7 +26,11 @@ var UserButton = React.createClass({
   },
 
   componentDidMount: function () {
-    CurrentUserStore.addListener(this._onChange);
+    this.userListener = CurrentUserStore.addListener(this._onChange);
+  },
+
+  componentWillUnmount: function () {
+    this.userListener.remove();
   },
 
   _onChange: function () {
@@ -39,7 +47,8 @@ var UserButton = React.createClass({
 
   logout: function (event) {
     event.preventDefault();
-    
+    SessionsApiUtil.logout();
+    this.history.pushState(null, '/login');
   },
 
   render: function () {

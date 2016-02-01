@@ -54,27 +54,46 @@
 	var App = __webpack_require__(238);
 	var BoardDetailView = __webpack_require__(241);
 	var CardDetail = __webpack_require__(323);
+	var CurrentUserStore = __webpack_require__(364);
+	var SessionsApiUtil = __webpack_require__(361);
+	var SessionForm = __webpack_require__(368);
 	
 	BoardStore = __webpack_require__(220);
 	
-	var routes = React.createElement(
-	  Route,
-	  { path: '/', component: App },
-	  React.createElement(IndexRoute, { component: BoardsIndex }),
+	var router = React.createElement(
+	  Router,
+	  null,
+	  React.createElement(Route, { path: 'login', component: SessionForm }),
 	  React.createElement(
 	    Route,
-	    { path: '/boards/:id', component: BoardDetailView },
-	    React.createElement(Route, { path: '/cards/:id', component: CardDetail })
+	    { path: '/', component: App, onEnter: _ensureLoggedIn },
+	    React.createElement(IndexRoute, { component: BoardsIndex, onEnter: _ensureLoggedIn }),
+	    React.createElement(
+	      Route,
+	      { path: '/boards/:id', component: BoardDetailView },
+	      React.createElement(Route, { path: '/cards/:id', component: CardDetail })
+	    )
 	  )
 	);
 	
+	function _ensureLoggedIn(nextState, replace, callback) {
+	  if (CurrentUserStore.userHasBeenFetched()) {
+	    _redirectIfNotLoggedIn();
+	  } else {
+	    SessionsApiUtil.fetchCurrentUser(_redirectIfNotLoggedIn);
+	  }
+	
+	  function _redirectIfNotLoggedIn() {
+	    if (!CurrentUserStore.isLoggedIn()) {
+	      replace({}, "/login");
+	    }
+	    callback();
+	  }
+	}
+	
 	document.addEventListener("DOMContentLoaded", function () {
 	  var root = document.getElementById('content');
-	  ReactDOM.render(React.createElement(
-	    Router,
-	    null,
-	    routes
-	  ), root);
+	  ReactDOM.render(router, root);
 	});
 
 /***/ },
@@ -31611,8 +31630,12 @@
 	  displayName: 'App',
 	
 	  componentDidMount: function () {
-	    CurrentUserStore.addListener(this.forceUpdate.bind(this));
+	    this.appListener = CurrentUserStore.addListener(this.forceUpdate.bind(this));
 	    SessionsApiUtil.fetchCurrentUser();
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.appListener.remove();
 	  },
 	
 	  render: function () {
@@ -38813,11 +38836,12 @@
 	
 	  logout: function () {
 	    $.ajax({
-	      url: 'XXXX',
-	      type: 'XXXX',
+	      url: 'api/session',
+	      type: 'DELETE',
 	      dataType: 'json',
 	      success: function () {
 	        console.log("logged out!");
+	        CurrentUserActions.logoutUser();
 	      }
 	    });
 	  },
@@ -38852,6 +38876,12 @@
 	      actionType: CurrentUserConstants.CURRENT_USER_RECEIVED,
 	      currentUser: user
 	    });
+	  },
+	
+	  logoutUser: function () {
+	    Dispatcher.dispatch({
+	      actionType: CurrentUserConstants.LOGOUT_USER
+	    });
 	  }
 	};
 
@@ -38860,7 +38890,8 @@
 /***/ function(module, exports) {
 
 	module.exports = {
-	  CURRENT_USER_RECEIVED: "CURRENT_USER_RECEIVED"
+	  CURRENT_USER_RECEIVED: "CURRENT_USER_RECEIVED",
+	  LOGOUT_USER: "LOGOUT_USER"
 	};
 
 /***/ },
@@ -38889,11 +38920,17 @@
 	};
 	
 	CurrentUserStore.__onDispatch = function (payload) {
-	  if (payload.actionType === CurrentUserConstants.CURRENT_USER_RECEIVED) {
-	    // do stuff
-	    _currentUserHasBeenFetched = true;
-	    _currentUser = payload.currentUser;
-	    CurrentUserStore.__emitChange();
+	  switch (payload.actionType) {
+	    case CurrentUserConstants.CURRENT_USER_RECEIVED:
+	      _currentUserHasBeenFetched = true;
+	      _currentUser = payload.currentUser;
+	      CurrentUserStore.__emitChange();
+	      break;
+	    case CurrentUserConstants.LOGOUT_USER:
+	      _currentUserHasBeenFetched = false;
+	      _currentUser = {};
+	      CurrentUserStore.__emitChange();
+	      break;
 	  }
 	};
 	
@@ -38958,9 +38995,13 @@
 
 	var React = __webpack_require__(1);
 	var CurrentUserStore = __webpack_require__(364);
+	var SessionsApiUtil = __webpack_require__(361);
+	var History = __webpack_require__(159).History;
 	
 	var UserButton = React.createClass({
 	  displayName: 'UserButton',
+	
+	  mixins: [History],
 	
 	  getInitialState: function () {
 	    return {
@@ -38982,7 +39023,11 @@
 	  },
 	
 	  componentDidMount: function () {
-	    CurrentUserStore.addListener(this._onChange);
+	    this.userListener = CurrentUserStore.addListener(this._onChange);
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.userListener.remove();
 	  },
 	
 	  _onChange: function () {
@@ -38999,6 +39044,8 @@
 	
 	  logout: function (event) {
 	    event.preventDefault();
+	    SessionsApiUtil.logout();
+	    this.history.pushState(null, '/login');
 	  },
 	
 	  render: function () {
@@ -39144,6 +39191,81 @@
 	});
 	
 	module.exports = NewList;
+
+/***/ },
+/* 368 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var History = __webpack_require__(159).History;
+	var SessionsApiUtil = __webpack_require__(361);
+	
+	var SessionForm = React.createClass({
+	  displayName: 'SessionForm',
+	
+	  mixins: [History],
+	
+	  submit: function (e) {
+	    e.preventDefault();
+	    var credentials = $(e.currentTarget).serialize();
+	    SessionsApiUtil.login(credentials, function () {
+	      this.history.pushState({}, "/");
+	    }.bind(this));
+	  },
+	
+	  guestSignin: function (event) {
+	    event.preventDefault();
+	    var credentials = "username=GuestUser&password=GuestUser";
+	    SessionsApiUtil.login(credentials, function () {
+	      this.history.pushState({}, "/");
+	    }.bind(this));
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      { className: 'auth-form-window' },
+	      React.createElement(
+	        'div',
+	        { className: 'auth-form-container group' },
+	        React.createElement(
+	          'form',
+	          { className: 'auth-form', onSubmit: this.submit },
+	          React.createElement(
+	            'div',
+	            { className: 'auth-form-title' },
+	            'superBoards Log In'
+	          ),
+	          React.createElement(
+	            'label',
+	            null,
+	            'Username',
+	            React.createElement('input', { className: 'auth-form-input', type: 'text', name: 'username' })
+	          ),
+	          React.createElement(
+	            'label',
+	            null,
+	            'Password',
+	            React.createElement('input', { className: 'auth-form-input', type: 'password', name: 'password' })
+	          ),
+	          React.createElement(
+	            'button',
+	            { className: 'auth-form-button' },
+	            'Log In'
+	          )
+	        ),
+	        React.createElement(
+	          'button',
+	          { className: 'auth-form-button guest-form-button', onClick: this.guestSignin },
+	          'Sign In as GuestUser'
+	        )
+	      )
+	    );
+	  }
+	
+	});
+	
+	module.exports = SessionForm;
 
 /***/ }
 /******/ ]);

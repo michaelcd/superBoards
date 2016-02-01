@@ -18,7 +18,9 @@ write out goals for next few days, review readme and phase docs
 [X] - React Auth
 [X] - Bug: new list no longer works
 [X] - refactor CSS and pop-up menus
-[ ] - User menu - logout option
+[X] - User menu - logout option
+[ ] - React login
+[ ] - redirect to login
 [ ] - rewrite loading screen
 
 

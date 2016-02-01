@@ -17,11 +17,12 @@ var SessionsApiUtil = {
 
   logout: function () {
     $.ajax({
-      url: 'XXXX',
-      type: 'XXXX',
+      url: 'api/session',
+      type: 'DELETE',
       dataType: 'json',
       success: function () {
         console.log("logged out!");
+        CurrentUserActions.logoutUser();
       }
     });
   },

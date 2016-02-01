@@ -39,7 +39,9 @@ button {
   cursor: pointer;
 }
 
-button:focus {outline:0;}s
+button:focus {
+  outline:0;
+}
 
 body {
   display:block;
@@ -781,14 +783,63 @@ html, body {
 
 
 
-/* Auth HTML pages:*/
+/* Auth React components :*/
 
- .authForm {
-  background: #eee;
-  width: 500px;
+.auth-form-window {
+  position:absolute;
+  background: #0079BF;
+  height:100%;
+  width:100%;
+}
+
+.auth-form-container {
+  display:block;
+  background: #E2E4E6;
+  color: #4D4D4D;
+  border-radius: 3px;
+  width: 300px;
+  padding:7px;
   margin:auto;
+}
+
+.auth-form-title {
+  display:block;
   text-align: center;
- }
+  margin-bottom: 6px;
+}
+
+.auth-form > label {
+  display:block;
+  text-align: center;
+}
+
+.auth-form-input {
+  display:block;
+  text-align: left;
+  margin:auto;
+  background: white;
+  border-radius: 3px;
+  font-size: 14px;
+  width: 240px;
+  border-bottom: 1px solid #ccc;
+  padding: 6px 7px 4px 8px;
+  margin-bottom: 6px;
+}
+
+.auth-form-button {
+  float:left;
+  cursor:pointer;
+  margin-left: 25px;
+  background: #61bd4f;
+  color:white;
+  border-radius: 3px;
+  font-weight: 700;
+  padding: 5px 10px;
+}
+
+.guest-form-button {
+  margin-left:5px;
+}
 
 
  /* scrollbar styling - may or may not implement in final version*/
