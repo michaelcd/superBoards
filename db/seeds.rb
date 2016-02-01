@@ -30,6 +30,7 @@ Card.create(title: "CSS", list_id: 3, ord: 0, archived: false, author_id: 1)
 Card.create(title: "Ruby", list_id: 3, ord: 1, archived: false, author_id: 1)
 Card.create(title: "Javascript", list_id: 3, ord: 2, archived: false, author_id: 1)
 Card.create(title: "SQL", list_id: 3, ord: 3, archived: false, author_id: 1)
+Card.create(title: "HTML", list_id: 3, ord: 4, archived: false, author_id: 1)
 
 List.create(title: "Frameworks / Libraries", board_id: 1, ord: 3, archived: false)
 Card.create(title: "Flux", list_id: 4, ord: 0, archived: false, author_id: 1)
