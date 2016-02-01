@@ -4,6 +4,7 @@ class Card < ActiveRecord::Base
 
   belongs_to :list
   has_one :board, through: :list
+  has_many :comments
 
   def self.reorder_cards(cards_array)
     cards_array.each_with_index do |card, index|
