@@ -43,6 +43,14 @@ button:focus {
   outline:0;
 }
 
+input:focus {
+  outline:0;
+}
+
+textarea:focus {
+  outline:0;
+}
+
 body {
   display:block;
   font-family: 'Helvetica Neue', Arial, Helvetica, sans-serif;

@@ -24407,11 +24407,6 @@
 	          { className: 'boards-index-title' },
 	          'Shared Boards'
 	        )
-	      ),
-	      React.createElement(
-	        'a',
-	        { href: '', className: 'boards-index-title' },
-	        'View Archived Boards'
 	      )
 	    );
 	  }
