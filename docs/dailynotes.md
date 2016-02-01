@@ -21,14 +21,15 @@ Monday - Feb 1st
 [X] - redirect to login
 
 
-
-
-
-
-
-
 [ ] - Card renaming / Card Detail view
 [ ] - Card CRUD
+
+
+
+
+
+
+
 
 Polish:
 [ ] - be able to refresh carddetailview without breaking it

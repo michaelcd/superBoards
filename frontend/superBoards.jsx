@@ -19,8 +19,8 @@ var router = (
     <Route path="login" component={SessionForm} />
     <Route path="/" component={App} onEnter={_ensureLoggedIn}>
       <IndexRoute component={BoardsIndex} onEnter={_ensureLoggedIn} />
-      <Route path="/boards/:id" component={BoardDetailView} >
-        <Route path="/cards/:id" component={CardDetail} />
+      <Route path="/boards/:board_id" component={BoardDetailView} >
+        <Route path="/boards/:board_id/cards/:card_id" component={CardDetail} />
       </Route>
     </Route>
   </Router>

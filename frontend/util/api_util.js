@@ -50,10 +50,23 @@ var ApiUtil = {
       BoardActions.receiveSingleBoard(board);
      },
      failure: function () {
-       console.log("failure");
+      console.log("failure");
      }
    });
   },
+
+  fetchCard: function (id) {
+    $.ajax({
+     url: "api/cards/" + id,
+     method: "GET",
+     success: function (card) {
+      CardActions.receiveCard(card);
+     },
+     failure: function () {
+      console.log("failure");
+     }
+   });
+   },
 
   createBoard: function (board) {
     $.ajax({
@@ -165,20 +178,6 @@ var ApiUtil = {
     }
   });
   },
-
-  fetchCard: function (id) {
-    $.ajax({
-     url: "api/cards/" + id,
-     method: "GET",
-     success: function (card) {
-      CardActions.receiveCard(card);
-     },
-     failure: function () {
-      console.log("failure");
-     }
-   });
-   },
-
 
   destroyCard: function (card) {
     $.ajax({

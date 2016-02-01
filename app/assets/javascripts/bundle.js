@@ -70,8 +70,8 @@
 	    React.createElement(IndexRoute, { component: BoardsIndex, onEnter: _ensureLoggedIn }),
 	    React.createElement(
 	      Route,
-	      { path: '/boards/:id', component: BoardDetailView },
-	      React.createElement(Route, { path: '/cards/:id', component: CardDetail })
+	      { path: '/boards/:board_id', component: BoardDetailView },
+	      React.createElement(Route, { path: '/boards/:board_id/cards/:card_id', component: CardDetail })
 	    )
 	  )
 	);
@@ -24594,6 +24594,19 @@
 	    });
 	  },
 	
+	  fetchCard: function (id) {
+	    $.ajax({
+	      url: "api/cards/" + id,
+	      method: "GET",
+	      success: function (card) {
+	        CardActions.receiveCard(card);
+	      },
+	      failure: function () {
+	        console.log("failure");
+	      }
+	    });
+	  },
+	
 	  createBoard: function (board) {
 	    $.ajax({
 	      url: "api/boards",
@@ -24698,19 +24711,6 @@
 	      data: { card: card },
 	      success: function (board) {
 	        BoardActions.receiveSingleBoard(board);
-	      },
-	      failure: function () {
-	        console.log("failure");
-	      }
-	    });
-	  },
-	
-	  fetchCard: function (id) {
-	    $.ajax({
-	      url: "api/cards/" + id,
-	      method: "GET",
-	      success: function (card) {
-	        CardActions.receiveCard(card);
 	      },
 	      failure: function () {
 	        console.log("failure");
@@ -25148,6 +25148,7 @@
 	BoardStore.findList = function (id) {
 	  var list = {};
 	
+	  console.log(_board);
 	  for (var i = 0; i < _board.lists.length; i++) {
 	    if (_board.lists[i].id === id) {
 	      board = _board.lists[i];
@@ -31720,7 +31721,7 @@
 	
 	  componentDidMount: function () {
 	    this.boardListener = BoardStore.addListener(this._onChange);
-	    ApiUtil.fetchBoard(this.props.params.id);
+	    ApiUtil.fetchBoard(this.props.params.board_id);
 	  },
 	
 	  componentWillUnmount: function () {
@@ -32045,9 +32046,7 @@
 	    return { detail: false };
 	  },
 	
-	  titleClick: function () {
-	    this.setState({ detail: true });
-	  },
+	  titleClick: function () {},
 	
 	  render: function () {
 	    var connectDragSource = this.props.connectDragSource;
@@ -32063,7 +32062,8 @@
 	      { className: 'card' },
 	      React.createElement(
 	        'a',
-	        { href: "#/cards/" + this.props.card.id, className: 'card-title' },
+	        { href: "#/boards/" + this.props.list.board_id + "/cards/" + this.props.card.id,
+	          className: 'card-title' },
 	        this.props.card.title
 	      ),
 	      detail,
@@ -36559,6 +36559,7 @@
 
 	var React = __webpack_require__(1);
 	var CardStore = __webpack_require__(324);
+	var BoardStore = __webpack_require__(220);
 	var ApiUtil = __webpack_require__(211);
 	
 	var CardDetail = React.createClass({
@@ -36567,14 +36568,15 @@
 	  getInitialState: function () {
 	    return {
 	      card: CardStore.card(),
-	      board_id: BoardStore.single().id,
-	      list: {}
+	      description: false,
+	      descriptionVal: CardStore.card().description,
+	      renameVal: CardStore.card().title
 	    };
 	  },
 	
 	  componentDidMount: function () {
 	    this.cardListener = CardStore.addListener(this._onChange);
-	    ApiUtil.fetchCard(this.props.params.id);
+	    ApiUtil.fetchCard(this.props.params.card_id);
 	  },
 	
 	  componentWillUnmount: function () {
@@ -36582,36 +36584,136 @@
 	  },
 	
 	  _onChange: function () {
-	    this.setState({
-	      card: CardStore.card(),
-	      board_id: BoardStore.single().id,
-	      list: BoardStore.findList(card.list_id)
-	    });
+	    this.setState({ card: CardStore.card() });
+	    this.setState({ descriptionVal: this.state.card.description, renameVal: CardStore.card().title });
+	  },
+	
+	  editDescription: function () {
+	    this.setState({ description: true });
+	  },
+	
+	  descFormOnSubmit: function (e) {
+	    e.preventDefault();
+	    var card = this.state.card;
+	    card.description = this.state.descriptionVal;
+	    ApiUtil.updateCard(card);
+	    this.setState({ description: false });
+	  },
+	
+	  descFormChangeHandler: function (e) {
+	    this.setState({ descriptionVal: e.currentTarget.value });
+	  },
+	
+	  descCancelHandler: function (e) {
+	    e.preventDefault();
+	    this.setState({ description: false });
+	  },
+	
+	  openRename: function () {
+	    this.setState({ rename: true });
+	  },
+	
+	  renameFormOnSubmit: function (e) {
+	    e.preventDefault();
+	    var card = this.state.card;
+	    card.title = this.state.renameVal;
+	    ApiUtil.updateCard(card);
+	    this.setState({ rename: false });
+	  },
+	
+	  renameFormChangeHandler: function (e) {
+	    this.setState({ renameVal: e.currentTarget.value });
+	  },
+	
+	  renameCancelHandler: function (e) {
+	    e.preventDefault();
+	    this.setState({ rename: false });
 	  },
 	
 	  render: function () {
+	    var description;
+	    var rename;
+	
+	    if (this.state.description === true) {
+	      description = React.createElement(
+	        'div',
+	        { className: 'list-form group' },
+	        React.createElement(
+	          'form',
+	          { onSubmit: this.descFormOnSubmit },
+	          React.createElement('textarea', { type: 'text',
+	            className: 'list-form-input',
+	            onChange: this.descFormChangeHandler,
+	            value: this.state.descriptionVal }),
+	          React.createElement(
+	            'button',
+	            { className: 'list-form-save' },
+	            'Save'
+	          ),
+	          React.createElement(
+	            'a',
+	            { href: '#', className: 'list-form-cancel', onClick: this.descCancelHandler },
+	            'X'
+	          )
+	        )
+	      );
+	    } else {
+	      description = React.createElement(
+	        'div',
+	        { className: 'edit-description', onClick: this.editDescription },
+	        'Edit the description...'
+	      );
+	    }
+	
+	    if (this.state.rename === true) {
+	      rename = React.createElement(
+	        'div',
+	        { className: 'list-form group' },
+	        React.createElement(
+	          'form',
+	          { onSubmit: this.renameFormOnSubmit },
+	          React.createElement('textarea', { type: 'text',
+	            className: 'list-form-input',
+	            onChange: this.renameFormChangeHandler,
+	            value: this.state.renameVal }),
+	          React.createElement(
+	            'button',
+	            { className: 'list-form-save' },
+	            'Save'
+	          ),
+	          React.createElement(
+	            'a',
+	            { href: '#', className: 'list-form-cancel', onClick: this.renameCancelHandler },
+	            'X'
+	          )
+	        )
+	      );
+	    } else {
+	      rename = React.createElement(
+	        'div',
+	        { className: 'card-detail-title', onClick: this.openRename },
+	        this.state.card.title
+	      );
+	    }
+	
 	    return React.createElement(
 	      'div',
 	      { className: 'window-overlay' },
 	      React.createElement(
 	        'div',
-	        { className: 'window-content' },
+	        { className: 'window-content ' },
 	        React.createElement(
 	          'div',
 	          { className: 'card-detail-view' },
 	          React.createElement(
 	            'a',
-	            { href: "#/boards/" + this.state.board_id, className: 'card-detail-cancel' },
+	            { href: "#/boards/" + this.props.params.board_id, className: 'card-detail-cancel' },
 	            React.createElement('i', { className: 'fa fa-times fa-fw' })
 	          ),
 	          React.createElement(
 	            'div',
 	            { className: 'card-detail-header' },
-	            React.createElement(
-	              'div',
-	              { className: 'card-detail-title' },
-	              this.state.card.title
-	            ),
+	            rename,
 	            React.createElement(
 	              'div',
 	              { className: 'card-detail-header-words' },
@@ -36621,6 +36723,15 @@
 	                { className: 'card-detail-header-list-title' },
 	                'list placeholder'
 	              )
+	            )
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'card-detail-main' },
+	            React.createElement(
+	              'div',
+	              { className: 'card-detail-description' },
+	              description
 	            )
 	          )
 	        )
@@ -36644,6 +36755,7 @@
 	
 	var resetCard = function (card) {
 	  _card = card;
+	  console.log(_card);
 	};
 	
 	CardStore.card = function () {
