@@ -19,13 +19,14 @@ Monday - Feb 1st
 [X] - User menu - logout option
 [X] - React login
 [X] - redirect to login
+[X] - Card renaming / Card Detail view
+[X] - Card CRUD
 
-
-[ ] - Card renaming / Card Detail view
-[ ] - Card CRUD
-
-
-
+[ ] - Card Detail View - add side actions menu (archival and delete)
+[ ] - Card Detail View - CSS
+[ ] - Boards - prepare Rails for sharing functionality
+[ ] - BoardDetail menu CSS
+[ ] - Navbar Board button component
 
 
 

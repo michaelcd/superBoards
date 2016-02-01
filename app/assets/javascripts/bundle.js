@@ -36561,6 +36561,7 @@
 	var CardStore = __webpack_require__(324);
 	var BoardStore = __webpack_require__(220);
 	var ApiUtil = __webpack_require__(211);
+	var CardDetailActions = __webpack_require__(370);
 	
 	var CardDetail = React.createClass({
 	  displayName: 'CardDetail',
@@ -36569,6 +36570,7 @@
 	    return {
 	      card: CardStore.card(),
 	      description: false,
+	      rename: false,
 	      descriptionVal: CardStore.card().description,
 	      renameVal: CardStore.card().title
 	    };
@@ -36734,7 +36736,8 @@
 	              description
 	            )
 	          )
-	        )
+	        ),
+	        React.createElement(CardDetailActions, { card: this.state.card, boardId: this.props.params.board_id })
 	      )
 	    );
 	  }
@@ -39282,7 +39285,7 @@
 	        React.createElement(
 	          'form',
 	          { onSubmit: this.formOnSubmit },
-	          React.createElement('textarea', { type: 'text',
+	          React.createElement('input', { type: 'text',
 	            className: 'list-form-input',
 	            onChange: this.formChangeHandler }),
 	          React.createElement(
@@ -39418,6 +39421,76 @@
 	});
 	
 	module.exports = LoadingScreen;
+
+/***/ },
+/* 370 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var CardStore = __webpack_require__(324);
+	var BoardStore = __webpack_require__(220);
+	var ApiUtil = __webpack_require__(211);
+	var History = __webpack_require__(159).History;
+	
+	// this.props.card
+	
+	var CardDetailActions = React.createClass({
+	  displayName: 'CardDetailActions',
+	
+	  mixins: [History],
+	
+	  getInitialState: function () {
+	    return { confirm: false };
+	  },
+	
+	  // pending functionality: confirm window for archival/deletion
+	  // openConfirm: function (event) {
+	  //   event.preventDefault();
+	  //   this.setState({confirm: true});
+	  // },
+	
+	  archiveCard: function () {
+	    var card = this.props.card;
+	    card.archived = true;
+	    ApiUtil.updateCard(card);
+	    this.history.pushState(null, "/boards/" + this.props.boardId);
+	  },
+	
+	  deleteCard: function () {
+	    ApiUtil.destroyCard(this.props.card);
+	    this.history.pushState(null, "/boards/" + this.props.boardId);
+	  },
+	
+	  render: function () {
+	    var confirm;
+	
+	    if (this.state.confirm === true) {
+	      confirm = React.createElement('div', null);
+	    }
+	
+	    return React.createElement(
+	      'div',
+	      { className: 'window-sidebar' },
+	      React.createElement(
+	        'div',
+	        { className: 'sidebar-actions-menu-title' },
+	        'Actions'
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'sidebar-action', onClick: this.archiveCard },
+	        'Archive'
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'sidebar-action', onClick: this.deleteCard },
+	        'Destroy'
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = CardDetailActions;
 
 /***/ }
 /******/ ]);
