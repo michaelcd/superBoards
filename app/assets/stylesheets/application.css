@@ -720,10 +720,11 @@ html, body {
 
 .window-content {
   width: 730px;
-  position:relative;
+  position:absolute;
   border-radius: 3px;
   background: #EDEFF0;
   margin-top: 48px;
+  left: calc(50% - 365px);
   display:block;
   z-index: 15;
   margin-left:auto;
@@ -781,7 +782,9 @@ html, body {
   font-weight: bold;
 }
 
-
+.card-detail-main {
+  padding:8px 12px 12px 12px;
+}
 
 /* Auth React components :*/
 

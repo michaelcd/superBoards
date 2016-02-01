@@ -23,7 +23,7 @@ BoardDetailView = React.createClass({
 
   componentDidMount: function () {
     this.boardListener = BoardStore.addListener(this._onChange);
-    ApiUtil.fetchBoard(this.props.params.id);
+    ApiUtil.fetchBoard(this.props.params.board_id);
   },
 
   componentWillUnmount: function () {
@@ -65,7 +65,7 @@ BoardDetailView = React.createClass({
         <div className="board-header group">
           <div className="board-title-button">
             <div className="board-title" onClick={this.nameClickHandler}>
-            {this.state.board.title}
+              {this.state.board.title}
             </div>
           </div>
           <form className={this.state.form} onSubmit={this.formSubmitHandler}>
