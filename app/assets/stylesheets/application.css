@@ -705,22 +705,51 @@ html, body {
   position:relative;
   z-index: 16;
   display:block;
+  min-height: 60px;
 }
 
 .card-detail-header {
+  vertical-align: top;
+  position:relative;
   margin: 4px 40px 4px 38px;
+  padding: 12px 12px 0 12px;
   color: #8c8c8c;
-
 }
 
 .card-detail-title {
   color:#4D4D4D;
+  display:inline;
   font-weight: bold;
   font-size: 18px;
   line-height: 21.6px;
   margin-bottom: 9px;
   margin-right: 4px;
+}
 
+.card-detail-cancel {
+  position:absolute;
+  padding: 6px;
+  cursor: pointer;
+  color: #8c8c8c;
+  top: 0;
+  right: 0;
+  font-size: 20px;
+  text-align: center;
+  height:30px;
+  width:30px;
+  line-height: 30px;
+  margin-bottom: 4px;
+}
+
+.card-detail-header-words {
+  display:inline;
+  font-size:14px;
+}
+
+.card-detail-header-list-title {
+  display:inline;
+  text-decoration: underline;
+  font-weight: bold;
 }
 
 

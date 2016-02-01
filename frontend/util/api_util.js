@@ -1,4 +1,6 @@
 var BoardActions = require('../actions/board_actions.js');
+var CardActions = require('../actions/card_actions.js');
+
 
 var ApiUtil = {
   moveList: function (list) {
@@ -163,6 +165,20 @@ var ApiUtil = {
     }
   });
   },
+
+  fetchCard: function (id) {
+    $.ajax({
+     url: "api/cards/" + id,
+     method: "GET",
+     success: function (card) {
+      CardActions.receiveCard(card);
+     },
+     failure: function () {
+      console.log("failure");
+     }
+   });
+   },
+
 
   destroyCard: function (card) {
     $.ajax({
