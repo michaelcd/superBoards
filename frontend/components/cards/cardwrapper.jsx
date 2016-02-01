@@ -9,11 +9,14 @@ var DropTarget = require('react-dnd').DropTarget;
 var cardTarget = {
   drop: function (props, monitor) {
     var draggedCard = monitor.getItem().card;
-    // console.log(draggedCard);
-    console.log("from:" + draggedCard.ord + "to:" + props.card.ord);
+    console.log("LIST from: " + draggedCard.list_id + " to: " + props.card.list_id);
 
-    if (draggedCard.ord !== props.card.ord) {
+
+    // if (draggedCard.list_id !== )
+    if ((draggedCard.ord !== props.card.ord) ||
+      (draggedCard.list_id !== props.card.list_id)) {
       draggedCard.ord = props.card.ord;
+      draggedCard.list_id = props.card.list_id;
       ApiUtil.moveCard(draggedCard);
     }
   }
@@ -28,7 +31,7 @@ function collect(connect, monitor) {
 
 var CardWrapper = React.createClass({
   propTypes: {
-    pos: PropTypes.number.isRequired,
+    listId: PropTypes.number.isRequired,
     ord: PropTypes.number.isRequired
   },
 

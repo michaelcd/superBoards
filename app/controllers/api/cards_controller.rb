@@ -19,8 +19,16 @@ class Api::CardsController < ApplicationController
     @card = Card.find_by_id(card_params[:id])
 
     if params[:reorder]
-      cards = @card.list.cards
-      Card.reorder_cards(@card.ord, card_params[:ord].to_i, cards)
+      if (card_params[:list_id].to_i == @card.list_id)
+        cards = @card.list.cards.to_a
+        Card.move_card_within_list(@card.ord, card_params[:ord].to_i, cards)
+      else
+        Card.move_card_between_lists(
+          @card,
+          card_params[:list_id].to_i,
+          card_params[:ord].to_i
+          )
+      end
     else
       @card.update(card_params)
     end

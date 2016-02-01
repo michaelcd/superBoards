@@ -7,6 +7,9 @@ var DropTarget = require('react-dnd').DropTarget;
 var CardMenu = require('./cardmenu');
 var CardDetail = require('./carddetail');
 
+//this.props.list
+//this.props.card
+
 var cardSource = {
   beginDrag: function (props) {
     return { card: props.card };
