@@ -31854,15 +31854,14 @@
 	  render: function () {
 	    var cards;
 	    var that = this;
-	    var pos = 1;
 	    cards = this.props.list.cards.map(function (card) {
-	      pos += 1;
 	      return React.createElement(CardWrapper, {
-	        pos: pos,
+	        listId: that.props.list.id,
 	        key: card.id,
 	        card: card,
 	        list: that.props.list,
-	        ord: card.ord });
+	        ord: card.ord
+	      });
 	    });
 	
 	    var connectDragSource = this.props.connectDragSource;
@@ -31877,14 +31876,14 @@
 	        React.createElement(
 	          'form',
 	          { onSubmit: this.formSubmit },
-	          React.createElement('textarea', { type: 'text',
+	          React.createElement('input', { type: 'text',
 	            className: 'list-form-input',
 	            onChange: this.formChangeHandler,
 	            value: this.state.formVal }),
 	          React.createElement(
 	            'button',
 	            { className: 'list-form-save' },
-	            'Rename'
+	            'Save'
 	          ),
 	          React.createElement(
 	            'a',
@@ -38665,11 +38664,12 @@
 	var cardTarget = {
 	  drop: function (props, monitor) {
 	    var draggedCard = monitor.getItem().card;
-	    // console.log(draggedCard);
-	    console.log("from:" + draggedCard.ord + "to:" + props.card.ord);
+	    console.log("LIST from: " + draggedCard.list_id + " to: " + props.card.list_id);
 	
-	    if (draggedCard.ord !== props.card.ord) {
+	    // if (draggedCard.list_id !== )
+	    if (draggedCard.ord !== props.card.ord || draggedCard.list_id !== props.card.list_id) {
 	      draggedCard.ord = props.card.ord;
+	      draggedCard.list_id = props.card.list_id;
 	      ApiUtil.moveCard(draggedCard);
 	    }
 	  }
@@ -38686,7 +38686,7 @@
 	  displayName: 'CardWrapper',
 	
 	  propTypes: {
-	    pos: PropTypes.number.isRequired,
+	    listId: PropTypes.number.isRequired,
 	    ord: PropTypes.number.isRequired
 	  },
 	
@@ -38715,6 +38715,9 @@
 	var DropTarget = __webpack_require__(242).DropTarget;
 	var CardMenu = __webpack_require__(357);
 	var CardDetail = __webpack_require__(360);
+	
+	//this.props.list
+	//this.props.card
 	
 	var cardSource = {
 	  beginDrag: function (props) {

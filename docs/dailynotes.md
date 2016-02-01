@@ -12,8 +12,10 @@ plus
 minus
 ellipsis-h
 
+Beginning of the day:
+write out goals for next few days, review readme and phase docs
 
-[ ] - Drag and drop cards between lists
+
 [ ] - Card and List options menus
 [ ] - Card renaming / Card Detail view
 [ ] - Card and List archival
@@ -99,3 +101,5 @@ Weekend:
 [X] - List.jsx: CancelHandler no longer works - refactor for if/else statement on form render
 [X] - CSS - scrollbar at bottom of window
 [X] - List CRUD complete (create, reorder, rename, archive, destroy)
+[X] - Drag and drop cards between lists
+[X] - FontAwesome added to app. Several icons currently in use

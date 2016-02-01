@@ -59,15 +59,14 @@ var List = React.createClass({
   render: function () {
     var cards;
     var that = this;
-    var pos = 1;
     cards = this.props.list.cards.map(function (card) {
-      pos += 1;
       return <CardWrapper
-        pos={pos}
+        listId={that.props.list.id}
         key={card.id}
         card={card}
         list={that.props.list}
-        ord={card.ord}/>;
+        ord={card.ord}
+        />;
     });
 
     var connectDragSource = this.props.connectDragSource;
@@ -79,11 +78,11 @@ var List = React.createClass({
       content = (
         <div className="list-form group">
           <form onSubmit={this.formSubmit}>
-            <textarea type="text"
+            <input type="text"
               className="list-form-input"
               onChange={this.formChangeHandler}
               value={this.state.formVal} />
-            <button className="list-form-save">Rename</button>
+            <button className="list-form-save">Save</button>
             <a href="#" className="list-form-cancel" onClick={this.cancelHandler}>X</a>
           </form>
         </div>
