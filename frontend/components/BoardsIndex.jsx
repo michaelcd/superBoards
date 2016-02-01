@@ -45,7 +45,6 @@ var BoardsIndex = React.createClass({
         <div className="shared-boards group">
           <div className="boards-index-title">Shared Boards</div>
         </div>
-        <a href="" className="boards-index-title">View Archived Boards</a>
       </div>
     );
   }

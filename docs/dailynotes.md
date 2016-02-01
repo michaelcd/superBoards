@@ -12,75 +12,41 @@ plus
 minus
 ellipsis-h
 
-Monday - Feb 1st
-[X] - React Auth
-[X] - Bug: new list no longer works
-[X] - refactor CSS and pop-up menus
-[X] - User menu - logout option
-[X] - React login
-[X] - redirect to login
-[X] - Card renaming / Card Detail view
-[X] - Card CRUD
 
-[ ] - Card Detail View - add side actions menu (archival and delete)
-[ ] - Card Detail View - CSS
 [ ] - Boards - prepare Rails for sharing functionality
-[ ] - BoardDetail menu CSS
 [ ] - Navbar Board button component
+[ ] - Card Detail View - CSS
 
-
-
-
-
-Polish:
-[ ] - be able to refresh carddetailview without breaking it
-[ ] - drag and drop previews
-[ ] - rewrite loading screen
+CSS:
 [ ] Link areas to widen: List title - click for rename
 [ ] Link areas to widen: Card title - click to bring up card detail
+[ ] NewCard add / close
+[ ] BoardDetail menu CSS
+[ ] BoardDetail - rename
+[ ] NewBoardIndexItem - CSS
+[ ]
+[ ]
+[ ]
+
+[ ] - SeedData
+
+Major features remaining:
+[ ] - Tags
+[ ] - Comments
+[ ] - file uploads
+[ ] - full text search
+[ ] - Board Sharing
 
 
-
-
-
+Polish / Optional :
+[ ] - drag and drop previews
+[ ] - rewrite loading screen
+[ ] - Archived Boards View
 [ ] - Refactor pop up forms using if/else and variables
   [ ] - NewBoardIndexItem
   [ ] - BoardMenu
   [ ] - BoardDetailView - board renaming pop up
   [ ] - BoardMenu component
-
-[ ] - SeedData
-[ ] - CardDetailView, CRUD functions
-[ ] - Change BoardsController#show to retrieve only non-archived cards
-[ ] - React Auth
-[ ] - Board Sharing
-
-
-
-
-
-
-[ ] - Archived Boards View
-[ ]- Refactor List controller and views (right now duplicates board partials)
-
-Outstanding issues:
-
-- Logout button somewhere (temporary version)
-- Minor issue: Value persists in Create Board form after board creation; will later
-route to BoardDetailView so should be a nonissue;
-- refactor: no camel case names in CSS class names. prefer dashed names
-- File upload: attachments to cards
-
-Review Lily's email
-- Board sharing
-- Style and seed as you go
-- Implement search next week
-
-
-
-
-React DnD tutorial:
-http://gaearon.github.io/react-dnd/docs-tutorial.html
 
 Drop and reseed database:
 rake db:drop db:create db:migrate db:seed
@@ -92,8 +58,6 @@ cd superBoards
 npm install
 rake db:create db:migrate db:seed
 atom .
-
-
 
 Thursday 01/28/16
 [X] - Issue - cancel board rename redirects to index
@@ -126,3 +90,15 @@ Weekend:
 [X] - List CRUD complete (create, reorder, rename, archive, destroy)
 [X] - Drag and drop cards between lists
 [X] - FontAwesome added to app. Several icons currently in use
+
+Monday - Feb 1st
+[X] - React Auth
+[X] - Bug: new list no longer works
+[X] - refactor CSS and pop-up menus
+[X] - User menu - logout option
+[X] - React login
+[X] - redirect to login
+[X] - Card renaming / Card Detail view
+[X] - Card CRUD
+[X] - Card Detail View - add side actions menu (archival and delete)
+[X] - be able to refresh carddetailview without breaking it
