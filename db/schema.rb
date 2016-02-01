@@ -11,10 +11,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160201204526) do
+ActiveRecord::Schema.define(version: 20160201221739) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "board_shares", force: :cascade do |t|
+    t.integer  "user_id",    null: false
+    t.integer  "board_id",   null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "board_shares", ["board_id"], name: "index_board_shares_on_board_id", using: :btree
+  add_index "board_shares", ["user_id"], name: "index_board_shares_on_user_id", using: :btree
 
   create_table "boards", force: :cascade do |t|
     t.string   "title",                      null: false

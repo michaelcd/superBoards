@@ -12,7 +12,7 @@ plus
 minus
 ellipsis-h
 
-
+[ ] - Comments - Edit and Delete options
 [ ] - Boards - prepare Rails for sharing functionality
 [ ] - Navbar Board button component
 [ ] - Card Detail View - CSS
@@ -31,11 +31,12 @@ CSS:
 [ ] - SeedData
 
 Major features remaining:
-[ ] - Tags
+
 [ ] - Comments
 [ ] - file uploads
 [ ] - full text search
 [ ] - Board Sharing
+[ ] - Tags
 
 
 Polish / Optional :
