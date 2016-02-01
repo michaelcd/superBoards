@@ -21,7 +21,7 @@ var SessionsApiUtil = {
       type: 'DELETE',
       dataType: 'json',
       success: function () {
-        console.log("logged out!");
+        // console.log("logged out!");
         CurrentUserActions.logoutUser();
       }
     });
@@ -33,7 +33,6 @@ var SessionsApiUtil = {
       type: 'GET',
       dataType: 'json',
       success: function (currentUser) {
-        console.log("fetched current user!");
         CurrentUserActions.receiveCurrentUser(currentUser);
         cb && cb(currentUser);
       }
