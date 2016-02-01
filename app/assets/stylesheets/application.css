@@ -813,6 +813,19 @@ html, body {
   cursor:pointer;
 }
 
+/* Comment section */
+
+.comment-container {
+  float:left;
+  position:relative;
+  display:block;
+
+}
+
+.comment-container {
+  float:left;
+}
+
 /* Auth React components :*/
 
 .auth-form-window {
