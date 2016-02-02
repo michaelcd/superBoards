@@ -27,9 +27,16 @@ var CommentView = React.createClass({
     if (this.props.comments) {
       commentsList = (
         this.props.comments.map(function (comment) {
-          return <div key={comment.id} className="comment">
-            {comment.body} - {comment.author}
-          </div>;
+          return (
+            <div className="comment-container" key={comment.id}>
+              <div className="comment-author">{comment.author}</div>
+              <div className="comment-box" >
+                <div className="comment">
+                  {comment.body}
+                </div>
+              </div>
+            </div>
+          );
         })
       );
     } else {
@@ -39,13 +46,15 @@ var CommentView = React.createClass({
     }
 
     return (
-      <div className="comment-container">
-        <div className="new-comment-container">
+      <div className="comment-section-container">
+        <div className="window-content-main-title">Add Comment</div>
+        <div className="new-comment-container group">
           <form className="new-comment-form" onSubmit={this.addComment}>
             <input type="text" className="new-comment-input" onChange={this.changeHandler} />
             <button className="new-comment-button">Save Comment</button>
           </form>
         </div>
+        <div className="window-content-main-title">Comments</div>
         <div className="comments-list">
           {commentsList}
         </div>

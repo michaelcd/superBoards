@@ -62,18 +62,18 @@ BoardDetailView = React.createClass({
     if (this.state.form === true) {
       form = (
         <form className="pop-up-menu" onSubmit={this.formSubmitHandler}>
-            <div className="pop-up-menu-header group">
-              <div className="pop-up-menu-title">Rename Board</div>
-              <a href="#" className="pop-up-menu-cancel" onClick={this.cancelHandler}>
-                <i className="fa fa-times fa-fw" />
-              </a>
-            </div>
-            <div className="pop-up-menu-options-list group">
-              <input className="pop-up-input" type="text" value={this.state.title}
-                onChange={this.formChangeHandler} />
-              <button className="pop-up-rename-board">Rename</button>
-            </div>
-          </form>
+          <div className="pop-up-menu-header group">
+            <div className="pop-up-menu-title">Rename Board</div>
+            <a href="#" className="pop-up-menu-cancel" onClick={this.cancelHandler}>
+              <i className="fa fa-times fa-fw" />
+            </a>
+          </div>
+          <div className="pop-up-menu-options-list group">
+            <input className="pop-up-input" type="text" value={this.state.title}
+              onChange={this.formChangeHandler} />
+            <button className="pop-up-rename-board">Rename</button>
+          </div>
+        </form>
         );
     }
 

@@ -79,21 +79,26 @@ var CardDetail = React.createClass({
 
     if (this.state.description === true) {
       description = (
-        <div className="list-form group">
+        <div className="edit-description-box">
+          <div className="edit-description-heading">Description</div>
           <form onSubmit={this.descFormOnSubmit}>
             <textarea type="text"
-              className="list-form-input"
+              className="edit-description-textarea"
               onChange={this.descFormChangeHandler}
               value={this.state.descriptionVal} />
             <button className="list-form-save">Save</button>
-            <a href="#" className="list-form-cancel" onClick={this.descCancelHandler}>X</a>
+            <a href="#" className="list-form-cancel" onClick={this.descCancelHandler}>
+              <i className="fa fa-times fa-fw" />
+            </a>
           </form>
         </div>
       );
     } else {
       description = (
-        <div className="edit-description" onClick={this.editDescription}>
-          Edit the description...</div>
+        <div className="edit-description-box" onClick={this.editDescription}>
+          <div className="edit-description-heading">Description</div>
+          <div className="edit-description-box-description">{this.state.descriptionVal}</div>
+        </div>
       );
     }
 
@@ -127,18 +132,17 @@ var CardDetail = React.createClass({
             <div className="card-detail-header">
               {rename}
               <div className="card-detail-header-words">
-                in list <div className="card-detail-header-list-title">
-                  list placeholder</div>
-              </div>
-            </div>
-            <div className="card-detail-main">
-              <div className="card-detail-description">
-                {description}
+                <div className="card-detail-header-list-title"></div>
               </div>
             </div>
           </div>
+          <div className="window-content-main">
+            <div className="card-detail-description-box">
+              {description}
+            </div>
+            <CommentView comments={this.state.card.comments} card={this.state.card} />
+          </div>
           <CardDetailActions card={this.state.card} boardId={this.props.params.board_id} />
-          <CommentView comments={this.state.card.comments} card={this.state.card} />
         </div>
       </div>
     );
