@@ -32325,6 +32325,7 @@
 	  render: function () {
 	    var cards;
 	    var that = this;
+	    var newCardOrd = this.props.list.cards.length;
 	    cards = this.props.list.cards.map(function (card) {
 	      return React.createElement(CardWrapper, {
 	        listId: that.props.list.id,
@@ -32389,7 +32390,11 @@
 	        { className: 'cards' },
 	        cards
 	      ),
-	      React.createElement(NewCard, { list: this.props.list })
+	      React.createElement(NewCard, {
+	        listId: that.props.list.id,
+	        list: that.props.list,
+	        ord: newCardOrd
+	      })
 	    ));
 	  }
 	});
@@ -32411,9 +32416,7 @@
 	var cardTarget = {
 	  drop: function (props, monitor) {
 	    var draggedCard = monitor.getItem().card;
-	    console.log("LIST from: " + draggedCard.list_id + " to: " + props.card.list_id);
 	
-	    // if (draggedCard.list_id !== )
 	    if (draggedCard.ord !== props.card.ord || draggedCard.list_id !== props.card.list_id) {
 	      draggedCard.ord = props.card.ord;
 	      draggedCard.list_id = props.card.list_id;
@@ -37503,10 +37506,42 @@
 	var React = __webpack_require__(1);
 	var ApiUtil = __webpack_require__(211);
 	
+	var DragSource = __webpack_require__(252).DragSource;
+	var PropTypes = React.PropTypes;
+	var ItemTypes = __webpack_require__(330);
+	var DropTarget = __webpack_require__(252).DropTarget;
+	
 	// this.props.list
+	
+	var cardTarget = {
+	  drop: function (props, monitor) {
+	    var draggedCard = monitor.getItem().card;
+	
+	    console.log("from: " + draggedCard.ord + " to: " + props.ord);
+	    console.log("from: " + draggedCard.list_id + " to: " + props.listId);
+	
+	    if (draggedCard.ord !== props.ord || draggedCard.list_id !== props.listId) {
+	      draggedCard.ord = props.ord;
+	      draggedCard.list_id = props.listId;
+	      ApiUtil.moveCard(draggedCard);
+	    }
+	  }
+	};
+	
+	function collect(connect, monitor) {
+	  return {
+	    connectDropTarget: connect.dropTarget(),
+	    isOver: monitor.isOver()
+	  };
+	}
 	
 	var NewCard = React.createClass({
 	  displayName: 'NewCard',
+	
+	  propTypes: {
+	    listId: PropTypes.number.isRequired,
+	    ord: PropTypes.number.isRequired
+	  },
 	
 	  getInitialState: function () {
 	    return { form: false, input: "" };
@@ -37539,6 +37574,8 @@
 	  },
 	
 	  render: function () {
+	    var connectDropTarget = this.props.connectDropTarget;
+	
 	    var form;
 	    if (this.state.form) {
 	      form = React.createElement(
@@ -37570,18 +37607,15 @@
 	      );
 	    }
 	
-	    return React.createElement(
+	    return connectDropTarget(React.createElement(
 	      'div',
 	      { className: 'new-card-container' },
 	      form
-	    );
+	    ));
 	  }
 	});
 	
-	// <a href="#" className="new-card-cancel"
-	//   onClick={this.cancelHandler}>X</a>
-	
-	module.exports = NewCard;
+	module.exports = DropTarget(ItemTypes.CARD, cardTarget, collect)(NewCard);
 
 /***/ },
 /* 337 */

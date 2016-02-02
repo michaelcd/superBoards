@@ -1,9 +1,42 @@
 var React = require('react');
 var ApiUtil = require('../../util/api_util');
 
+var DragSource = require('react-dnd').DragSource;
+var PropTypes = React.PropTypes;
+var ItemTypes = require('../../constants/itemtypes');
+var DropTarget = require('react-dnd').DropTarget;
+
 // this.props.list
 
+var cardTarget = {
+  drop: function (props, monitor) {
+    var draggedCard = monitor.getItem().card;
+
+    console.log("from: " + draggedCard.ord + " to: " + props.ord);
+    console.log("from: " + draggedCard.list_id + " to: " + props.listId);
+
+    if ((draggedCard.ord !== props.ord) ||
+      (draggedCard.list_id !== props.listId)) {
+      draggedCard.ord = props.ord;
+      draggedCard.list_id = props.listId;
+      ApiUtil.moveCard(draggedCard);
+    }
+  }
+};
+
+function collect(connect, monitor) {
+  return {
+    connectDropTarget: connect.dropTarget(),
+    isOver: monitor.isOver()
+  };
+}
+
 var NewCard = React.createClass({
+  propTypes: {
+    listId: PropTypes.number.isRequired,
+    ord: PropTypes.number.isRequired
+  },
+
   getInitialState: function () {
     return ({form: false, input: ""});
   },
@@ -35,6 +68,8 @@ var NewCard = React.createClass({
   },
 
   render: function () {
+    var connectDropTarget = this.props.connectDropTarget;
+
     var form;
     if (this.state.form) {
       form = (
@@ -58,7 +93,7 @@ var NewCard = React.createClass({
       );
     }
 
-    return(
+    return connectDropTarget(
       <div className="new-card-container">
         {form}
       </div>
@@ -66,7 +101,6 @@ var NewCard = React.createClass({
   }
 });
 
-// <a href="#" className="new-card-cancel"
-//   onClick={this.cancelHandler}>X</a>
 
-module.exports = NewCard;
+
+module.exports = DropTarget(ItemTypes.CARD, cardTarget, collect)(NewCard);
