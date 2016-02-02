@@ -16,6 +16,7 @@ class Api::BoardsController < ApplicationController
 
   def index
     @boards = current_user.boards.where(archived: false)
+    @shared_boards = current_user.shared_boards.where(archived: false)
   end
 
   def show

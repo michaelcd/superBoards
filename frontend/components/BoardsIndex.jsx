@@ -6,11 +6,17 @@ var ApiUtil = require('../util/api_util');
 
 var BoardsIndex = React.createClass({
   getInitialState: function () {
-    return ({boards: BoardStore.all()});
+    return ({
+      boards: BoardStore.ownBoards(),
+      sharedBoards: BoardStore.sharedBoards()
+    });
   },
 
   _onChange: function () {
-    this.setState({boards: BoardStore.all()});
+    this.setState({
+      boards: BoardStore.ownBoards(),
+      sharedBoards: BoardStore.sharedBoards()
+    });
   },
 
   componentDidMount: function () {
@@ -23,11 +29,25 @@ var BoardsIndex = React.createClass({
   },
 
   render: function () {
-    var indexItems = (
-      this.state.boards.map(function (board) {
-        return <BoardsIndexItem key={board.id} className="BoardsIndexItem" board={board} />;
-      })
-    );
+    var indexItems;
+    var sharedIndexItems;
+
+    if (this.state.boards !== undefined) {
+      indexItems = (
+        this.state.boards.map(function (board) {
+          return <BoardsIndexItem key={board.id} className="BoardsIndexItem" board={board} />;
+        })
+      );
+    }
+
+    if (this.state.sharedBoards !== undefined) {
+      sharedIndexItems = (
+        this.state.sharedBoards.map(function (board) {
+          return <BoardsIndexItem key={board.id} className="BoardsIndexItem" board={board} />;
+        })
+      );
+    }
+
     return (
       <div className="boards-index group">
         <div className="boards-index-title-container">
@@ -43,7 +63,17 @@ var BoardsIndex = React.createClass({
           </ul>
         </div>
         <div className="shared-boards group">
-          <div className="boards-index-title">Shared Boards</div>
+          <div className="boards-index-title-container">
+            <div className="icon-container">
+              <i className="fa fa-users fa-fw"></i>
+            </div>
+            <div className="boards-index-title">Shared Boards</div>
+          </div>
+          <div className="shared-boards group">
+            <ul>
+              {sharedIndexItems}
+            </ul>
+          </div>
         </div>
       </div>
     );

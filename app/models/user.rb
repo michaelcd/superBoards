@@ -5,6 +5,8 @@ class User < ActiveRecord::Base
   after_initialize :ensure_session_token
 
   has_many :boards, foreign_key: :author_id
+  has_many :board_shares
+  has_many :shared_boards, through: :board_shares, source: :board
 
   attr_reader :password
 

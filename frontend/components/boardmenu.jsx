@@ -10,15 +10,14 @@ var BoardMenu = React.createClass({
 
   getInitialState: function () {
     return ({
-      buttonClass: "board-menu-button",
-      menuClass: "hidden",
-      archiveConfirm: "hidden"
+      menu:false,
+      archiveConfirm: false
     });
   },
 
   buttonClick: function (event) {
     event.preventDefault();
-    this.setState({menu: true, menuClass: "board-menu-options"});
+    this.setState({menu: true});
   },
 
   menuClose: function (event) {
@@ -37,37 +36,46 @@ var BoardMenu = React.createClass({
   archiveShow: function (event) {
     event.preventDefault();
     this.setState({archiveConfirm: true});
+  },
 
+  shareMenu: function (event) {
+    event.preventDefault();
   },
 
   render: function () {
     var content;
     var archiveConfirm;
     if (this.state.archiveConfirm === true) {
-      var archiveConfirm = (
+      archiveConfirm = (
         <div className="archive-board-confirm">
-          <button onClick={this.archiveBoard}>Confirm</button>
+          <button className="pop-up-rename-board archive-button" onClick={this.archiveBoard}>
+            Confirm Archival</button>
         </div>
       );
     }
     if (this.state.menu === true) {
       content = (
-        <div className="board-menu-options">
-          <a href="#" className="board-menu-close" onClick={this.menuClose}>X</a>
-          <div>Share Board</div>
-          <a href="#" onClick={this.archiveShow}>Archive Board</a>
-          {archiveConfirm}
-        </div>
-      );
-    } else {
-      content = (
-        <div className="board-menu-button" onClick={this.buttonClick}>
-          <div className="board-menu-button-text">Show Menu</div>
+        <div className="board-detail-pop-up">
+          <div className="pop-up-menu-header group">
+            <div className="pop-up-menu-title">Board Actions</div>
+            <div className="pop-up-menu-cancel" onClick={this.menuClose}>
+              <i className="fa fa-times fa-fw" />
+            </div>
+          </div>
+          <div className="pop-up-menu-options-list group">
+            <a href="#" className="pop-up-menu-option" onClick={this.shareMenu}>Share Board</a>
+            <a href="#" className="pop-up-menu-option" onClick={this.archiveShow}>Archive Board</a>
+            {archiveConfirm}
+          </div>
         </div>
       );
     }
+
     return (
       <div className="board-menu">
+        <div className="board-menu-button" onClick={this.buttonClick}>
+          <div className="board-menu-button-text">Show Menu</div>
+        </div>
         {content}
       </div>
     );

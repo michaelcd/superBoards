@@ -1,5 +1,5 @@
 var React = require('react');
-var ApiUtil = require('../util/api_util');
+var ApiUtil = require('../../util/api_util');
 
 // this.props.list
 
@@ -38,14 +38,15 @@ var NewCard = React.createClass({
     var form;
     if (this.state.form) {
       form = (
-        <form className="new-card-form">
+        <form className="new-card-form group">
           <input className="new-card-input"
             type="text" onChange={this.formChangeHandler}>
           </input>
-          <button className="new-card-button" onClick={this.submitHandler}>
+          <button className="list-form-save new-card-button" onClick={this.submitHandler}>
             Add</button>
-          <a href="#" className="new-card-cancel"
-            onClick={this.cancelHandler}>X</a>
+          <div className="list-form-cancel" onClick={this.cancelHandler}>
+            <i className="fa fa-times fa-fw" />
+          </div>
         </form>
       );
     } else {
@@ -64,5 +65,8 @@ var NewCard = React.createClass({
     );
   }
 });
+
+// <a href="#" className="new-card-cancel"
+//   onClick={this.cancelHandler}>X</a>
 
 module.exports = NewCard;
