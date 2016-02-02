@@ -1,8 +1,7 @@
 var React = require('react');
 var BoardStore = require('../stores/board');
 var ApiUtil = require('../util/api_util');
-var List = require('./list');
-var ListWrapper = require('./listwrapper');
+var ListWrapper = require('./lists/listwrapper');
 var NewList = require('./lists/newlist');
 var BoardMenu = require('./boardmenu');
 var DragDropContext = require('react-dnd').DragDropContext;
@@ -13,8 +12,7 @@ BoardDetailView = React.createClass({
     return({
       board: BoardStore.single(),
       title: BoardStore.single().title,
-      titleClass: "board-title",
-      form: "hidden"});
+      form: false});
   },
 
   _onChange: function () {
@@ -31,7 +29,7 @@ BoardDetailView = React.createClass({
   },
 
   nameClickHandler: function () {
-    this.setState({form: "name-update group"});
+    this.setState({form: true});
   },
 
   formChangeHandler: function (event) {
@@ -42,12 +40,12 @@ BoardDetailView = React.createClass({
     event.preventDefault();
     this.state.board.title = this.state.title;
     ApiUtil.updateBoard(this.state.board);
-    this.setState({form: "hidden"});
+    this.setState({form: false});
   },
 
   cancelHandler: function (event) {
     event.preventDefault();
-    this.setState({indexItem: "NewBoard", form: "hidden"});
+    this.setState({form: false});
   },
 
   render: function () {
@@ -60,6 +58,25 @@ BoardDetailView = React.createClass({
       lists = (<div></div>);
     }
 
+    var form;
+    if (this.state.form === true) {
+      form = (
+        <form className="pop-up-menu" onSubmit={this.formSubmitHandler}>
+            <div className="pop-up-menu-header group">
+              <div className="pop-up-menu-title">Rename Board</div>
+              <a href="#" className="pop-up-menu-cancel" onClick={this.cancelHandler}>
+                <i className="fa fa-times fa-fw" />
+              </a>
+            </div>
+            <div className="pop-up-menu-options-list group">
+              <input className="pop-up-input" type="text" value={this.state.title}
+                onChange={this.formChangeHandler} />
+              <button className="pop-up-rename-board">Rename</button>
+            </div>
+          </form>
+        );
+    }
+
     return (
       <div className="board-detail-view">
         <div className="board-header group">
@@ -68,15 +85,7 @@ BoardDetailView = React.createClass({
               {this.state.board.title}
             </div>
           </div>
-          <form className={this.state.form} onSubmit={this.formSubmitHandler}>
-              <div className="name-update-container group">
-                <div className="name-update-title">Rename Board</div>
-                <a href="#" className="name-update-cancel" onClick={this.cancelHandler}>X</a>
-              </div>
-              <input type="text" value={this.state.title}
-                onChange={this.formChangeHandler} />
-              <button>Rename</button>
-            </form>
+          {form}
           <BoardMenu board={this.state.board}/>
         </div>
         <ul className="list-container group">

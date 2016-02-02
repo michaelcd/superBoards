@@ -42,7 +42,11 @@ var NewList = React.createClass({
               className="list-form-input"
               onChange={this.formChangeHandler} />
             <button className="list-form-save">Save</button>
-            <a href="#" className="list-form-cancel" onClick={this.cancelHandler}>X</a>
+            <a href="#" className="list-form-cancel-wrapper" onClick={this.cancelHandler}>
+              <div className="list-form-cancel" onClick={this.closeMenu}>
+                <i className="fa fa-times fa-fw" />
+              </div>
+            </a>
           </form>
         </div>
       );

@@ -1,11 +1,11 @@
 var React = require('react');
-var CardWrapper = require('./cards/cardwrapper');
-var NewCard = require('./newcard');
-var ApiUtil = require('../util/api_util');
+var CardWrapper = require('./../cards/cardwrapper');
+var NewCard = require('./../cards/newcard');
+var ApiUtil = require('../../util/api_util');
 var DragSource = require('react-dnd').DragSource;
-var ItemTypes = require('../constants/itemtypes');
+var ItemTypes = require('../../constants/itemtypes');
 var PropTypes = React.PropTypes;
-var ListMenu = require('./lists/listmenu');
+var ListMenu = require('./listmenu');
 
 // this.props.list
 
@@ -83,7 +83,11 @@ var List = React.createClass({
               onChange={this.formChangeHandler}
               value={this.state.formVal} />
             <button className="list-form-save">Save</button>
-            <a href="#" className="list-form-cancel" onClick={this.cancelHandler}>X</a>
+            <a href="#" className="list-form-cancel-wrapper" onClick={this.cancelHandler}>
+              <div className="list-form-cancel" onClick={this.closeMenu}>
+                <i className="fa fa-times fa-fw" />
+              </div>
+            </a>
           </form>
         </div>
       );

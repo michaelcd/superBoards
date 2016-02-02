@@ -56,4 +56,5 @@ Comment.create(body: "Good morning pod!", author_id: 1, card_id: 4)
 
 # AppTour board and lists
 
-Board.create(title: "superBoards Tour", author_id: 1)
+Board.create(title: "superBoards Tour", author_id: 2)
+BoardShare.create(board_id: 2, user_id: 1)

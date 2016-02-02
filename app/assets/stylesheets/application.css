@@ -114,7 +114,26 @@ html, body {
 }
 
 .navbar-search-container {
+  position:relative;
   float:left;
+  width:180px;
+}
+
+.navbar-search-input {
+  position: relative;
+  float:left;
+  width: 150px;
+}
+
+.navbar-search-icon {
+  position:absolute;
+  display: block;
+  text-align: center;
+  top:0;
+  right:0;
+  width:30px;
+  line-height: 30px;
+  color: white;
 }
 
 .boards-button {
@@ -471,7 +490,7 @@ html, body {
   /*border: 1px solid #ccc;*/
   min-height: 60px;
   padding-top: 3px;
-  padding-bottom: 3px;
+  padding-bottom: 9px;
 }
 
 .list-form-input {
@@ -494,19 +513,34 @@ html, body {
 }
 
 .list-form-save {
+  margin-top: 2px;
+  line-height: 22px;
+  min-height:34px;
   margin-left: 4px;
   background: #61bd4f;
   color:white;
   border-radius: 3px;
   font-weight: 700;
-  padding: 5px 10px;
+  font-size: 14px;
+  padding: 5px 20px;
+  float:left;
+}
+
+.list-form-save:hover {
+  background:#58A741;
+}
+
+.list-form-cancel-wrapper {
+
 }
 
 .list-form-cancel {
-  font-size: 20px;
-  font-weight: 400;
-  color: #999;
-  padding: 0 0 0 7px;
+  cursor: pointer;
+  position:relative;
+  padding: 10px;
+  padding-top: 8px;
+  float:left;
+  color: #4D4D4D;
 }
 
 .list-title-container {
@@ -550,6 +584,20 @@ html, body {
   position:absolute;
   top: 10px;
   left:240px;
+  width:300px;
+  background: white;
+  border: 1px solid #D6DADC;
+  border-bottom-color:#c4c9cc;
+}
+
+.board-detail-pop-up {
+  border-radius: 3px;
+  z-index: 150;
+  line-height: 18px;
+  display:block;
+  position:absolute;
+  top:0;
+  right:0;
   width:300px;
   background: white;
   border: 1px solid #D6DADC;
@@ -617,7 +665,40 @@ html, body {
   color:white;
 }
 
+.pop-up-rename-board {
+  margin-top: 2px;
+  line-height: 22px;
+  min-height:34px;
+  background: #61bd4f;
+  color:white;
+  border-radius: 3px;
+  font-weight: 700;
+  font-size: 14px;
+  padding: 5px 20px;
+  float:left;
+}
 
+.archive-button {
+  margin-top: 6px;
+}
+
+.pop-up-input {
+  border-radius: 3px;
+  padding: 7px;
+  margin-top: 4px;
+  margin-bottom: 12px;
+  box-sizing: border-box;
+  display:block;
+  position:relative;
+  float:left;
+  width:280px;
+  background:#E2E4E6;
+  border: 1px solid rgb(205, 210, 212);
+}
+
+.pop-up-input:focus {
+  background:white;
+}
 
 .card-wrapper {
   margin-left: 4px;
@@ -674,7 +755,7 @@ html, body {
 }
 
 .new-card-container {
-
+  margin-bottom: 8px;
 }
 
 .new-card-title {
@@ -693,20 +774,22 @@ html, body {
 
 .new-card-input {
   display:block;
+  line-height: 18px;
   font-weight: normal;
   background: #fff;
   font-size: 14px;
   border-radius: 3px;
   width: 235px;
+  height: 24px;
   margin:auto;
+  margin-left: 9px;
   border-bottom: 1px solid #ccc;
-  padding: 6px 7px 4px 8px;
+  padding: 6px 6px 2px 8px;
   margin-bottom: 6px;
 }
 
 .new-card-button {
-  float:left;
-  display:block;
+  margin-left: 9px;
 }
 
 .new-card-cancel {

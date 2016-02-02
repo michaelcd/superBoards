@@ -12,8 +12,12 @@ plus
 minus
 ellipsis-h
 
+[ ] - React Auth: Sign up
+
+[ ] - Dragging cards to an empty list
+
+[ ] - Board sharing, enable sharing with other users
 [ ] - Comments - Edit and Delete options
-[ ] - Boards - prepare Rails for sharing functionality
 [ ] - Navbar Board button component
 [ ] - Card Detail View - CSS
 
@@ -21,9 +25,9 @@ CSS:
 [ ] Link areas to widen: List title - click for rename
 [ ] Link areas to widen: Card title - click to bring up card detail
 [ ] NewCard add / close
-[ ] BoardDetail menu CSS
-[ ] BoardDetail - rename
-[ ] NewBoardIndexItem - CSS
+
+
+
 [ ]
 [ ]
 [ ]
@@ -103,3 +107,9 @@ Monday - Feb 1st
 [X] - Card CRUD
 [X] - Card Detail View - add side actions menu (archival and delete)
 [X] - be able to refresh carddetailview without breaking it
+[X] - BoardShares setup in Rails, adjusted index view in BoardsController
+[X] - change BoardsIndex and BoardStore to accomodate shared boards
+[X] - Boards - prepare Rails for sharing functionality
+[X] BoardDetail - rename CSS
+[X] NewBoardIndexItem - CSS
+[X] BoardDetail menu CSS

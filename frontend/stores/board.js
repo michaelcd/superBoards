@@ -3,15 +3,19 @@ var Store = require('flux/utils').Store;
 var BoardConstants = require('../constants/board_constants');
 
 var _boards = [];
+var _sharedBoards = [];
 var _board = {};
 
 var BoardStore = new Store (AppDispatcher);
 
 var resetBoards = function (boards) {
+  _sharedBoards = boards.shared_boards;
+  boards = boards.boards;
   _boards = [];
   Object.keys(boards).forEach(function (key) {
     _boards.push(boards[key]);
   });
+
 };
 
 var resetBoard = function (board) {
@@ -46,8 +50,12 @@ BoardStore.findList = function (id) {
   return list;
 };
 
-BoardStore.all = function () {
+BoardStore.ownBoards = function () {
   return _boards;
+};
+
+BoardStore.sharedBoards = function () {
+  return _sharedBoards;
 };
 
 BoardStore.single = function () {

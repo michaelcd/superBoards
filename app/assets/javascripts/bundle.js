@@ -24352,11 +24352,17 @@
 	  displayName: 'BoardsIndex',
 	
 	  getInitialState: function () {
-	    return { boards: BoardStore.all() };
+	    return {
+	      boards: BoardStore.ownBoards(),
+	      sharedBoards: BoardStore.sharedBoards()
+	    };
 	  },
 	
 	  _onChange: function () {
-	    this.setState({ boards: BoardStore.all() });
+	    this.setState({
+	      boards: BoardStore.ownBoards(),
+	      sharedBoards: BoardStore.sharedBoards()
+	    });
 	  },
 	
 	  componentDidMount: function () {
@@ -24369,9 +24375,21 @@
 	  },
 	
 	  render: function () {
-	    var indexItems = this.state.boards.map(function (board) {
-	      return React.createElement(BoardsIndexItem, { key: board.id, className: 'BoardsIndexItem', board: board });
-	    });
+	    var indexItems;
+	    var sharedIndexItems;
+	
+	    if (this.state.boards !== undefined) {
+	      indexItems = this.state.boards.map(function (board) {
+	        return React.createElement(BoardsIndexItem, { key: board.id, className: 'BoardsIndexItem', board: board });
+	      });
+	    }
+	
+	    if (this.state.sharedBoards !== undefined) {
+	      sharedIndexItems = this.state.sharedBoards.map(function (board) {
+	        return React.createElement(BoardsIndexItem, { key: board.id, className: 'BoardsIndexItem', board: board });
+	      });
+	    }
+	
 	    return React.createElement(
 	      'div',
 	      { className: 'boards-index group' },
@@ -24404,8 +24422,26 @@
 	        { className: 'shared-boards group' },
 	        React.createElement(
 	          'div',
-	          { className: 'boards-index-title' },
-	          'Shared Boards'
+	          { className: 'boards-index-title-container' },
+	          React.createElement(
+	            'div',
+	            { className: 'icon-container' },
+	            React.createElement('i', { className: 'fa fa-users fa-fw' })
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'boards-index-title' },
+	            'Shared Boards'
+	          )
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'shared-boards group' },
+	          React.createElement(
+	            'ul',
+	            null,
+	            sharedIndexItems
+	          )
 	        )
 	      )
 	    );
@@ -25124,11 +25160,14 @@
 	var BoardConstants = __webpack_require__(217);
 	
 	var _boards = [];
+	var _sharedBoards = [];
 	var _board = {};
 	
 	var BoardStore = new Store(AppDispatcher);
 	
 	var resetBoards = function (boards) {
+	  _sharedBoards = boards.shared_boards;
+	  boards = boards.boards;
 	  _boards = [];
 	  Object.keys(boards).forEach(function (key) {
 	    _boards.push(boards[key]);
@@ -25167,8 +25206,12 @@
 	  return list;
 	};
 	
-	BoardStore.all = function () {
+	BoardStore.ownBoards = function () {
 	  return _boards;
+	};
+	
+	BoardStore.sharedBoards = function () {
+	  return _sharedBoards;
 	};
 	
 	BoardStore.single = function () {
@@ -31687,12 +31730,18 @@
 	var Search = React.createClass({
 	  displayName: "Search",
 	
+	  changeHandler: function () {},
+	
 	  render: function () {
 	    return React.createElement(
 	      "div",
 	      { className: "navbar-search-container navbar-button" },
-	      React.createElement("input", { className: "navbar-search-input" }),
-	      React.createElement("div", { className: "navbar-search-icon" })
+	      React.createElement("input", { className: "navbar-search-input", onChange: this.changeHandler }),
+	      React.createElement(
+	        "div",
+	        { className: "navbar-search-icon" },
+	        React.createElement("i", { className: "fa fa-search fa-fw" })
+	      )
 	    );
 	  }
 	});
@@ -31706,8 +31755,7 @@
 	var React = __webpack_require__(1);
 	var BoardStore = __webpack_require__(220);
 	var ApiUtil = __webpack_require__(211);
-	var List = __webpack_require__(242);
-	var ListWrapper = __webpack_require__(327);
+	var ListWrapper = __webpack_require__(372);
 	var NewList = __webpack_require__(367);
 	var BoardMenu = __webpack_require__(329);
 	var DragDropContext = __webpack_require__(245).DragDropContext;
@@ -31720,8 +31768,7 @@
 	    return {
 	      board: BoardStore.single(),
 	      title: BoardStore.single().title,
-	      titleClass: "board-title",
-	      form: "hidden" };
+	      form: false };
 	  },
 	
 	  _onChange: function () {
@@ -31738,7 +31785,7 @@
 	  },
 	
 	  nameClickHandler: function () {
-	    this.setState({ form: "name-update group" });
+	    this.setState({ form: true });
 	  },
 	
 	  formChangeHandler: function (event) {
@@ -31749,12 +31796,12 @@
 	    event.preventDefault();
 	    this.state.board.title = this.state.title;
 	    ApiUtil.updateBoard(this.state.board);
-	    this.setState({ form: "hidden" });
+	    this.setState({ form: false });
 	  },
 	
 	  cancelHandler: function (event) {
 	    event.preventDefault();
-	    this.setState({ indexItem: "NewBoard", form: "hidden" });
+	    this.setState({ form: false });
 	  },
 	
 	  render: function () {
@@ -31765,6 +31812,39 @@
 	      });
 	    } else {
 	      lists = React.createElement('div', null);
+	    }
+	
+	    var form;
+	    if (this.state.form === true) {
+	      form = React.createElement(
+	        'form',
+	        { className: 'pop-up-menu', onSubmit: this.formSubmitHandler },
+	        React.createElement(
+	          'div',
+	          { className: 'pop-up-menu-header group' },
+	          React.createElement(
+	            'div',
+	            { className: 'pop-up-menu-title' },
+	            'Rename Board'
+	          ),
+	          React.createElement(
+	            'a',
+	            { href: '#', className: 'pop-up-menu-cancel', onClick: this.cancelHandler },
+	            React.createElement('i', { className: 'fa fa-times fa-fw' })
+	          )
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'pop-up-menu-options-list group' },
+	          React.createElement('input', { className: 'pop-up-input', type: 'text', value: this.state.title,
+	            onChange: this.formChangeHandler }),
+	          React.createElement(
+	            'button',
+	            { className: 'pop-up-rename-board' },
+	            'Rename'
+	          )
+	        )
+	      );
 	    }
 	
 	    return React.createElement(
@@ -31782,31 +31862,7 @@
 	            this.state.board.title
 	          )
 	        ),
-	        React.createElement(
-	          'form',
-	          { className: this.state.form, onSubmit: this.formSubmitHandler },
-	          React.createElement(
-	            'div',
-	            { className: 'name-update-container group' },
-	            React.createElement(
-	              'div',
-	              { className: 'name-update-title' },
-	              'Rename Board'
-	            ),
-	            React.createElement(
-	              'a',
-	              { href: '#', className: 'name-update-cancel', onClick: this.cancelHandler },
-	              'X'
-	            )
-	          ),
-	          React.createElement('input', { type: 'text', value: this.state.title,
-	            onChange: this.formChangeHandler }),
-	          React.createElement(
-	            'button',
-	            null,
-	            'Rename'
-	          )
-	        ),
+	        form,
 	        React.createElement(BoardMenu, { board: this.state.board })
 	      ),
 	      React.createElement(
@@ -31827,140 +31883,7 @@
 	module.exports = DragDropContext(HTML5Backend)(BoardDetailView);
 
 /***/ },
-/* 242 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var CardWrapper = __webpack_require__(243);
-	var NewCard = __webpack_require__(325);
-	var ApiUtil = __webpack_require__(211);
-	var DragSource = __webpack_require__(245).DragSource;
-	var ItemTypes = __webpack_require__(321);
-	var PropTypes = React.PropTypes;
-	var ListMenu = __webpack_require__(326);
-	
-	// this.props.list
-	
-	var listSource = {
-	  beginDrag: function (props) {
-	    return { list: props.list };
-	  }
-	};
-	
-	function collect(connect, monitor) {
-	  return {
-	    connectDragSource: connect.dragSource(),
-	    isDragging: monitor.isDragging()
-	  };
-	}
-	
-	var List = React.createClass({
-	  displayName: 'List',
-	
-	  propTypes: {
-	    connectDragSource: PropTypes.func.isRequired,
-	    isDragging: PropTypes.bool.isRequired
-	  },
-	
-	  getInitialState: function () {
-	    return {
-	      titleClass: "list-title",
-	      formClass: "hidden",
-	      formVal: this.props.list.title
-	    };
-	  },
-	
-	  formChangeHandler: function (event) {
-	    this.setState({ formVal: event.currentTarget.value });
-	  },
-	
-	  formSubmit: function (event) {
-	    event.preventDefault();
-	    this.props.list.title = this.state.formVal;
-	    ApiUtil.updateList(this.props.list);
-	    this.setState({ form: false });
-	  },
-	
-	  titleClick: function () {
-	    this.setState({ form: true });
-	  },
-	
-	  cancelHandler: function (event) {
-	    event.preventDefault();
-	    this.setState({ form: false });
-	  },
-	
-	  render: function () {
-	    var cards;
-	    var that = this;
-	    cards = this.props.list.cards.map(function (card) {
-	      return React.createElement(CardWrapper, {
-	        listId: that.props.list.id,
-	        key: card.id,
-	        card: card,
-	        list: that.props.list,
-	        ord: card.ord
-	      });
-	    });
-	
-	    var connectDragSource = this.props.connectDragSource;
-	    var isDragging = this.props.isDragging;
-	
-	    var content;
-	
-	    if (this.state.form === true) {
-	      content = React.createElement(
-	        'div',
-	        { className: 'list-form group' },
-	        React.createElement(
-	          'form',
-	          { onSubmit: this.formSubmit },
-	          React.createElement('input', { type: 'text',
-	            className: 'list-form-input',
-	            onChange: this.formChangeHandler,
-	            value: this.state.formVal }),
-	          React.createElement(
-	            'button',
-	            { className: 'list-form-save' },
-	            'Save'
-	          ),
-	          React.createElement(
-	            'a',
-	            { href: '#', className: 'list-form-cancel', onClick: this.cancelHandler },
-	            'X'
-	          )
-	        )
-	      );
-	    } else {
-	      content = React.createElement(
-	        'div',
-	        { className: 'list-title-container' },
-	        React.createElement(
-	          'div',
-	          { onClick: this.titleClick, className: 'list-title' },
-	          this.props.list.title
-	        ),
-	        React.createElement(ListMenu, { list: this.props.list })
-	      );
-	    }
-	
-	    return connectDragSource(React.createElement(
-	      'li',
-	      { className: 'list' },
-	      content,
-	      React.createElement(
-	        'div',
-	        { className: 'cards' },
-	        cards
-	      ),
-	      React.createElement(NewCard, { list: this.props.list })
-	    ));
-	  }
-	});
-	
-	module.exports = DragSource(ItemTypes.LIST, listSource, collect)(List);
-
-/***/ },
+/* 242 */,
 /* 243 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -36788,91 +36711,7 @@
 	module.exports = CardStore;
 
 /***/ },
-/* 325 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var ApiUtil = __webpack_require__(211);
-	
-	// this.props.list
-	
-	var NewCard = React.createClass({
-	  displayName: 'NewCard',
-	
-	  getInitialState: function () {
-	    return { form: false, input: "" };
-	  },
-	
-	  clickHandler: function (event) {
-	    event.preventDefault();
-	    this.setState({ form: true });
-	  },
-	
-	  submitHandler: function (event) {
-	    event.preventDefault();
-	    var card = {
-	      title: this.state.input,
-	      ord: this.props.list.cards.length,
-	      list_id: this.props.list.id,
-	      archived: false
-	    };
-	    ApiUtil.createCard(card);
-	    this.setState({ form: false });
-	  },
-	
-	  formChangeHandler: function (event) {
-	    this.setState({ input: event.currentTarget.value });
-	  },
-	
-	  cancelHandler: function (event) {
-	    event.preventDefault();
-	    this.setState({ form: false, input: "" });
-	  },
-	
-	  render: function () {
-	    var form;
-	    if (this.state.form) {
-	      form = React.createElement(
-	        'form',
-	        { className: 'new-card-form' },
-	        React.createElement('input', { className: 'new-card-input',
-	          type: 'text', onChange: this.formChangeHandler }),
-	        React.createElement(
-	          'button',
-	          { className: 'new-card-button', onClick: this.submitHandler },
-	          'Add'
-	        ),
-	        React.createElement(
-	          'a',
-	          { href: '#', className: 'new-card-cancel',
-	            onClick: this.cancelHandler },
-	          'X'
-	        )
-	      );
-	    } else {
-	      form = React.createElement(
-	        'div',
-	        { className: 'new-card' },
-	        React.createElement(
-	          'a',
-	          { href: '#', className: 'new-card-title',
-	            onClick: this.clickHandler },
-	          'Add a card...'
-	        )
-	      );
-	    }
-	
-	    return React.createElement(
-	      'div',
-	      { className: 'new-card-container' },
-	      form
-	    );
-	  }
-	});
-	
-	module.exports = NewCard;
-
-/***/ },
+/* 325 */,
 /* 326 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -36966,60 +36805,7 @@
 	module.exports = ListMenu;
 
 /***/ },
-/* 327 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var List = __webpack_require__(242);
-	var NewCard = __webpack_require__(325);
-	var DragSource = __webpack_require__(245).DragSource;
-	var PropTypes = React.PropTypes;
-	var ItemTypes = __webpack_require__(321);
-	var DropTarget = __webpack_require__(245).DropTarget;
-	var BoardDetailView = __webpack_require__(241);
-	var ApiUtil = __webpack_require__(211);
-	
-	// this.props.list
-	// render list, aware of position
-	
-	var listTarget = {
-	  drop: function (props, monitor) {
-	    var draggedList = monitor.getItem().list;
-	    if (draggedList.ord !== props.ord) {
-	      draggedList.ord = props.ord;
-	      ApiUtil.moveList(draggedList);
-	    }
-	  }
-	};
-	
-	function collect(connect, monitor) {
-	  return {
-	    connectDropTarget: connect.dropTarget(),
-	    isOver: monitor.isOver()
-	  };
-	}
-	
-	var ListWrapper = React.createClass({
-	  displayName: 'ListWrapper',
-	
-	  propTypes: {
-	    ord: PropTypes.number.isRequired
-	  },
-	
-	  render: function () {
-	    var connectDropTarget = this.props.connectDropTarget;
-	
-	    return connectDropTarget(React.createElement(
-	      'div',
-	      { className: 'list-wrapper' },
-	      React.createElement(List, { list: this.props.list })
-	    ));
-	  }
-	});
-	
-	module.exports = DropTarget(ItemTypes.LIST, listTarget, collect)(ListWrapper);
-
-/***/ },
+/* 327 */,
 /* 328 */,
 /* 329 */
 /***/ function(module, exports, __webpack_require__) {
@@ -37038,15 +36824,14 @@
 	
 	  getInitialState: function () {
 	    return {
-	      buttonClass: "board-menu-button",
-	      menuClass: "hidden",
-	      archiveConfirm: "hidden"
+	      menu: false,
+	      archiveConfirm: false
 	    };
 	  },
 	
 	  buttonClick: function (event) {
 	    event.preventDefault();
-	    this.setState({ menu: true, menuClass: "board-menu-options" });
+	    this.setState({ menu: true });
 	  },
 	
 	  menuClose: function (event) {
@@ -37067,43 +36852,64 @@
 	    this.setState({ archiveConfirm: true });
 	  },
 	
+	  shareMenu: function (event) {
+	    event.preventDefault();
+	  },
+	
 	  render: function () {
 	    var content;
 	    var archiveConfirm;
 	    if (this.state.archiveConfirm === true) {
-	      var archiveConfirm = React.createElement(
+	      archiveConfirm = React.createElement(
 	        'div',
 	        { className: 'archive-board-confirm' },
 	        React.createElement(
 	          'button',
-	          { onClick: this.archiveBoard },
-	          'Confirm'
+	          { className: 'pop-up-rename-board archive-button', onClick: this.archiveBoard },
+	          'Confirm Archival'
 	        )
 	      );
 	    }
 	    if (this.state.menu === true) {
 	      content = React.createElement(
 	        'div',
-	        { className: 'board-menu-options' },
+	        { className: 'board-detail-pop-up' },
 	        React.createElement(
-	          'a',
-	          { href: '#', className: 'board-menu-close', onClick: this.menuClose },
-	          'X'
+	          'div',
+	          { className: 'pop-up-menu-header group' },
+	          React.createElement(
+	            'div',
+	            { className: 'pop-up-menu-title' },
+	            'Board Actions'
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'pop-up-menu-cancel', onClick: this.menuClose },
+	            React.createElement('i', { className: 'fa fa-times fa-fw' })
+	          )
 	        ),
 	        React.createElement(
 	          'div',
-	          null,
-	          'Share Board'
-	        ),
-	        React.createElement(
-	          'a',
-	          { href: '#', onClick: this.archiveShow },
-	          'Archive Board'
-	        ),
-	        archiveConfirm
+	          { className: 'pop-up-menu-options-list group' },
+	          React.createElement(
+	            'a',
+	            { href: '#', className: 'pop-up-menu-option', onClick: this.shareMenu },
+	            'Share Board'
+	          ),
+	          React.createElement(
+	            'a',
+	            { href: '#', className: 'pop-up-menu-option', onClick: this.archiveShow },
+	            'Archive Board'
+	          ),
+	          archiveConfirm
+	        )
 	      );
-	    } else {
-	      content = React.createElement(
+	    }
+	
+	    return React.createElement(
+	      'div',
+	      { className: 'board-menu' },
+	      React.createElement(
 	        'div',
 	        { className: 'board-menu-button', onClick: this.buttonClick },
 	        React.createElement(
@@ -37111,11 +36917,7 @@
 	          { className: 'board-menu-button-text' },
 	          'Show Menu'
 	        )
-	      );
-	    }
-	    return React.createElement(
-	      'div',
-	      { className: 'board-menu' },
+	      ),
 	      content
 	    );
 	  }
@@ -39305,8 +39107,12 @@
 	          ),
 	          React.createElement(
 	            'a',
-	            { href: '#', className: 'list-form-cancel', onClick: this.cancelHandler },
-	            'X'
+	            { href: '#', className: 'list-form-cancel-wrapper', onClick: this.cancelHandler },
+	            React.createElement(
+	              'div',
+	              { className: 'list-form-cancel', onClick: this.closeMenu },
+	              React.createElement('i', { className: 'fa fa-times fa-fw' })
+	            )
 	          )
 	        )
 	      );
@@ -39577,6 +39383,283 @@
 	});
 	
 	module.exports = CommentView;
+
+/***/ },
+/* 372 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var List = __webpack_require__(373);
+	var DragSource = __webpack_require__(245).DragSource;
+	var PropTypes = React.PropTypes;
+	var ItemTypes = __webpack_require__(321);
+	var DropTarget = __webpack_require__(245).DropTarget;
+	var ApiUtil = __webpack_require__(211);
+	
+	// this.props.list
+	// render list, aware of position
+	
+	var listTarget = {
+	  drop: function (props, monitor) {
+	    var draggedList = monitor.getItem().list;
+	    if (draggedList.ord !== props.ord) {
+	      draggedList.ord = props.ord;
+	      ApiUtil.moveList(draggedList);
+	    }
+	  }
+	};
+	
+	function collect(connect, monitor) {
+	  return {
+	    connectDropTarget: connect.dropTarget(),
+	    isOver: monitor.isOver()
+	  };
+	}
+	
+	var ListWrapper = React.createClass({
+	  displayName: 'ListWrapper',
+	
+	  propTypes: {
+	    ord: PropTypes.number.isRequired
+	  },
+	
+	  render: function () {
+	    var connectDropTarget = this.props.connectDropTarget;
+	
+	    return connectDropTarget(React.createElement(
+	      'div',
+	      { className: 'list-wrapper' },
+	      React.createElement(List, { list: this.props.list })
+	    ));
+	  }
+	});
+	
+	module.exports = DropTarget(ItemTypes.LIST, listTarget, collect)(ListWrapper);
+
+/***/ },
+/* 373 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var CardWrapper = __webpack_require__(243);
+	var NewCard = __webpack_require__(374);
+	var ApiUtil = __webpack_require__(211);
+	var DragSource = __webpack_require__(245).DragSource;
+	var ItemTypes = __webpack_require__(321);
+	var PropTypes = React.PropTypes;
+	var ListMenu = __webpack_require__(326);
+	
+	// this.props.list
+	
+	var listSource = {
+	  beginDrag: function (props) {
+	    return { list: props.list };
+	  }
+	};
+	
+	function collect(connect, monitor) {
+	  return {
+	    connectDragSource: connect.dragSource(),
+	    isDragging: monitor.isDragging()
+	  };
+	}
+	
+	var List = React.createClass({
+	  displayName: 'List',
+	
+	  propTypes: {
+	    connectDragSource: PropTypes.func.isRequired,
+	    isDragging: PropTypes.bool.isRequired
+	  },
+	
+	  getInitialState: function () {
+	    return {
+	      titleClass: "list-title",
+	      formClass: "hidden",
+	      formVal: this.props.list.title
+	    };
+	  },
+	
+	  formChangeHandler: function (event) {
+	    this.setState({ formVal: event.currentTarget.value });
+	  },
+	
+	  formSubmit: function (event) {
+	    event.preventDefault();
+	    this.props.list.title = this.state.formVal;
+	    ApiUtil.updateList(this.props.list);
+	    this.setState({ form: false });
+	  },
+	
+	  titleClick: function () {
+	    this.setState({ form: true });
+	  },
+	
+	  cancelHandler: function (event) {
+	    event.preventDefault();
+	    this.setState({ form: false });
+	  },
+	
+	  render: function () {
+	    var cards;
+	    var that = this;
+	    cards = this.props.list.cards.map(function (card) {
+	      return React.createElement(CardWrapper, {
+	        listId: that.props.list.id,
+	        key: card.id,
+	        card: card,
+	        list: that.props.list,
+	        ord: card.ord
+	      });
+	    });
+	
+	    var connectDragSource = this.props.connectDragSource;
+	    var isDragging = this.props.isDragging;
+	
+	    var content;
+	
+	    if (this.state.form === true) {
+	      content = React.createElement(
+	        'div',
+	        { className: 'list-form group' },
+	        React.createElement(
+	          'form',
+	          { onSubmit: this.formSubmit },
+	          React.createElement('input', { type: 'text',
+	            className: 'list-form-input',
+	            onChange: this.formChangeHandler,
+	            value: this.state.formVal }),
+	          React.createElement(
+	            'button',
+	            { className: 'list-form-save' },
+	            'Save'
+	          ),
+	          React.createElement(
+	            'a',
+	            { href: '#', className: 'list-form-cancel-wrapper', onClick: this.cancelHandler },
+	            React.createElement(
+	              'div',
+	              { className: 'list-form-cancel', onClick: this.closeMenu },
+	              React.createElement('i', { className: 'fa fa-times fa-fw' })
+	            )
+	          )
+	        )
+	      );
+	    } else {
+	      content = React.createElement(
+	        'div',
+	        { className: 'list-title-container' },
+	        React.createElement(
+	          'div',
+	          { onClick: this.titleClick, className: 'list-title' },
+	          this.props.list.title
+	        ),
+	        React.createElement(ListMenu, { list: this.props.list })
+	      );
+	    }
+	
+	    return connectDragSource(React.createElement(
+	      'li',
+	      { className: 'list' },
+	      content,
+	      React.createElement(
+	        'div',
+	        { className: 'cards' },
+	        cards
+	      ),
+	      React.createElement(NewCard, { list: this.props.list })
+	    ));
+	  }
+	});
+	
+	module.exports = DragSource(ItemTypes.LIST, listSource, collect)(List);
+
+/***/ },
+/* 374 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var ApiUtil = __webpack_require__(211);
+	
+	// this.props.list
+	
+	var NewCard = React.createClass({
+	  displayName: 'NewCard',
+	
+	  getInitialState: function () {
+	    return { form: false, input: "" };
+	  },
+	
+	  clickHandler: function (event) {
+	    event.preventDefault();
+	    this.setState({ form: true });
+	  },
+	
+	  submitHandler: function (event) {
+	    event.preventDefault();
+	    var card = {
+	      title: this.state.input,
+	      ord: this.props.list.cards.length,
+	      list_id: this.props.list.id,
+	      archived: false
+	    };
+	    ApiUtil.createCard(card);
+	    this.setState({ form: false });
+	  },
+	
+	  formChangeHandler: function (event) {
+	    this.setState({ input: event.currentTarget.value });
+	  },
+	
+	  cancelHandler: function (event) {
+	    event.preventDefault();
+	    this.setState({ form: false, input: "" });
+	  },
+	
+	  render: function () {
+	    var form;
+	    if (this.state.form) {
+	      form = React.createElement(
+	        'form',
+	        { className: 'new-card-form group' },
+	        React.createElement('input', { className: 'new-card-input',
+	          type: 'text', onChange: this.formChangeHandler }),
+	        React.createElement(
+	          'button',
+	          { className: 'list-form-save new-card-button', onClick: this.submitHandler },
+	          'Add'
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'list-form-cancel', onClick: this.cancelHandler },
+	          React.createElement('i', { className: 'fa fa-times fa-fw' })
+	        )
+	      );
+	    } else {
+	      form = React.createElement(
+	        'div',
+	        { className: 'new-card' },
+	        React.createElement(
+	          'a',
+	          { href: '#', className: 'new-card-title',
+	            onClick: this.clickHandler },
+	          'Add a card...'
+	        )
+	      );
+	    }
+	
+	    return React.createElement(
+	      'div',
+	      { className: 'new-card-container' },
+	      form
+	    );
+	  }
+	});
+	
+	// <a href="#" className="new-card-cancel"
+	//   onClick={this.cancelHandler}>X</a>
+	
+	module.exports = NewCard;
 
 /***/ }
 /******/ ]);

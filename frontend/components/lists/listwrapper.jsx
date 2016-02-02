@@ -1,12 +1,10 @@
 var React = require('react');
 var List = require('./list');
-var NewCard = require('./newcard');
 var DragSource = require('react-dnd').DragSource;
 var PropTypes = React.PropTypes;
-var ItemTypes = require('../constants/itemtypes');
+var ItemTypes = require('../../constants/itemtypes');
 var DropTarget = require('react-dnd').DropTarget;
-var BoardDetailView = require('./boarddetailview');
-var ApiUtil = require('../util/api_util');
+var ApiUtil = require('../../util/api_util');
 
 // this.props.list
 // render list, aware of position
