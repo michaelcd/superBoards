@@ -96,6 +96,8 @@ html, body {
 }
 
 .navbar-logo {
+  /*color:#63A2C6;*/
+  font-size: 16px;
   display: block;
   position: absolute;
   left: 50%;
@@ -1143,22 +1145,39 @@ html, body {
   margin-left:5px;
 }
 
+/* Search results */
+.search-results-container {
+  box-sizing: border-box;
+  z-index:151;
+  width: 400px;
+  position:absolute;
+  top:40px;
+  background: #EDEFF0;
+  color: #4d4d4d;
+  border-radius: 3px;
+  padding: 8px;
+}
 
- /* scrollbar styling - may or may not implement in final version*/
+.search-result-link {
+  cursor:point;
+}
 
- ::-webkit-scrollbar {
-   background-color: rgb(0, 121, 191);
-   height:14px;
-   width:14px;
- }
 
- ::-webkit-scrollbar-thumb {
-   background-color: #4F96BF;
-   border-radius: 5px;
+/* scrollbar styling - may or may not implement in final version*/
 
- }
+::-webkit-scrollbar {
+ background-color: rgb(0, 121, 191);
+ height:14px;
+ width:14px;
+}
 
- ::-webkit-scrollbar-track-piece {
-   background: #026aa7;
+::-webkit-scrollbar-thumb {
+ background-color: #4F96BF;
+ border-radius: 5px;
 
- }
+}
+
+::-webkit-scrollbar-track-piece {
+ background: #026aa7;
+
+}

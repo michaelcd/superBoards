@@ -1,4 +1,7 @@
 class Card < ActiveRecord::Base
+  include PgSearch
+  multisearchable :against => [:title, :description]
+
   validates :ord, :title, :author_id, :list_id, presence: true
   validates :archived, inclusion: [true, false]
 

@@ -1,4 +1,7 @@
 class List < ActiveRecord::Base
+  include PgSearch
+  multisearchable :against => [:title]
+
   validates :ord, :title, :board_id, presence: true
   validates :archived, inclusion: [true, false]
   # validates :ord, uniqueness: { scope: :board }
