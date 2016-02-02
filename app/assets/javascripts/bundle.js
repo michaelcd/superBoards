@@ -31797,21 +31797,41 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
+	var SearchResultsStore = __webpack_require__(372);
+	var SearchApiUtil = __webpack_require__(374);
 	
 	var Search = React.createClass({
-	  displayName: "Search",
+	  displayName: 'Search',
 	
-	  changeHandler: function () {},
+	  getInitialState: function () {
+	    return { results: {}, input: "" };
+	  },
+	
+	  changeHandler: function (event) {
+	    this.setState({ input: event.currentTarget.value });
+	    // SearchApiUtil.search(event.currentTarget.value);
+	  },
+	
+	  componentDidMount: function () {
+	    this.storeListener = SearchResultsStore.addListener(this._onChange);
+	  },
+	
+	  _onChange: function () {
+	    this.setState({ results: SearchResultsStore.all() });
+	    console.log(this.state.results);
+	  },
 	
 	  render: function () {
 	    return React.createElement(
-	      "div",
-	      { className: "navbar-search-container navbar-button" },
-	      React.createElement("input", { className: "navbar-search-input", onChange: this.changeHandler }),
+	      'div',
+	      { className: 'navbar-search-container navbar-button' },
+	      React.createElement('input', { className: 'navbar-search-input',
+	        onChange: this.changeHandler,
+	        value: this.state.input }),
 	      React.createElement(
-	        "div",
-	        { className: "navbar-search-icon" },
-	        React.createElement("i", { className: "fa fa-search fa-fw" })
+	        'div',
+	        { className: 'navbar-search-icon' },
+	        React.createElement('i', { className: 'fa fa-search fa-fw' })
 	      )
 	    );
 	  }
@@ -39878,6 +39898,94 @@
 	});
 	
 	module.exports = SessionForm;
+
+/***/ },
+/* 372 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Store = __webpack_require__(221).Store;
+	var AppDispatcher = __webpack_require__(213);
+	var SearchConstants = __webpack_require__(373);
+	
+	var _searchResults = [];
+	var _meta = {};
+	
+	var SearchResultsStore = new Store(AppDispatcher);
+	
+	SearchResultsStore.all = function () {
+	  return _searchResults.slice();
+	};
+	
+	SearchResultsStore.meta = function () {
+	  return _meta;
+	};
+	
+	SearchResultsStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	
+	    case SearchConstants.RECEIVE_SEARCH_RESULTS:
+	      _searchResults = payload.searchResults;
+	      _meta = payload.meta;
+	      SearchResultsStore.__emitChange();
+	      break;
+	
+	  }
+	};
+	
+	module.exports = SearchResultsStore;
+
+/***/ },
+/* 373 */
+/***/ function(module, exports) {
+
+	var SearchConstants = {
+	  RECEIVE_SEARCH_RESULTS: "RECEIVE_SEARCH_RESULTS"
+	};
+	
+	module.exports = SearchConstants;
+
+/***/ },
+/* 374 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var SearchActions = __webpack_require__(375);
+	
+	var SearchApiUtil = {
+	  search: function (query, page) {
+	    $.ajax({
+	      url: '/api/search',
+	      type: 'GET',
+	      dataType: 'json',
+	      data: { query: query, page: page },
+	      success: function (data) {
+	        SearchActions.receiveResults(data);
+	      }
+	    });
+	  }
+	
+	};
+	
+	module.exports = SearchApiUtil;
+
+/***/ },
+/* 375 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var SearchConstants = __webpack_require__(373);
+	var AppDispatcher = __webpack_require__(213);
+	
+	var SearchActions = {
+	  receiveResults: function (data) {
+	    AppDispatcher.dispatch({
+	      actionType: SearchConstants.RECEIVE_SEARCH_RESULTS,
+	      searchResults: data.results,
+	      meta: { totalCount: data.total_count }
+	    });
+	  }
+	
+	};
+	
+	module.exports = SearchActions;
 
 /***/ }
 /******/ ]);

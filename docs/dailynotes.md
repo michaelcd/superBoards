@@ -15,11 +15,11 @@ ellipsis-h
 Tuesday: Feb 2nd
 [X] - Card Detail View - CSS
 [X] - Cards and lists can be dragged to NewCard and NewList slots
+[ ] - full text search
+
 
 [ ] - React Auth: Sign up
-[ ] - full text search
 [ ] - file uploads
-
 [ ] - Board sharing, enable sharing with other users
 [ ] - Comments - Edit and Delete options
 
@@ -35,6 +35,7 @@ Major features remaining:
 
 
 Polish / Optional :
+[ ] - check for N+1 searches, look for optimizations
 [ ] - new card add submit opens up another new card box
 [ ] - drag and drop previews
 [ ] - rewrite loading screen
