@@ -14,9 +14,7 @@ ellipsis-h
 
 Tuesday: Feb 2nd
 [X] - Card Detail View - CSS
-
-
-
+[X] - Cards and lists can be dragged to NewCard and NewList slots
 
 [ ] - React Auth: Sign up
 [ ] - Dragging cards to an empty list

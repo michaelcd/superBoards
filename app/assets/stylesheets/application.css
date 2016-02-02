@@ -779,7 +779,7 @@ html, body {
 }
 
 .new-card-container {
-  margin-bottom: 8px;
+  /*margin-bottom: 8px;*/
 }
 
 .new-card-title {
@@ -792,8 +792,13 @@ html, body {
   padding: 8px 10px 8px 10px;
 }
 
-.new-card-title:hover {
+.new-card:hover {
   background:#CDD2D4;
+  border-radius: 3px;
+}
+
+.new-card-form {
+  margin-bottom: 8px;
 }
 
 .new-card-input {

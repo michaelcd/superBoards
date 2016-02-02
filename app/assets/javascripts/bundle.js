@@ -32130,7 +32130,10 @@
 	
 	  render: function () {
 	    var lists;
+	    var newListOrd = 0;
+	
 	    if (this.state.board.lists !== undefined) {
+	      newListOrd = this.state.board.lists.length;
 	      lists = this.state.board.lists.map(function (list) {
 	        return React.createElement(ListWrapper, { key: list.id, list: list, ord: list.ord });
 	      });
@@ -32196,7 +32199,10 @@
 	        React.createElement(
 	          'div',
 	          { className: 'list-wrapper' },
-	          React.createElement(NewList, { board: this.state.board })
+	          React.createElement(NewList, {
+	            board: this.state.board,
+	            ord: newListOrd
+	          })
 	        )
 	      ),
 	      this.props.children
@@ -37717,9 +37723,37 @@
 	var React = __webpack_require__(1);
 	var ApiUtil = __webpack_require__(211);
 	var BoardStore = __webpack_require__(220);
+	var DragSource = __webpack_require__(252).DragSource;
+	var PropTypes = React.PropTypes;
+	var ItemTypes = __webpack_require__(330);
+	var DropTarget = __webpack_require__(252).DropTarget;
+	
+	var listTarget = {
+	  drop: function (props, monitor) {
+	    var draggedList = monitor.getItem().list;
+	
+	    console.log("from: " + draggedList.ord + " to: " + props.ord);
+	
+	    if (draggedList.ord !== props.ord) {
+	      draggedList.ord = props.ord;
+	      ApiUtil.moveList(draggedList);
+	    }
+	  }
+	};
+	
+	function collect(connect, monitor) {
+	  return {
+	    connectDropTarget: connect.dropTarget(),
+	    isOver: monitor.isOver()
+	  };
+	}
 	
 	var NewList = React.createClass({
 	  displayName: 'NewList',
+	
+	  propTypes: {
+	    ord: PropTypes.number.isRequired
+	  },
 	
 	  getInitialState: function () {
 	    return { form: false, formValue: "" };
@@ -37752,6 +37786,8 @@
 	
 	  render: function () {
 	    var content;
+	    var connectDropTarget = this.props.connectDropTarget;
+	
 	    if (this.state.form === true) {
 	      content = React.createElement(
 	        'div',
@@ -37791,15 +37827,15 @@
 	      );
 	    }
 	
-	    return React.createElement(
+	    return connectDropTarget(React.createElement(
 	      'li',
 	      { className: 'new-list' },
 	      content
-	    );
+	    ));
 	  }
 	});
 	
-	module.exports = NewList;
+	module.exports = DropTarget(ItemTypes.LIST, listTarget, collect)(NewList);
 
 /***/ },
 /* 339 */
