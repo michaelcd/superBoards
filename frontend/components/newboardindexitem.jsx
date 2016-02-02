@@ -14,6 +14,14 @@ NewBoardIndexItem = React.createClass({
   itemClickHandler: function (event) {
     event.preventDefault();
     this.setState({form: true});
+    // this.focusForm();
+  },
+
+  focusForm: function () {
+    var that = this;
+    setTimeout(function () {
+      that.refs.boardnameInput.focus();
+    }, 50);
   },
 
   cancelHandler: function () {
@@ -45,7 +53,8 @@ NewBoardIndexItem = React.createClass({
         );
     } else {
       content = (
-        <form className="create-board-pop-up-menu" onSubmit={this.formOnSubmit}>
+        <form className="create-board-pop-up-menu"
+          onSubmit={this.formOnSubmit}>
           <div className="pop-up-menu-header group">
             <div className="pop-up-menu-title">Create Board</div>
             <a href="#" onClick={this.cancelHandler} className="pop-up-menu-cancel">
@@ -53,7 +62,7 @@ NewBoardIndexItem = React.createClass({
             </a>
           </div>
           <div className="pop-up-menu-options-list group">
-            <input className="pop-up-input" onChange={this.formChangeHandler} />
+            <input className="pop-up-input" ref="boardnameInput" onChange={this.formChangeHandler} />
             <button className="pop-up-rename-board">Create Board</button>
           </div>
         </form>
@@ -61,7 +70,7 @@ NewBoardIndexItem = React.createClass({
     }
 
     return (
-      <li className="new-board-wrapper">
+      <li className="new-board-wrapper" ref="newBoardWrapper">
         {content}
       </li>
     );

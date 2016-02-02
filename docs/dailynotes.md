@@ -17,7 +17,9 @@ Tuesday: Feb 2nd
 [X] - Cards and lists can be dragged to NewCard and NewList slots
 
 [ ] - React Auth: Sign up
-[ ] - Dragging cards to an empty list
+[ ] - full text search
+[ ] - file uploads
+
 [ ] - Board sharing, enable sharing with other users
 [ ] - Comments - Edit and Delete options
 
@@ -27,13 +29,13 @@ Tuesday: Feb 2nd
 Major features remaining:
 [ ] - Navbar Board button component
 [ ] - Comments
-[ ] - file uploads
-[ ] - full text search
+
 [ ] - Board Sharing
 [ ] - Tags
 
 
 Polish / Optional :
+[ ] - new card add submit opens up another new card box
 [ ] - drag and drop previews
 [ ] - rewrite loading screen
 [ ] - Archived Boards View

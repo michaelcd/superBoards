@@ -1023,8 +1023,9 @@ html, body {
   border-radius: 3px;
   border: 1px solid #ccc;
   box-sizing: border-box;
-  padding: 9px 11px 0px 11px;
-  min-height:75px;
+  padding: 7px;
+  /*padding: 9px 11px 0px 11px;*/
+  min-height:25px;
   width:504px;
   word-wrap: break-word;
 }
@@ -1055,6 +1056,7 @@ html, body {
 
 .comment-container {
   margin-left: 38px;
+  margin-bottom: 9px;
 }
 
 .comment-author {
