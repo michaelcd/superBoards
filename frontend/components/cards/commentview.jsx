@@ -6,11 +6,12 @@ var CommentView = React.createClass({
     return ({inputVal: ""});
   },
 
-  _onChange: function () {
-
+  _onChange: function (e) {
+    this.setState({inputVal: e.currentTarget.value});
   },
 
   addComment: function (event) {
+    console.log(event.currentTarget);
     event.preventDefault();
     var comment = {body: this.state.inputVal, card_id: this.props.card.id};
     ApiUtil.createComment(comment);
@@ -23,6 +24,7 @@ var CommentView = React.createClass({
 
   render: function () {
     var commentsList;
+    var formval = this.state.inputVal;
 
     if (this.props.comments) {
       commentsList = (
@@ -50,7 +52,10 @@ var CommentView = React.createClass({
         <div className="window-content-main-title">Add Comment</div>
         <div className="new-comment-container group">
           <form className="new-comment-form" onSubmit={this.addComment}>
-            <input type="text" className="new-comment-input" onChange={this.changeHandler} />
+            <input type="text"
+              className="new-comment-input"
+              onChange={this.changeHandler}
+              value={formval} />
             <button className="new-comment-button">Save Comment</button>
           </form>
         </div>

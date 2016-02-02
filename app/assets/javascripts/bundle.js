@@ -24503,6 +24503,14 @@
 	  itemClickHandler: function (event) {
 	    event.preventDefault();
 	    this.setState({ form: true });
+	    // this.focusForm();
+	  },
+	
+	  focusForm: function () {
+	    var that = this;
+	    setTimeout(function () {
+	      that.refs.boardnameInput.focus();
+	    }, 50);
 	  },
 	
 	  cancelHandler: function () {
@@ -24537,7 +24545,8 @@
 	    } else {
 	      content = React.createElement(
 	        'form',
-	        { className: 'create-board-pop-up-menu', onSubmit: this.formOnSubmit },
+	        { className: 'create-board-pop-up-menu',
+	          onSubmit: this.formOnSubmit },
 	        React.createElement(
 	          'div',
 	          { className: 'pop-up-menu-header group' },
@@ -24555,7 +24564,7 @@
 	        React.createElement(
 	          'div',
 	          { className: 'pop-up-menu-options-list group' },
-	          React.createElement('input', { className: 'pop-up-input', onChange: this.formChangeHandler }),
+	          React.createElement('input', { className: 'pop-up-input', ref: 'boardnameInput', onChange: this.formChangeHandler }),
 	          React.createElement(
 	            'button',
 	            { className: 'pop-up-rename-board' },
@@ -24567,7 +24576,7 @@
 	
 	    return React.createElement(
 	      'li',
-	      { className: 'new-board-wrapper' },
+	      { className: 'new-board-wrapper', ref: 'newBoardWrapper' },
 	      content
 	    );
 	  }
@@ -37422,9 +37431,12 @@
 	    return { inputVal: "" };
 	  },
 	
-	  _onChange: function () {},
+	  _onChange: function (e) {
+	    this.setState({ inputVal: e.currentTarget.value });
+	  },
 	
 	  addComment: function (event) {
+	    console.log(event.currentTarget);
 	    event.preventDefault();
 	    var comment = { body: this.state.inputVal, card_id: this.props.card.id };
 	    ApiUtil.createComment(comment);
@@ -37437,6 +37449,7 @@
 	
 	  render: function () {
 	    var commentsList;
+	    var formval = this.state.inputVal;
 	
 	    if (this.props.comments) {
 	      commentsList = this.props.comments.map(function (comment) {
@@ -37481,7 +37494,10 @@
 	        React.createElement(
 	          'form',
 	          { className: 'new-comment-form', onSubmit: this.addComment },
-	          React.createElement('input', { type: 'text', className: 'new-comment-input', onChange: this.changeHandler }),
+	          React.createElement('input', { type: 'text',
+	            className: 'new-comment-input',
+	            onChange: this.changeHandler,
+	            value: formval }),
 	          React.createElement(
 	            'button',
 	            { className: 'new-comment-button' },
