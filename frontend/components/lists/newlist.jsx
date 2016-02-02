@@ -1,8 +1,36 @@
 var React = require('react');
 var ApiUtil = require('../../util/api_util');
 var BoardStore = require('../../stores/board');
+var DragSource = require('react-dnd').DragSource;
+var PropTypes = React.PropTypes;
+var ItemTypes = require('../../constants/itemtypes');
+var DropTarget = require('react-dnd').DropTarget;
+
+var listTarget = {
+  drop: function (props, monitor) {
+    var draggedList = monitor.getItem().list;
+
+    console.log("from: " + draggedList.ord + " to: " + props.ord);
+
+    if (draggedList.ord !== props.ord) {
+      draggedList.ord = props.ord;
+      ApiUtil.moveList(draggedList);
+    }
+  }
+};
+
+function collect(connect, monitor) {
+  return {
+    connectDropTarget: connect.dropTarget(),
+    isOver: monitor.isOver()
+  };
+}
 
 var NewList = React.createClass({
+  propTypes: {
+    ord: PropTypes.number.isRequired,
+  },
+
   getInitialState: function () {
     return ({form: false, formValue: ""});
   },
@@ -34,6 +62,8 @@ var NewList = React.createClass({
 
   render: function () {
     var content;
+    var connectDropTarget = this.props.connectDropTarget;
+
     if (this.state.form === true) {
       content = (
         <div className="list-form group">
@@ -60,7 +90,7 @@ var NewList = React.createClass({
     }
 
 
-    return(
+    return connectDropTarget(
       <li className="new-list">
         {content}
       </li>
@@ -68,4 +98,4 @@ var NewList = React.createClass({
   }
 });
 
-module.exports = NewList;
+module.exports = DropTarget(ItemTypes.LIST, listTarget, collect)(NewList);

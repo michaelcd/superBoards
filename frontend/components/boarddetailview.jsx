@@ -50,7 +50,10 @@ BoardDetailView = React.createClass({
 
   render: function () {
     var lists;
+    var newListOrd = 0;
+
     if (this.state.board.lists !== undefined) {
+      newListOrd = this.state.board.lists.length;
       lists = (this.state.board.lists.map(function (list) {
         return <ListWrapper key={list.id} list={list} ord={list.ord} />;
       }));
@@ -90,7 +93,12 @@ BoardDetailView = React.createClass({
         </div>
         <ul className="list-container group">
           {lists}
-          <div className="list-wrapper"><NewList board={this.state.board} /></div>
+          <div className="list-wrapper">
+            <NewList
+              board={this.state.board}
+              ord={newListOrd}
+            />
+          </div>
         </ul>
         {this.props.children}
       </div>

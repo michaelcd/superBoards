@@ -10,8 +10,8 @@ class Api::ListsController < ApplicationController
     @list = List.find_by_id(list_params[:id])
 
     if params[:reorder]
-      lists = @list.board.lists
-      List.reorder_lists(@list.ord, list_params[:ord].to_i, lists)
+      lists = @list.board.lists.to_a
+      List.move_list_within_board(@list.ord, list_params[:ord].to_i, lists)
     else
       @list.update(list_params)
     end
