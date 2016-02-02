@@ -13,9 +13,7 @@ minus
 ellipsis-h
 
 [ ] - React Auth: Sign up
-
 [ ] - Dragging cards to an empty list
-
 [ ] - Board sharing, enable sharing with other users
 [ ] - Comments - Edit and Delete options
 [ ] - Navbar Board button component

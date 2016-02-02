@@ -552,7 +552,8 @@ html, body {
 }
 
 .list-title {
-  display: inline-block;
+  cursor:pointer;
+  display: block;
   color: #4D4D4D;
   font-size: 15px;
   line-height: 18px;
@@ -733,6 +734,9 @@ html, body {
 }
 
 .card-title {
+  height:24px;
+  display:block;
+  line-height: 18px;
   white-space: normal;
   word-wrap: break-word;
   margin-bottom: 4px;
