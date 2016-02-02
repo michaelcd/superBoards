@@ -8,23 +8,23 @@ NewBoardIndexItem = React.createClass({
   mixins: [History],
 
   getInitialState: function () {
-    return ({indexItem: "new-board", form: "hidden", formValue: ""});
+    return ({form: false, formValue: ""});
   },
 
   itemClickHandler: function (event) {
     event.preventDefault();
-    this.setState({indexItem: "hidden", form: "board-form group"});
+    this.setState({form: true});
   },
 
   cancelHandler: function () {
-    this.setState({indexItem: "new-board", form: "hidden"});
+    this.setState({form: false});
   },
 
   formOnSubmit: function (event) {
     event.preventDefault();
     var board = {title: this.state.formValue};
     ApiUtil.createBoard(board);
-    this.setState({indexItem: "new-board", form: "hidden", formValue: ""});
+    this.setState({form: false, formValue: ""});
 
     var that = this;
     setTimeout(function () {
@@ -37,18 +37,33 @@ NewBoardIndexItem = React.createClass({
   },
 
   render: function () {
+    var content;
+
+    if (this.state.form !== true) {
+      content = (
+        <a href="#" className="new-board" onClick={this.itemClickHandler}>Create New Board</a>
+        );
+    } else {
+      content = (
+        <form className="create-board-pop-up-menu" onSubmit={this.formOnSubmit}>
+          <div className="pop-up-menu-header group">
+            <div className="pop-up-menu-title">Create Board</div>
+            <a href="#" onClick={this.cancelHandler} className="pop-up-menu-cancel">
+              <i className="fa fa-times fa-fw" />
+            </a>
+          </div>
+          <div className="pop-up-menu-options-list group">
+            <input className="pop-up-input" onChange={this.formChangeHandler} />
+            <button className="pop-up-rename-board">Create Board</button>
+          </div>
+        </form>
+      );
+    }
 
     return (
-      <div>
-        <a href="#" className={this.state.indexItem} onClick={this.itemClickHandler}>Create New Board</a>
-
-        <form className={this.state.form} onSubmit={this.formOnSubmit}>
-          <div className="form-head-container group"><div className="form-create-board">Create Board</div>
-          <a href="#" onClick={this.cancelHandler} className="cancel-icon">X</a></div>
-          <div className="form-title">Title</div>
-            <input onChange={this.formChangeHandler}></input>
-        </form>
-      </div>
+      <li className="new-board-wrapper">
+        {content}
+      </li>
     );
   }
 });

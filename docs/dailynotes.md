@@ -12,28 +12,22 @@ plus
 minus
 ellipsis-h
 
+Tuesday: Feb 2nd
+[X] - Card Detail View - CSS
+
+
+
+
 [ ] - React Auth: Sign up
 [ ] - Dragging cards to an empty list
 [ ] - Board sharing, enable sharing with other users
 [ ] - Comments - Edit and Delete options
-[ ] - Navbar Board button component
-[ ] - Card Detail View - CSS
 
-CSS:
-[ ] Link areas to widen: List title - click for rename
-[ ] Link areas to widen: Card title - click to bring up card detail
-[ ] NewCard add / close
-
-
-
-[ ]
-[ ]
-[ ]
 
 [ ] - SeedData
 
 Major features remaining:
-
+[ ] - Navbar Board button component
 [ ] - Comments
 [ ] - file uploads
 [ ] - full text search
@@ -46,7 +40,6 @@ Polish / Optional :
 [ ] - rewrite loading screen
 [ ] - Archived Boards View
 [ ] - Refactor pop up forms using if/else and variables
-  [ ] - NewBoardIndexItem
   [ ] - BoardMenu
   [ ] - BoardDetailView - board renaming pop up
   [ ] - BoardMenu component
