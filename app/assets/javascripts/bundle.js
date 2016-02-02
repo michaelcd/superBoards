@@ -31799,6 +31799,10 @@
 	var React = __webpack_require__(1);
 	var SearchResultsStore = __webpack_require__(372);
 	var SearchApiUtil = __webpack_require__(374);
+	var CardResult = __webpack_require__(376);
+	var ListResult = __webpack_require__(377);
+	var BoardResult = __webpack_require__(378);
+	var SearchResults = __webpack_require__(379);
 	
 	var Search = React.createClass({
 	  displayName: 'Search',
@@ -31809,7 +31813,7 @@
 	
 	  changeHandler: function (event) {
 	    this.setState({ input: event.currentTarget.value });
-	    // SearchApiUtil.search(event.currentTarget.value);
+	    SearchApiUtil.search(event.currentTarget.value);
 	  },
 	
 	  componentDidMount: function () {
@@ -31818,21 +31822,38 @@
 	
 	  _onChange: function () {
 	    this.setState({ results: SearchResultsStore.all() });
-	    console.log(this.state.results);
+	  },
+	
+	  openSearch: function () {
+	    this.setState({ searching: true });
+	  },
+	
+	  closeSearch: function (event) {
+	    console.log(event);
+	    this.setState({ searching: false });
 	  },
 	
 	  render: function () {
+	    var results;
+	
+	    if (this.state.searching === true) {
+	      results = React.createElement(SearchResults, { results: this.state.results });
+	    }
+	
 	    return React.createElement(
 	      'div',
 	      { className: 'navbar-search-container navbar-button' },
 	      React.createElement('input', { className: 'navbar-search-input',
+	        onFocus: this.openSearch,
+	        onFocusOut: this.closeSearch,
 	        onChange: this.changeHandler,
 	        value: this.state.input }),
 	      React.createElement(
 	        'div',
 	        { className: 'navbar-search-icon' },
 	        React.createElement('i', { className: 'fa fa-search fa-fw' })
-	      )
+	      ),
+	      results
 	    );
 	  }
 	});
@@ -39907,13 +39928,13 @@
 	var AppDispatcher = __webpack_require__(213);
 	var SearchConstants = __webpack_require__(373);
 	
-	var _searchResults = [];
+	var _searchResults = {};
 	var _meta = {};
 	
 	var SearchResultsStore = new Store(AppDispatcher);
 	
 	SearchResultsStore.all = function () {
-	  return _searchResults.slice();
+	  return _searchResults;
 	};
 	
 	SearchResultsStore.meta = function () {
@@ -39986,6 +40007,249 @@
 	};
 	
 	module.exports = SearchActions;
+
+/***/ },
+/* 376 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	
+	// this.props.card
+	
+	var CardResult = React.createClass({
+	  displayName: "CardResult",
+	
+	  render: function () {
+	    var card;
+	    console.log(this.props.card);
+	
+	    if (this.props.card !== undefined) {
+	      card = React.createElement(
+	        "a",
+	        { className: "search-result-link",
+	          href: "#/boards/" + this.props.card.board_id + "/cards/" + this.props.card.id },
+	        this.props.card.title
+	      );
+	    }
+	
+	    return React.createElement(
+	      "div",
+	      { className: "card-result-container" },
+	      card
+	    );
+	  }
+	});
+	
+	module.exports = CardResult;
+
+/***/ },
+/* 377 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	
+	var ListResult = React.createClass({
+	  displayName: "ListResult",
+	
+	  render: function () {
+	    var list;
+	
+	    if (this.props.list !== undefined) {
+	      list = React.createElement(
+	        "a",
+	        { className: "search-result-link",
+	          href: "#/boards/" + this.props.list.board_id },
+	        this.props.list.title
+	      );
+	    }
+	
+	    return React.createElement(
+	      "div",
+	      { className: "list-result-container" },
+	      list
+	    );
+	  }
+	});
+	
+	module.exports = ListResult;
+
+/***/ },
+/* 378 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	
+	var BoardResult = React.createClass({
+	  displayName: "BoardResult",
+	
+	  render: function () {
+	    var board;
+	
+	    if (this.props.board !== undefined) {
+	      board = React.createElement(
+	        "a",
+	        { className: "search-result-link",
+	          href: "#/boards/" + this.props.board.id },
+	        this.props.board.title
+	      );
+	    }
+	
+	    return React.createElement(
+	      "div",
+	      { className: "board-result-container" },
+	      board
+	    );
+	  }
+	});
+	
+	module.exports = BoardResult;
+
+/***/ },
+/* 379 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var CommentResult = __webpack_require__(380);
+	var CardResult = __webpack_require__(376);
+	var ListResult = __webpack_require__(377);
+	var BoardResult = __webpack_require__(378);
+	
+	// this.props.results (array)
+	
+	var SearchResults = React.createClass({
+	  displayName: 'SearchResults',
+	
+	  getInitialState: function () {
+	    return {
+	      boards: [],
+	      lists: [],
+	      cards: [],
+	      comments: []
+	    };
+	  },
+	
+	  componentWillReceiveProps: function () {
+	    setTimeout(function () {
+	      this.setState({
+	        boards: this.props.results.boards,
+	        lists: this.props.results.lists,
+	        cards: this.props.results.cards,
+	        comments: this.props.results.comments
+	      });
+	    }.bind(this), 1000);
+	  },
+	
+	  render: function () {
+	    var comments;
+	    var cards;
+	    var lists;
+	    var boards;
+	
+	    if (this.state.comments !== undefined) {
+	      comments = this.state.comments.map(function (comment) {
+	        return React.createElement(CommentResult, { key: comment.id, comment: comment });
+	      });
+	    }
+	
+	    if (this.state.cards !== undefined) {
+	      cards = this.state.cards.map(function (card) {
+	        return React.createElement(CardResult, { key: card.id, card: card });
+	      });
+	    }
+	
+	    if (this.state.lists !== undefined) {
+	      lists = this.state.lists.map(function (list) {
+	        return React.createElement(ListResult, { key: list.id, list: list });
+	      });
+	    }
+	
+	    if (this.state.boards !== undefined) {
+	      boards = this.state.boards.map(function (board) {
+	        return React.createElement(BoardResult, { key: board.id, board: board });
+	      });
+	    }
+	
+	    var content = React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        'div',
+	        { className: 'comment-results' },
+	        React.createElement(
+	          'div',
+	          { className: 'search-result-label' },
+	          'Comments'
+	        ),
+	        comments
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'card-results' },
+	        React.createElement(
+	          'div',
+	          { className: 'search-result-label' },
+	          'Cards'
+	        ),
+	        cards
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'list-results' },
+	        React.createElement(
+	          'div',
+	          { className: 'search-result-label' },
+	          'Lists'
+	        ),
+	        lists
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'board-results' },
+	        React.createElement(
+	          'div',
+	          { className: 'search-result-label' },
+	          'Boards'
+	        ),
+	        boards
+	      )
+	    );
+	
+	    return React.createElement(
+	      'div',
+	      { className: 'search-results-container' },
+	      content
+	    );
+	  }
+	});
+	
+	module.exports = SearchResults;
+
+/***/ },
+/* 380 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	
+	// this.props.comment
+	
+	var CommentResult = React.createClass({
+	  displayName: "CommentResult",
+	
+	  render: function () {
+	    return React.createElement(
+	      "div",
+	      { className: "comment-result-container" },
+	      React.createElement(
+	        "a",
+	        { className: "search-result-link",
+	          href: "#/boards/" + this.props.comment.board_id + "/cards/" + this.props.comment.card_id },
+	        this.props.comment.body
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = CommentResult;
 
 /***/ }
 /******/ ]);

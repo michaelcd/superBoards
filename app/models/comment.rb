@@ -1,4 +1,7 @@
 class Comment < ActiveRecord::Base
+  include PgSearch
+  multisearchable :against => [:body]
+
   validates :body, :author_id, :card_id, presence: true
 
   belongs_to :card

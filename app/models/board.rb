@@ -1,4 +1,6 @@
 class Board < ActiveRecord::Base
+  include PgSearch
+  multisearchable :against => [:title]
 
   validates :title, :author_id, presence: true
   validates :archived, inclusion: [true, false]

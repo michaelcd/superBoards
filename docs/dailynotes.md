@@ -12,10 +12,19 @@ plus
 minus
 ellipsis-h
 
+text search
+[X] - Backend complete. All search results rendered to JSON
+[ ] - Corresponding React components to render results and links to their objects
+
+
+
+
+
+
 Tuesday: Feb 2nd
 [X] - Card Detail View - CSS
 [X] - Cards and lists can be dragged to NewCard and NewList slots
-[ ] - full text search
+
 
 
 [ ] - React Auth: Sign up
@@ -28,13 +37,15 @@ Tuesday: Feb 2nd
 
 Major features remaining:
 [ ] - Navbar Board button component
-[ ] - Comments
-
+[ ] - Comments (edit/delete?)
 [ ] - Board Sharing
-[ ] - Tags
+
 
 
 Polish / Optional :
+[ ] - superBoards logo
+[ ] - Tags
+[ ] - pop up menus close if you click elsewhere
 [ ] - check for N+1 searches, look for optimizations
 [ ] - new card add submit opens up another new card box
 [ ] - drag and drop previews
