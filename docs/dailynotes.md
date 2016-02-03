@@ -12,6 +12,16 @@ plus
 minus
 ellipsis-h
 
+
+React outside click info:
+http://stackoverflow.com/questions/23821768/listen-for-click-events-that-are-outside-of-a-component
+https://jsfiddle.net/0Lshs7mg/1/
+
+
+
+
+
+
 Wednesday:
 [ ] - File uploads
 [ ] - Card Detail View: Rename CSS
