@@ -3,6 +3,8 @@ var CommentResult = require('./search_comment_result');
 var CardResult = require('./search_card_result');
 var ListResult = require('./search_list_result');
 var BoardResult = require('./search_board_result');
+var SearchResultsStore = require('../../stores/search_results_store');
+
 
 // this.props.results (array)
 
@@ -16,15 +18,33 @@ var SearchResults = React.createClass({
     });
   },
 
+  componentDidMount: function () {
+    this.storeListener = SearchResultsStore.addListener(this._onChange);
+  },
+
+  componentWillUnmount: function () {
+    this.storeListener.remove();
+  },
+
+  _onChange: function () {
+    this.setState({
+      boards: SearchResultsStore.all().boards,
+      lists: SearchResultsStore.all().lists,
+      cards: SearchResultsStore.all().cards,
+      comments: SearchResultsStore.all().comments
+    });
+  },
+
+
   componentWillReceiveProps: function () {
-    setTimeout(function () {
-      this.setState({
-        boards: this.props.results.boards,
-        lists: this.props.results.lists,
-        cards: this.props.results.cards,
-        comments: this.props.results.comments
-      });
-    }.bind(this), 1000);
+    this.setState({
+      boards: this.props.results.boards,
+      lists: this.props.results.lists,
+      cards: this.props.results.cards,
+      comments: this.props.results.comments
+    });
+    // setTimeout(function () {
+    // }.bind(this), 1000);
   },
 
   render: function () {

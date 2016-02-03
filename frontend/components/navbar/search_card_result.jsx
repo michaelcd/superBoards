@@ -6,7 +6,6 @@ var CardResult = React.createClass({
 
   render: function () {
     var card;
-    console.log(this.props.card);
 
     if (this.props.card !== undefined) {
       card = (
