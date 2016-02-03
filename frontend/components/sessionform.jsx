@@ -5,12 +5,20 @@ var SessionsApiUtil = require('./../util/sessions_api_util');
 var SessionForm = React.createClass({
   mixins: [History],
 
-  submit: function (e) {
-    e.preventDefault();
-    var credentials = $(e.currentTarget).serialize();
+  submitLogin: function (e) {
+    var credentials = "username=" + this.state.password + "&password=" + this.state.password;
     SessionsApiUtil.login(credentials, function () {
       this.history.pushState({}, "/");
     }.bind(this));
+    console.log(credentials);
+  },
+
+  registerUser: function (e) {
+    var credentials = "username=" + this.state.password + "&password=" + this.state.password;
+    SessionsApiUtil.createUser(credentials, function () {
+      this.history.pushState({}, "/");
+    }.bind(this));
+    console.log(credentials);
   },
 
   guestSignin: function (event) {
@@ -21,23 +29,30 @@ var SessionForm = React.createClass({
     }.bind(this));
   },
 
+  usernameCapture: function (event) {
+    this.setState({username: event.currentTarget.value});
+  },
+
+  passwordCapture: function (event) {
+    this.setState({password: event.currentTarget.value});
+  },
 
   render: function() {
     return (
       <div className="auth-form-window">
         <div className="auth-form-container group">
-          <form className="auth-form" onSubmit={this.submit}>
+          <form className="auth-form">
             <div className="auth-form-title">superBoards Log In</div>
-            <label>Username
-              <input className="auth-form-input" type="text" name="username" />
-            </label>
-            <label>Password
-              <input className="auth-form-input" type="password" name="password" />
-            </label>
-            <button className="auth-form-button">Log In</button>
+            <label>Username</label>
+            <input className="auth-form-input" type="text" name="username" onChange={this.usernameCapture} />
+            <label>Password</label>
+            <input className="auth-form-input" type="password" name="password" onChange={this.passwordCapture}/>
+            <div className="auth-form-options-list">
+              <button className="auth-form-option" onClick={this.guestSignin}>Sign In as GuestUser</button>
+              <button className="auth-form-option" onClick={this.submitLogin}>Log in as above user</button>
+              <button className="auth-form-option" onClick={this.registerUser}>Register with above credentials</button>
+            </div>
           </form>
-          <button className="auth-form-button guest-form-button" onClick={this.guestSignin}>
-            Sign In as GuestUser</button>
         </div>
       </div>
     );
