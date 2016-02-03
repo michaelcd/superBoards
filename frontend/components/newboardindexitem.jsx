@@ -36,7 +36,7 @@ NewBoardIndexItem = React.createClass({
   },
 
   clickInside: function () {
-    this.setState({form: true});
+
   },
 
   clickOutside: function () {
@@ -88,7 +88,10 @@ NewBoardIndexItem = React.createClass({
             </a>
           </div>
           <div className="pop-up-menu-options-list group">
-            <input className="pop-up-input" ref="boardnameInput" onChange={this.formChangeHandler} />
+            <input className="pop-up-input"
+              ref="boardnameInput"
+              onChange={this.formChangeHandler}
+              value={this.state.formValue} />
             <button className="pop-up-rename-board">Create Board</button>
           </div>
         </form>
