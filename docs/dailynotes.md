@@ -12,18 +12,14 @@ plus
 minus
 ellipsis-h
 
-text search
-[X] - Backend complete. All search results rendered to JSON
-[ ] - Corresponding React components to render results and links to their objects
+[ ] - Text search - Close icon or close after search
 
 
 
 
 
 
-Tuesday: Feb 2nd
-[X] - Card Detail View - CSS
-[X] - Cards and lists can be dragged to NewCard and NewList slots
+
 
 
 
@@ -116,3 +112,9 @@ Monday - Feb 1st
 [X] BoardDetail - rename CSS
 [X] NewBoardIndexItem - CSS
 [X] BoardDetail menu CSS
+
+Tuesday: Feb 2nd
+[X] - Card Detail View - CSS
+[X] - Cards and lists can be dragged to NewCard and NewList slots
+[X] - Backend complete. All search results rendered to JSON
+[X] - Corresponding React components to render results and links to their objects
