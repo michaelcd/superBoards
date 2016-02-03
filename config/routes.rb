@@ -3,6 +3,8 @@
   resources :users, only: [:new, :create]
   resource :sessions, only: [:new, :create, :destroy]
 
+  get 'auth/facebook/callback', to: 'sessions#omniauth_facebook'
+
   namespace :api, defaults: {format: :json} do
     resources :users, only: [:create]
     resource :session, only: [:create, :destroy, :show]

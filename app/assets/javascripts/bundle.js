@@ -40380,17 +40380,22 @@
 	            React.createElement(
 	              'button',
 	              { className: 'auth-form-option', onClick: this.guestSignin },
-	              'Sign In as GuestUser'
+	              'Sign in as GuestUser'
 	            ),
 	            React.createElement(
 	              'button',
 	              { className: 'auth-form-option', onClick: this.submitLogin },
-	              'Log in as above user'
+	              'Sign in with above credentials'
 	            ),
 	            React.createElement(
 	              'button',
 	              { className: 'auth-form-option', onClick: this.registerUser },
 	              'Register with above credentials'
+	            ),
+	            React.createElement(
+	              'a',
+	              { href: '/auth/facebook', className: 'auth-form-option' },
+	              'Sign in with Facebook'
 	            )
 	          )
 	        )

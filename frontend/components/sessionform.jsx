@@ -48,9 +48,10 @@ var SessionForm = React.createClass({
             <label>Password</label>
             <input className="auth-form-input" type="password" name="password" onChange={this.passwordCapture}/>
             <div className="auth-form-options-list">
-              <button className="auth-form-option" onClick={this.guestSignin}>Sign In as GuestUser</button>
-              <button className="auth-form-option" onClick={this.submitLogin}>Log in as above user</button>
+              <button className="auth-form-option" onClick={this.guestSignin}>Sign in as GuestUser</button>
+              <button className="auth-form-option" onClick={this.submitLogin}>Sign in with above credentials</button>
               <button className="auth-form-option" onClick={this.registerUser}>Register with above credentials</button>
+              <a href="/auth/facebook" className="auth-form-option">Sign in with Facebook</a>
             </div>
           </form>
         </div>
