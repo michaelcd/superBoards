@@ -32182,35 +32182,65 @@
 	    var cards;
 	    var lists;
 	    var boards;
+	    var contentCheck = 0;
 	
 	    if (this.state.comments !== undefined && this.state.comments.length > 0) {
 	      comments = React.createElement(CommentResults, { comments: this.state.comments });
+	      contentCheck += 1;
 	    }
 	
 	    if (this.state.cards !== undefined && this.state.cards.length > 0) {
 	      cards = React.createElement(CardResults, { cards: this.state.cards });
+	      contentCheck += 1;
 	    }
 	
 	    if (this.state.lists !== undefined && this.state.lists.length > 0) {
 	      lists = React.createElement(ListResults, { lists: this.state.lists });
+	      contentCheck += 1;
 	    }
 	
 	    if (this.state.boards !== undefined && this.state.boards.length > 0) {
 	      boards = React.createElement(BoardResults, { boards: this.state.boards });
+	      contentCheck += 1;
 	    }
 	
-	    // <div className="search-results-header">Results</div>
+	    var results = React.createElement(
+	      'div',
+	      { className: 'results-container' },
+	      comments,
+	      cards,
+	      lists,
+	      boards
+	    );
+	
+	    var spinner = React.createElement(
+	      'div',
+	      { className: 'search-spinner-container' },
+	      React.createElement('i', { className: 'fa fa-spinner fa-pulse' })
+	    );
+	
+	    var content = results;
+	
+	    if (contentCheck === 0) {
+	      content = spinner;
+	    }
 	
 	    return React.createElement(
 	      'div',
 	      { className: 'pop-up-container' },
 	      React.createElement(
 	        'div',
-	        { className: 'search-results-container' },
-	        comments,
-	        cards,
-	        lists,
-	        boards
+	        { className: 'search-results-window' },
+	        React.createElement(
+	          'div',
+	          { className: 'search-results-header' },
+	          React.createElement(
+	            'div',
+	            { className: 'search-results-header-text' },
+	            'Search Results'
+	          )
+	        ),
+	        content
 	      )
 	    );
 	  }
@@ -37634,6 +37664,7 @@
 	var CardDetailActions = __webpack_require__(343);
 	var CommentView = __webpack_require__(344);
 	var CardRename = __webpack_require__(382);
+	var CardDescription = __webpack_require__(383);
 	var History = __webpack_require__(159).History;
 	
 	var ClickMixin = {
@@ -37685,120 +37716,9 @@
 	
 	  _onChange: function () {
 	    this.setState({ card: CardStore.card() });
-	    this.setState({ descriptionVal: this.state.card.description, renameVal: CardStore.card().title });
 	  },
-	
-	  editDescription: function () {
-	    this.setState({ descriptionEdit: true });
-	  },
-	
-	  descFormOnSubmit: function (e) {
-	    e.preventDefault();
-	    var card = this.state.card;
-	    card.description = this.state.descriptionVal;
-	    ApiUtil.updateCard(card);
-	    this.setState({ descriptionEdit: false });
-	  },
-	
-	  descFormChangeHandler: function (e) {
-	    this.setState({ descriptionVal: e.currentTarget.value });
-	  },
-	
-	  descCancelHandler: function (e) {
-	    e.preventDefault();
-	    this.setState({ descriptionEdit: false });
-	  },
-	
-	  // openRename: function () {
-	  //   this.setState({rename: true});
-	  // },
-	  //
-	  // renameFormOnSubmit: function (e) {
-	  //   e.preventDefault();
-	  //   var card = this.state.card;
-	  //   card.title = this.state.renameVal;
-	  //   ApiUtil.updateCard(card);
-	  //   this.setState({rename: false});
-	  // },
-	  //
-	  // renameFormChangeHandler: function (e) {
-	  //   this.setState({renameVal: e.currentTarget.value});
-	  // },
-	  //
-	  // renameCancelHandler: function (e) {
-	  //   e.preventDefault();
-	  //   this.setState({rename: false});
-	  // },
 	
 	  render: function () {
-	    var description;
-	    var rename;
-	
-	    if (this.state.descriptionEdit === true) {
-	      description = React.createElement(
-	        'div',
-	        { className: 'edit-description-box' },
-	        React.createElement(
-	          'div',
-	          { className: 'edit-description-heading' },
-	          'Description'
-	        ),
-	        React.createElement(
-	          'form',
-	          { onSubmit: this.descFormOnSubmit },
-	          React.createElement('textarea', { type: 'text',
-	            className: 'edit-description-textarea',
-	            onChange: this.descFormChangeHandler,
-	            value: this.state.descriptionVal }),
-	          React.createElement(
-	            'button',
-	            { className: 'list-form-save' },
-	            'Save'
-	          ),
-	          React.createElement(
-	            'a',
-	            { href: '#', className: 'list-form-cancel', onClick: this.descCancelHandler },
-	            React.createElement('i', { className: 'fa fa-times fa-fw' })
-	          )
-	        )
-	      );
-	    } else {
-	      description = React.createElement(
-	        'div',
-	        { className: 'edit-description-box', onClick: this.editDescription },
-	        React.createElement(
-	          'div',
-	          { className: 'edit-description-heading' },
-	          'Description'
-	        ),
-	        React.createElement(
-	          'div',
-	          { className: 'edit-description-box-description' },
-	          this.state.descriptionVal
-	        )
-	      );
-	    }
-	
-	    // if (this.state.rename === true) {
-	    //   rename = (
-	    //     <div className="card-rename-form group">
-	    //       <form onSubmit={this.renameFormOnSubmit}>
-	    //         <input type="text"
-	    //           className="card-rename-form-input"
-	    //           onChange={this.renameFormChangeHandler}
-	    //           value={this.state.renameVal} />
-	    //         <button className="list-form-save">Save</button>
-	    //         <a href="#" className="list-form-cancel" onClick={this.renameCancelHandler}>X</a>
-	    //       </form>
-	    //     </div>
-	    //   );
-	    // } else {
-	    //   rename = (
-	    //     <div className="card-detail-title" onClick={this.openRename}>
-	    //       {this.state.card.title}</div>
-	    //   );
-	    // }
-	
 	    return React.createElement(
 	      'div',
 	      { className: 'window-overlay' },
@@ -37827,11 +37747,7 @@
 	        React.createElement(
 	          'div',
 	          { className: 'window-content-main' },
-	          React.createElement(
-	            'div',
-	            { className: 'card-detail-description-box' },
-	            description
-	          ),
+	          React.createElement(CardDescription, { card: this.state.card }),
 	          React.createElement(CommentView, { comments: this.state.card.comments, card: this.state.card })
 	        ),
 	        React.createElement(CardDetailActions, { card: this.state.card, boardId: this.props.params.board_id })
@@ -40650,11 +40566,19 @@
 	  mixins: [ClickMixin],
 	
 	  getInitialState: function () {
-	    return { renameVal: this.props.card.title, rename: false };
+	    return { renameVal: "", rename: false };
 	  },
 	
-	  componentWillReceiveProps: function () {
-	    this.setState({ renameVal: this.props.card.title });
+	  componentDidMount: function () {
+	    this.cardListener = CardStore.addListener(this._onChange);
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.cardListener.remove();
+	  },
+	
+	  _onChange: function () {
+	    this.setState({ renameVal: CardStore.card().title });
 	  },
 	
 	  openRename: function () {
@@ -40669,11 +40593,12 @@
 	    e.preventDefault();
 	    var card = this.props.card;
 	    card.title = this.state.renameVal;
+	    console.log(card);
 	    ApiUtil.updateCard(card);
 	    this.setState({ rename: false });
 	  },
 	
-	  renameFormChangeHandler: function (e) {
+	  changeHandler: function (e) {
 	    this.setState({ renameVal: e.currentTarget.value });
 	  },
 	
@@ -40683,6 +40608,13 @@
 	  },
 	
 	  render: function () {
+	    var input;
+	
+	    if (this.state.renameVal === "") {
+	      input = this.props.card.title;
+	    } else {
+	      input = this.state.renameVal;
+	    }
 	
 	    if (this.state.rename === true) {
 	      rename = React.createElement(
@@ -40693,8 +40625,8 @@
 	          { onSubmit: this.renameFormOnSubmit },
 	          React.createElement('input', { type: 'text',
 	            className: 'card-rename-form-input',
-	            onChange: this.renameFormChangeHandler,
-	            value: this.state.renameVal }),
+	            onChange: this.changeHandler,
+	            value: input }),
 	          React.createElement(
 	            'button',
 	            { className: 'list-form-save' },
@@ -40724,6 +40656,132 @@
 	});
 	
 	module.exports = CardRename;
+
+/***/ },
+/* 383 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var ReactDOM = __webpack_require__(158);
+	var CardStore = __webpack_require__(342);
+	var ApiUtil = __webpack_require__(211);
+	
+	var ClickMixin = {
+	  _clickDocument: function (e) {
+	    var component = ReactDOM.findDOMNode(this.refs.carddescription);
+	    if (e.target == component || $(component).has(e.target).length) {
+	      this.clickInside(e);
+	    } else {
+	      this.closeMenu(e);
+	    }
+	  },
+	  componentDidMount: function () {
+	    $(document).bind('click', this._clickDocument);
+	  },
+	  componentWillUnmount: function () {
+	    $(document).unbind('click', this._clickDocument);
+	  }
+	};
+	
+	var CardDescription = React.createClass({
+	  displayName: 'CardDescription',
+	
+	  mixins: [ClickMixin],
+	
+	  clickInside: function () {},
+	
+	  getInitialState: function () {
+	    return { descriptionVal: "", descriptionEdit: false };
+	  },
+	
+	  componentDidMount: function () {
+	    this.cardListener = CardStore.addListener(this._onChange);
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.cardListener.remove();
+	  },
+	
+	  _onChange: function () {
+	    this.setState({ descriptionVal: CardStore.card().description });
+	  },
+	
+	  editDescription: function () {
+	    this.setState({ descriptionEdit: true });
+	  },
+	
+	  descFormOnSubmit: function (e) {
+	    e.preventDefault();
+	    var card = this.props.card;
+	    card.description = this.state.descriptionVal;
+	    ApiUtil.updateCard(card);
+	    this.setState({ descriptionEdit: false });
+	  },
+	
+	  changeHandler: function (e) {
+	    this.setState({ descriptionVal: e.currentTarget.value });
+	  },
+	
+	  closeMenu: function (e) {
+	    this.setState({ descriptionEdit: false });
+	  },
+	
+	  render: function () {
+	
+	    if (this.state.descriptionEdit === true) {
+	      description = React.createElement(
+	        'div',
+	        { className: 'edit-description-box', ref: 'carddescription' },
+	        React.createElement(
+	          'div',
+	          { className: 'edit-description-heading' },
+	          'Description'
+	        ),
+	        React.createElement(
+	          'form',
+	          { onSubmit: this.descFormOnSubmit },
+	          React.createElement('textarea', { type: 'text',
+	            className: 'edit-description-textarea',
+	            onChange: this.changeHandler,
+	            value: this.state.descriptionVal }),
+	          React.createElement(
+	            'button',
+	            { className: 'list-form-save' },
+	            'Save'
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'list-form-cancel', onClick: this.closeMenu },
+	            React.createElement('i', { className: 'fa fa-times fa-fw' })
+	          )
+	        )
+	      );
+	    } else {
+	      description = React.createElement(
+	        'div',
+	        { className: 'edit-description-box', onClick: this.editDescription },
+	        React.createElement(
+	          'div',
+	          { className: 'edit-description-heading' },
+	          'Description'
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'edit-description-box-description' },
+	          this.state.descriptionVal
+	        )
+	      );
+	    }
+	
+	    return React.createElement(
+	      'div',
+	      { className: 'card-detail-description-box' },
+	      description
+	    );
+	  }
+	});
+	
+	module.exports = CardDescription;
 
 /***/ }
 /******/ ]);
