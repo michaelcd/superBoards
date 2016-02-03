@@ -20,17 +20,15 @@ https://jsfiddle.net/0Lshs7mg/1/
 
 
 
-
-[ ] - bug: ListMenu updating when not mounted. Related to Clicks on List component
+[ ] - drag and drop previews
+[ ] - refactor
 
 
 
 Wednesday:
-[ ] - OAuth
-[ ] - File uploads
+
 [ ] - Board sharing, enable sharing with other users
-[ ] - Comments - Edit and Delete options for corresponding user 
-[ ] - drag and drop previews
+[ ] - Comments - Edit and Delete options for corresponding user
 [ ] - SeedData
 
 Major features remaining:
@@ -41,6 +39,7 @@ Major features remaining:
 
 
 Polish / Optional :
+[ ] - File uploads
 [ ] - superBoards logo
 [ ] - Tags
 [ ] - pop up menus close if you click elsewhere
@@ -131,3 +130,5 @@ Wednesday: Feb 3rd
 [X] - add pop up closing to all menus
 [X] - search styling and presentation. Spinner before search results appears
 [X] - bug: search links dont always work
+[X] - bug: ListMenu updating when not mounted. Related to Clicks on List component
+[X] - OAuth

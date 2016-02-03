@@ -1104,11 +1104,11 @@ html, body {
   background: #E2E4E6;
   color: #4D4D4D;
   border-radius: 3px;
-  height:230px;
+  height:260px;
   width: 280px;
   padding:7px;
   top: calc(50% - 140px);
-  left: calc(50% - 115px);
+  left: calc(50% - 130px);
 }
 
 .auth-form-title {

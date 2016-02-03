@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+gem 'figaro'
 gem 'pg_search'
 gem 'kaminari'
 gem 'omniauth-facebook'
