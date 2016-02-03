@@ -1,9 +1,30 @@
 var React = require('react');
+var ReactDOM = require('react-dom');
 var ApiUtil = require('../../util/api_util');
 
 // this.props.card
 
+var ClickMixin = {
+    _clickDocument: function (e) {
+        var component = ReactDOM.findDOMNode(this.refs.cardmenu);
+        if (e.target == component || $(component).has(e.target).length) {
+            this.openMenu(e);
+        } else {
+            this.closeMenu(e);
+        }
+    },
+    componentDidMount: function () {
+        $(document).bind('click', this._clickDocument);
+    },
+    componentWillUnmount: function () {
+        $(document).unbind('click', this._clickDocument);
+    },
+};
+
+
 var CardMenu = React.createClass({
+  mixins: [ClickMixin],
+
   getInitialState: function () {
     return ({menu: false});
   },
@@ -35,7 +56,7 @@ var CardMenu = React.createClass({
 
     if (this.state.menu === true) {
       menu = (
-        <div className="pop-up-menu">
+        <div className="pop-up-menu" ref="cardmenu">
           <div className="pop-up-menu-header group">
             <div className="pop-up-menu-title">Card Actions</div>
             <div className="pop-up-menu-cancel" onClick={this.closeMenu}>
