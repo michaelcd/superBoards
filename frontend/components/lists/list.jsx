@@ -124,7 +124,7 @@ var List = React.createClass({
     } else {
       content = (
         <div className="list-title-container">
-          <div onClick={this.titleClick} className="list-title" ref="listrename">
+          <div onClick={this.titleClick} className="list-title">
             {this.props.list.title}
           </div>
           <ListMenu list={this.props.list}/>
