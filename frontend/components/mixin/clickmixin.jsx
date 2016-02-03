@@ -1,6 +1,6 @@
 var ClickMixin = {
     _clickDocument: function (e) {
-        var component = React.findDOMNode(this.refs.component);
+        var component = ReactDOM.findDOMNode(this.refs.component);
         if (e.target == component || $(component).has(e.target).length) {
             this.clickInside(e);
         } else {

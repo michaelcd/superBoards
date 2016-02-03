@@ -1,8 +1,8 @@
 var React = require('react');
-var CommentResult = require('./search_comment_result');
-var CardResult = require('./search_card_result');
-var ListResult = require('./search_list_result');
-var BoardResult = require('./search_board_result');
+var CommentResults = require('./search_comment_result');
+var CardResults = require('./search_card_result');
+var ListResults = require('./search_list_result');
+var BoardResults = require('./search_board_result');
 var SearchResultsStore = require('../../stores/search_results_store');
 
 
@@ -11,10 +11,10 @@ var SearchResultsStore = require('../../stores/search_results_store');
 var SearchResults = React.createClass({
   getInitialState: function () {
     return ({
-      boards: [],
-      lists: [],
-      cards: [],
-      comments: []
+      boards: SearchResultsStore.all().boards,
+      lists: SearchResultsStore.all().lists,
+      cards: SearchResultsStore.all().cards,
+      comments: SearchResultsStore.all().comments
     });
   },
 
@@ -35,17 +35,11 @@ var SearchResults = React.createClass({
     });
   },
 
+  clickResult: function () {
 
-  componentWillReceiveProps: function () {
-    this.setState({
-      boards: this.props.results.boards,
-      lists: this.props.results.lists,
-      cards: this.props.results.cards,
-      comments: this.props.results.comments
-    });
-    // setTimeout(function () {
-    // }.bind(this), 1000);
   },
+
+  componentWillReceiveProps: function () {},
 
   render: function () {
     var comments;
@@ -53,54 +47,32 @@ var SearchResults = React.createClass({
     var lists;
     var boards;
 
-    if (this.state.comments !== undefined) {
-      comments = this.state.comments.map(function (comment) {
-        return <CommentResult key={comment.id} comment={comment} />;
-      });
+    if ((this.state.comments !== undefined) && (this.state.comments.length > 0)) {
+      comments = <CommentResults comments={this.state.comments} />;
     }
 
-    if (this.state.cards !== undefined) {
-      cards = this.state.cards.map(function (card) {
-        return <CardResult key={card.id} card={card} />;
-      });
+    if ((this.state.cards !== undefined) && (this.state.cards.length > 0)) {
+      cards = <CardResults cards={this.state.cards} />;
     }
 
-    if (this.state.lists !== undefined) {
-      lists = this.state.lists.map(function (list) {
-        return <ListResult key={list.id} list={list} />;
-      });
+    if ((this.state.lists !== undefined) && (this.state.lists.length > 0)) {
+      lists = <ListResults lists={this.state.lists} />;
     }
 
-    if (this.state.boards !== undefined) {
-      boards = this.state.boards.map(function (board) {
-        return <BoardResult key={board.id} board={board} />;
-      });
+    if ((this.state.boards !== undefined) && (this.state.boards.length > 0)) {
+      boards = <BoardResults boards={this.state.boards} />;
     }
 
-    var content = (
-      <div>
-        <div className="comment-results">
-          <div className="search-result-label">Comments</div>
-          {comments}
-        </div>
-        <div className="card-results">
-          <div className="search-result-label">Cards</div>
-          {cards}
-        </div>
-        <div className="list-results">
-          <div className="search-result-label">Lists</div>
-          {lists}
-        </div>
-        <div className="board-results">
-          <div className="search-result-label">Boards</div>
-          {boards}
-        </div>
-      </div>
-    );
+    // <div className="search-results-header">Results</div>
 
     return (
-      <div className="search-results-container">
-        {content}
+      <div className="pop-up-container">
+        <div className="search-results-container">
+          {comments}
+          {cards}
+          {lists}
+          {boards}
+        </div>
       </div>
     );
   }

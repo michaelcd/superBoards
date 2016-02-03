@@ -1,11 +1,13 @@
 var React = require('react');
 var BoardStore = require('../stores/board');
-var ApiUtil = require('../util/api_util');
 var ListWrapper = require('./lists/listwrapper');
 var NewList = require('./lists/newlist');
 var BoardMenu = require('./boardmenu');
+var BoardTitleButton = require('./boards/boardtitle');
 var DragDropContext = require('react-dnd').DragDropContext;
 var HTML5Backend = require('react-dnd-html5-backend');
+var ApiUtil = require('../util/api_util');
+
 
 BoardDetailView = React.createClass({
   getInitialState: function () {
@@ -27,26 +29,26 @@ BoardDetailView = React.createClass({
   componentWillUnmount: function () {
     this.boardListener.remove();
   },
-
-  nameClickHandler: function () {
-    this.setState({form: true});
-  },
-
-  formChangeHandler: function (event) {
-    this.setState({title: event.currentTarget.value});
-  },
-
-  formSubmitHandler: function (event) {
-    event.preventDefault();
-    this.state.board.title = this.state.title;
-    ApiUtil.updateBoard(this.state.board);
-    this.setState({form: false});
-  },
-
-  cancelHandler: function (event) {
-    event.preventDefault();
-    this.setState({form: false});
-  },
+  //
+  // nameClickHandler: function () {
+  //   this.setState({form: true});
+  // },
+  //
+  // formChangeHandler: function (event) {
+  //   this.setState({title: event.currentTarget.value});
+  // },
+  //
+  // formSubmitHandler: function (event) {
+  //   event.preventDefault();
+  //   this.state.board.title = this.state.title;
+  //   ApiUtil.updateBoard(this.state.board);
+  //   this.setState({form: false});
+  // },
+  //
+  // cancelHandler: function (event) {
+  //   event.preventDefault();
+  //   this.setState({form: false});
+  // },
 
   render: function () {
     var lists;
@@ -61,34 +63,29 @@ BoardDetailView = React.createClass({
       lists = (<div></div>);
     }
 
-    var form;
-    if (this.state.form === true) {
-      form = (
-        <form className="pop-up-menu" onSubmit={this.formSubmitHandler}>
-          <div className="pop-up-menu-header group">
-            <div className="pop-up-menu-title">Rename Board</div>
-            <a href="#" className="pop-up-menu-cancel" onClick={this.cancelHandler}>
-              <i className="fa fa-times fa-fw" />
-            </a>
-          </div>
-          <div className="pop-up-menu-options-list group">
-            <input className="pop-up-input" type="text" value={this.state.title}
-              onChange={this.formChangeHandler} />
-            <button className="pop-up-rename-board">Rename</button>
-          </div>
-        </form>
-        );
-    }
+    // var form;
+    // if (this.state.form === true) {
+    //   form = (
+    //     <form className="pop-up-menu" onSubmit={this.formSubmitHandler}>
+    //       <div className="pop-up-menu-header group">
+    //         <div className="pop-up-menu-title">Rename Board</div>
+    //         <a href="#" className="pop-up-menu-cancel" onClick={this.cancelHandler}>
+    //           <i className="fa fa-times fa-fw" />
+    //         </a>
+    //       </div>
+    //       <div className="pop-up-menu-options-list group">
+    //         <input className="pop-up-input" type="text" value={this.state.title}
+    //           onChange={this.formChangeHandler} />
+    //         <button className="pop-up-rename-board">Rename</button>
+    //       </div>
+    //     </form>
+    //     );
+    // }
 
     return (
       <div className="board-detail-view">
         <div className="board-header group">
-          <div className="board-title-button">
-            <div className="board-title" onClick={this.nameClickHandler}>
-              {this.state.board.title}
-            </div>
-          </div>
-          {form}
+          <BoardTitleButton />
           <BoardMenu board={this.state.board}/>
         </div>
         <ul className="list-container group">

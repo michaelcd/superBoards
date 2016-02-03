@@ -31863,17 +31863,11 @@
 	    SearchApiUtil.search(event.currentTarget.value);
 	  },
 	
-	  componentDidMount: function () {
-	    this.storeListener = SearchResultsStore.addListener(this._onChange);
-	  },
+	  componentDidMount: function () {},
 	
-	  componentWillUnmount: function () {
-	    this.storeListener.remove();
-	  },
+	  componentWillUnmount: function () {},
 	
-	  _onChange: function () {
-	    this.setState({ results: SearchResultsStore.all() });
-	  },
+	  _onChange: function () {},
 	
 	  openSearch: function () {
 	    this.setState({ searching: true });
@@ -31892,11 +31886,16 @@
 	    this.setState({ searching: false });
 	  },
 	
+	  clearForm: function () {
+	    this.setState({ searching: false, input: "" });
+	  },
+	
 	  render: function () {
 	    var results;
+	    var input = this.state.input;
 	
 	    if (this.state.searching === true) {
-	      results = React.createElement(SearchResults, { results: this.state.results });
+	      results = React.createElement(SearchResults, null);
 	    }
 	
 	    return React.createElement(
@@ -31906,13 +31905,17 @@
 	        onFocus: this.openSearch,
 	        onFocusOut: this.closeSearch,
 	        onChange: this.changeHandler,
-	        value: this.state.input }),
+	        value: input }),
 	      React.createElement(
 	        'div',
 	        { className: 'navbar-search-icon' },
 	        React.createElement('i', { className: 'fa fa-search fa-fw' })
 	      ),
-	      results
+	      React.createElement(
+	        'div',
+	        { onClick: this.clearForm },
+	        results
+	      )
 	    );
 	  }
 	});
@@ -32015,30 +32018,38 @@
 	
 	// this.props.card
 	
-	var CardResult = React.createClass({
-	  displayName: "CardResult",
+	var CardResults = React.createClass({
+	  displayName: "CardResults",
 	
 	  render: function () {
-	    var card;
 	
-	    if (this.props.card !== undefined) {
-	      card = React.createElement(
-	        "a",
-	        { className: "search-result-link",
-	          href: "#/boards/" + this.props.card.board_id + "/cards/" + this.props.card.id },
-	        this.props.card.title
+	    var cards = this.props.cards.map(function (card) {
+	      return React.createElement(
+	        "div",
+	        { className: "search-result-container", key: card.id },
+	        React.createElement(
+	          "a",
+	          { className: "search-result-link",
+	            href: "#/boards/" + card.board_id + "/cards/" + card.id },
+	          card.title
+	        )
 	      );
-	    }
+	    });
 	
 	    return React.createElement(
 	      "div",
-	      { className: "card-result-container" },
-	      card
+	      { className: "results" },
+	      React.createElement(
+	        "div",
+	        { className: "search-result-label" },
+	        "Cards"
+	      ),
+	      cards
 	    );
 	  }
 	});
 	
-	module.exports = CardResult;
+	module.exports = CardResults;
 
 /***/ },
 /* 246 */
@@ -32046,30 +32057,40 @@
 
 	var React = __webpack_require__(1);
 	
-	var ListResult = React.createClass({
-	  displayName: "ListResult",
+	var ListResults = React.createClass({
+	  displayName: "ListResults",
 	
 	  render: function () {
-	    var list;
 	
-	    if (this.props.list !== undefined) {
-	      list = React.createElement(
-	        "a",
-	        { className: "search-result-link",
-	          href: "#/boards/" + this.props.list.board_id },
-	        this.props.list.title
+	    var lists = this.props.lists.map(function (list) {
+	      return React.createElement(
+	        "div",
+	        { className: "search-result-container", key: list.id },
+	        React.createElement(
+	          "a",
+	          { className: "search-result-link",
+	            href: "#/boards/" + list.board_id },
+	          list.title
+	        )
 	      );
-	    }
+	    });
+	
+	    var list;
 	
 	    return React.createElement(
 	      "div",
-	      { className: "list-result-container" },
-	      list
+	      { className: "results" },
+	      React.createElement(
+	        "div",
+	        { className: "search-result-label" },
+	        "Lists"
+	      ),
+	      lists
 	    );
 	  }
 	});
 	
-	module.exports = ListResult;
+	module.exports = ListResults;
 
 /***/ },
 /* 247 */
@@ -32077,40 +32098,48 @@
 
 	var React = __webpack_require__(1);
 	
-	var BoardResult = React.createClass({
-	  displayName: "BoardResult",
+	var BoardResults = React.createClass({
+	  displayName: "BoardResults",
 	
 	  render: function () {
-	    var board;
 	
-	    if (this.props.board !== undefined) {
-	      board = React.createElement(
-	        "a",
-	        { className: "search-result-link",
-	          href: "#/boards/" + this.props.board.id },
-	        this.props.board.title
+	    var boards = this.props.boards.map(function (board) {
+	      return React.createElement(
+	        "div",
+	        { className: "search-result-container", key: board.id },
+	        React.createElement(
+	          "a",
+	          { className: "search-result-link",
+	            href: "#/boards/" + board.id },
+	          board.title
+	        )
 	      );
-	    }
+	    });
 	
 	    return React.createElement(
 	      "div",
-	      { className: "board-result-container" },
-	      board
+	      { className: "results" },
+	      React.createElement(
+	        "div",
+	        { className: "search-result-label" },
+	        "Boards"
+	      ),
+	      boards
 	    );
 	  }
 	});
 	
-	module.exports = BoardResult;
+	module.exports = BoardResults;
 
 /***/ },
 /* 248 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var CommentResult = __webpack_require__(249);
-	var CardResult = __webpack_require__(245);
-	var ListResult = __webpack_require__(246);
-	var BoardResult = __webpack_require__(247);
+	var CommentResults = __webpack_require__(249);
+	var CardResults = __webpack_require__(245);
+	var ListResults = __webpack_require__(246);
+	var BoardResults = __webpack_require__(247);
 	var SearchResultsStore = __webpack_require__(241);
 	
 	// this.props.results (array)
@@ -32120,10 +32149,10 @@
 	
 	  getInitialState: function () {
 	    return {
-	      boards: [],
-	      lists: [],
-	      cards: [],
-	      comments: []
+	      boards: SearchResultsStore.all().boards,
+	      lists: SearchResultsStore.all().lists,
+	      cards: SearchResultsStore.all().cards,
+	      comments: SearchResultsStore.all().comments
 	    };
 	  },
 	
@@ -32144,16 +32173,9 @@
 	    });
 	  },
 	
-	  componentWillReceiveProps: function () {
-	    this.setState({
-	      boards: this.props.results.boards,
-	      lists: this.props.results.lists,
-	      cards: this.props.results.cards,
-	      comments: this.props.results.comments
-	    });
-	    // setTimeout(function () {
-	    // }.bind(this), 1000);
-	  },
+	  clickResult: function () {},
+	
+	  componentWillReceiveProps: function () {},
 	
 	  render: function () {
 	    var comments;
@@ -32161,79 +32183,35 @@
 	    var lists;
 	    var boards;
 	
-	    if (this.state.comments !== undefined) {
-	      comments = this.state.comments.map(function (comment) {
-	        return React.createElement(CommentResult, { key: comment.id, comment: comment });
-	      });
+	    if (this.state.comments !== undefined && this.state.comments.length > 0) {
+	      comments = React.createElement(CommentResults, { comments: this.state.comments });
 	    }
 	
-	    if (this.state.cards !== undefined) {
-	      cards = this.state.cards.map(function (card) {
-	        return React.createElement(CardResult, { key: card.id, card: card });
-	      });
+	    if (this.state.cards !== undefined && this.state.cards.length > 0) {
+	      cards = React.createElement(CardResults, { cards: this.state.cards });
 	    }
 	
-	    if (this.state.lists !== undefined) {
-	      lists = this.state.lists.map(function (list) {
-	        return React.createElement(ListResult, { key: list.id, list: list });
-	      });
+	    if (this.state.lists !== undefined && this.state.lists.length > 0) {
+	      lists = React.createElement(ListResults, { lists: this.state.lists });
 	    }
 	
-	    if (this.state.boards !== undefined) {
-	      boards = this.state.boards.map(function (board) {
-	        return React.createElement(BoardResult, { key: board.id, board: board });
-	      });
+	    if (this.state.boards !== undefined && this.state.boards.length > 0) {
+	      boards = React.createElement(BoardResults, { boards: this.state.boards });
 	    }
 	
-	    var content = React.createElement(
-	      'div',
-	      null,
-	      React.createElement(
-	        'div',
-	        { className: 'comment-results' },
-	        React.createElement(
-	          'div',
-	          { className: 'search-result-label' },
-	          'Comments'
-	        ),
-	        comments
-	      ),
-	      React.createElement(
-	        'div',
-	        { className: 'card-results' },
-	        React.createElement(
-	          'div',
-	          { className: 'search-result-label' },
-	          'Cards'
-	        ),
-	        cards
-	      ),
-	      React.createElement(
-	        'div',
-	        { className: 'list-results' },
-	        React.createElement(
-	          'div',
-	          { className: 'search-result-label' },
-	          'Lists'
-	        ),
-	        lists
-	      ),
-	      React.createElement(
-	        'div',
-	        { className: 'board-results' },
-	        React.createElement(
-	          'div',
-	          { className: 'search-result-label' },
-	          'Boards'
-	        ),
-	        boards
-	      )
-	    );
+	    // <div className="search-results-header">Results</div>
 	
 	    return React.createElement(
 	      'div',
-	      { className: 'search-results-container' },
-	      content
+	      { className: 'pop-up-container' },
+	      React.createElement(
+	        'div',
+	        { className: 'search-results-container' },
+	        comments,
+	        cards,
+	        lists,
+	        boards
+	      )
 	    );
 	  }
 	});
@@ -32246,40 +32224,72 @@
 
 	var React = __webpack_require__(1);
 	
-	// this.props.comment
+	// this.props.comments
 	
-	var CommentResult = React.createClass({
-	  displayName: "CommentResult",
+	var CommentResults = React.createClass({
+	  displayName: "CommentResults",
 	
 	  render: function () {
+	
+	    var comments = this.props.comments.map(function (comment) {
+	      return React.createElement(
+	        "div",
+	        { className: "search-result-container", key: comment.id },
+	        React.createElement(
+	          "a",
+	          { className: "search-result-link",
+	            href: "#/boards/" + comment.board_id + "/cards/" + comment.card_id },
+	          comment.body
+	        )
+	      );
+	    });
+	
 	    return React.createElement(
 	      "div",
-	      { className: "comment-result-container" },
+	      { className: "results" },
 	      React.createElement(
-	        "a",
-	        { className: "search-result-link",
-	          href: "#/boards/" + this.props.comment.board_id + "/cards/" + this.props.comment.card_id },
-	        this.props.comment.body
-	      )
+	        "div",
+	        { className: "search-result-label" },
+	        "Comments"
+	      ),
+	      comments
 	    );
 	  }
 	});
 	
-	module.exports = CommentResult;
+	module.exports = CommentResults;
 
 /***/ },
 /* 250 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
+	var ReactDOM = __webpack_require__(158);
 	var CurrentUserStore = __webpack_require__(251);
 	var SessionsApiUtil = __webpack_require__(253);
 	var History = __webpack_require__(159).History;
 	
+	var ClickMixin = {
+	  _clickDocument: function (e) {
+	    var component = ReactDOM.findDOMNode(this.refs.userbutton);
+	    if (e.target == component || $(component).has(e.target).length) {
+	      this.openMenu(e);
+	    } else {
+	      this.closeMenu(e);
+	    }
+	  },
+	  componentDidMount: function () {
+	    $(document).bind('click', this._clickDocument);
+	  },
+	  componentWillUnmount: function () {
+	    $(document).unbind('click', this._clickDocument);
+	  }
+	};
+	
 	var UserButton = React.createClass({
 	  displayName: 'UserButton',
 	
-	  mixins: [History],
+	  mixins: [History, ClickMixin],
 	
 	  getInitialState: function () {
 	    return {
@@ -32361,10 +32371,11 @@
 	
 	    return React.createElement(
 	      'div',
-	      null,
+	      { ref: 'userbutton' },
 	      React.createElement(
 	        'button',
-	        { className: 'user-button navbar-button', onClick: this.openMenu },
+	        { className: 'user-button navbar-button',
+	          onClick: this.openMenu },
 	        React.createElement(
 	          'div',
 	          { className: 'user-button-initials' },
@@ -32555,12 +32566,13 @@
 
 	var React = __webpack_require__(1);
 	var BoardStore = __webpack_require__(220);
-	var ApiUtil = __webpack_require__(211);
 	var ListWrapper = __webpack_require__(257);
 	var NewList = __webpack_require__(347);
 	var BoardMenu = __webpack_require__(348);
+	var BoardTitleButton = __webpack_require__(381);
 	var DragDropContext = __webpack_require__(261).DragDropContext;
 	var HTML5Backend = __webpack_require__(349);
+	var ApiUtil = __webpack_require__(211);
 	
 	BoardDetailView = React.createClass({
 	  displayName: 'BoardDetailView',
@@ -32584,26 +32596,26 @@
 	  componentWillUnmount: function () {
 	    this.boardListener.remove();
 	  },
-	
-	  nameClickHandler: function () {
-	    this.setState({ form: true });
-	  },
-	
-	  formChangeHandler: function (event) {
-	    this.setState({ title: event.currentTarget.value });
-	  },
-	
-	  formSubmitHandler: function (event) {
-	    event.preventDefault();
-	    this.state.board.title = this.state.title;
-	    ApiUtil.updateBoard(this.state.board);
-	    this.setState({ form: false });
-	  },
-	
-	  cancelHandler: function (event) {
-	    event.preventDefault();
-	    this.setState({ form: false });
-	  },
+	  //
+	  // nameClickHandler: function () {
+	  //   this.setState({form: true});
+	  // },
+	  //
+	  // formChangeHandler: function (event) {
+	  //   this.setState({title: event.currentTarget.value});
+	  // },
+	  //
+	  // formSubmitHandler: function (event) {
+	  //   event.preventDefault();
+	  //   this.state.board.title = this.state.title;
+	  //   ApiUtil.updateBoard(this.state.board);
+	  //   this.setState({form: false});
+	  // },
+	  //
+	  // cancelHandler: function (event) {
+	  //   event.preventDefault();
+	  //   this.setState({form: false});
+	  // },
 	
 	  render: function () {
 	    var lists;
@@ -32618,38 +32630,24 @@
 	      lists = React.createElement('div', null);
 	    }
 	
-	    var form;
-	    if (this.state.form === true) {
-	      form = React.createElement(
-	        'form',
-	        { className: 'pop-up-menu', onSubmit: this.formSubmitHandler },
-	        React.createElement(
-	          'div',
-	          { className: 'pop-up-menu-header group' },
-	          React.createElement(
-	            'div',
-	            { className: 'pop-up-menu-title' },
-	            'Rename Board'
-	          ),
-	          React.createElement(
-	            'a',
-	            { href: '#', className: 'pop-up-menu-cancel', onClick: this.cancelHandler },
-	            React.createElement('i', { className: 'fa fa-times fa-fw' })
-	          )
-	        ),
-	        React.createElement(
-	          'div',
-	          { className: 'pop-up-menu-options-list group' },
-	          React.createElement('input', { className: 'pop-up-input', type: 'text', value: this.state.title,
-	            onChange: this.formChangeHandler }),
-	          React.createElement(
-	            'button',
-	            { className: 'pop-up-rename-board' },
-	            'Rename'
-	          )
-	        )
-	      );
-	    }
+	    // var form;
+	    // if (this.state.form === true) {
+	    //   form = (
+	    //     <form className="pop-up-menu" onSubmit={this.formSubmitHandler}>
+	    //       <div className="pop-up-menu-header group">
+	    //         <div className="pop-up-menu-title">Rename Board</div>
+	    //         <a href="#" className="pop-up-menu-cancel" onClick={this.cancelHandler}>
+	    //           <i className="fa fa-times fa-fw" />
+	    //         </a>
+	    //       </div>
+	    //       <div className="pop-up-menu-options-list group">
+	    //         <input className="pop-up-input" type="text" value={this.state.title}
+	    //           onChange={this.formChangeHandler} />
+	    //         <button className="pop-up-rename-board">Rename</button>
+	    //       </div>
+	    //     </form>
+	    //     );
+	    // }
 	
 	    return React.createElement(
 	      'div',
@@ -32657,16 +32655,7 @@
 	      React.createElement(
 	        'div',
 	        { className: 'board-header group' },
-	        React.createElement(
-	          'div',
-	          { className: 'board-title-button' },
-	          React.createElement(
-	            'div',
-	            { className: 'board-title', onClick: this.nameClickHandler },
-	            this.state.board.title
-	          )
-	        ),
-	        form,
+	        React.createElement(BoardTitleButton, null),
 	        React.createElement(BoardMenu, { board: this.state.board })
 	      ),
 	      React.createElement(
@@ -32746,6 +32735,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
+	var ReactDOM = __webpack_require__(158);
 	var CardWrapper = __webpack_require__(259);
 	var NewCard = __webpack_require__(345);
 	var ApiUtil = __webpack_require__(211);
@@ -32755,6 +32745,23 @@
 	var ListMenu = __webpack_require__(346);
 	
 	// this.props.list
+	
+	var ClickMixin = {
+	  _clickDocument: function (e) {
+	    var component = ReactDOM.findDOMNode(this.refs.listrename);
+	    if (e.target == component || $(component).has(e.target).length) {
+	      this.openMenu(e);
+	    } else {
+	      this.closeMenu(e);
+	    }
+	  },
+	  componentDidMount: function () {
+	    $(document).bind('click', this._clickDocument);
+	  },
+	  componentWillUnmount: function () {
+	    $(document).unbind('click', this._clickDocument);
+	  }
+	};
 	
 	var listSource = {
 	  beginDrag: function (props) {
@@ -32777,6 +32784,8 @@
 	    isDragging: PropTypes.bool.isRequired
 	  },
 	
+	  mixins: [ClickMixin],
+	
 	  getInitialState: function () {
 	    return {
 	      titleClass: "list-title",
@@ -32793,6 +32802,14 @@
 	    event.preventDefault();
 	    this.props.list.title = this.state.formVal;
 	    ApiUtil.updateList(this.props.list);
+	    this.setState({ form: false });
+	  },
+	
+	  openMenu: function (e) {
+	    this.setState({ form: true });
+	  },
+	
+	  closeMenu: function (e) {
 	    this.setState({ form: false });
 	  },
 	
@@ -32830,7 +32847,7 @@
 	        { className: 'list-form group' },
 	        React.createElement(
 	          'form',
-	          { onSubmit: this.formSubmit },
+	          { onSubmit: this.formSubmit, ref: 'listrename' },
 	          React.createElement('input', { type: 'text',
 	            className: 'list-form-input',
 	            onChange: this.formChangeHandler,
@@ -32845,7 +32862,7 @@
 	            { href: '#', className: 'list-form-cancel-wrapper', onClick: this.cancelHandler },
 	            React.createElement(
 	              'div',
-	              { className: 'list-form-cancel', onClick: this.closeMenu },
+	              { className: 'list-form-cancel' },
 	              React.createElement('i', { className: 'fa fa-times fa-fw' })
 	            )
 	          )
@@ -32857,7 +32874,7 @@
 	        { className: 'list-title-container' },
 	        React.createElement(
 	          'div',
-	          { onClick: this.titleClick, className: 'list-title' },
+	          { onClick: this.titleClick, className: 'list-title', ref: 'listrename' },
 	          this.props.list.title
 	        ),
 	        React.createElement(ListMenu, { list: this.props.list })
@@ -32867,7 +32884,11 @@
 	    return connectDragSource(React.createElement(
 	      'li',
 	      { className: 'list' },
-	      content,
+	      React.createElement(
+	        'div',
+	        { className: 'list-title-wrapper' },
+	        content
+	      ),
 	      React.createElement(
 	        'div',
 	        { className: 'cards' },
@@ -37586,19 +37607,46 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
+	var ReactDOM = __webpack_require__(158);
 	var CardStore = __webpack_require__(342);
 	var BoardStore = __webpack_require__(220);
 	var ApiUtil = __webpack_require__(211);
 	var CardDetailActions = __webpack_require__(343);
 	var CommentView = __webpack_require__(344);
+	var History = __webpack_require__(159).History;
+	
+	var ClickMixin = {
+	  _clickDocument: function (e) {
+	    var component = ReactDOM.findDOMNode(this.refs.carddetailview);
+	    if (e.target == component || $(component).has(e.target).length) {
+	      this.clickInside(e);
+	    } else {
+	      this.clickOutside(e);
+	    }
+	  },
+	  componentDidMount: function () {
+	    $(document).bind('click', this._clickDocument);
+	  },
+	  componentWillUnmount: function () {
+	    $(document).unbind('click', this._clickDocument);
+	  }
+	};
 	
 	var CardDetail = React.createClass({
 	  displayName: 'CardDetail',
 	
+	  mixins: [History, ClickMixin],
+	
+	  clickInside: function () {},
+	
+	  clickOutside: function () {
+	    this.history.pushState(null, "/boards/" + this.props.params.board_id);
+	  },
+	
 	  getInitialState: function () {
 	    return {
 	      card: CardStore.card(),
-	      description: false,
+	      descriptionEdit: false,
 	      rename: false,
 	      descriptionVal: CardStore.card().description,
 	      renameVal: CardStore.card().title
@@ -37620,7 +37668,7 @@
 	  },
 	
 	  editDescription: function () {
-	    this.setState({ description: true });
+	    this.setState({ descriptionEdit: true });
 	  },
 	
 	  descFormOnSubmit: function (e) {
@@ -37628,7 +37676,7 @@
 	    var card = this.state.card;
 	    card.description = this.state.descriptionVal;
 	    ApiUtil.updateCard(card);
-	    this.setState({ description: false });
+	    this.setState({ descriptionEdit: false });
 	  },
 	
 	  descFormChangeHandler: function (e) {
@@ -37637,7 +37685,7 @@
 	
 	  descCancelHandler: function (e) {
 	    e.preventDefault();
-	    this.setState({ description: false });
+	    this.setState({ descriptionEdit: false });
 	  },
 	
 	  openRename: function () {
@@ -37665,7 +37713,7 @@
 	    var description;
 	    var rename;
 	
-	    if (this.state.description === true) {
+	    if (this.state.descriptionEdit === true) {
 	      description = React.createElement(
 	        'div',
 	        { className: 'edit-description-box' },
@@ -37713,12 +37761,12 @@
 	    if (this.state.rename === true) {
 	      rename = React.createElement(
 	        'div',
-	        { className: 'list-form group' },
+	        { className: 'card-rename-form group' },
 	        React.createElement(
 	          'form',
 	          { onSubmit: this.renameFormOnSubmit },
-	          React.createElement('textarea', { type: 'text',
-	            className: 'list-form-input',
+	          React.createElement('input', { type: 'text',
+	            className: 'card-rename-form-input',
 	            onChange: this.renameFormChangeHandler,
 	            value: this.state.renameVal }),
 	          React.createElement(
@@ -37749,7 +37797,7 @@
 	        { className: 'window-content ' },
 	        React.createElement(
 	          'div',
-	          { className: 'card-detail-view' },
+	          { className: 'card-detail-view', ref: 'carddetailview' },
 	          React.createElement(
 	            'a',
 	            { href: "#/boards/" + this.props.params.board_id, className: 'card-detail-cancel' },
@@ -37993,12 +38041,29 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
+	var ReactDOM = __webpack_require__(158);
 	var ApiUtil = __webpack_require__(211);
-	
 	var DragSource = __webpack_require__(261).DragSource;
 	var PropTypes = React.PropTypes;
 	var ItemTypes = __webpack_require__(339);
 	var DropTarget = __webpack_require__(261).DropTarget;
+	
+	var ClickMixin = {
+	  _clickDocument: function (e) {
+	    var component = ReactDOM.findDOMNode(this.refs.newcard);
+	    if (e.target == component || $(component).has(e.target).length) {
+	      this.clickInside(e);
+	    } else {
+	      this.clickOutside(e);
+	    }
+	  },
+	  componentDidMount: function () {
+	    $(document).bind('click', this._clickDocument);
+	  },
+	  componentWillUnmount: function () {
+	    $(document).unbind('click', this._clickDocument);
+	  }
+	};
 	
 	// this.props.list
 	
@@ -38027,9 +38092,17 @@
 	var NewCard = React.createClass({
 	  displayName: 'NewCard',
 	
+	  mixins: [ClickMixin],
+	
 	  propTypes: {
 	    listId: PropTypes.number.isRequired,
 	    ord: PropTypes.number.isRequired
+	  },
+	
+	  clickInside: function () {},
+	
+	  clickOutside: function () {
+	    this.setState({ form: false });
 	  },
 	
 	  getInitialState: function () {
@@ -38050,7 +38123,7 @@
 	      archived: false
 	    };
 	    ApiUtil.createCard(card);
-	    this.setState({ form: false });
+	    this.setState({ input: "" });
 	  },
 	
 	  formChangeHandler: function (event) {
@@ -38064,14 +38137,16 @@
 	
 	  render: function () {
 	    var connectDropTarget = this.props.connectDropTarget;
+	    var input = this.state.input;
 	
 	    var form;
 	    if (this.state.form) {
 	      form = React.createElement(
 	        'form',
-	        { className: 'new-card-form group' },
+	        { className: 'new-card-form group', ref: 'newcard' },
 	        React.createElement('input', { className: 'new-card-input',
-	          type: 'text', onChange: this.formChangeHandler }),
+	          type: 'text', onChange: this.formChangeHandler,
+	          value: input }),
 	        React.createElement(
 	          'button',
 	          { className: 'list-form-save new-card-button', onClick: this.submitHandler },
@@ -38111,12 +38186,32 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
+	var ReactDOM = __webpack_require__(158);
 	var ApiUtil = __webpack_require__(211);
 	
 	// this.props.list
 	
+	var ClickMixin = {
+	  _clickDocument: function (e) {
+	    var component = ReactDOM.findDOMNode(this.refs.listmenu);
+	    if (e.target == component || $(component).has(e.target).length) {
+	      this.openMenu(e);
+	    } else {
+	      this.closeMenu(e);
+	    }
+	  },
+	  componentDidMount: function () {
+	    $(document).bind('click', this._clickDocument);
+	  },
+	  componentWillUnmount: function () {
+	    $(document).unbind('click', this._clickDocument);
+	  }
+	};
+	
 	var ListMenu = React.createClass({
 	  displayName: 'ListMenu',
+	
+	  mixins: [ClickMixin],
 	
 	  getInitialState: function () {
 	    return { menu: false };
@@ -38150,7 +38245,7 @@
 	    if (this.state.menu === true) {
 	      menu = React.createElement(
 	        'div',
-	        { className: 'pop-up-menu' },
+	        { className: 'pop-up-menu', ref: 'listmenu' },
 	        React.createElement(
 	          'div',
 	          { className: 'pop-up-menu-header group' },
@@ -38325,16 +38420,34 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
+	var ReactDOM = __webpack_require__(158);
 	var BoardStore = __webpack_require__(220);
 	var ApiUtil = __webpack_require__(211);
 	var History = __webpack_require__(159).History;
 	
 	// this.props.board
 	
+	var ClickMixin = {
+	  _clickDocument: function (e) {
+	    var component = ReactDOM.findDOMNode(this.refs.boardmenu);
+	    if (e.target == component || $(component).has(e.target).length) {
+	      this.openMenu(e);
+	    } else {
+	      this.closeMenu(e);
+	    }
+	  },
+	  componentDidMount: function () {
+	    $(document).bind('click', this._clickDocument);
+	  },
+	  componentWillUnmount: function () {
+	    $(document).unbind('click', this._clickDocument);
+	  }
+	};
+	
 	var BoardMenu = React.createClass({
 	  displayName: 'BoardMenu',
 	
-	  mixins: [History],
+	  mixins: [History, ClickMixin],
 	
 	  getInitialState: function () {
 	    return {
@@ -38343,13 +38456,11 @@
 	    };
 	  },
 	
-	  buttonClick: function (event) {
-	    event.preventDefault();
+	  openMenu: function (event) {
 	    this.setState({ menu: true });
 	  },
 	
-	  menuClose: function (event) {
-	    event.preventDefault();
+	  closeMenu: function (event) {
 	    this.setState({ menu: false });
 	  },
 	
@@ -38387,7 +38498,7 @@
 	    if (this.state.menu === true) {
 	      content = React.createElement(
 	        'div',
-	        { className: 'board-detail-pop-up' },
+	        { className: 'board-detail-pop-up', ref: 'boardmenu' },
 	        React.createElement(
 	          'div',
 	          { className: 'pop-up-menu-header group' },
@@ -38398,7 +38509,7 @@
 	          ),
 	          React.createElement(
 	            'div',
-	            { className: 'pop-up-menu-cancel', onClick: this.menuClose },
+	            { className: 'pop-up-menu-cancel', onClick: this.closeMenu },
 	            React.createElement('i', { className: 'fa fa-times fa-fw' })
 	          )
 	        ),
@@ -38425,7 +38536,7 @@
 	      { className: 'board-menu' },
 	      React.createElement(
 	        'div',
-	        { className: 'board-menu-button', onClick: this.buttonClick },
+	        { className: 'board-menu-button', onClick: this.openMenu },
 	        React.createElement(
 	          'div',
 	          { className: 'board-menu-button-text' },
@@ -40370,6 +40481,132 @@
 	});
 	
 	module.exports = SessionForm;
+
+/***/ },
+/* 381 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var ReactDOM = __webpack_require__(158);
+	var ApiUtil = __webpack_require__(211);
+	var BoardStore = __webpack_require__(220);
+	
+	var ClickMixin = {
+	  _clickDocument: function (e) {
+	    var component = ReactDOM.findDOMNode(this.refs.boardtitle);
+	    if (e.target == component || $(component).has(e.target).length) {
+	      this.openMenu(e);
+	    } else {
+	      this.closeMenu(e);
+	    }
+	  },
+	  componentDidMount: function () {
+	    $(document).bind('click', this._clickDocument);
+	  },
+	  componentWillUnmount: function () {
+	    $(document).unbind('click', this._clickDocument);
+	  }
+	};
+	
+	var BoardTitleButton = React.createClass({
+	  displayName: 'BoardTitleButton',
+	
+	  mixins: [ClickMixin],
+	
+	  getInitialState: function () {
+	    return { form: false, board: {}, title: "" };
+	  },
+	
+	  _onChange: function () {
+	    this.setState({ board: BoardStore.single(), title: BoardStore.single().title });
+	  },
+	
+	  componentDidMount: function () {
+	    this.boardListener = BoardStore.addListener(this._onChange);
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.boardListener.remove();
+	  },
+	
+	  nameClickHandler: function () {
+	    this.setState({ form: true });
+	  },
+	
+	  formChangeHandler: function (event) {
+	    this.setState({ title: event.currentTarget.value });
+	  },
+	
+	  formSubmitHandler: function (event) {
+	    event.preventDefault();
+	    this.state.board.title = this.state.title;
+	    ApiUtil.updateBoard(this.state.board);
+	    this.setState({ form: false });
+	  },
+	
+	  cancelHandler: function (event) {
+	    event.preventDefault();
+	    this.setState({ form: false });
+	  },
+	
+	  openMenu: function () {
+	    this.setState({ form: true });
+	  },
+	
+	  closeMenu: function () {
+	    this.setState({ form: false });
+	  },
+	
+	  render: function () {
+	    var form;
+	    if (this.state.form === true) {
+	      form = React.createElement(
+	        'form',
+	        { className: 'pop-up-menu', ref: 'boardtitle',
+	          onSubmit: this.formSubmitHandler },
+	        React.createElement(
+	          'div',
+	          { className: 'pop-up-menu-header group' },
+	          React.createElement(
+	            'div',
+	            { className: 'pop-up-menu-title' },
+	            'Rename Board'
+	          ),
+	          React.createElement(
+	            'a',
+	            { href: '#', className: 'pop-up-menu-cancel', onClick: this.cancelHandler },
+	            React.createElement('i', { className: 'fa fa-times fa-fw' })
+	          )
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'pop-up-menu-options-list group' },
+	          React.createElement('input', { className: 'pop-up-input', type: 'text', value: this.state.title,
+	            onChange: this.formChangeHandler }),
+	          React.createElement(
+	            'button',
+	            { className: 'pop-up-rename-board' },
+	            'Rename'
+	          )
+	        )
+	      );
+	    }
+	
+	    return React.createElement(
+	      'div',
+	      { className: 'board-title-button' },
+	      React.createElement(
+	        'div',
+	        { className: 'board-title',
+	          onClick: this.nameClickHandler },
+	        this.state.title
+	      ),
+	      form
+	    );
+	  }
+	});
+	
+	module.exports = BoardTitleButton;
 
 /***/ }
 /******/ ]);

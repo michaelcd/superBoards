@@ -2,27 +2,28 @@ var React = require('react');
 
 // this.props.card
 
-var CardResult = React.createClass({
-
+var CardResults = React.createClass({
   render: function () {
-    var card;
 
-    if (this.props.card !== undefined) {
-      card = (
-        <a className="search-result-link"
-          href={"#/boards/" + this.props.card.board_id + "/cards/" + this.props.card.id}>
-          {this.props.card.title}
-        </a>
+    var cards = this.props.cards.map(function (card) {
+      return (
+        <div className="search-result-container" key={card.id}>
+          <a className="search-result-link"
+            href={"#/boards/" + card.board_id + "/cards/" + card.id}>
+            {card.title}
+          </a>
+        </div>
       );
-    }
-
+    });
 
     return (
-      <div className="card-result-container">
-        {card}
+      <div className="results">
+        <div className="search-result-label">Cards</div>
+        {cards}
       </div>
+
     );
   }
 });
 
-module.exports = CardResult;
+module.exports = CardResults;
