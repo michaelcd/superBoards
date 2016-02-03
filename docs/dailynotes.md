@@ -56,6 +56,10 @@ Polish / Optional :
 Drop and reseed database:
 rake db:drop db:create db:migrate db:seed
 
+Figaro command to send Application.yml config to heroku:
+figaro heroku:set -e production
+
+
 daily setup:
 cd desktop
 git clone https://github.com/michaelcd/superBoards.git
