@@ -22,13 +22,14 @@ https://jsfiddle.net/0Lshs7mg/1/
 
 
 [ ] - bug: ListMenu updating when not mounted. Related to Clicks on List component
-[ ] - bug: search links dont always work
+
 
 
 Wednesday:
+[ ] - OAuth
 [ ] - File uploads
 [ ] - Board sharing, enable sharing with other users
-[ ] - Comments - Edit and Delete options
+[ ] - Comments - Edit and Delete options for corresponding user 
 [ ] - drag and drop previews
 [ ] - SeedData
 
@@ -129,3 +130,4 @@ Wednesday: Feb 3rd
 [X] - new card add submit opens up another new card box
 [X] - add pop up closing to all menus
 [X] - search styling and presentation. Spinner before search results appears
+[X] - bug: search links dont always work

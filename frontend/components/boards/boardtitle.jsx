@@ -57,8 +57,7 @@ var BoardTitleButton = React.createClass({
     this.setState({form: false});
   },
 
-  cancelHandler: function (event) {
-    event.preventDefault();
+  cancelHandler: function () {
     this.setState({form: false});
   },
 
@@ -78,9 +77,9 @@ var BoardTitleButton = React.createClass({
           onSubmit={this.formSubmitHandler}>
           <div className="pop-up-menu-header group">
             <div className="pop-up-menu-title">Rename Board</div>
-            <a href="#" className="pop-up-menu-cancel" onClick={this.cancelHandler}>
+            <div className="pop-up-menu-cancel" onClick={this.cancelHandler}>
               <i className="fa fa-times fa-fw" />
-            </a>
+            </div>
           </div>
           <div className="pop-up-menu-options-list group">
             <input className="pop-up-input" type="text" value={this.state.title}
