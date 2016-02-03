@@ -1,4 +1,5 @@
 var React = require('react');
+var ReactDOM = require('react-dom');
 var ApiUtil = require('../../util/api_util');
 var BoardStore = require('../../stores/board');
 var DragSource = require('react-dnd').DragSource;
@@ -26,9 +27,36 @@ function collect(connect, monitor) {
   };
 }
 
+var ClickMixin = {
+    _clickDocument: function (e) {
+        var component = ReactDOM.findDOMNode(this.refs.newlist);
+        if (e.target == component || $(component).has(e.target).length) {
+            this.openMenu(e);
+        } else {
+            this.closeMenu(e);
+        }
+    },
+    componentDidMount: function () {
+        $(document).bind('click', this._clickDocument);
+    },
+    componentWillUnmount: function () {
+        $(document).unbind('click', this._clickDocument);
+    },
+};
+
 var NewList = React.createClass({
+  mixins: [ClickMixin],
+
   propTypes: {
     ord: PropTypes.number.isRequired,
+  },
+
+  openMenu: function () {
+
+  },
+
+  closeMenu: function () {
+    this.setState({form: false});
   },
 
   getInitialState: function () {
@@ -66,7 +94,7 @@ var NewList = React.createClass({
 
     if (this.state.form === true) {
       content = (
-        <div className="list-form group">
+        <div className="list-form group" ref="newlist">
           <form onSubmit={this.formOnSubmit}>
             <input type="text"
               className="list-form-input"

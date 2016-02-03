@@ -32101,6 +32101,10 @@
 	var BoardResults = React.createClass({
 	  displayName: "BoardResults",
 	
+	  clickLink: function () {
+	    this.history.pushState(null, "#/boards/" + board.id);
+	  },
+	
 	  render: function () {
 	
 	    var boards = this.props.boards.map(function (board) {
@@ -32618,6 +32622,10 @@
 	    this.setState({ board: BoardStore.single(), title: BoardStore.single().title });
 	  },
 	
+	  componentWillReceiveProps: function (props) {
+	    ApiUtil.fetchBoard(props.params.board_id);
+	  },
+	
 	  componentDidMount: function () {
 	    this.boardListener = BoardStore.addListener(this._onChange);
 	    ApiUtil.fetchBoard(this.props.params.board_id);
@@ -32626,26 +32634,6 @@
 	  componentWillUnmount: function () {
 	    this.boardListener.remove();
 	  },
-	  //
-	  // nameClickHandler: function () {
-	  //   this.setState({form: true});
-	  // },
-	  //
-	  // formChangeHandler: function (event) {
-	  //   this.setState({title: event.currentTarget.value});
-	  // },
-	  //
-	  // formSubmitHandler: function (event) {
-	  //   event.preventDefault();
-	  //   this.state.board.title = this.state.title;
-	  //   ApiUtil.updateBoard(this.state.board);
-	  //   this.setState({form: false});
-	  // },
-	  //
-	  // cancelHandler: function (event) {
-	  //   event.preventDefault();
-	  //   this.setState({form: false});
-	  // },
 	
 	  render: function () {
 	    var lists;
@@ -32659,25 +32647,6 @@
 	    } else {
 	      lists = React.createElement('div', null);
 	    }
-	
-	    // var form;
-	    // if (this.state.form === true) {
-	    //   form = (
-	    //     <form className="pop-up-menu" onSubmit={this.formSubmitHandler}>
-	    //       <div className="pop-up-menu-header group">
-	    //         <div className="pop-up-menu-title">Rename Board</div>
-	    //         <a href="#" className="pop-up-menu-cancel" onClick={this.cancelHandler}>
-	    //           <i className="fa fa-times fa-fw" />
-	    //         </a>
-	    //       </div>
-	    //       <div className="pop-up-menu-options-list group">
-	    //         <input className="pop-up-input" type="text" value={this.state.title}
-	    //           onChange={this.formChangeHandler} />
-	    //         <button className="pop-up-rename-board">Rename</button>
-	    //       </div>
-	    //     </form>
-	    //     );
-	    // }
 	
 	    return React.createElement(
 	      'div',
@@ -38225,6 +38194,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
+	var ReactDOM = __webpack_require__(158);
 	var ApiUtil = __webpack_require__(211);
 	var BoardStore = __webpack_require__(220);
 	var DragSource = __webpack_require__(261).DragSource;
@@ -38252,11 +38222,36 @@
 	  };
 	}
 	
+	var ClickMixin = {
+	  _clickDocument: function (e) {
+	    var component = ReactDOM.findDOMNode(this.refs.newlist);
+	    if (e.target == component || $(component).has(e.target).length) {
+	      this.openMenu(e);
+	    } else {
+	      this.closeMenu(e);
+	    }
+	  },
+	  componentDidMount: function () {
+	    $(document).bind('click', this._clickDocument);
+	  },
+	  componentWillUnmount: function () {
+	    $(document).unbind('click', this._clickDocument);
+	  }
+	};
+	
 	var NewList = React.createClass({
 	  displayName: 'NewList',
 	
+	  mixins: [ClickMixin],
+	
 	  propTypes: {
 	    ord: PropTypes.number.isRequired
+	  },
+	
+	  openMenu: function () {},
+	
+	  closeMenu: function () {
+	    this.setState({ form: false });
 	  },
 	
 	  getInitialState: function () {
@@ -38295,7 +38290,7 @@
 	    if (this.state.form === true) {
 	      content = React.createElement(
 	        'div',
-	        { className: 'list-form group' },
+	        { className: 'list-form group', ref: 'newlist' },
 	        React.createElement(
 	          'form',
 	          { onSubmit: this.formOnSubmit },
@@ -40470,8 +40465,7 @@
 	    this.setState({ form: false });
 	  },
 	
-	  cancelHandler: function (event) {
-	    event.preventDefault();
+	  cancelHandler: function () {
 	    this.setState({ form: false });
 	  },
 	
@@ -40499,8 +40493,8 @@
 	            'Rename Board'
 	          ),
 	          React.createElement(
-	            'a',
-	            { href: '#', className: 'pop-up-menu-cancel', onClick: this.cancelHandler },
+	            'div',
+	            { className: 'pop-up-menu-cancel', onClick: this.cancelHandler },
 	            React.createElement('i', { className: 'fa fa-times fa-fw' })
 	          )
 	        ),
