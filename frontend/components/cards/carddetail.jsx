@@ -5,6 +5,7 @@ var BoardStore = require('../../stores/board');
 var ApiUtil = require('../../util/api_util');
 var CardDetailActions = require('./carddetail_actions');
 var CommentView = require('./commentview');
+var CardRename = require('./card_rename');
 var History = require('react-router').History;
 
 
@@ -82,26 +83,26 @@ var CardDetail = React.createClass({
     this.setState({descriptionEdit: false});
   },
 
-  openRename: function () {
-    this.setState({rename: true});
-  },
-
-  renameFormOnSubmit: function (e) {
-    e.preventDefault();
-    var card = this.state.card;
-    card.title = this.state.renameVal;
-    ApiUtil.updateCard(card);
-    this.setState({rename: false});
-  },
-
-  renameFormChangeHandler: function (e) {
-    this.setState({renameVal: e.currentTarget.value});
-  },
-
-  renameCancelHandler: function (e) {
-    e.preventDefault();
-    this.setState({rename: false});
-  },
+  // openRename: function () {
+  //   this.setState({rename: true});
+  // },
+  //
+  // renameFormOnSubmit: function (e) {
+  //   e.preventDefault();
+  //   var card = this.state.card;
+  //   card.title = this.state.renameVal;
+  //   ApiUtil.updateCard(card);
+  //   this.setState({rename: false});
+  // },
+  //
+  // renameFormChangeHandler: function (e) {
+  //   this.setState({renameVal: e.currentTarget.value});
+  // },
+  //
+  // renameCancelHandler: function (e) {
+  //   e.preventDefault();
+  //   this.setState({rename: false});
+  // },
 
   render: function () {
     var description;
@@ -132,35 +133,35 @@ var CardDetail = React.createClass({
       );
     }
 
-    if (this.state.rename === true) {
-      rename = (
-        <div className="card-rename-form group">
-          <form onSubmit={this.renameFormOnSubmit}>
-            <input type="text"
-              className="card-rename-form-input"
-              onChange={this.renameFormChangeHandler}
-              value={this.state.renameVal} />
-            <button className="list-form-save">Save</button>
-            <a href="#" className="list-form-cancel" onClick={this.renameCancelHandler}>X</a>
-          </form>
-        </div>
-      );
-    } else {
-      rename = (
-        <div className="card-detail-title" onClick={this.openRename}>
-          {this.state.card.title}</div>
-      );
-    }
+    // if (this.state.rename === true) {
+    //   rename = (
+    //     <div className="card-rename-form group">
+    //       <form onSubmit={this.renameFormOnSubmit}>
+    //         <input type="text"
+    //           className="card-rename-form-input"
+    //           onChange={this.renameFormChangeHandler}
+    //           value={this.state.renameVal} />
+    //         <button className="list-form-save">Save</button>
+    //         <a href="#" className="list-form-cancel" onClick={this.renameCancelHandler}>X</a>
+    //       </form>
+    //     </div>
+    //   );
+    // } else {
+    //   rename = (
+    //     <div className="card-detail-title" onClick={this.openRename}>
+    //       {this.state.card.title}</div>
+    //   );
+    // }
 
     return (
       <div className="window-overlay">
-        <div className="window-content ">
-          <div className="card-detail-view" ref="carddetailview">
+        <div className="window-content" ref="carddetailview">
+          <div className="card-detail-view">
             <a href={"#/boards/" + this.props.params.board_id} className="card-detail-cancel">
               <i className="fa fa-times fa-fw" />
             </a>
             <div className="card-detail-header">
-              {rename}
+              <CardRename card={this.state.card} />
               <div className="card-detail-header-words">
                 <div className="card-detail-header-list-title"></div>
               </div>

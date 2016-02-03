@@ -18,16 +18,16 @@ http://stackoverflow.com/questions/23821768/listen-for-click-events-that-are-out
 https://jsfiddle.net/0Lshs7mg/1/
 
 
-[x] - refactored searchresults state handling
-[X] - close search menu when you click a search result
-[X] - Text search - Close icon or close after search
-[X] - Card Detail View: Rename CSS
+
+
+[ ] - add pop up closing to all menus
+
+[ ] - bug: ListMenu updating when not mounted. Related to Clicks on List component
 [ ] - bug: search links dont always work
 
 
 Wednesday:
 [ ] - File uploads
-[ ] - add pop up closing to all menus
 [ ] - Board sharing, enable sharing with other users
 [ ] - Comments - Edit and Delete options
 [ ] - drag and drop previews
@@ -45,9 +45,9 @@ Polish / Optional :
 [ ] - Tags
 [ ] - pop up menus close if you click elsewhere
 [ ] - check for N+1 searches, look for optimizations
-[ ] - new card add submit opens up another new card box
 
-[ ] - rewrite loading screen
+
+
 [ ] - Archived Boards View
 [ ] - Refactor pop up forms using if/else and variables
   [ ] - BoardMenu
@@ -120,4 +120,11 @@ Tuesday: Feb 2nd
 [X] - Cards and lists can be dragged to NewCard and NewList slots
 [X] - Backend complete. All search results rendered to JSON
 [X] - Corresponding React components to render results and links to their objects
-[X] - React Auth: Sign up
+[X] - React Auth: Sign up.
+
+Wednesday: Feb 3rd
+[x] - refactored searchresults state handling
+[X] - close search menu when you click a search result
+[X] - Text search - Close icon or close after search
+[X] - Card Detail View: Rename CSS
+[X] - new card add submit opens up another new card box
