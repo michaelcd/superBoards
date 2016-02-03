@@ -7,7 +7,6 @@ var CardStore = new Store (AppDispatcher);
 
 var resetCard = function (card) {
   _card = card;
-  console.log(_card);
 };
 
 CardStore.card = function () {
