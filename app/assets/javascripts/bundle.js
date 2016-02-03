@@ -24487,14 +24487,33 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
+	var ReactDOM = __webpack_require__(158);
 	var ApiUtil = __webpack_require__(211);
 	var BoardStore = __webpack_require__(220);
 	var History = __webpack_require__(159).History;
+	// var ClickMixin = require('./mixin/clickmixin');
+	
+	var ClickMixin = {
+	  _clickDocument: function (e) {
+	    var component = ReactDOM.findDOMNode(this.refs.newBoardWrapper);
+	    if (e.target == component || $(component).has(e.target).length) {
+	      this.clickInside(e);
+	    } else {
+	      this.clickOutside(e);
+	    }
+	  },
+	  componentDidMount: function () {
+	    $(document).bind('click', this._clickDocument);
+	  },
+	  componentWillUnmount: function () {
+	    $(document).unbind('click', this._clickDocument);
+	  }
+	};
 	
 	NewBoardIndexItem = React.createClass({
 	  displayName: 'NewBoardIndexItem',
 	
-	  mixins: [History],
+	  mixins: [History, ClickMixin],
 	
 	  getInitialState: function () {
 	    return { form: false, formValue: "" };
@@ -24504,6 +24523,14 @@
 	    event.preventDefault();
 	    this.setState({ form: true });
 	    // this.focusForm();
+	  },
+	
+	  clickInside: function () {
+	    this.setState({ form: true });
+	  },
+	
+	  clickOutside: function () {
+	    this.setState({ form: false });
 	  },
 	
 	  focusForm: function () {
@@ -31797,6 +31824,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
+	var ReactDOM = __webpack_require__(158);
 	var SearchResultsStore = __webpack_require__(372);
 	var SearchApiUtil = __webpack_require__(374);
 	var CardResult = __webpack_require__(376);
@@ -31804,8 +31832,27 @@
 	var BoardResult = __webpack_require__(378);
 	var SearchResults = __webpack_require__(379);
 	
+	var ClickMixin = {
+	  _clickDocument: function (e) {
+	    var component = ReactDOM.findDOMNode(this.refs.searchComponent);
+	    if (e.target == component || $(component).has(e.target).length) {
+	      this.clickInside(e);
+	    } else {
+	      this.clickOutside(e);
+	    }
+	  },
+	  componentDidMount: function () {
+	    $(document).bind('click', this._clickDocument);
+	  },
+	  componentWillUnmount: function () {
+	    $(document).unbind('click', this._clickDocument);
+	  }
+	};
+	
 	var Search = React.createClass({
 	  displayName: 'Search',
+	
+	  mixins: [ClickMixin],
 	
 	  getInitialState: function () {
 	    return { results: {}, input: "" };
@@ -31818,6 +31865,10 @@
 	
 	  componentDidMount: function () {
 	    this.storeListener = SearchResultsStore.addListener(this._onChange);
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.storeListener.remove();
 	  },
 	
 	  _onChange: function () {
@@ -31833,6 +31884,14 @@
 	    this.setState({ searching: false });
 	  },
 	
+	  clickInside: function () {
+	    this.setState({ searching: true });
+	  },
+	
+	  clickOutside: function (event) {
+	    this.setState({ searching: false });
+	  },
+	
 	  render: function () {
 	    var results;
 	
@@ -31842,7 +31901,7 @@
 	
 	    return React.createElement(
 	      'div',
-	      { className: 'navbar-search-container navbar-button' },
+	      { className: 'navbar-search-container navbar-button', ref: 'searchComponent' },
 	      React.createElement('input', { className: 'navbar-search-input',
 	        onFocus: this.openSearch,
 	        onFocusOut: this.closeSearch,

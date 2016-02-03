@@ -1,11 +1,29 @@
 var React = require('react');
+var ReactDOM = require('react-dom');
 var ApiUtil = require('../util/api_util');
 var BoardStore = require('../stores/board');
 var History = require('react-router').History;
+// var ClickMixin = require('./mixin/clickmixin');
 
+var ClickMixin = {
+    _clickDocument: function (e) {
+        var component = ReactDOM.findDOMNode(this.refs.newBoardWrapper);
+        if (e.target == component || $(component).has(e.target).length) {
+            this.clickInside(e);
+        } else {
+            this.clickOutside(e);
+        }
+    },
+    componentDidMount: function () {
+        $(document).bind('click', this._clickDocument);
+    },
+    componentWillUnmount: function () {
+        $(document).unbind('click', this._clickDocument);
+    },
+};
 
 NewBoardIndexItem = React.createClass({
-  mixins: [History],
+  mixins: [History, ClickMixin],
 
   getInitialState: function () {
     return ({form: false, formValue: ""});
@@ -15,6 +33,14 @@ NewBoardIndexItem = React.createClass({
     event.preventDefault();
     this.setState({form: true});
     // this.focusForm();
+  },
+
+  clickInside: function () {
+    this.setState({form: true});
+  },
+
+  clickOutside: function () {
+    this.setState({form: false});
   },
 
   focusForm: function () {
