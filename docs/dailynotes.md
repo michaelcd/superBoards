@@ -17,9 +17,6 @@ React outside click info:
 http://stackoverflow.com/questions/23821768/listen-for-click-events-that-are-outside-of-a-component
 https://jsfiddle.net/0Lshs7mg/1/
 
-
-
-
 [ ] - drag and drop previews
 [ ] - refactor
 
@@ -135,4 +132,4 @@ Wednesday: Feb 3rd
 [X] - search styling and presentation. Spinner before search results appears
 [X] - bug: search links dont always work
 [X] - bug: ListMenu updating when not mounted. Related to Clicks on List component
-[X] - OAuth
+[X] - OAuth locally and on superboards.xyz

@@ -98,7 +98,8 @@ var NewList = React.createClass({
           <form onSubmit={this.formOnSubmit}>
             <input type="text"
               className="list-form-input"
-              onChange={this.formChangeHandler} />
+              onChange={this.formChangeHandler}
+              value={this.state.formValue}/>
             <button className="list-form-save">Save</button>
             <a href="#" className="list-form-cancel-wrapper" onClick={this.cancelHandler}>
               <div className="list-form-cancel" onClick={this.closeMenu}>

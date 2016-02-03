@@ -24525,9 +24525,7 @@
 	    // this.focusForm();
 	  },
 	
-	  clickInside: function () {
-	    this.setState({ form: true });
-	  },
+	  clickInside: function () {},
 	
 	  clickOutside: function () {
 	    this.setState({ form: false });
@@ -24591,7 +24589,10 @@
 	        React.createElement(
 	          'div',
 	          { className: 'pop-up-menu-options-list group' },
-	          React.createElement('input', { className: 'pop-up-input', ref: 'boardnameInput', onChange: this.formChangeHandler }),
+	          React.createElement('input', { className: 'pop-up-input',
+	            ref: 'boardnameInput',
+	            onChange: this.formChangeHandler,
+	            value: this.state.formValue }),
 	          React.createElement(
 	            'button',
 	            { className: 'pop-up-rename-board' },
@@ -38295,7 +38296,8 @@
 	          { onSubmit: this.formOnSubmit },
 	          React.createElement('input', { type: 'text',
 	            className: 'list-form-input',
-	            onChange: this.formChangeHandler }),
+	            onChange: this.formChangeHandler,
+	            value: this.state.formValue }),
 	          React.createElement(
 	            'button',
 	            { className: 'list-form-save' },
