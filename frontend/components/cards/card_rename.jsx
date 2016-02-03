@@ -24,11 +24,19 @@ var CardRename = React.createClass({
   mixins: [ClickMixin],
 
   getInitialState: function () {
-    return({renameVal: this.props.card.title, rename: false});
+    return({renameVal: "", rename: false});
   },
 
-  componentWillReceiveProps: function () {
-    this.setState({renameVal: this.props.card.title});
+  componentDidMount: function () {
+    this.cardListener = CardStore.addListener(this._onChange);
+  },
+
+  componentWillUnmount: function () {
+    this.cardListener.remove();
+  },
+
+  _onChange: function () {
+    this.setState({renameVal: CardStore.card().title});
   },
 
   openRename: function () {
@@ -43,11 +51,12 @@ var CardRename = React.createClass({
     e.preventDefault();
     var card = this.props.card;
     card.title = this.state.renameVal;
+    console.log(card);
     ApiUtil.updateCard(card);
     this.setState({rename: false});
   },
 
-  renameFormChangeHandler: function (e) {
+  changeHandler: function (e) {
     this.setState({renameVal: e.currentTarget.value});
   },
 
@@ -58,6 +67,13 @@ var CardRename = React.createClass({
 
 
   render: function () {
+    var input;
+
+    if (this.state.renameVal === "") {
+      input = this.props.card.title;
+    } else {
+      input = this.state.renameVal;
+    }
 
 
     if (this.state.rename === true) {
@@ -66,8 +82,8 @@ var CardRename = React.createClass({
           <form onSubmit={this.renameFormOnSubmit}>
             <input type="text"
               className="card-rename-form-input"
-              onChange={this.renameFormChangeHandler}
-              value={this.state.renameVal} />
+              onChange={this.changeHandler}
+              value={input} />
             <button className="list-form-save">Save</button>
             <a href="#" className="list-form-cancel" onClick={this.renameCancelHandler}>X</a>
           </form>

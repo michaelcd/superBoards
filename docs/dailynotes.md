@@ -20,7 +20,6 @@ https://jsfiddle.net/0Lshs7mg/1/
 
 
 
-[ ] - add pop up closing to all menus
 
 [ ] - bug: ListMenu updating when not mounted. Related to Clicks on List component
 [ ] - bug: search links dont always work
@@ -128,3 +127,5 @@ Wednesday: Feb 3rd
 [X] - Text search - Close icon or close after search
 [X] - Card Detail View: Rename CSS
 [X] - new card add submit opens up another new card box
+[X] - add pop up closing to all menus
+[X] - search styling and presentation. Spinner before search results appears
