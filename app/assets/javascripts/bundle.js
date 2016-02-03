@@ -31903,7 +31903,6 @@
 	      { className: 'navbar-search-container navbar-button', ref: 'searchComponent' },
 	      React.createElement('input', { className: 'navbar-search-input',
 	        onFocus: this.openSearch,
-	        onFocusOut: this.closeSearch,
 	        onChange: this.changeHandler,
 	        value: input }),
 	      React.createElement(
@@ -31913,7 +31912,7 @@
 	      ),
 	      React.createElement(
 	        'div',
-	        { onClick: this.clearForm },
+	        null,
 	        results
 	      )
 	    );

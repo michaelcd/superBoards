@@ -77,13 +77,12 @@ var Search = React.createClass({
       <div className="navbar-search-container navbar-button" ref="searchComponent">
         <input className="navbar-search-input"
           onFocus={this.openSearch}
-          onFocusOut={this.closeSearch}
           onChange={this.changeHandler}
-          value={input}/>
+          value={input} />
         <div className="navbar-search-icon">
             <i className="fa fa-search fa-fw" />
         </div>
-        <div onClick={this.clearForm}>{results}</div>
+        <div>{results}</div>
       </div>
     );
   }
