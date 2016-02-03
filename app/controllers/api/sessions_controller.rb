@@ -21,7 +21,6 @@ class Api::SessionsController < ApplicationController
       render json: ["Wrong email/password combo!"], status: 401
     else
       sign_in(@user)
-      # redirect_to root_url
       render "api/users/show"
     end
   end
@@ -30,8 +29,6 @@ class Api::SessionsController < ApplicationController
     sign_out!
     @user = User.new
     render "api/users/show"
-
-    # redirect_to new_session_url
   end
 
 

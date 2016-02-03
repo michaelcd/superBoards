@@ -10,6 +10,26 @@ var SessionsApiUtil = {
       success: function (currentUser) {
         CurrentUserActions.receiveCurrentUser(currentUser);
         success && success();
+      },
+      failure: function () {
+        console.log("failed");
+      }
+
+    });
+  },
+
+  createUser: function (credentials, success) {
+    $.ajax({
+      url: '/api/users',
+      type: 'POST',
+      dataType: 'json',
+      data: credentials, // {email: "tommy...", password: "14.."}
+      success: function (currentUser) {
+        CurrentUserActions.receiveCurrentUser(currentUser);
+        success && success();
+      },
+      failure: function () {
+        console.log("failed");
       }
 
     });

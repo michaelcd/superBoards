@@ -32043,6 +32043,26 @@
 	      success: function (currentUser) {
 	        CurrentUserActions.receiveCurrentUser(currentUser);
 	        success && success();
+	      },
+	      failure: function () {
+	        console.log("failed");
+	      }
+	
+	    });
+	  },
+	
+	  createUser: function (credentials, success) {
+	    $.ajax({
+	      url: '/api/users',
+	      type: 'POST',
+	      dataType: 'json',
+	      data: credentials, // {email: "tommy...", password: "14.."}
+	      success: function (currentUser) {
+	        CurrentUserActions.receiveCurrentUser(currentUser);
+	        success && success();
+	      },
+	      failure: function () {
+	        console.log("failed");
 	      }
 	
 	    });
@@ -39858,12 +39878,20 @@
 	
 	  mixins: [History],
 	
-	  submit: function (e) {
-	    e.preventDefault();
-	    var credentials = $(e.currentTarget).serialize();
+	  submitLogin: function (e) {
+	    var credentials = "username=" + this.state.password + "&password=" + this.state.password;
 	    SessionsApiUtil.login(credentials, function () {
 	      this.history.pushState({}, "/");
 	    }.bind(this));
+	    console.log(credentials);
+	  },
+	
+	  registerUser: function (e) {
+	    var credentials = "username=" + this.state.password + "&password=" + this.state.password;
+	    SessionsApiUtil.createUser(credentials, function () {
+	      this.history.pushState({}, "/");
+	    }.bind(this));
+	    console.log(credentials);
 	  },
 	
 	  guestSignin: function (event) {
@@ -39872,6 +39900,14 @@
 	    SessionsApiUtil.login(credentials, function () {
 	      this.history.pushState({}, "/");
 	    }.bind(this));
+	  },
+	
+	  usernameCapture: function (event) {
+	    this.setState({ username: event.currentTarget.value });
+	  },
+	
+	  passwordCapture: function (event) {
+	    this.setState({ password: event.currentTarget.value });
 	  },
 	
 	  render: function () {
@@ -39883,7 +39919,7 @@
 	        { className: 'auth-form-container group' },
 	        React.createElement(
 	          'form',
-	          { className: 'auth-form', onSubmit: this.submit },
+	          { className: 'auth-form' },
 	          React.createElement(
 	            'div',
 	            { className: 'auth-form-title' },
@@ -39892,25 +39928,34 @@
 	          React.createElement(
 	            'label',
 	            null,
-	            'Username',
-	            React.createElement('input', { className: 'auth-form-input', type: 'text', name: 'username' })
+	            'Username'
 	          ),
+	          React.createElement('input', { className: 'auth-form-input', type: 'text', name: 'username', onChange: this.usernameCapture }),
 	          React.createElement(
 	            'label',
 	            null,
-	            'Password',
-	            React.createElement('input', { className: 'auth-form-input', type: 'password', name: 'password' })
+	            'Password'
 	          ),
+	          React.createElement('input', { className: 'auth-form-input', type: 'password', name: 'password', onChange: this.passwordCapture }),
 	          React.createElement(
-	            'button',
-	            { className: 'auth-form-button' },
-	            'Log In'
+	            'div',
+	            { className: 'auth-form-options-list' },
+	            React.createElement(
+	              'button',
+	              { className: 'auth-form-option', onClick: this.guestSignin },
+	              'Sign In as GuestUser'
+	            ),
+	            React.createElement(
+	              'button',
+	              { className: 'auth-form-option', onClick: this.submitLogin },
+	              'Log in as above user'
+	            ),
+	            React.createElement(
+	              'button',
+	              { className: 'auth-form-option', onClick: this.registerUser },
+	              'Register with above credentials'
+	            )
 	          )
-	        ),
-	        React.createElement(
-	          'button',
-	          { className: 'auth-form-button guest-form-button', onClick: this.guestSignin },
-	          'Sign In as GuestUser'
 	        )
 	      )
 	    );

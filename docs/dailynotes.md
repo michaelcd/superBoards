@@ -12,24 +12,14 @@ plus
 minus
 ellipsis-h
 
+Wednesday:
+[ ] - File uploads
+[ ] - Card Detail View: Rename CSS
 [ ] - Text search - Close icon or close after search
-
-
-
-
-
-
-
-
-
-
-[ ] - React Auth: Sign up
-[ ] - file uploads
 [ ] - Board sharing, enable sharing with other users
 [ ] - Comments - Edit and Delete options
-
-
 [ ] - SeedData
+[ ] - drag and drop previews
 
 Major features remaining:
 [ ] - Navbar Board button component
@@ -44,7 +34,7 @@ Polish / Optional :
 [ ] - pop up menus close if you click elsewhere
 [ ] - check for N+1 searches, look for optimizations
 [ ] - new card add submit opens up another new card box
-[ ] - drag and drop previews
+
 [ ] - rewrite loading screen
 [ ] - Archived Boards View
 [ ] - Refactor pop up forms using if/else and variables
@@ -118,3 +108,4 @@ Tuesday: Feb 2nd
 [X] - Cards and lists can be dragged to NewCard and NewList slots
 [X] - Backend complete. All search results rendered to JSON
 [X] - Corresponding React components to render results and links to their objects
+[X] - React Auth: Sign up

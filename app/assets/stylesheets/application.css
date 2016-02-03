@@ -1104,21 +1104,28 @@ html, body {
   background: #E2E4E6;
   color: #4D4D4D;
   border-radius: 3px;
-  width: 300px;
+  height:230px;
+  width: 280px;
   padding:7px;
-  top: calc(50% - 85px);
-  left: calc(50% - 150px);
+  top: calc(50% - 140px);
+  left: calc(50% - 115px);
 }
 
 .auth-form-title {
   display:block;
+  font-weight:bold;
   text-align: center;
   margin-bottom: 6px;
 }
 
 .auth-form > label {
+  margin-left: 15px;
+}
+
+.auth-form > input {
   display:block;
   text-align: center;
+  margin-top: 5px;
 }
 
 .auth-form-input {
@@ -1134,15 +1141,23 @@ html, body {
   margin-bottom: 6px;
 }
 
-.auth-form-button {
-  float:left;
-  cursor:pointer;
-  margin-left: 25px;
-  background: #61bd4f;
+.auth-form-options-list {
+  padding: 10px;
+  padding-top: 0;
+}
+
+.auth-form-option {
+  width:250px;
+  color: #4d4d4d;
+  font-size: 14px;
+  display:block;
+  line-height: 18px;
+  padding: 6px 10px;
+}
+
+.auth-form-option:hover {
+  background: #298FCA;
   color:white;
-  border-radius: 3px;
-  font-weight: 700;
-  padding: 5px 10px;
 }
 
 .guest-form-button {

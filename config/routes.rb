@@ -4,6 +4,7 @@
   resource :sessions, only: [:new, :create, :destroy]
 
   namespace :api, defaults: {format: :json} do
+    resources :users, only: [:create]
     resource :session, only: [:create, :destroy, :show]
     resources :boards, except: [:new, :edit]
     resources :lists, only: [:create, :update, :destroy]
