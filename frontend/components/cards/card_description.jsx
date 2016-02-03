@@ -72,7 +72,7 @@ var CardDescription = React.createClass({
               className="edit-description-textarea"
               onChange={this.changeHandler}
               value={this.state.descriptionVal} />
-            <button className="list-form-save">Save</button>
+            <button className="new-comment-button">Save</button>
             <div className="list-form-cancel" onClick={this.closeMenu}>
               <i className="fa fa-times fa-fw" />
             </div>

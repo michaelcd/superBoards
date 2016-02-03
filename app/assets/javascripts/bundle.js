@@ -32872,7 +32872,7 @@
 	        { className: 'list-title-container' },
 	        React.createElement(
 	          'div',
-	          { onClick: this.titleClick, className: 'list-title', ref: 'listrename' },
+	          { onClick: this.titleClick, className: 'list-title' },
 	          this.props.list.title
 	        ),
 	        React.createElement(ListMenu, { list: this.props.list })
@@ -38089,10 +38089,10 @@
 	  _clickDocument: function (e) {
 	    var component = ReactDOM.findDOMNode(this.refs.listmenu);
 	    if (e.target == component || $(component).has(e.target).length) {
-	      this.openMenu(e);
+	      // this.openMenu(e);
 	    } else {
-	      this.closeMenu(e);
-	    }
+	        this.closeMenu(e);
+	      }
 	  },
 	  componentDidMount: function () {
 	    $(document).bind('click', this._clickDocument);
@@ -40622,13 +40622,13 @@
 	            value: input }),
 	          React.createElement(
 	            'button',
-	            { className: 'list-form-save' },
+	            { className: 'new-comment-button' },
 	            'Save'
 	          ),
 	          React.createElement(
 	            'a',
 	            { href: '#', className: 'list-form-cancel', onClick: this.renameCancelHandler },
-	            'X'
+	            React.createElement('i', { className: 'fa fa-times fa-fw' })
 	          )
 	        )
 	      );
@@ -40739,7 +40739,7 @@
 	            value: this.state.descriptionVal }),
 	          React.createElement(
 	            'button',
-	            { className: 'list-form-save' },
+	            { className: 'new-comment-button' },
 	            'Save'
 	          ),
 	          React.createElement(

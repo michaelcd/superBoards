@@ -84,8 +84,10 @@ var CardRename = React.createClass({
               className="card-rename-form-input"
               onChange={this.changeHandler}
               value={input} />
-            <button className="list-form-save">Save</button>
-            <a href="#" className="list-form-cancel" onClick={this.renameCancelHandler}>X</a>
+            <button className="new-comment-button">Save</button>
+            <a href="#" className="list-form-cancel" onClick={this.renameCancelHandler}>
+              <i className="fa fa-times fa-fw" />
+            </a>
           </form>
         </div>
       );

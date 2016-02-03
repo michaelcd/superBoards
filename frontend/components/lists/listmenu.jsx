@@ -8,16 +8,16 @@ var ClickMixin = {
     _clickDocument: function (e) {
         var component = ReactDOM.findDOMNode(this.refs.listmenu);
         if (e.target == component || $(component).has(e.target).length) {
-            this.openMenu(e);
+            // this.openMenu(e);
         } else {
             this.closeMenu(e);
         }
     },
     componentDidMount: function () {
-        $(document).bind('click', this._clickDocument);
+      $(document).bind('click', this._clickDocument);
     },
     componentWillUnmount: function () {
-        $(document).unbind('click', this._clickDocument);
+      $(document).unbind('click', this._clickDocument);
     },
 };
 
