@@ -1,10 +1,30 @@
 var React = require('react');
+var ReactDOM = require('react-dom');
 var CurrentUserStore = require('../../stores/currentuser');
 var SessionsApiUtil = require('../../util/sessions_api_util');
 var History = require('react-router').History;
 
+var ClickMixin = {
+    _clickDocument: function (e) {
+        var component = ReactDOM.findDOMNode(this.refs.userbutton);
+        if (e.target == component || $(component).has(e.target).length) {
+            this.openMenu(e);
+        } else {
+            this.closeMenu(e);
+        }
+    },
+    componentDidMount: function () {
+        $(document).bind('click', this._clickDocument);
+    },
+    componentWillUnmount: function () {
+        $(document).unbind('click', this._clickDocument);
+    },
+};
+
+
+
 var UserButton = React.createClass({
-  mixins: [History],
+  mixins: [History, ClickMixin],
 
   getInitialState: function () {
     return ({
@@ -73,8 +93,9 @@ var UserButton = React.createClass({
     }
 
     return(
-      <div>
-        <button className="user-button navbar-button" onClick={this.openMenu}>
+      <div ref="userbutton">
+        <button className="user-button navbar-button"
+          onClick={this.openMenu}>
           <div className="user-button-initials">
             {this.state.initials}
           </div>

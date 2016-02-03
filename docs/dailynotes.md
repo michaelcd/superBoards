@@ -18,18 +18,20 @@ http://stackoverflow.com/questions/23821768/listen-for-click-events-that-are-out
 https://jsfiddle.net/0Lshs7mg/1/
 
 
-
-
+[x] - refactored searchresults state handling
+[X] - close search menu when you click a search result
+[X] - Text search - Close icon or close after search
+[X] - Card Detail View: Rename CSS
+[ ] - bug: search links dont always work
 
 
 Wednesday:
 [ ] - File uploads
-[ ] - Card Detail View: Rename CSS
-[ ] - Text search - Close icon or close after search
+[ ] - add pop up closing to all menus
 [ ] - Board sharing, enable sharing with other users
 [ ] - Comments - Edit and Delete options
-[ ] - SeedData
 [ ] - drag and drop previews
+[ ] - SeedData
 
 Major features remaining:
 [ ] - Navbar Board button component

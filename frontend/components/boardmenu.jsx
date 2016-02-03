@@ -1,12 +1,30 @@
 var React = require('react');
+var ReactDOM = require('react-dom');
 var BoardStore = require('../stores/board');
 var ApiUtil = require('../util/api_util');
 var History = require('react-router').History;
 
 // this.props.board
 
+var ClickMixin = {
+    _clickDocument: function (e) {
+        var component = ReactDOM.findDOMNode(this.refs.boardmenu);
+        if (e.target == component || $(component).has(e.target).length) {
+            this.openMenu(e);
+        } else {
+            this.closeMenu(e);
+        }
+    },
+    componentDidMount: function () {
+        $(document).bind('click', this._clickDocument);
+    },
+    componentWillUnmount: function () {
+        $(document).unbind('click', this._clickDocument);
+    },
+};
+
 var BoardMenu = React.createClass({
-  mixins: [History],
+  mixins: [History, ClickMixin],
 
   getInitialState: function () {
     return ({
@@ -15,13 +33,11 @@ var BoardMenu = React.createClass({
     });
   },
 
-  buttonClick: function (event) {
-    event.preventDefault();
+  openMenu: function (event) {
     this.setState({menu: true});
   },
 
-  menuClose: function (event) {
-    event.preventDefault();
+  closeMenu: function (event) {
     this.setState({menu: false});
   },
 
@@ -55,10 +71,10 @@ var BoardMenu = React.createClass({
     }
     if (this.state.menu === true) {
       content = (
-        <div className="board-detail-pop-up">
+        <div className="board-detail-pop-up" ref="boardmenu">
           <div className="pop-up-menu-header group">
             <div className="pop-up-menu-title">Board Actions</div>
-            <div className="pop-up-menu-cancel" onClick={this.menuClose}>
+            <div className="pop-up-menu-cancel" onClick={this.closeMenu}>
               <i className="fa fa-times fa-fw" />
             </div>
           </div>
@@ -73,7 +89,7 @@ var BoardMenu = React.createClass({
 
     return (
       <div className="board-menu">
-        <div className="board-menu-button" onClick={this.buttonClick}>
+        <div className="board-menu-button" onClick={this.openMenu}>
           <div className="board-menu-button-text">Show Menu</div>
         </div>
         {content}

@@ -36,17 +36,11 @@ var Search = React.createClass({
     SearchApiUtil.search(event.currentTarget.value);
   },
 
-  componentDidMount: function () {
-    this.storeListener = SearchResultsStore.addListener(this._onChange);
-  },
+  componentDidMount: function () {},
 
-  componentWillUnmount: function () {
-    this.storeListener.remove();
-  },
+  componentWillUnmount: function () {},
 
-  _onChange: function () {
-    this.setState({results: SearchResultsStore.all()});
-  },
+  _onChange: function () {},
 
   openSearch: function () {
     this.setState({searching: true});
@@ -65,12 +59,17 @@ var Search = React.createClass({
     this.setState({searching: false});
   },
 
+  clearForm: function () {
+    this.setState({searching: false, input: ""});
+  },
+
   render: function () {
     var results;
+    var input = this.state.input;
 
     if (this.state.searching === true) {
       results = (
-        <SearchResults results={this.state.results} />
+        <SearchResults />
       );
     }
 
@@ -80,11 +79,11 @@ var Search = React.createClass({
           onFocus={this.openSearch}
           onFocusOut={this.closeSearch}
           onChange={this.changeHandler}
-          value={this.state.input}/>
+          value={input}/>
         <div className="navbar-search-icon">
             <i className="fa fa-search fa-fw" />
         </div>
-        {results}
+        <div onClick={this.clearForm}>{results}</div>
       </div>
     );
   }

@@ -1,10 +1,27 @@
 var React = require('react');
+var ReactDOM = require('react-dom');
 var ApiUtil = require('../../util/api_util');
-
 var DragSource = require('react-dnd').DragSource;
 var PropTypes = React.PropTypes;
 var ItemTypes = require('../../constants/itemtypes');
 var DropTarget = require('react-dnd').DropTarget;
+
+var ClickMixin = {
+    _clickDocument: function (e) {
+        var component = ReactDOM.findDOMNode(this.refs.newcard);
+        if (e.target == component || $(component).has(e.target).length) {
+            this.clickInside(e);
+        } else {
+            this.clickOutside(e);
+        }
+    },
+    componentDidMount: function () {
+        $(document).bind('click', this._clickDocument);
+    },
+    componentWillUnmount: function () {
+        $(document).unbind('click', this._clickDocument);
+    },
+};
 
 // this.props.list
 
@@ -32,9 +49,19 @@ function collect(connect, monitor) {
 }
 
 var NewCard = React.createClass({
+  mixins: [ClickMixin],
+
   propTypes: {
     listId: PropTypes.number.isRequired,
     ord: PropTypes.number.isRequired
+  },
+
+  clickInside: function () {
+
+  },
+
+  clickOutside: function () {
+    this.setState({form: false});
   },
 
   getInitialState: function () {
@@ -55,7 +82,7 @@ var NewCard = React.createClass({
       archived: false
     };
     ApiUtil.createCard(card);
-    this.setState({form: false});
+    this.setState({input: ""});
   },
 
   formChangeHandler: function (event) {
@@ -69,13 +96,15 @@ var NewCard = React.createClass({
 
   render: function () {
     var connectDropTarget = this.props.connectDropTarget;
+    var input = this.state.input;
 
     var form;
     if (this.state.form) {
       form = (
-        <form className="new-card-form group">
+        <form className="new-card-form group" ref="newcard">
           <input className="new-card-input"
-            type="text" onChange={this.formChangeHandler}>
+            type="text" onChange={this.formChangeHandler}
+            value={input}>
           </input>
           <button className="list-form-save new-card-button" onClick={this.submitHandler}>
             Add</button>

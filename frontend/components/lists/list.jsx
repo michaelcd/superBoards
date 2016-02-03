@@ -1,4 +1,5 @@
 var React = require('react');
+var ReactDOM = require('react-dom');
 var CardWrapper = require('./../cards/cardwrapper');
 var NewCard = require('./../cards/newcard');
 var ApiUtil = require('../../util/api_util');
@@ -8,6 +9,24 @@ var PropTypes = React.PropTypes;
 var ListMenu = require('./listmenu');
 
 // this.props.list
+
+var ClickMixin = {
+    _clickDocument: function (e) {
+        var component = ReactDOM.findDOMNode(this.refs.listrename);
+        if (e.target == component || $(component).has(e.target).length) {
+            this.openMenu(e);
+        } else {
+            this.closeMenu(e);
+        }
+    },
+    componentDidMount: function () {
+        $(document).bind('click', this._clickDocument);
+    },
+    componentWillUnmount: function () {
+        $(document).unbind('click', this._clickDocument);
+    },
+};
+
 
 var listSource = {
   beginDrag: function (props) {
@@ -28,6 +47,8 @@ var List = React.createClass({
     isDragging: PropTypes.bool.isRequired
   },
 
+  mixins: [ClickMixin],
+
   getInitialState: function () {
     return ({
       titleClass: "list-title",
@@ -44,6 +65,14 @@ var List = React.createClass({
     event.preventDefault();
     this.props.list.title = this.state.formVal;
     ApiUtil.updateList(this.props.list);
+    this.setState({form: false});
+  },
+
+  openMenu: function (e) {
+    this.setState({form: true});
+  },
+
+  closeMenu: function (e) {
     this.setState({form: false});
   },
 
@@ -78,14 +107,14 @@ var List = React.createClass({
     if (this.state.form === true) {
       content = (
         <div className="list-form group">
-          <form onSubmit={this.formSubmit}>
+          <form onSubmit={this.formSubmit} ref="listrename">
             <input type="text"
               className="list-form-input"
               onChange={this.formChangeHandler}
               value={this.state.formVal} />
             <button className="list-form-save">Save</button>
             <a href="#" className="list-form-cancel-wrapper" onClick={this.cancelHandler}>
-              <div className="list-form-cancel" onClick={this.closeMenu}>
+              <div className="list-form-cancel">
                 <i className="fa fa-times fa-fw" />
               </div>
             </a>
@@ -95,7 +124,7 @@ var List = React.createClass({
     } else {
       content = (
         <div className="list-title-container">
-          <div onClick={this.titleClick} className="list-title">
+          <div onClick={this.titleClick} className="list-title" ref="listrename">
             {this.props.list.title}
           </div>
           <ListMenu list={this.props.list}/>
@@ -105,7 +134,7 @@ var List = React.createClass({
 
     return connectDragSource(
       <li className="list">
-        {content}
+        <div className="list-title-wrapper">{content}</div>
         <div className="cards">
           {cards}
         </div>

@@ -1,16 +1,46 @@
 var React = require('react');
+var ReactDOM = require('react-dom');
 var CardStore = require('../../stores/card');
 var BoardStore = require('../../stores/board');
 var ApiUtil = require('../../util/api_util');
 var CardDetailActions = require('./carddetail_actions');
 var CommentView = require('./commentview');
+var History = require('react-router').History;
+
+
+var ClickMixin = {
+    _clickDocument: function (e) {
+        var component = ReactDOM.findDOMNode(this.refs.carddetailview);
+        if (e.target == component || $(component).has(e.target).length) {
+            this.clickInside(e);
+        } else {
+            this.clickOutside(e);
+        }
+    },
+    componentDidMount: function () {
+        $(document).bind('click', this._clickDocument);
+    },
+    componentWillUnmount: function () {
+        $(document).unbind('click', this._clickDocument);
+    },
+};
 
 
 var CardDetail = React.createClass({
+  mixins: [History, ClickMixin],
+
+  clickInside: function () {
+
+  },
+
+  clickOutside: function () {
+    this.history.pushState(null, "/boards/" + this.props.params.board_id);
+  },
+
   getInitialState: function () {
     return ({
       card: CardStore.card(),
-      description: false,
+      descriptionEdit: false,
       rename: false,
       descriptionVal: CardStore.card().description,
       renameVal: CardStore.card().title
@@ -32,7 +62,7 @@ var CardDetail = React.createClass({
   },
 
   editDescription: function () {
-    this.setState({description: true});
+    this.setState({descriptionEdit: true});
   },
 
   descFormOnSubmit: function (e) {
@@ -40,7 +70,7 @@ var CardDetail = React.createClass({
     var card = this.state.card;
     card.description = this.state.descriptionVal;
     ApiUtil.updateCard(card);
-    this.setState({description: false});
+    this.setState({descriptionEdit: false});
   },
 
   descFormChangeHandler: function (e) {
@@ -49,7 +79,7 @@ var CardDetail = React.createClass({
 
   descCancelHandler: function (e) {
     e.preventDefault();
-    this.setState({description: false});
+    this.setState({descriptionEdit: false});
   },
 
   openRename: function () {
@@ -77,7 +107,7 @@ var CardDetail = React.createClass({
     var description;
     var rename;
 
-    if (this.state.description === true) {
+    if (this.state.descriptionEdit === true) {
       description = (
         <div className="edit-description-box">
           <div className="edit-description-heading">Description</div>
@@ -104,10 +134,10 @@ var CardDetail = React.createClass({
 
     if (this.state.rename === true) {
       rename = (
-        <div className="list-form group">
+        <div className="card-rename-form group">
           <form onSubmit={this.renameFormOnSubmit}>
-            <textarea type="text"
-              className="list-form-input"
+            <input type="text"
+              className="card-rename-form-input"
               onChange={this.renameFormChangeHandler}
               value={this.state.renameVal} />
             <button className="list-form-save">Save</button>
@@ -125,7 +155,7 @@ var CardDetail = React.createClass({
     return (
       <div className="window-overlay">
         <div className="window-content ">
-          <div className="card-detail-view">
+          <div className="card-detail-view" ref="carddetailview">
             <a href={"#/boards/" + this.props.params.board_id} className="card-detail-cancel">
               <i className="fa fa-times fa-fw" />
             </a>

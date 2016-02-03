@@ -1,25 +1,29 @@
 var React = require('react');
 
-var BoardResult = React.createClass({
+var BoardResults = React.createClass({
   render: function () {
-    var board;
 
-    if (this.props.board !== undefined) {
-      board = (
-        <a className="search-result-link"
-          href={"#/boards/" + this.props.board.id}>
-          {this.props.board.title}
-        </a>
+    var boards = this.props.boards.map(function (board) {
+      return (
+        <div className="search-result-container" key={board.id}>
+          <a className="search-result-link"
+            href={"#/boards/" + board.id}>
+            {board.title}
+          </a>
+        </div>
       );
-    }
+    });
+
+
 
 
     return (
-      <div className="board-result-container">
-        {board}
+      <div className="results">
+        <div className="search-result-label">Boards</div>
+        {boards}
       </div>
     );
   }
 });
 
-module.exports = BoardResult;
+module.exports = BoardResults;

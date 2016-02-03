@@ -1,18 +1,28 @@
 var React = require('react');
 
-// this.props.comment
+// this.props.comments
 
-var CommentResult = React.createClass({
+var CommentResults = React.createClass({
   render: function () {
+
+    var comments = this.props.comments.map(function (comment) {
+      return(
+        <div className="search-result-container" key={comment.id}>
+          <a className="search-result-link"
+            href={"#/boards/" + comment.board_id + "/cards/" + comment.card_id}>
+            {comment.body}
+          </a>
+        </div>
+      );
+    });
+
     return (
-      <div className="comment-result-container">
-        <a className="search-result-link"
-          href={"#/boards/" + this.props.comment.board_id + "/cards/" + this.props.comment.card_id}>
-          {this.props.comment.body}
-        </a>
+      <div className="results">
+        <div className="search-result-label">Comments</div>
+        {comments}
       </div>
     );
   }
 });
 
-module.exports = CommentResult;
+module.exports = CommentResults;
