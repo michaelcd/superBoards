@@ -24384,11 +24384,30 @@
 	      });
 	    }
 	
-	    if (this.state.sharedBoards !== undefined) {
-	      sharedIndexItems = this.state.sharedBoards.map(function (board) {
-	        return React.createElement(BoardsIndexItem, { key: board.id, className: 'BoardsIndexItem', board: board });
-	      });
-	    }
+	    // if (this.state.sharedBoards !== undefined) {
+	    //   sharedIndexItems = (
+	    //     <div className="shared-boards group">
+	    //       <div className="boards-index-title-container">
+	    //         <div className="icon-container">
+	    //           <i className="fa fa-users fa-fw"></i>
+	    //         </div>
+	    //         <div className="boards-index-title">Shared Boards</div>
+	    //       </div>
+	    //       <div className="shared-boards group">
+	    //         <ul>
+	    //           {
+	    //             this.state.sharedBoards.map(function (board) {
+	    //               return <BoardsIndexItem
+	    //                 key={board.id}
+	    //                 className="BoardsIndexItem"
+	    //                 board={board} />;
+	    //             })
+	    //           }
+	    //         </ul>
+	    //       </div>
+	    //     </div>
+	    //   );
+	    // }
 	
 	    return React.createElement(
 	      'div',
@@ -24417,33 +24436,7 @@
 	          React.createElement(NewBoardIndexItem, null)
 	        )
 	      ),
-	      React.createElement(
-	        'div',
-	        { className: 'shared-boards group' },
-	        React.createElement(
-	          'div',
-	          { className: 'boards-index-title-container' },
-	          React.createElement(
-	            'div',
-	            { className: 'icon-container' },
-	            React.createElement('i', { className: 'fa fa-users fa-fw' })
-	          ),
-	          React.createElement(
-	            'div',
-	            { className: 'boards-index-title' },
-	            'Shared Boards'
-	          )
-	        ),
-	        React.createElement(
-	          'div',
-	          { className: 'shared-boards group' },
-	          React.createElement(
-	            'ul',
-	            null,
-	            sharedIndexItems
-	          )
-	        )
-	      )
+	      sharedIndexItems
 	    );
 	  }
 	});

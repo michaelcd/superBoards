@@ -20,14 +20,20 @@ Thursday:
 [X] - preview on add list
 [X] - Navbar Board button component
 
-[ ] - React Auth error messages
-[ ] - Hide shared boards, eliminate shared board from seed data
-[ ] - SeedData
 
-Major features remaining:
+
+[ ] - Hide shared boards, eliminate shared board from seed data
+[ ] - React Auth error messages
+[ ] - SeedData
+[ ] - polish, icons, CSS
+
+
+
+
 
 
 Polish / Optional :
+[ ] - splash screen
 [ ] - BUG: Search will bring you to boards/lists/cards you don't own
 [ ] - Board sharing, enable sharing with other users
 [ ] - icons in card detail view
