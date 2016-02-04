@@ -32666,8 +32666,7 @@
 	          { className: 'list-wrapper' },
 	          React.createElement(NewList, {
 	            board: this.state.board,
-	            ord: newListOrd
-	          })
+	            ord: newListOrd })
 	        )
 	      ),
 	      this.props.children
@@ -32692,6 +32691,8 @@
 	// this.props.list
 	// render list, aware of position
 	
+	// Wrapper needs source item position to render correctly (like Trello)
+	
 	var listTarget = {
 	  drop: function (props, monitor) {
 	    var draggedList = monitor.getItem().list;
@@ -32713,7 +32714,8 @@
 	  displayName: 'ListWrapper',
 	
 	  propTypes: {
-	    ord: PropTypes.number.isRequired
+	    ord: PropTypes.number.isRequired,
+	    isOver: PropTypes.bool.isRequired
 	  },
 	
 	  render: function () {
@@ -38276,7 +38278,7 @@
 	      ord: this.props.board.lists.length
 	    };
 	    ApiUtil.createList(list);
-	    this.setState({ form: false, formValue: "" });
+	    this.setState({ formValue: "" });
 	  },
 	
 	  formChangeHandler: function (event) {
