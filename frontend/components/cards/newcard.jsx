@@ -28,7 +28,6 @@ var ClickMixin = {
 var cardTarget = {
   drop: function (props, monitor) {
     var draggedCard = monitor.getItem().card;
-    console.log("from : " + draggedCard.ord + " to: " + props.ord);
     if ((draggedCard.ord !== props.ord) ||
       (draggedCard.list_id !== props.listId)) {
       draggedCard.ord = props.ord;

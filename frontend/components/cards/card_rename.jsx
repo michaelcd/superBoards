@@ -51,7 +51,6 @@ var CardRename = React.createClass({
     e.preventDefault();
     var card = this.props.card;
     card.title = this.state.renameVal;
-    console.log(card);
     ApiUtil.updateCard(card);
     this.setState({rename: false});
   },

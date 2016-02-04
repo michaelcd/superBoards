@@ -17,12 +17,11 @@ Thursday:
 [X] - Comments - Edit and Delete options for corresponding user
 [X] - readme
 [X] - drag and drop previews
-[ ] - preview on add list
+[X] - preview on add list
+[X] - Navbar Board button component
 [ ] - React Auth error messages
-[ ] - Navbar Board button component
 
-
-
+[ ] - Hide shared boards, eliminate shared board from seed data
 
 
 

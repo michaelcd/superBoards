@@ -10,7 +10,6 @@ var SessionForm = React.createClass({
     SessionsApiUtil.login(credentials, function () {
       this.history.pushState({}, "/");
     }.bind(this));
-    console.log(credentials);
   },
 
   registerUser: function (e) {
@@ -18,7 +17,6 @@ var SessionForm = React.createClass({
     SessionsApiUtil.createUser(credentials, function () {
       this.history.pushState({}, "/");
     }.bind(this));
-    console.log(credentials);
   },
 
   guestSignin: function (event) {
