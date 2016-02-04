@@ -12,7 +12,6 @@ var CommentView = React.createClass({
   },
 
   addComment: function (event) {
-    console.log(event.currentTarget);
     event.preventDefault();
     var comment = {body: this.state.inputVal, card_id: this.props.card.id};
     ApiUtil.createComment(comment);

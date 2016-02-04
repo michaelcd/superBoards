@@ -40,7 +40,6 @@ BoardStore.findBoard = function (id) {
 BoardStore.findList = function (id) {
   var list = {};
 
-  console.log(_board);
   for (var i = 0; i < _board.lists.length; i++) {
     if (_board.lists[i].id === id) {
       board = _board.lists[i];

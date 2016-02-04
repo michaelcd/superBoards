@@ -47,7 +47,6 @@ var Search = React.createClass({
   },
 
   closeSearch: function (event) {
-    console.log(event);
     this.setState({searching: false});
   },
 

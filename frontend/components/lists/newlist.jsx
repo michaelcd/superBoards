@@ -10,9 +10,6 @@ var DropTarget = require('react-dnd').DropTarget;
 var listTarget = {
   drop: function (props, monitor) {
     var draggedList = monitor.getItem().list;
-
-    console.log("from: " + draggedList.ord + " to: " + props.ord);
-
     if (draggedList.ord !== props.ord) {
       draggedList.ord = props.ord;
       ApiUtil.moveList(draggedList);

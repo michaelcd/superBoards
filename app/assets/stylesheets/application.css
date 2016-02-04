@@ -199,6 +199,7 @@ html, body {
 .boards-index {
   padding: 16px;
   margin-top: 16px;
+  z-index: -1;
 }
 
 .icon-container {
@@ -702,6 +703,7 @@ html, body {
 }
 
 .pop-up-menu-option:hover {
+  border-radius: 3px;
   background: #298FCA;
   color:white;
 }
@@ -1252,6 +1254,7 @@ html, body {
   color: #4d4d4d;
   border-radius: 3px;
   min-height: 100px;
+  border: 1px solid rgb(214, 218, 220);
 }
 
 .search-result-container {
@@ -1358,7 +1361,77 @@ html, body {
   width: 100%;
   opacity: 0.5;
   background:#4D4D4D;
-  z-index: 160;
+}
+
+.boards-button-pop-up-container {
+  z-index: 151;
+  position:absolute;
+  top:40px;
+  left: 5px;
+}
+
+.boards-button-pop-up {
+  border-radius: 3px;
+  padding: 7px;
+  box-sizing: border-box;
+  width: 280px;
+  display:block;
+  color:#444;
+  background: white;
+  border: 1px solid rgb(214, 218, 220);
+}
+
+.boards-button-header {
+  color:#8c8c8c;
+  font-weight: normal;
+  font-size:14px;
+  line-height: 18px;
+  margin-bottom: 6px;
+}
+
+.boards-button-tile {
+  display:block;
+  box-sizing: border-box;
+  width:266px;
+  height:36px;
+  margin-bottom: 6px;
+  background: #449CCF;
+  border-radius: 3px;
+}
+
+.boards-button-cancel {
+  cursor: pointer;
+  position:absolute;
+  top:0;
+  right:4px;
+  padding: 6px;
+  padding-top: 0;
+  color:#4D4D4D;
+}
+
+.tile-color-block {
+  float:left;
+  width:36px;
+  height:36px;
+}
+
+.boards-button-tile:hover {
+  background: #0079BF;
+}
+
+.boards-button-tile:hover .tile-title-container{
+  background:rgba(255,255,255,.65);
+}
+
+.tile-title-container {
+  box-sizing: border-box;
+  padding: 8px;
+  display:block;
+  background:rgba(255,255,255,.88);
+  float:left;
+  width: 230px;
+  height: 36px;
+  line-height: 18px;
 }
 
 /* scrollbar styling - may or may not implement in final version*/

@@ -1,6 +1,8 @@
 var React = require('react');
 var Search = require('./search');
 var UserButton = require('./userbutton');
+var BoardButton = require('./boardbutton');
+
 
 var Navbar = React.createClass({
   getInitialState: function () {
@@ -17,12 +19,7 @@ var Navbar = React.createClass({
     return(
       <div className="navbar group">
       <a href="#/" className="navbar-logo">superBoards</a>
-        <button className="boards-button navbar-button">
-          <div className="boards-button-icon">
-            <i className="fa fa-columns fa-fw"></i>
-          </div>
-          <div className="boards-button-text">Boards</div>
-        </button>
+        <BoardButton />
         <Search />
         {list}
         <UserButton />
