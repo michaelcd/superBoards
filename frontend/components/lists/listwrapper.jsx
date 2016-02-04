@@ -8,7 +8,6 @@ var ApiUtil = require('../../util/api_util');
 
 // this.props.list
 // render list, aware of position
-
 // Wrapper needs source item position to render correctly (like Trello)
 
 
