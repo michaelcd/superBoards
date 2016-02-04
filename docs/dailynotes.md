@@ -13,10 +13,9 @@ minus
 ellipsis-h
 
 
-React outside click info:
-http://stackoverflow.com/questions/23821768/listen-for-click-events-that-are-outside-of-a-component
-https://jsfiddle.net/0Lshs7mg/1/
-
+[ ] - readme
+[ ] - React Auth error messages
+[ ] - icons in card detail view
 [ ] - drag and drop previews
 [ ] - refactor
 
@@ -49,6 +48,10 @@ Polish / Optional :
   [ ] - BoardMenu
   [ ] - BoardDetailView - board renaming pop up
   [ ] - BoardMenu component
+
+React outside click info:
+http://stackoverflow.com/questions/23821768/listen-for-click-events-that-are-outside-of-a-component
+https://jsfiddle.net/0Lshs7mg/1/
 
 Drop and reseed database:
 rake db:drop db:create db:migrate db:seed

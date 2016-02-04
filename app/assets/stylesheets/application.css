@@ -459,12 +459,17 @@ html, body {
   overflow-x:auto;
 }
 
+.list-container > div {
+  display:inline-block;
+}
+
 .list-container > div:first-child {
   margin-left:10px;
 }
 
 .list-wrapper {
   /*height: 100%;*/
+  /*float:left;*/
   display:inline-block;
   width: 270px;
   vertical-align: top;
@@ -479,6 +484,15 @@ html, body {
   background: #E2E4E6;
   font-weight: 700;
   width: 270px;
+}
+
+.list-drop-filler {
+  display:inline-block;
+  vertical-align: top;
+  width:270px;
+  height: 100px;
+  border-radius: 3px;
+  background: #026aa7;
 }
 
 .new-list {
@@ -809,6 +823,7 @@ html, body {
 
 .new-card-input {
   display:block;
+  vertical-align: top;
   line-height: 18px;
   font-weight: normal;
   background: #fff;
@@ -816,10 +831,11 @@ html, body {
   border-radius: 3px;
   width: 235px;
   height: 24px;
+  line-height:18px;
   margin:auto;
   margin-left: 9px;
   border-bottom: 1px solid #ccc;
-  padding: 6px 6px 2px 8px;
+  padding: 4px 7px 4px 8px;
   margin-bottom: 6px;
 }
 
@@ -873,8 +889,9 @@ html, body {
 }
 
 .card-detail-title {
+  cursor:pointer;
   color:#4D4D4D;
-  display:inline;
+  display:block;
   font-weight: bold;
   font-size: 18px;
   line-height: 21.6px;
@@ -934,10 +951,13 @@ html, body {
 }
 
 .edit-description-heading {
+  cursor: pointer;
   color:#8c8c8c;
+  margin-bottom: 6px;
 }
 
 .edit-description-box-description {
+  margin-bottom: 6px;
 
 }
 

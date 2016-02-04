@@ -81,7 +81,7 @@ var NewList = React.createClass({
       ord: this.props.board.lists.length
     };
     ApiUtil.createList(list);
-    this.setState({form: false, formValue: ""});
+    this.setState({formValue: ""});
   },
 
   formChangeHandler: function (event) {

@@ -58,8 +58,7 @@ BoardDetailView = React.createClass({
           <div className="list-wrapper">
             <NewList
               board={this.state.board}
-              ord={newListOrd}
-            />
+              ord={newListOrd} />
           </div>
         </ul>
         {this.props.children}
