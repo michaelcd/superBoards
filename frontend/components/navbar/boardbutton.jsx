@@ -40,7 +40,6 @@ var BoardButton = React.createClass({
     }
   },
 
-
   closeMenu: function () {
     this.setState({menu: false});
   },
@@ -72,7 +71,7 @@ var BoardButton = React.createClass({
             <div className="tile-color-block"></div>
             <a href={"#/boards/" + board.id}>
               <div className="tile-title-container">
-                {board.title}
+                <div className="tile-title-wrap">{board.title}</div>
               </div>
             </a>
           </div>

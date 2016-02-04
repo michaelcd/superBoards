@@ -19,30 +19,30 @@ Thursday:
 [X] - drag and drop previews
 [X] - preview on add list
 [X] - Navbar Board button component
+[X] - Board sharing, enable sharing with other users
+[X] - only owner can archive/share board
 
-
-
-[ ] - Hide shared boards, eliminate shared board from seed data
 [ ] - React Auth error messages
 [ ] - SeedData
 [ ] - polish, icons, CSS
-
+[ ] - ShareMenu error message related to click handlers (might remove clickmixin for this one)
 
 
 
 
 
 Polish / Optional :
+[ ] - Favorited boards
+[ ] - Archived Boards View
 [ ] - splash screen
 [ ] - BUG: Search will bring you to boards/lists/cards you don't own
-[ ] - Board sharing, enable sharing with other users
 [ ] - icons in card detail view
 [ ] - refactor
 [ ] - File uploads
 [ ] - superBoards logo
 [ ] - Tags
 [ ] - check for N+1 searches, look for optimizations
-[ ] - Archived Boards View
+
 
 React outside click info:
 http://stackoverflow.com/questions/23821768/listen-for-click-events-that-are-outside-of-a-component

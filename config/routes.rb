@@ -6,7 +6,8 @@
   get 'auth/facebook/callback', to: 'sessions#omniauth_facebook'
 
   namespace :api, defaults: {format: :json} do
-    resources :users, only: [:create]
+    resources :board_shares, only: [:create, :destroy]
+    resources :users, only: [:create, :index]
     resource :session, only: [:create, :destroy, :show]
     resources :boards, except: [:new, :edit]
     resources :lists, only: [:create, :update, :destroy]

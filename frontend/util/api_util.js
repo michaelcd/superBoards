@@ -1,8 +1,23 @@
 var BoardActions = require('../actions/board_actions.js');
 var CardActions = require('../actions/card_actions.js');
+var UserActions = require('../actions/user_actions.js');
 
 
 var ApiUtil = {
+  createShare: function (share) {
+    $.ajax({
+     url: "api/board_shares",
+     method: "POST",
+     data: {share: share},
+     success: function (board) {
+      BoardActions.receiveSingleBoard(board);
+     },
+     failure: function () {
+      console.log("failure");
+     }
+   });
+  },
+
   moveList: function (list) {
     $.ajax({
      url: "api/lists/" + list.id,
@@ -36,6 +51,18 @@ var ApiUtil = {
      url: "api/boards",
      success: function (boards) {
       BoardActions.receiveAllBoards(boards);
+     },
+     failure: function () {
+       console.log("failure");
+     }
+   });
+  },
+
+  fetchUsers: function () {
+    $.ajax({
+     url: "api/users",
+     success: function (users) {
+      UserActions.receiveUsers(users);
      },
      failure: function () {
        console.log("failure");

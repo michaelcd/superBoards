@@ -199,6 +199,7 @@ html, body {
 .boards-index {
   padding: 16px;
   margin-top: 16px;
+  overflow-x: hidden;
   z-index: -1;
 }
 
@@ -361,6 +362,7 @@ html, body {
 }
 
 .board-menu-button {
+  cursor:pointer;
   border-radius: 3px;
   height: 30px;
   line-height: 30px;
@@ -639,7 +641,7 @@ html, body {
   display:block;
   position:absolute;
   top:0;
-  right:0;
+  right:13px;
   width:300px;
   background: white;
   border: 1px solid #D6DADC;
@@ -653,6 +655,7 @@ html, body {
   display:block;
   position:absolute;
   top: 40px;
+  height: 82px;
   right: 10px;
   width:300px;
   background: white;
@@ -695,6 +698,9 @@ html, body {
 }
 
 .pop-up-menu-option {
+  box-sizing: border-box;
+  width:280px;
+  float:left;
   color: #4d4d4d;
   font-size: 14px;
   display:block;
@@ -752,14 +758,14 @@ html, body {
 }
 
 .card {
-  cursor: pointer;
+  cursor:pointer;
   display:block;
   position:relative;
   font-weight: normal;
   background: #fff;
   font-size: 14px;
   border-radius: 3px;
-  height:24px;
+  /*height:24px;*/
   line-height: 18px;
   width: 236px;
   margin:auto;
@@ -776,7 +782,7 @@ html, body {
 }
 
 .card-title {
-  height:24px;
+  /*height:24px;*/
   display:block;
   line-height: 18px;
   white-space: normal;
@@ -1432,6 +1438,9 @@ html, body {
 }
 
 .tile-title-container {
+  word-wrap: normal;
+  white-space: nowrap;
+  overflow-x: hidden;
   box-sizing: border-box;
   padding: 8px;
   display:block;
@@ -1440,6 +1449,60 @@ html, body {
   width: 230px;
   height: 36px;
   line-height: 18px;
+}
+
+.tile-title-wrap {
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+}
+
+.share-pop-up-menu {
+  float:left;
+  color:#4D4D4D;
+  font-size: 14px;
+  margin: 5px 0;
+  line-height: 18px;
+  padding: 6px 10px;
+  width:260px;
+}
+
+select.custom-dropdown {
+  -webkit-appearance: none;  /*REMOVES DEFAULT CHROME & SAFARI STYLE*/
+  -moz-appearance: none;  /*REMOVES DEFAULT FIREFOX STYLE*/
+  border: 0 !important;  /*REMOVES BORDER*/
+  padding: 6px 10px;
+  width:260px;
+  border-radius: 3px;
+  background:#EDEFF0;
+  border: 1px solid #8c8c8c;
+  font-size:14px;
+  cursor:pointer;
+  margin: 4px 0;
+}
+
+select.custom-dropdown:focus {
+  background:white;
+}
+
+.share-dropdown-button {
+
+}
+
+.share-cancel {
+  margin-top: 6px;
+}
+
+.pop-up-notice {
+  font-size: 14px;
+  line-height: 18px;
+  color: #8c8c8c;
+  font-weight: normal;
+  text-align: center;
+  border-bottom: 1px solid #D6DADC;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-bottom: 8px;
+  border-bottom: 0;
 }
 
 /* scrollbar styling - may or may not implement in final version*/
