@@ -9,16 +9,23 @@ class Api::CommentsController < ApplicationController
   end
 
   def update
+    comment = Comment.find_by_id(comment_params[:id])
+    comment.update(body: comment_params[:body])
+
+    @card = Card.find_by_id(comment.card_id)
     render 'api/cards/show'
   end
 
   def destroy
+    comment = Comment.find_by_id(params[:id])
+    @card = Card.find_by_id(comment.card_id)
+    comment.destroy
     render 'api/cards/show'
   end
 
   private
   def comment_params
-    params.require(:comment).permit(:card_id, :body)
+    params.require(:comment).permit(:id, :card_id, :body)
   end
 
 end

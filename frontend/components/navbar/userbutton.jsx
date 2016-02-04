@@ -42,6 +42,11 @@ var UserButton = React.createClass({
         initials += username[i].match(/[A-Z]/);
       }
     }
+
+    if (initials === "") {
+      initials = username.slice(0,2);
+    }
+
     return initials;
   },
 

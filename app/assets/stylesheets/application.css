@@ -1109,6 +1109,56 @@ html, body {
   color: #4d4d4d;
 }
 
+.comment-options-container {
+  box-sizing: border-box;
+  color: #4d4d4d;
+  width: 200px;
+  /*height:36px;*/
+  /*line-height: 36px;*/
+  display:inline-block;
+  margin-left: 12px;
+  font-size: 16px;
+}
+
+.comment-edit-input {}
+
+.comment-edit-submit {
+  display:inline-block;
+  margin-left: 10px;
+  cursor:pointer;
+  font-size: 14px;
+  line-height: 18px
+}
+
+.comment-edit-submit:hover {
+  text-decoration: underline;
+  border-radius: 3px;
+}
+
+.comment-option-icon {
+  cursor:pointer;
+  float:left;
+  vertical-align: middle;
+}
+
+.comment-option-icon:hover {
+  color:black;
+}
+
+.comment-option-delete {
+  vertical-align: middle;
+  cursor:pointer;
+  float:left;
+  margin-left: 12px;
+  font-size: 14px;
+}
+
+.comment-option-delete:hover {
+  color:black;
+  text-decoration: underline;
+  border-radius: 3px;
+}
+
 /* Auth React components :*/
 
 .auth-form-window {
