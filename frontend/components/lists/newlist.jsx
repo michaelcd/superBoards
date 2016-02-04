@@ -49,6 +49,7 @@ var NewList = React.createClass({
 
   propTypes: {
     ord: PropTypes.number.isRequired,
+    isOver: PropTypes.bool.isRequired
   },
 
   openMenu: function () {
@@ -91,6 +92,7 @@ var NewList = React.createClass({
   render: function () {
     var content;
     var connectDropTarget = this.props.connectDropTarget;
+    var isOver = this.props.isOver;
 
     if (this.state.form === true) {
       content = (
@@ -111,9 +113,13 @@ var NewList = React.createClass({
       );
     } else {
       content = (
-        <div className="add-list-button"
-          onClick={this.itemClickHandler}>
-          <div className="add-list-text">Add a list...</div>
+        <div className="drag-drop-list-placeholder">
+          <div className="add-list-button"
+            onClick={this.itemClickHandler}>
+            <div className="add-list-text">Add a list...</div>
+          </div>
+          {isOver &&
+            <div className="drag-drop-list-filler"></div>}
         </div>
       );
     }

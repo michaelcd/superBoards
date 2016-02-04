@@ -10,7 +10,6 @@ var ApiUtil = require('../../util/api_util');
 // render list, aware of position
 // Wrapper needs source item position to render correctly (like Trello)
 
-
 var listTarget = {
   drop: function (props, monitor) {
     var draggedList = monitor.getItem().list;
@@ -36,10 +35,15 @@ var ListWrapper = React.createClass({
 
   render: function () {
     var connectDropTarget = this.props.connectDropTarget;
-
+    var isOver = this.props.isOver;
+    
     return connectDropTarget(
       <div className="list-wrapper">
+        <div className="drag-drop-list-placeholder">
         <List list={this.props.list} />
+        {isOver &&
+          <div className="drag-drop-list-filler"></div>}
+        </div>
       </div>
     );
   }

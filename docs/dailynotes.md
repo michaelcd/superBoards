@@ -15,42 +15,32 @@ ellipsis-h
 
 Thursday:
 [X] - Comments - Edit and Delete options for corresponding user
-[ ] - readme
-
-
+[X] - readme
+[X] - drag and drop previews
+[ ] - preview on add list
 [ ] - React Auth error messages
-[ ] - icons in card detail view
-[ ] - drag and drop previews
-[ ] - refactor
+[ ] - Navbar Board button component
 
 
 
-Wednesday:
 
-[ ] - Board sharing, enable sharing with other users
+
+
+
 [ ] - SeedData
 
 Major features remaining:
-[ ] - Navbar Board button component
-[ ] - Comments (edit/delete?)
-[ ] - Board Sharing
-
 
 
 Polish / Optional :
+[ ] - Board sharing, enable sharing with other users
+[ ] - icons in card detail view
+[ ] - refactor
 [ ] - File uploads
 [ ] - superBoards logo
 [ ] - Tags
-[ ] - pop up menus close if you click elsewhere
 [ ] - check for N+1 searches, look for optimizations
-
-
-
 [ ] - Archived Boards View
-[ ] - Refactor pop up forms using if/else and variables
-  [ ] - BoardMenu
-  [ ] - BoardDetailView - board renaming pop up
-  [ ] - BoardMenu component
 
 React outside click info:
 http://stackoverflow.com/questions/23821768/listen-for-click-events-that-are-outside-of-a-component
