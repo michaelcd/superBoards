@@ -31850,7 +31850,7 @@
 	      React.createElement(
 	        'a',
 	        { href: '#/', className: 'navbar-logo' },
-	        'superBoards'
+	        React.createElement('img', { src: logoPath })
 	      ),
 	      React.createElement(BoardButton, null),
 	      React.createElement(Search, null),
@@ -41264,6 +41264,7 @@
 	  mixins: [History],
 	
 	  submitLogin: function (e) {
+	    event.preventDefault();
 	    var credentials = "username=" + this.state.password + "&password=" + this.state.password;
 	    SessionsApiUtil.login(credentials, function () {
 	      this.history.pushState({}, "/");
@@ -41271,6 +41272,7 @@
 	  },
 	
 	  registerUser: function (e) {
+	    event.preventDefault();
 	    var credentials = "username=" + this.state.password + "&password=" + this.state.password;
 	    SessionsApiUtil.createUser(credentials, function () {
 	      this.history.pushState({}, "/");
