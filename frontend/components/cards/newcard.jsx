@@ -28,10 +28,7 @@ var ClickMixin = {
 var cardTarget = {
   drop: function (props, monitor) {
     var draggedCard = monitor.getItem().card;
-
-    console.log("from: " + draggedCard.ord + " to: " + props.ord);
-    console.log("from: " + draggedCard.list_id + " to: " + props.listId);
-
+    console.log("from : " + draggedCard.ord + " to: " + props.ord);
     if ((draggedCard.ord !== props.ord) ||
       (draggedCard.list_id !== props.listId)) {
       draggedCard.ord = props.ord;
@@ -52,6 +49,7 @@ var NewCard = React.createClass({
   mixins: [ClickMixin],
 
   propTypes: {
+    isOver: PropTypes.bool.isRequired,
     listId: PropTypes.number.isRequired,
     ord: PropTypes.number.isRequired
   },
@@ -97,6 +95,7 @@ var NewCard = React.createClass({
   render: function () {
     var connectDropTarget = this.props.connectDropTarget;
     var input = this.state.input;
+    var isOver = this.props.isOver;
 
     var form;
     if (this.state.form) {
@@ -115,9 +114,15 @@ var NewCard = React.createClass({
       );
     } else {
       form = (
-        <div className="new-card">
-          <a href="#" className="new-card-title"
-            onClick={this.clickHandler}>Add a card...</a>
+        <div className="drag-drop-card-placeholder">
+          <div className="new-card">
+            <a href="#" className="new-card-title"
+              onClick={this.clickHandler}>
+              Add a card...
+            </a>
+          </div>
+          {isOver &&
+            <div className="drag-drop-card-filler"></div>}
         </div>
       );
     }

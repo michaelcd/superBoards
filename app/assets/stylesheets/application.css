@@ -1120,7 +1120,10 @@ html, body {
   font-size: 16px;
 }
 
-.comment-edit-input {}
+.comment-edit-input {
+  background: rgb(230, 232, 233);
+  box-shadow: inset 0 1px 6px rgba(0,0,0,.1);
+}
 
 .comment-edit-submit {
   display:inline-block;
@@ -1322,6 +1325,41 @@ html, body {
   width:508px;
 }
 
+.drag-drop-list-placeholder {
+  position:relative;
+  width:100%;
+  height:100%;
+}
+
+.drag-drop-list-filler {
+  position:absolute;
+  border-radius: 3px;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0.5;
+  background:rgb(2, 106, 167);
+  z-index: 160;
+}
+
+.drag-drop-card-placeholder {
+  position:relative;
+  width:100%;
+  height:100%;
+}
+
+.drag-drop-card-filler {
+  position:absolute;
+  border-radius: 3px;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0.5;
+  background:#4D4D4D;
+  z-index: 160;
+}
 
 /* scrollbar styling - may or may not implement in final version*/
 

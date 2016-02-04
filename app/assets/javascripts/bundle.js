@@ -32749,11 +32749,17 @@
 	
 	  render: function () {
 	    var connectDropTarget = this.props.connectDropTarget;
+	    var isOver = this.props.isOver;
 	
 	    return connectDropTarget(React.createElement(
 	      'div',
 	      { className: 'list-wrapper' },
-	      React.createElement(List, { list: this.props.list })
+	      React.createElement(
+	        'div',
+	        { className: 'drag-drop-list-placeholder' },
+	        React.createElement(List, { list: this.props.list }),
+	        isOver && React.createElement('div', { className: 'drag-drop-list-filler' })
+	      )
 	    ));
 	  }
 	});
@@ -32856,6 +32862,7 @@
 	    var cards;
 	    var that = this;
 	    var newCardOrd = this.props.list.cards.length;
+	    console.log(this.props.list.title + ": length = " + newCardOrd);
 	    cards = this.props.list.cards.map(function (card) {
 	      return React.createElement(CardWrapper, {
 	        listId: that.props.list.id,
@@ -32970,17 +32977,24 @@
 	  displayName: 'CardWrapper',
 	
 	  propTypes: {
+	    isOver: PropTypes.bool.isRequired,
 	    listId: PropTypes.number.isRequired,
 	    ord: PropTypes.number.isRequired
 	  },
 	
 	  render: function () {
+	    var isOver = this.props.isOver;
 	    var connectDropTarget = this.props.connectDropTarget;
 	
 	    return connectDropTarget(React.createElement(
 	      'div',
 	      { className: 'card-wrapper' },
-	      React.createElement(Card, { list: this.props.list, card: this.props.card })
+	      React.createElement(
+	        'div',
+	        { className: 'drag-drop-card-placeholder' },
+	        React.createElement(Card, { list: this.props.list, card: this.props.card }),
+	        isOver && React.createElement('div', { className: 'drag-drop-card-filler' })
+	      )
 	    ));
 	  }
 	});
@@ -38389,10 +38403,7 @@
 	var cardTarget = {
 	  drop: function (props, monitor) {
 	    var draggedCard = monitor.getItem().card;
-	
-	    console.log("from: " + draggedCard.ord + " to: " + props.ord);
-	    console.log("from: " + draggedCard.list_id + " to: " + props.listId);
-	
+	    console.log("from : " + draggedCard.ord + " to: " + props.ord);
 	    if (draggedCard.ord !== props.ord || draggedCard.list_id !== props.listId) {
 	      draggedCard.ord = props.ord;
 	      draggedCard.list_id = props.listId;
@@ -38414,6 +38425,7 @@
 	  mixins: [ClickMixin],
 	
 	  propTypes: {
+	    isOver: PropTypes.bool.isRequired,
 	    listId: PropTypes.number.isRequired,
 	    ord: PropTypes.number.isRequired
 	  },
@@ -38457,6 +38469,7 @@
 	  render: function () {
 	    var connectDropTarget = this.props.connectDropTarget;
 	    var input = this.state.input;
+	    var isOver = this.props.isOver;
 	
 	    var form;
 	    if (this.state.form) {
@@ -38480,13 +38493,18 @@
 	    } else {
 	      form = React.createElement(
 	        'div',
-	        { className: 'new-card' },
+	        { className: 'drag-drop-card-placeholder' },
 	        React.createElement(
-	          'a',
-	          { href: '#', className: 'new-card-title',
-	            onClick: this.clickHandler },
-	          'Add a card...'
-	        )
+	          'div',
+	          { className: 'new-card' },
+	          React.createElement(
+	            'a',
+	            { href: '#', className: 'new-card-title',
+	              onClick: this.clickHandler },
+	            'Add a card...'
+	          )
+	        ),
+	        isOver && React.createElement('div', { className: 'drag-drop-card-filler' })
 	      );
 	    }
 	
@@ -38669,7 +38687,8 @@
 	  mixins: [ClickMixin],
 	
 	  propTypes: {
-	    ord: PropTypes.number.isRequired
+	    ord: PropTypes.number.isRequired,
+	    isOver: PropTypes.bool.isRequired
 	  },
 	
 	  openMenu: function () {},
@@ -38710,6 +38729,7 @@
 	  render: function () {
 	    var content;
 	    var connectDropTarget = this.props.connectDropTarget;
+	    var isOver = this.props.isOver;
 	
 	    if (this.state.form === true) {
 	      content = React.createElement(
@@ -38741,13 +38761,18 @@
 	    } else {
 	      content = React.createElement(
 	        'div',
-	        { className: 'add-list-button',
-	          onClick: this.itemClickHandler },
+	        { className: 'drag-drop-list-placeholder' },
 	        React.createElement(
 	          'div',
-	          { className: 'add-list-text' },
-	          'Add a list...'
-	        )
+	          { className: 'add-list-button',
+	            onClick: this.itemClickHandler },
+	          React.createElement(
+	            'div',
+	            { className: 'add-list-text' },
+	            'Add a list...'
+	          )
+	        ),
+	        isOver && React.createElement('div', { className: 'drag-drop-list-filler' })
 	      );
 	    }
 	

@@ -22,10 +22,12 @@ class Card < ActiveRecord::Base
     changed_card = cards[from]
     cards.delete(changed_card)
     cards.insert(to, changed_card)
+    cards = cards.select {|card| !card.nil? }
     self.reorder_cards(cards)
   end
 
   def self.move_card_between_lists(card, destination_list_id, destination_ord)
+
     original_list_cards = card.list.cards.to_a
     original_list_cards.delete(card)
     self.reorder_cards(original_list_cards)

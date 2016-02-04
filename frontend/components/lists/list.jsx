@@ -89,6 +89,7 @@ var List = React.createClass({
     var cards;
     var that = this;
     var newCardOrd = this.props.list.cards.length;
+    console.log(this.props.list.title + ": length = " + newCardOrd);
     cards = this.props.list.cards.map(function (card) {
       return <CardWrapper
         listId={that.props.list.id}
