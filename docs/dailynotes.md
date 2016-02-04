@@ -13,8 +13,11 @@ minus
 ellipsis-h
 
 
-
+Thursday:
+[X] - Comments - Edit and Delete options for corresponding user
 [ ] - readme
+
+
 [ ] - React Auth error messages
 [ ] - icons in card detail view
 [ ] - drag and drop previews
@@ -25,7 +28,6 @@ ellipsis-h
 Wednesday:
 
 [ ] - Board sharing, enable sharing with other users
-[ ] - Comments - Edit and Delete options for corresponding user
 [ ] - SeedData
 
 Major features remaining:

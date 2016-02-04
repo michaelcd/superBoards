@@ -56,7 +56,7 @@
 	var CardDetail = __webpack_require__(341);
 	var CurrentUserStore = __webpack_require__(251);
 	var SessionsApiUtil = __webpack_require__(253);
-	var SessionForm = __webpack_require__(380);
+	var SessionForm = __webpack_require__(384);
 	
 	BoardStore = __webpack_require__(220);
 	
@@ -24782,6 +24782,33 @@
 	    });
 	  },
 	
+	  updateComment: function (comment) {
+	    $.ajax({
+	      url: "api/comments/" + comment.id,
+	      method: "PATCH",
+	      data: { comment: comment },
+	      success: function (card) {
+	        CardActions.receiveCard(card);
+	      },
+	      failure: function () {
+	        console.log("failure");
+	      }
+	    });
+	  },
+	
+	  deleteComment: function (comment) {
+	    $.ajax({
+	      url: "api/comments/" + comment.id,
+	      method: "DELETE",
+	      success: function (card) {
+	        CardActions.receiveCard(card);
+	      },
+	      failure: function () {
+	        console.log("failure");
+	      }
+	    });
+	  },
+	
 	  createCard: function (card) {
 	    $.ajax({
 	      url: "api/cards",
@@ -26504,7 +26531,6 @@
 	 * LICENSE file in the root directory of this source tree. An additional grant
 	 * of patent rights can be found in the PATENTS file in the same directory.
 	 *
-	 * @providesModule invariant
 	 */
 	
 	'use strict';
@@ -26560,7 +26586,6 @@
 	 * LICENSE file in the root directory of this source tree. An additional grant
 	 * of patent rights can be found in the PATENTS file in the same directory.
 	 *
-	 * @providesModule emptyFunction
 	 */
 	
 	"use strict";
@@ -32341,6 +32366,11 @@
 	        initials += username[i].match(/[A-Z]/);
 	      }
 	    }
+	
+	    if (initials === "") {
+	      initials = username.slice(0, 2);
+	    }
+	
 	    return initials;
 	  },
 	
@@ -32601,11 +32631,11 @@
 	var React = __webpack_require__(1);
 	var BoardStore = __webpack_require__(220);
 	var ListWrapper = __webpack_require__(257);
-	var NewList = __webpack_require__(347);
-	var BoardMenu = __webpack_require__(348);
-	var BoardTitleButton = __webpack_require__(381);
+	var NewList = __webpack_require__(350);
+	var BoardMenu = __webpack_require__(351);
+	var BoardTitleButton = __webpack_require__(352);
 	var DragDropContext = __webpack_require__(261).DragDropContext;
-	var HTML5Backend = __webpack_require__(349);
+	var HTML5Backend = __webpack_require__(353);
 	var ApiUtil = __webpack_require__(211);
 	
 	BoardDetailView = React.createClass({
@@ -32690,7 +32720,6 @@
 	
 	// this.props.list
 	// render list, aware of position
-	
 	// Wrapper needs source item position to render correctly (like Trello)
 	
 	var listTarget = {
@@ -32738,12 +32767,12 @@
 	var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(158);
 	var CardWrapper = __webpack_require__(259);
-	var NewCard = __webpack_require__(345);
+	var NewCard = __webpack_require__(348);
 	var ApiUtil = __webpack_require__(211);
 	var DragSource = __webpack_require__(261).DragSource;
 	var ItemTypes = __webpack_require__(339);
 	var PropTypes = React.PropTypes;
-	var ListMenu = __webpack_require__(346);
+	var ListMenu = __webpack_require__(349);
 	
 	// this.props.list
 	
@@ -37634,8 +37663,8 @@
 	var ApiUtil = __webpack_require__(211);
 	var CardDetailActions = __webpack_require__(343);
 	var CommentView = __webpack_require__(344);
-	var CardRename = __webpack_require__(382);
-	var CardDescription = __webpack_require__(383);
+	var CardRename = __webpack_require__(346);
+	var CardDescription = __webpack_require__(347);
 	var History = __webpack_require__(159).History;
 	
 	var ClickMixin = {
@@ -37835,6 +37864,7 @@
 
 	var React = __webpack_require__(1);
 	var ApiUtil = __webpack_require__(211);
+	var Comment = __webpack_require__(345);
 	
 	var CommentView = React.createClass({
 	  displayName: 'CommentView',
@@ -37865,24 +37895,7 @@
 	
 	    if (this.props.comments) {
 	      commentsList = this.props.comments.map(function (comment) {
-	        return React.createElement(
-	          'div',
-	          { className: 'comment-container', key: comment.id },
-	          React.createElement(
-	            'div',
-	            { className: 'comment-author' },
-	            comment.author
-	          ),
-	          React.createElement(
-	            'div',
-	            { className: 'comment-box' },
-	            React.createElement(
-	              'div',
-	              { className: 'comment' },
-	              comment.body
-	            )
-	          )
-	        );
+	        return React.createElement(Comment, { key: comment.id, comment: comment });
 	      });
 	    } else {
 	      commentsList = React.createElement(
@@ -37935,6 +37948,415 @@
 
 /***/ },
 /* 345 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var ReactDOM = __webpack_require__(158);
+	var ApiUtil = __webpack_require__(211);
+	var CurrentUserStore = __webpack_require__(251);
+	
+	// this.props.comments
+	
+	var ClickMixin = {
+	  _clickDocument: function (e) {
+	    var component = ReactDOM.findDOMNode(this.refs.commentedit);
+	    if (e.target == component || $(component).has(e.target).length) {
+	      this.clickInside(e);
+	    } else {
+	      this.clickOutside(e);
+	    }
+	  },
+	  componentDidMount: function () {
+	    $(document).bind('click', this._clickDocument);
+	  },
+	  componentWillUnmount: function () {
+	    $(document).unbind('click', this._clickDocument);
+	  }
+	};
+	
+	var Comment = React.createClass({
+	  displayName: 'Comment',
+	
+	  mixins: [ClickMixin],
+	
+	  getInitialState: function () {
+	    return {
+	      user: CurrentUserStore.currentUser(),
+	      edit: false,
+	      input: this.props.comment.body
+	    };
+	  },
+	
+	  clickInside: function () {},
+	
+	  clickOutside: function () {
+	    this.setState({ edit: false });
+	  },
+	
+	  componentDidMount: function () {
+	    this.userListener = CurrentUserStore.addListener(this._onChange);
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.userListener.remove();
+	  },
+	
+	  _onChange: function () {
+	    this.setState({ currentUser: CurrentUserStore.currentUser() });
+	  },
+	
+	  openEdit: function () {
+	    this.setState({ edit: true });
+	  },
+	
+	  submitEdit: function (e) {
+	    event.preventDefault();
+	    var comment = this.props.comment;
+	    comment.body = this.state.input;
+	    ApiUtil.updateComment(comment);
+	    this.setState({ edit: false });
+	  },
+	
+	  deleteComment: function (e) {
+	    event.preventDefault();
+	    var comment = this.props.comment;
+	    ApiUtil.deleteComment(comment);
+	  },
+	
+	  commentChange: function (e) {
+	    this.setState({ input: e.currentTarget.value });
+	  },
+	
+	  render: function () {
+	    var formOptions;
+	    var commentOrInput;
+	    var commentAuthor;
+	
+	    if (this.props.comment !== undefined) {
+	      if (this.props.comment.author_id === this.state.user.id) {
+	        formOptions = React.createElement(
+	          'div',
+	          { className: 'comment-options-container group' },
+	          React.createElement(
+	            'div',
+	            { className: 'comment-option-icon', onClick: this.openEdit },
+	            React.createElement('i', { className: 'fa fa-pencil fa-fw' })
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'comment-option-delete', onClick: this.deleteComment },
+	            'Delete'
+	          )
+	        );
+	      }
+	      if (this.state.edit === true) {
+	        commentOrInput = React.createElement(
+	          'div',
+	          null,
+	          React.createElement(
+	            'form',
+	            { onSubmit: this.submitEdit, ref: 'commentedit' },
+	            React.createElement(
+	              'div',
+	              { className: 'comment-box comment-edit-input' },
+	              React.createElement(
+	                'div',
+	                { className: 'comment' },
+	                React.createElement('input', { onChange: this.commentChange, value: this.state.input })
+	              )
+	            ),
+	            React.createElement(
+	              'div',
+	              { className: 'comment-edit-submit', onClick: this.submitEdit },
+	              'Submit edit'
+	            )
+	          )
+	        );
+	      } else {
+	        commentOrInput = React.createElement(
+	          'div',
+	          null,
+	          React.createElement(
+	            'div',
+	            { className: 'comment-box' },
+	            React.createElement(
+	              'div',
+	              { className: 'comment', onClick: this.openEdit },
+	              this.props.comment.body
+	            )
+	          ),
+	          formOptions
+	        );
+	      }
+	      commentAuthor = this.props.comment.author;
+	    }
+	
+	    return React.createElement(
+	      'div',
+	      { className: 'comment-container' },
+	      React.createElement(
+	        'div',
+	        { className: 'comment-author' },
+	        commentAuthor
+	      ),
+	      commentOrInput
+	    );
+	  }
+	});
+	
+	module.exports = Comment;
+
+/***/ },
+/* 346 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var ReactDOM = __webpack_require__(158);
+	var CardStore = __webpack_require__(342);
+	var ApiUtil = __webpack_require__(211);
+	
+	var ClickMixin = {
+	  _clickDocument: function (e) {
+	    var component = ReactDOM.findDOMNode(this.refs.cardrename);
+	    if (e.target == component || $(component).has(e.target).length) {
+	      this.openRename(e);
+	    } else {
+	      this.closeRename(e);
+	    }
+	  },
+	  componentDidMount: function () {
+	    $(document).bind('click', this._clickDocument);
+	  },
+	  componentWillUnmount: function () {
+	    $(document).unbind('click', this._clickDocument);
+	  }
+	};
+	
+	var CardRename = React.createClass({
+	  displayName: 'CardRename',
+	
+	  mixins: [ClickMixin],
+	
+	  getInitialState: function () {
+	    return { renameVal: "", rename: false };
+	  },
+	
+	  componentDidMount: function () {
+	    this.cardListener = CardStore.addListener(this._onChange);
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.cardListener.remove();
+	  },
+	
+	  _onChange: function () {
+	    this.setState({ renameVal: CardStore.card().title });
+	  },
+	
+	  openRename: function () {
+	    this.setState({ rename: true });
+	  },
+	
+	  closeRename: function () {
+	    this.setState({ rename: false });
+	  },
+	
+	  renameFormOnSubmit: function (e) {
+	    e.preventDefault();
+	    var card = this.props.card;
+	    card.title = this.state.renameVal;
+	    console.log(card);
+	    ApiUtil.updateCard(card);
+	    this.setState({ rename: false });
+	  },
+	
+	  changeHandler: function (e) {
+	    this.setState({ renameVal: e.currentTarget.value });
+	  },
+	
+	  renameCancelHandler: function (e) {
+	    e.preventDefault();
+	    this.setState({ rename: false });
+	  },
+	
+	  render: function () {
+	    var input;
+	
+	    if (this.state.renameVal === "") {
+	      input = this.props.card.title;
+	    } else {
+	      input = this.state.renameVal;
+	    }
+	
+	    if (this.state.rename === true) {
+	      rename = React.createElement(
+	        'div',
+	        { className: 'card-rename-form group', ref: 'cardrename' },
+	        React.createElement(
+	          'form',
+	          { onSubmit: this.renameFormOnSubmit },
+	          React.createElement('input', { type: 'text',
+	            className: 'card-rename-form-input',
+	            onChange: this.changeHandler,
+	            value: input }),
+	          React.createElement(
+	            'button',
+	            { className: 'new-comment-button' },
+	            'Save'
+	          ),
+	          React.createElement(
+	            'a',
+	            { href: '#', className: 'list-form-cancel', onClick: this.renameCancelHandler },
+	            React.createElement('i', { className: 'fa fa-times fa-fw' })
+	          )
+	        )
+	      );
+	    } else {
+	      rename = React.createElement(
+	        'div',
+	        { className: 'card-detail-title', onClick: this.openRename },
+	        this.props.card.title
+	      );
+	    }
+	
+	    return React.createElement(
+	      'div',
+	      null,
+	      rename
+	    );
+	  }
+	});
+	
+	module.exports = CardRename;
+
+/***/ },
+/* 347 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var ReactDOM = __webpack_require__(158);
+	var CardStore = __webpack_require__(342);
+	var ApiUtil = __webpack_require__(211);
+	
+	var ClickMixin = {
+	  _clickDocument: function (e) {
+	    var component = ReactDOM.findDOMNode(this.refs.carddescription);
+	    if (e.target == component || $(component).has(e.target).length) {
+	      this.clickInside(e);
+	    } else {
+	      this.closeMenu(e);
+	    }
+	  },
+	  componentDidMount: function () {
+	    $(document).bind('click', this._clickDocument);
+	  },
+	  componentWillUnmount: function () {
+	    $(document).unbind('click', this._clickDocument);
+	  }
+	};
+	
+	var CardDescription = React.createClass({
+	  displayName: 'CardDescription',
+	
+	  mixins: [ClickMixin],
+	
+	  clickInside: function () {},
+	
+	  getInitialState: function () {
+	    return { descriptionVal: "", descriptionEdit: false };
+	  },
+	
+	  componentDidMount: function () {
+	    this.cardListener = CardStore.addListener(this._onChange);
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.cardListener.remove();
+	  },
+	
+	  _onChange: function () {
+	    this.setState({ descriptionVal: CardStore.card().description });
+	  },
+	
+	  editDescription: function () {
+	    this.setState({ descriptionEdit: true });
+	  },
+	
+	  descFormOnSubmit: function (e) {
+	    e.preventDefault();
+	    var card = this.props.card;
+	    card.description = this.state.descriptionVal;
+	    ApiUtil.updateCard(card);
+	    this.setState({ descriptionEdit: false });
+	  },
+	
+	  changeHandler: function (e) {
+	    this.setState({ descriptionVal: e.currentTarget.value });
+	  },
+	
+	  closeMenu: function (e) {
+	    this.setState({ descriptionEdit: false });
+	  },
+	
+	  render: function () {
+	
+	    if (this.state.descriptionEdit === true) {
+	      description = React.createElement(
+	        'div',
+	        { className: 'edit-description-box', ref: 'carddescription' },
+	        React.createElement(
+	          'div',
+	          { className: 'edit-description-heading' },
+	          'Description'
+	        ),
+	        React.createElement(
+	          'form',
+	          { onSubmit: this.descFormOnSubmit },
+	          React.createElement('textarea', { type: 'text',
+	            className: 'edit-description-textarea',
+	            onChange: this.changeHandler,
+	            value: this.state.descriptionVal }),
+	          React.createElement(
+	            'button',
+	            { className: 'new-comment-button' },
+	            'Save'
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'list-form-cancel', onClick: this.closeMenu },
+	            React.createElement('i', { className: 'fa fa-times fa-fw' })
+	          )
+	        )
+	      );
+	    } else {
+	      description = React.createElement(
+	        'div',
+	        { className: 'edit-description-box', onClick: this.editDescription },
+	        React.createElement(
+	          'div',
+	          { className: 'edit-description-heading' },
+	          'Description'
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'edit-description-box-description' },
+	          this.state.descriptionVal
+	        )
+	      );
+	    }
+	
+	    return React.createElement(
+	      'div',
+	      { className: 'card-detail-description-box' },
+	      description
+	    );
+	  }
+	});
+	
+	module.exports = CardDescription;
+
+/***/ },
+/* 348 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -38079,7 +38501,7 @@
 	module.exports = DropTarget(ItemTypes.CARD, cardTarget, collect)(NewCard);
 
 /***/ },
-/* 346 */
+/* 349 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -38192,7 +38614,7 @@
 	module.exports = ListMenu;
 
 /***/ },
-/* 347 */
+/* 350 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -38340,7 +38762,7 @@
 	module.exports = DropTarget(ItemTypes.LIST, listTarget, collect)(NewList);
 
 /***/ },
-/* 348 */
+/* 351 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -38475,7 +38897,132 @@
 	module.exports = BoardMenu;
 
 /***/ },
-/* 349 */
+/* 352 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var ReactDOM = __webpack_require__(158);
+	var ApiUtil = __webpack_require__(211);
+	var BoardStore = __webpack_require__(220);
+	
+	var ClickMixin = {
+	  _clickDocument: function (e) {
+	    var component = ReactDOM.findDOMNode(this.refs.boardtitle);
+	    if (e.target == component || $(component).has(e.target).length) {
+	      this.openMenu(e);
+	    } else {
+	      this.closeMenu(e);
+	    }
+	  },
+	  componentDidMount: function () {
+	    $(document).bind('click', this._clickDocument);
+	  },
+	  componentWillUnmount: function () {
+	    $(document).unbind('click', this._clickDocument);
+	  }
+	};
+	
+	var BoardTitleButton = React.createClass({
+	  displayName: 'BoardTitleButton',
+	
+	  mixins: [ClickMixin],
+	
+	  getInitialState: function () {
+	    return { form: false, board: {}, title: "" };
+	  },
+	
+	  _onChange: function () {
+	    this.setState({ board: BoardStore.single(), title: BoardStore.single().title });
+	  },
+	
+	  componentDidMount: function () {
+	    this.boardListener = BoardStore.addListener(this._onChange);
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.boardListener.remove();
+	  },
+	
+	  nameClickHandler: function () {
+	    this.setState({ form: true });
+	  },
+	
+	  formChangeHandler: function (event) {
+	    this.setState({ title: event.currentTarget.value });
+	  },
+	
+	  formSubmitHandler: function (event) {
+	    event.preventDefault();
+	    this.state.board.title = this.state.title;
+	    ApiUtil.updateBoard(this.state.board);
+	    this.setState({ form: false });
+	  },
+	
+	  cancelHandler: function () {
+	    this.setState({ form: false });
+	  },
+	
+	  openMenu: function () {
+	    this.setState({ form: true });
+	  },
+	
+	  closeMenu: function () {
+	    this.setState({ form: false });
+	  },
+	
+	  render: function () {
+	    var form;
+	    if (this.state.form === true) {
+	      form = React.createElement(
+	        'form',
+	        { className: 'pop-up-menu', ref: 'boardtitle',
+	          onSubmit: this.formSubmitHandler },
+	        React.createElement(
+	          'div',
+	          { className: 'pop-up-menu-header group' },
+	          React.createElement(
+	            'div',
+	            { className: 'pop-up-menu-title' },
+	            'Rename Board'
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'pop-up-menu-cancel', onClick: this.cancelHandler },
+	            React.createElement('i', { className: 'fa fa-times fa-fw' })
+	          )
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'pop-up-menu-options-list group' },
+	          React.createElement('input', { className: 'pop-up-input', type: 'text', value: this.state.title,
+	            onChange: this.formChangeHandler }),
+	          React.createElement(
+	            'button',
+	            { className: 'pop-up-rename-board' },
+	            'Rename'
+	          )
+	        )
+	      );
+	    }
+	
+	    return React.createElement(
+	      'div',
+	      { className: 'board-title-button' },
+	      React.createElement(
+	        'div',
+	        { className: 'board-title',
+	          onClick: this.nameClickHandler },
+	        this.state.title
+	      ),
+	      form
+	    );
+	  }
+	});
+	
+	module.exports = BoardTitleButton;
+
+/***/ },
+/* 353 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -38487,15 +39034,15 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
-	var _HTML5Backend = __webpack_require__(350);
+	var _HTML5Backend = __webpack_require__(354);
 	
 	var _HTML5Backend2 = _interopRequireDefault(_HTML5Backend);
 	
-	var _getEmptyImage = __webpack_require__(379);
+	var _getEmptyImage = __webpack_require__(383);
 	
 	var _getEmptyImage2 = _interopRequireDefault(_getEmptyImage);
 	
-	var _NativeTypes = __webpack_require__(378);
+	var _NativeTypes = __webpack_require__(382);
 	
 	var NativeTypes = _interopRequireWildcard(_NativeTypes);
 	
@@ -38507,7 +39054,7 @@
 	}
 
 /***/ },
-/* 350 */
+/* 354 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -38520,25 +39067,25 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 	
-	var _lodashObjectDefaults = __webpack_require__(351);
+	var _lodashObjectDefaults = __webpack_require__(355);
 	
 	var _lodashObjectDefaults2 = _interopRequireDefault(_lodashObjectDefaults);
 	
-	var _shallowEqual = __webpack_require__(364);
+	var _shallowEqual = __webpack_require__(368);
 	
 	var _shallowEqual2 = _interopRequireDefault(_shallowEqual);
 	
-	var _EnterLeaveCounter = __webpack_require__(365);
+	var _EnterLeaveCounter = __webpack_require__(369);
 	
 	var _EnterLeaveCounter2 = _interopRequireDefault(_EnterLeaveCounter);
 	
-	var _BrowserDetector = __webpack_require__(368);
+	var _BrowserDetector = __webpack_require__(372);
 	
-	var _OffsetUtils = __webpack_require__(375);
+	var _OffsetUtils = __webpack_require__(379);
 	
-	var _NativeDragSources = __webpack_require__(377);
+	var _NativeDragSources = __webpack_require__(381);
 	
-	var _NativeTypes = __webpack_require__(378);
+	var _NativeTypes = __webpack_require__(382);
 	
 	var NativeTypes = _interopRequireWildcard(_NativeTypes);
 	
@@ -39072,12 +39619,12 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 351 */
+/* 355 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var assign = __webpack_require__(352),
-	    assignDefaults = __webpack_require__(362),
-	    createDefaults = __webpack_require__(363);
+	var assign = __webpack_require__(356),
+	    assignDefaults = __webpack_require__(366),
+	    createDefaults = __webpack_require__(367);
 	
 	/**
 	 * Assigns own enumerable properties of source object(s) to the destination
@@ -39103,12 +39650,12 @@
 
 
 /***/ },
-/* 352 */
+/* 356 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var assignWith = __webpack_require__(353),
-	    baseAssign = __webpack_require__(356),
-	    createAssigner = __webpack_require__(358);
+	var assignWith = __webpack_require__(357),
+	    baseAssign = __webpack_require__(360),
+	    createAssigner = __webpack_require__(362);
 	
 	/**
 	 * Assigns own enumerable properties of source object(s) to the destination
@@ -39152,10 +39699,10 @@
 
 
 /***/ },
-/* 353 */
+/* 357 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var keys = __webpack_require__(354);
+	var keys = __webpack_require__(358);
 	
 	/**
 	 * A specialized version of `_.assign` for customizing assigned values without
@@ -39190,13 +39737,13 @@
 
 
 /***/ },
-/* 354 */
+/* 358 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var getNative = __webpack_require__(274),
 	    isArrayLike = __webpack_require__(290),
 	    isObject = __webpack_require__(277),
-	    shimKeys = __webpack_require__(355);
+	    shimKeys = __webpack_require__(359);
 	
 	/* Native method references for those with the same name as other `lodash` methods. */
 	var nativeKeys = getNative(Object, 'keys');
@@ -39241,7 +39788,7 @@
 
 
 /***/ },
-/* 355 */
+/* 359 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var isArguments = __webpack_require__(317),
@@ -39288,11 +39835,11 @@
 
 
 /***/ },
-/* 356 */
+/* 360 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var baseCopy = __webpack_require__(357),
-	    keys = __webpack_require__(354);
+	var baseCopy = __webpack_require__(361),
+	    keys = __webpack_require__(358);
 	
 	/**
 	 * The base implementation of `_.assign` without support for argument juggling,
@@ -39313,7 +39860,7 @@
 
 
 /***/ },
-/* 357 */
+/* 361 */
 /***/ function(module, exports) {
 
 	/**
@@ -39342,11 +39889,11 @@
 
 
 /***/ },
-/* 358 */
+/* 362 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var bindCallback = __webpack_require__(359),
-	    isIterateeCall = __webpack_require__(361),
+	var bindCallback = __webpack_require__(363),
+	    isIterateeCall = __webpack_require__(365),
 	    restParam = __webpack_require__(293);
 	
 	/**
@@ -39389,10 +39936,10 @@
 
 
 /***/ },
-/* 359 */
+/* 363 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var identity = __webpack_require__(360);
+	var identity = __webpack_require__(364);
 	
 	/**
 	 * A specialized version of `baseCallback` which only supports `this` binding
@@ -39434,7 +39981,7 @@
 
 
 /***/ },
-/* 360 */
+/* 364 */
 /***/ function(module, exports) {
 
 	/**
@@ -39460,7 +40007,7 @@
 
 
 /***/ },
-/* 361 */
+/* 365 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var isArrayLike = __webpack_require__(290),
@@ -39494,7 +40041,7 @@
 
 
 /***/ },
-/* 362 */
+/* 366 */
 /***/ function(module, exports) {
 
 	/**
@@ -39513,7 +40060,7 @@
 
 
 /***/ },
-/* 363 */
+/* 367 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var restParam = __webpack_require__(293);
@@ -39541,7 +40088,7 @@
 
 
 /***/ },
-/* 364 */
+/* 368 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -39582,7 +40129,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 365 */
+/* 369 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -39593,7 +40140,7 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 	
-	var _lodashArrayUnion = __webpack_require__(366);
+	var _lodashArrayUnion = __webpack_require__(370);
 	
 	var _lodashArrayUnion2 = _interopRequireDefault(_lodashArrayUnion);
 	
@@ -39639,10 +40186,10 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 366 */
+/* 370 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var baseFlatten = __webpack_require__(367),
+	var baseFlatten = __webpack_require__(371),
 	    baseUniq = __webpack_require__(298),
 	    restParam = __webpack_require__(293);
 	
@@ -39669,7 +40216,7 @@
 
 
 /***/ },
-/* 367 */
+/* 371 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var arrayPush = __webpack_require__(297),
@@ -39716,7 +40263,7 @@
 
 
 /***/ },
-/* 368 */
+/* 372 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -39725,7 +40272,7 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
-	var _lodashFunctionMemoize = __webpack_require__(369);
+	var _lodashFunctionMemoize = __webpack_require__(373);
 	
 	var _lodashFunctionMemoize2 = _interopRequireDefault(_lodashFunctionMemoize);
 	
@@ -39741,10 +40288,10 @@
 	exports.isSafari = isSafari;
 
 /***/ },
-/* 369 */
+/* 373 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var MapCache = __webpack_require__(370);
+	var MapCache = __webpack_require__(374);
 	
 	/** Used as the `TypeError` message for "Functions" methods. */
 	var FUNC_ERROR_TEXT = 'Expected a function';
@@ -39827,13 +40374,13 @@
 
 
 /***/ },
-/* 370 */
+/* 374 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var mapDelete = __webpack_require__(371),
-	    mapGet = __webpack_require__(372),
-	    mapHas = __webpack_require__(373),
-	    mapSet = __webpack_require__(374);
+	var mapDelete = __webpack_require__(375),
+	    mapGet = __webpack_require__(376),
+	    mapHas = __webpack_require__(377),
+	    mapSet = __webpack_require__(378);
 	
 	/**
 	 * Creates a cache object to store key/value pairs.
@@ -39857,7 +40404,7 @@
 
 
 /***/ },
-/* 371 */
+/* 375 */
 /***/ function(module, exports) {
 
 	/**
@@ -39877,7 +40424,7 @@
 
 
 /***/ },
-/* 372 */
+/* 376 */
 /***/ function(module, exports) {
 
 	/**
@@ -39897,7 +40444,7 @@
 
 
 /***/ },
-/* 373 */
+/* 377 */
 /***/ function(module, exports) {
 
 	/** Used for native method references. */
@@ -39923,7 +40470,7 @@
 
 
 /***/ },
-/* 374 */
+/* 378 */
 /***/ function(module, exports) {
 
 	/**
@@ -39947,7 +40494,7 @@
 
 
 /***/ },
-/* 375 */
+/* 379 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -39959,9 +40506,9 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
-	var _BrowserDetector = __webpack_require__(368);
+	var _BrowserDetector = __webpack_require__(372);
 	
-	var _MonotonicInterpolant = __webpack_require__(376);
+	var _MonotonicInterpolant = __webpack_require__(380);
 	
 	var _MonotonicInterpolant2 = _interopRequireDefault(_MonotonicInterpolant);
 	
@@ -40047,7 +40594,7 @@
 	}
 
 /***/ },
-/* 376 */
+/* 380 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -40164,7 +40711,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 377 */
+/* 381 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40182,7 +40729,7 @@
 	
 	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 	
-	var _NativeTypes = __webpack_require__(378);
+	var _NativeTypes = __webpack_require__(382);
 	
 	var NativeTypes = _interopRequireWildcard(_NativeTypes);
 	
@@ -40272,7 +40819,7 @@
 	}
 
 /***/ },
-/* 378 */
+/* 382 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -40286,7 +40833,7 @@
 	exports.TEXT = TEXT;
 
 /***/ },
-/* 379 */
+/* 383 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -40307,7 +40854,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 380 */
+/* 384 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -40410,380 +40957,6 @@
 	});
 	
 	module.exports = SessionForm;
-
-/***/ },
-/* 381 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var ReactDOM = __webpack_require__(158);
-	var ApiUtil = __webpack_require__(211);
-	var BoardStore = __webpack_require__(220);
-	
-	var ClickMixin = {
-	  _clickDocument: function (e) {
-	    var component = ReactDOM.findDOMNode(this.refs.boardtitle);
-	    if (e.target == component || $(component).has(e.target).length) {
-	      this.openMenu(e);
-	    } else {
-	      this.closeMenu(e);
-	    }
-	  },
-	  componentDidMount: function () {
-	    $(document).bind('click', this._clickDocument);
-	  },
-	  componentWillUnmount: function () {
-	    $(document).unbind('click', this._clickDocument);
-	  }
-	};
-	
-	var BoardTitleButton = React.createClass({
-	  displayName: 'BoardTitleButton',
-	
-	  mixins: [ClickMixin],
-	
-	  getInitialState: function () {
-	    return { form: false, board: {}, title: "" };
-	  },
-	
-	  _onChange: function () {
-	    this.setState({ board: BoardStore.single(), title: BoardStore.single().title });
-	  },
-	
-	  componentDidMount: function () {
-	    this.boardListener = BoardStore.addListener(this._onChange);
-	  },
-	
-	  componentWillUnmount: function () {
-	    this.boardListener.remove();
-	  },
-	
-	  nameClickHandler: function () {
-	    this.setState({ form: true });
-	  },
-	
-	  formChangeHandler: function (event) {
-	    this.setState({ title: event.currentTarget.value });
-	  },
-	
-	  formSubmitHandler: function (event) {
-	    event.preventDefault();
-	    this.state.board.title = this.state.title;
-	    ApiUtil.updateBoard(this.state.board);
-	    this.setState({ form: false });
-	  },
-	
-	  cancelHandler: function () {
-	    this.setState({ form: false });
-	  },
-	
-	  openMenu: function () {
-	    this.setState({ form: true });
-	  },
-	
-	  closeMenu: function () {
-	    this.setState({ form: false });
-	  },
-	
-	  render: function () {
-	    var form;
-	    if (this.state.form === true) {
-	      form = React.createElement(
-	        'form',
-	        { className: 'pop-up-menu', ref: 'boardtitle',
-	          onSubmit: this.formSubmitHandler },
-	        React.createElement(
-	          'div',
-	          { className: 'pop-up-menu-header group' },
-	          React.createElement(
-	            'div',
-	            { className: 'pop-up-menu-title' },
-	            'Rename Board'
-	          ),
-	          React.createElement(
-	            'div',
-	            { className: 'pop-up-menu-cancel', onClick: this.cancelHandler },
-	            React.createElement('i', { className: 'fa fa-times fa-fw' })
-	          )
-	        ),
-	        React.createElement(
-	          'div',
-	          { className: 'pop-up-menu-options-list group' },
-	          React.createElement('input', { className: 'pop-up-input', type: 'text', value: this.state.title,
-	            onChange: this.formChangeHandler }),
-	          React.createElement(
-	            'button',
-	            { className: 'pop-up-rename-board' },
-	            'Rename'
-	          )
-	        )
-	      );
-	    }
-	
-	    return React.createElement(
-	      'div',
-	      { className: 'board-title-button' },
-	      React.createElement(
-	        'div',
-	        { className: 'board-title',
-	          onClick: this.nameClickHandler },
-	        this.state.title
-	      ),
-	      form
-	    );
-	  }
-	});
-	
-	module.exports = BoardTitleButton;
-
-/***/ },
-/* 382 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var ReactDOM = __webpack_require__(158);
-	var CardStore = __webpack_require__(342);
-	var ApiUtil = __webpack_require__(211);
-	
-	var ClickMixin = {
-	  _clickDocument: function (e) {
-	    var component = ReactDOM.findDOMNode(this.refs.cardrename);
-	    if (e.target == component || $(component).has(e.target).length) {
-	      this.openRename(e);
-	    } else {
-	      this.closeRename(e);
-	    }
-	  },
-	  componentDidMount: function () {
-	    $(document).bind('click', this._clickDocument);
-	  },
-	  componentWillUnmount: function () {
-	    $(document).unbind('click', this._clickDocument);
-	  }
-	};
-	
-	var CardRename = React.createClass({
-	  displayName: 'CardRename',
-	
-	  mixins: [ClickMixin],
-	
-	  getInitialState: function () {
-	    return { renameVal: "", rename: false };
-	  },
-	
-	  componentDidMount: function () {
-	    this.cardListener = CardStore.addListener(this._onChange);
-	  },
-	
-	  componentWillUnmount: function () {
-	    this.cardListener.remove();
-	  },
-	
-	  _onChange: function () {
-	    this.setState({ renameVal: CardStore.card().title });
-	  },
-	
-	  openRename: function () {
-	    this.setState({ rename: true });
-	  },
-	
-	  closeRename: function () {
-	    this.setState({ rename: false });
-	  },
-	
-	  renameFormOnSubmit: function (e) {
-	    e.preventDefault();
-	    var card = this.props.card;
-	    card.title = this.state.renameVal;
-	    console.log(card);
-	    ApiUtil.updateCard(card);
-	    this.setState({ rename: false });
-	  },
-	
-	  changeHandler: function (e) {
-	    this.setState({ renameVal: e.currentTarget.value });
-	  },
-	
-	  renameCancelHandler: function (e) {
-	    e.preventDefault();
-	    this.setState({ rename: false });
-	  },
-	
-	  render: function () {
-	    var input;
-	
-	    if (this.state.renameVal === "") {
-	      input = this.props.card.title;
-	    } else {
-	      input = this.state.renameVal;
-	    }
-	
-	    if (this.state.rename === true) {
-	      rename = React.createElement(
-	        'div',
-	        { className: 'card-rename-form group', ref: 'cardrename' },
-	        React.createElement(
-	          'form',
-	          { onSubmit: this.renameFormOnSubmit },
-	          React.createElement('input', { type: 'text',
-	            className: 'card-rename-form-input',
-	            onChange: this.changeHandler,
-	            value: input }),
-	          React.createElement(
-	            'button',
-	            { className: 'new-comment-button' },
-	            'Save'
-	          ),
-	          React.createElement(
-	            'a',
-	            { href: '#', className: 'list-form-cancel', onClick: this.renameCancelHandler },
-	            React.createElement('i', { className: 'fa fa-times fa-fw' })
-	          )
-	        )
-	      );
-	    } else {
-	      rename = React.createElement(
-	        'div',
-	        { className: 'card-detail-title', onClick: this.openRename },
-	        this.props.card.title
-	      );
-	    }
-	
-	    return React.createElement(
-	      'div',
-	      null,
-	      rename
-	    );
-	  }
-	});
-	
-	module.exports = CardRename;
-
-/***/ },
-/* 383 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var ReactDOM = __webpack_require__(158);
-	var CardStore = __webpack_require__(342);
-	var ApiUtil = __webpack_require__(211);
-	
-	var ClickMixin = {
-	  _clickDocument: function (e) {
-	    var component = ReactDOM.findDOMNode(this.refs.carddescription);
-	    if (e.target == component || $(component).has(e.target).length) {
-	      this.clickInside(e);
-	    } else {
-	      this.closeMenu(e);
-	    }
-	  },
-	  componentDidMount: function () {
-	    $(document).bind('click', this._clickDocument);
-	  },
-	  componentWillUnmount: function () {
-	    $(document).unbind('click', this._clickDocument);
-	  }
-	};
-	
-	var CardDescription = React.createClass({
-	  displayName: 'CardDescription',
-	
-	  mixins: [ClickMixin],
-	
-	  clickInside: function () {},
-	
-	  getInitialState: function () {
-	    return { descriptionVal: "", descriptionEdit: false };
-	  },
-	
-	  componentDidMount: function () {
-	    this.cardListener = CardStore.addListener(this._onChange);
-	  },
-	
-	  componentWillUnmount: function () {
-	    this.cardListener.remove();
-	  },
-	
-	  _onChange: function () {
-	    this.setState({ descriptionVal: CardStore.card().description });
-	  },
-	
-	  editDescription: function () {
-	    this.setState({ descriptionEdit: true });
-	  },
-	
-	  descFormOnSubmit: function (e) {
-	    e.preventDefault();
-	    var card = this.props.card;
-	    card.description = this.state.descriptionVal;
-	    ApiUtil.updateCard(card);
-	    this.setState({ descriptionEdit: false });
-	  },
-	
-	  changeHandler: function (e) {
-	    this.setState({ descriptionVal: e.currentTarget.value });
-	  },
-	
-	  closeMenu: function (e) {
-	    this.setState({ descriptionEdit: false });
-	  },
-	
-	  render: function () {
-	
-	    if (this.state.descriptionEdit === true) {
-	      description = React.createElement(
-	        'div',
-	        { className: 'edit-description-box', ref: 'carddescription' },
-	        React.createElement(
-	          'div',
-	          { className: 'edit-description-heading' },
-	          'Description'
-	        ),
-	        React.createElement(
-	          'form',
-	          { onSubmit: this.descFormOnSubmit },
-	          React.createElement('textarea', { type: 'text',
-	            className: 'edit-description-textarea',
-	            onChange: this.changeHandler,
-	            value: this.state.descriptionVal }),
-	          React.createElement(
-	            'button',
-	            { className: 'new-comment-button' },
-	            'Save'
-	          ),
-	          React.createElement(
-	            'div',
-	            { className: 'list-form-cancel', onClick: this.closeMenu },
-	            React.createElement('i', { className: 'fa fa-times fa-fw' })
-	          )
-	        )
-	      );
-	    } else {
-	      description = React.createElement(
-	        'div',
-	        { className: 'edit-description-box', onClick: this.editDescription },
-	        React.createElement(
-	          'div',
-	          { className: 'edit-description-heading' },
-	          'Description'
-	        ),
-	        React.createElement(
-	          'div',
-	          { className: 'edit-description-box-description' },
-	          this.state.descriptionVal
-	        )
-	      );
-	    }
-	
-	    return React.createElement(
-	      'div',
-	      { className: 'card-detail-description-box' },
-	      description
-	    );
-	  }
-	});
-	
-	module.exports = CardDescription;
 
 /***/ }
 /******/ ]);

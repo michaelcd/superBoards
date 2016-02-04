@@ -165,6 +165,33 @@ var ApiUtil = {
    });
    },
 
+ updateComment: function (comment) {
+   $.ajax({
+    url: "api/comments/" + comment.id,
+    method: "PATCH",
+    data: {comment: comment},
+    success: function (card) {
+     CardActions.receiveCard(card);
+    },
+    failure: function () {
+     console.log("failure");
+    }
+  });
+  },
+
+  deleteComment: function (comment) {
+    $.ajax({
+     url: "api/comments/" + comment.id,
+     method: "DELETE",
+     success: function (card) {
+      CardActions.receiveCard(card);
+     },
+     failure: function () {
+      console.log("failure");
+     }
+   });
+   },
+
   createCard: function (card) {
     $.ajax({
      url: "api/cards",

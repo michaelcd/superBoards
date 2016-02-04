@@ -1,5 +1,6 @@
 var React = require('react');
 var ApiUtil = require('../../util/api_util');
+var Comment = require('./comment');
 
 var CommentView = React.createClass({
   getInitialState: function () {
@@ -30,14 +31,7 @@ var CommentView = React.createClass({
       commentsList = (
         this.props.comments.map(function (comment) {
           return (
-            <div className="comment-container" key={comment.id}>
-              <div className="comment-author">{comment.author}</div>
-              <div className="comment-box" >
-                <div className="comment">
-                  {comment.body}
-                </div>
-              </div>
-            </div>
+            <Comment key={comment.id} comment={comment} />
           );
         })
       );
