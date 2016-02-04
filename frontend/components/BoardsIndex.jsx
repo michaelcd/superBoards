@@ -40,30 +40,30 @@ var BoardsIndex = React.createClass({
       );
     }
 
-    // if (this.state.sharedBoards !== undefined) {
-    //   sharedIndexItems = (
-    //     <div className="shared-boards group">
-    //       <div className="boards-index-title-container">
-    //         <div className="icon-container">
-    //           <i className="fa fa-users fa-fw"></i>
-    //         </div>
-    //         <div className="boards-index-title">Shared Boards</div>
-    //       </div>
-    //       <div className="shared-boards group">
-    //         <ul>
-    //           {
-    //             this.state.sharedBoards.map(function (board) {
-    //               return <BoardsIndexItem
-    //                 key={board.id}
-    //                 className="BoardsIndexItem"
-    //                 board={board} />;
-    //             })
-    //           }
-    //         </ul>
-    //       </div>
-    //     </div>
-    //   );
-    // }
+    if (this.state.sharedBoards !== undefined) {
+      sharedIndexItems = (
+        <div className="shared-boards group">
+          <div className="boards-index-title-container">
+            <div className="icon-container">
+              <i className="fa fa-users fa-fw"></i>
+            </div>
+            <div className="boards-index-title">Shared Boards</div>
+          </div>
+          <div className="shared-boards group">
+            <ul>
+              {
+                this.state.sharedBoards.map(function (board) {
+                  return <BoardsIndexItem
+                    key={board.id}
+                    className="BoardsIndexItem"
+                    board={board} />;
+                })
+              }
+            </ul>
+          </div>
+        </div>
+      );
+    }
 
     return (
       <div className="boards-index group">

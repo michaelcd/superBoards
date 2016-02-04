@@ -56,7 +56,7 @@
 	var CardDetail = __webpack_require__(342);
 	var CurrentUserStore = __webpack_require__(251);
 	var SessionsApiUtil = __webpack_require__(253);
-	var SessionForm = __webpack_require__(385);
+	var SessionForm = __webpack_require__(388);
 	
 	BoardStore = __webpack_require__(220);
 	
@@ -24384,30 +24384,40 @@
 	      });
 	    }
 	
-	    // if (this.state.sharedBoards !== undefined) {
-	    //   sharedIndexItems = (
-	    //     <div className="shared-boards group">
-	    //       <div className="boards-index-title-container">
-	    //         <div className="icon-container">
-	    //           <i className="fa fa-users fa-fw"></i>
-	    //         </div>
-	    //         <div className="boards-index-title">Shared Boards</div>
-	    //       </div>
-	    //       <div className="shared-boards group">
-	    //         <ul>
-	    //           {
-	    //             this.state.sharedBoards.map(function (board) {
-	    //               return <BoardsIndexItem
-	    //                 key={board.id}
-	    //                 className="BoardsIndexItem"
-	    //                 board={board} />;
-	    //             })
-	    //           }
-	    //         </ul>
-	    //       </div>
-	    //     </div>
-	    //   );
-	    // }
+	    if (this.state.sharedBoards !== undefined) {
+	      sharedIndexItems = React.createElement(
+	        'div',
+	        { className: 'shared-boards group' },
+	        React.createElement(
+	          'div',
+	          { className: 'boards-index-title-container' },
+	          React.createElement(
+	            'div',
+	            { className: 'icon-container' },
+	            React.createElement('i', { className: 'fa fa-users fa-fw' })
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'boards-index-title' },
+	            'Shared Boards'
+	          )
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'shared-boards group' },
+	          React.createElement(
+	            'ul',
+	            null,
+	            this.state.sharedBoards.map(function (board) {
+	              return React.createElement(BoardsIndexItem, {
+	                key: board.id,
+	                className: 'BoardsIndexItem',
+	                board: board });
+	            })
+	          )
+	        )
+	      );
+	    }
 	
 	    return React.createElement(
 	      'div',
@@ -24611,8 +24621,23 @@
 
 	var BoardActions = __webpack_require__(212);
 	var CardActions = __webpack_require__(218);
+	var UserActions = __webpack_require__(389);
 	
 	var ApiUtil = {
+	  createShare: function (share) {
+	    $.ajax({
+	      url: "api/board_shares",
+	      method: "POST",
+	      data: { share: share },
+	      success: function (board) {
+	        BoardActions.receiveSingleBoard(board);
+	      },
+	      failure: function () {
+	        console.log("failure");
+	      }
+	    });
+	  },
+	
 	  moveList: function (list) {
 	    $.ajax({
 	      url: "api/lists/" + list.id,
@@ -24646,6 +24671,18 @@
 	      url: "api/boards",
 	      success: function (boards) {
 	        BoardActions.receiveAllBoards(boards);
+	      },
+	      failure: function () {
+	        console.log("failure");
+	      }
+	    });
+	  },
+	
+	  fetchUsers: function () {
+	    $.ajax({
+	      url: "api/users",
+	      success: function (users) {
+	        UserActions.receiveUsers(users);
 	      },
 	      failure: function () {
 	        console.log("failure");
@@ -32662,7 +32699,11 @@
 	            React.createElement(
 	              'div',
 	              { className: 'tile-title-container' },
-	              board.title
+	              React.createElement(
+	                'div',
+	                { className: 'tile-title-wrap' },
+	                board.title
+	              )
 	            )
 	          )
 	        );
@@ -32748,9 +32789,9 @@
 	var ListWrapper = __webpack_require__(258);
 	var NewList = __webpack_require__(351);
 	var BoardMenu = __webpack_require__(352);
-	var BoardTitleButton = __webpack_require__(353);
+	var BoardTitleButton = __webpack_require__(356);
 	var DragDropContext = __webpack_require__(262).DragDropContext;
-	var HTML5Backend = __webpack_require__(354);
+	var HTML5Backend = __webpack_require__(357);
 	var ApiUtil = __webpack_require__(211);
 	
 	BoardDetailView = React.createClass({
@@ -38901,8 +38942,10 @@
 	var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(158);
 	var BoardStore = __webpack_require__(220);
+	var CurrentUserStore = __webpack_require__(251);
 	var ApiUtil = __webpack_require__(211);
 	var History = __webpack_require__(159).History;
+	var ShareMenu = __webpack_require__(353);
 	
 	// this.props.board
 	
@@ -38931,8 +38974,21 @@
 	  getInitialState: function () {
 	    return {
 	      menu: false,
-	      archiveConfirm: false
+	      archiveConfirm: false,
+	      currentUser: CurrentUserStore.currentUser()
 	    };
+	  },
+	
+	  componentDidMount: function () {
+	    this.userListener = CurrentUserStore.addListener(this._onChange);
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.userListener.remove();
+	  },
+	
+	  _onChange: function () {
+	    this.setState({ currentUser: CurrentUserStore.currentUser() });
 	  },
 	
 	  openMenu: function (event) {
@@ -38956,13 +39012,17 @@
 	    this.setState({ archiveConfirm: true });
 	  },
 	
-	  shareMenu: function (event) {
+	  archiveConfirmClose: function () {
 	    event.preventDefault();
+	    this.setState({ archiveConfirm: false });
 	  },
 	
 	  render: function () {
 	    var content;
 	    var archiveConfirm;
+	    var shareMenu;
+	    var contentForUser;
+	
 	    if (this.state.archiveConfirm === true) {
 	      archiveConfirm = React.createElement(
 	        'div',
@@ -38971,10 +39031,35 @@
 	          'button',
 	          { className: 'pop-up-rename-board archive-button', onClick: this.archiveBoard },
 	          'Confirm Archival'
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'list-form-cancel share-cancel', onClick: this.archiveConfirmClose },
+	          React.createElement('i', { className: 'fa fa-times fa-fw' })
 	        )
 	      );
 	    }
 	    if (this.state.menu === true) {
+	      if (this.state.currentUser.id === this.props.board.author_id) {
+	        contentForUser = React.createElement(
+	          'div',
+	          { className: 'pop-up-menu-options-list group' },
+	          React.createElement(ShareMenu, { board: this.props.board }),
+	          React.createElement(
+	            'a',
+	            { href: '#', className: 'pop-up-menu-option', onClick: this.archiveShow },
+	            'Archive Board'
+	          ),
+	          archiveConfirm
+	        );
+	      } else {
+	        contentForUser = React.createElement(
+	          'div',
+	          { className: 'pop-up-menu-title pop-up-notice' },
+	          'Board actions are only availble to the board owner.'
+	        );
+	      }
+	
 	      content = React.createElement(
 	        'div',
 	        { className: 'board-detail-pop-up', ref: 'boardmenu' },
@@ -38992,21 +39077,7 @@
 	            React.createElement('i', { className: 'fa fa-times fa-fw' })
 	          )
 	        ),
-	        React.createElement(
-	          'div',
-	          { className: 'pop-up-menu-options-list group' },
-	          React.createElement(
-	            'a',
-	            { href: '#', className: 'pop-up-menu-option', onClick: this.shareMenu },
-	            'Share Board'
-	          ),
-	          React.createElement(
-	            'a',
-	            { href: '#', className: 'pop-up-menu-option', onClick: this.archiveShow },
-	            'Archive Board'
-	          ),
-	          archiveConfirm
-	        )
+	        contentForUser
 	      );
 	    }
 	
@@ -39031,6 +39102,199 @@
 
 /***/ },
 /* 353 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var ReactDOM = __webpack_require__(158);
+	var UserStore = __webpack_require__(354);
+	var ApiUtil = __webpack_require__(211);
+	
+	// this.props.board
+	
+	// var ClickMixin = {
+	//     _clickDocument: function (e) {
+	//         var component = ReactDOM.findDOMNode(this.refs.sharemenu);
+	//         if (e.target == component || $(component).has(e.target).length) {
+	//             // this.openMenu(e);
+	//         } else {
+	//           setTimeout(function () {
+	//             this.closeMenu(e);
+	//           }.bind(this),500);
+	//
+	//         }
+	//     },
+	//     componentDidMount: function () {
+	//         $(document).bind('click', this._clickDocument);
+	//     },
+	//     componentWillUnmount: function () {
+	//         $(document).unbind('click', this._clickDocument);
+	//     },
+	// };
+	
+	var ShareMenu = React.createClass({
+	  displayName: 'ShareMenu',
+	
+	  // mixins: [ClickMixin],
+	
+	  getInitialState: function () {
+	    return { menu: false, users: [], selectedId: 0, confirm: false };
+	  },
+	
+	  closeMenu: function () {
+	    console.log("close called");
+	    this.setState({ menu: false });
+	  },
+	
+	  openMenu: function (event) {
+	    event.preventDefault();
+	    this.setState({ menu: true });
+	  },
+	
+	  componentDidMount: function () {
+	    console.log("mounted");
+	    this.shareListener = UserStore.addListener(this._onChange);
+	    ApiUtil.fetchUsers();
+	  },
+	
+	  componentWillUnmount: function () {
+	    console.log("unmounted");
+	    this.shareListener.remove();
+	  },
+	
+	  _onChange: function () {
+	    this.setState({ users: UserStore.all() });
+	  },
+	
+	  shareSubmit: function (event) {
+	    event.preventDefault();
+	    var share = {
+	      user_id: this.state.selectedId,
+	      board_id: this.props.board.id
+	    };
+	    ApiUtil.createShare(share);
+	    this.setState({ confirm: true, menu: false });
+	    setTimeout(function () {
+	      this.setState({ confirm: false });
+	    }.bind(this), 1000);
+	  },
+	
+	  handleChange: function (event) {
+	    this.setState({ selectedId: event.target.value });
+	  },
+	
+	  render: function () {
+	    var popup;
+	    var users = this.state.users.map(function (user) {
+	      return React.createElement(
+	        'option',
+	        { key: user.id, value: user.id },
+	        user.username
+	      );
+	    });
+	
+	    var dropdown = React.createElement(
+	      'select',
+	      { id: 'share-dropdown',
+	        className: 'custom-dropdown',
+	        value: this.state.selectedId,
+	        onChange: this.handleChange },
+	      users
+	    );
+	
+	    if (this.state.menu === true) {
+	      popup = React.createElement(
+	        'div',
+	        { className: 'share-pop-up-menu', ref: 'sharemenu' },
+	        React.createElement(
+	          'div',
+	          null,
+	          'Select a user to share this board with:'
+	        ),
+	        React.createElement(
+	          'form',
+	          { onSubmit: this.shareSubmit },
+	          dropdown,
+	          React.createElement(
+	            'button',
+	            { className: 'pop-up-rename-board archive-button' },
+	            'Share!'
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'list-form-cancel share-cancel', onClick: this.closeMenu },
+	            React.createElement('i', { className: 'fa fa-times fa-fw' })
+	          )
+	        )
+	      );
+	    }
+	
+	    var linkOrConfirm;
+	    if (this.state.confirm === true) {
+	      linkOrConfirm = React.createElement(
+	        'div',
+	        { className: 'pop-up-menu-option' },
+	        'Board Shared!'
+	      );
+	    } else {
+	      linkOrConfirm = React.createElement(
+	        'a',
+	        { href: '#', className: 'pop-up-menu-option', onClick: this.openMenu },
+	        'Share Board'
+	      );
+	    }
+	
+	    return React.createElement(
+	      'div',
+	      null,
+	      linkOrConfirm,
+	      popup
+	    );
+	  }
+	});
+	
+	module.exports = ShareMenu;
+
+/***/ },
+/* 354 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var AppDispatcher = __webpack_require__(213);
+	var Store = __webpack_require__(221).Store;
+	var UserConstants = __webpack_require__(355);
+	
+	var UserStore = new Store(AppDispatcher);
+	
+	var _users = [];
+	
+	var resetUsers = function (users) {
+	  _users = users.users;
+	};
+	
+	UserStore.all = function () {
+	  return _users.slice(0);
+	};
+	
+	UserStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case UserConstants.USERS_RECEIVED:
+	      resetUsers(payload.users);
+	      UserStore.__emitChange();
+	      break;
+	  }
+	};
+	
+	module.exports = UserStore;
+
+/***/ },
+/* 355 */
+/***/ function(module, exports) {
+
+	module.exports = {
+	  USERS_RECEIVED: "USERS_RECEIVED"
+	};
+
+/***/ },
+/* 356 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -39155,7 +39419,7 @@
 	module.exports = BoardTitleButton;
 
 /***/ },
-/* 354 */
+/* 357 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -39167,15 +39431,15 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
-	var _HTML5Backend = __webpack_require__(355);
+	var _HTML5Backend = __webpack_require__(358);
 	
 	var _HTML5Backend2 = _interopRequireDefault(_HTML5Backend);
 	
-	var _getEmptyImage = __webpack_require__(384);
+	var _getEmptyImage = __webpack_require__(387);
 	
 	var _getEmptyImage2 = _interopRequireDefault(_getEmptyImage);
 	
-	var _NativeTypes = __webpack_require__(383);
+	var _NativeTypes = __webpack_require__(386);
 	
 	var NativeTypes = _interopRequireWildcard(_NativeTypes);
 	
@@ -39187,7 +39451,7 @@
 	}
 
 /***/ },
-/* 355 */
+/* 358 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -39200,25 +39464,25 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 	
-	var _lodashObjectDefaults = __webpack_require__(356);
+	var _lodashObjectDefaults = __webpack_require__(359);
 	
 	var _lodashObjectDefaults2 = _interopRequireDefault(_lodashObjectDefaults);
 	
-	var _shallowEqual = __webpack_require__(369);
+	var _shallowEqual = __webpack_require__(372);
 	
 	var _shallowEqual2 = _interopRequireDefault(_shallowEqual);
 	
-	var _EnterLeaveCounter = __webpack_require__(370);
+	var _EnterLeaveCounter = __webpack_require__(373);
 	
 	var _EnterLeaveCounter2 = _interopRequireDefault(_EnterLeaveCounter);
 	
-	var _BrowserDetector = __webpack_require__(373);
+	var _BrowserDetector = __webpack_require__(376);
 	
-	var _OffsetUtils = __webpack_require__(380);
+	var _OffsetUtils = __webpack_require__(383);
 	
-	var _NativeDragSources = __webpack_require__(382);
+	var _NativeDragSources = __webpack_require__(385);
 	
-	var _NativeTypes = __webpack_require__(383);
+	var _NativeTypes = __webpack_require__(386);
 	
 	var NativeTypes = _interopRequireWildcard(_NativeTypes);
 	
@@ -39752,12 +40016,12 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 356 */
+/* 359 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var assign = __webpack_require__(357),
-	    assignDefaults = __webpack_require__(367),
-	    createDefaults = __webpack_require__(368);
+	var assign = __webpack_require__(360),
+	    assignDefaults = __webpack_require__(370),
+	    createDefaults = __webpack_require__(371);
 	
 	/**
 	 * Assigns own enumerable properties of source object(s) to the destination
@@ -39783,12 +40047,12 @@
 
 
 /***/ },
-/* 357 */
+/* 360 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var assignWith = __webpack_require__(358),
-	    baseAssign = __webpack_require__(361),
-	    createAssigner = __webpack_require__(363);
+	var assignWith = __webpack_require__(361),
+	    baseAssign = __webpack_require__(364),
+	    createAssigner = __webpack_require__(366);
 	
 	/**
 	 * Assigns own enumerable properties of source object(s) to the destination
@@ -39832,10 +40096,10 @@
 
 
 /***/ },
-/* 358 */
+/* 361 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var keys = __webpack_require__(359);
+	var keys = __webpack_require__(362);
 	
 	/**
 	 * A specialized version of `_.assign` for customizing assigned values without
@@ -39870,13 +40134,13 @@
 
 
 /***/ },
-/* 359 */
+/* 362 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var getNative = __webpack_require__(275),
 	    isArrayLike = __webpack_require__(291),
 	    isObject = __webpack_require__(278),
-	    shimKeys = __webpack_require__(360);
+	    shimKeys = __webpack_require__(363);
 	
 	/* Native method references for those with the same name as other `lodash` methods. */
 	var nativeKeys = getNative(Object, 'keys');
@@ -39921,7 +40185,7 @@
 
 
 /***/ },
-/* 360 */
+/* 363 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var isArguments = __webpack_require__(318),
@@ -39968,11 +40232,11 @@
 
 
 /***/ },
-/* 361 */
+/* 364 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var baseCopy = __webpack_require__(362),
-	    keys = __webpack_require__(359);
+	var baseCopy = __webpack_require__(365),
+	    keys = __webpack_require__(362);
 	
 	/**
 	 * The base implementation of `_.assign` without support for argument juggling,
@@ -39993,7 +40257,7 @@
 
 
 /***/ },
-/* 362 */
+/* 365 */
 /***/ function(module, exports) {
 
 	/**
@@ -40022,11 +40286,11 @@
 
 
 /***/ },
-/* 363 */
+/* 366 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var bindCallback = __webpack_require__(364),
-	    isIterateeCall = __webpack_require__(366),
+	var bindCallback = __webpack_require__(367),
+	    isIterateeCall = __webpack_require__(369),
 	    restParam = __webpack_require__(294);
 	
 	/**
@@ -40069,10 +40333,10 @@
 
 
 /***/ },
-/* 364 */
+/* 367 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var identity = __webpack_require__(365);
+	var identity = __webpack_require__(368);
 	
 	/**
 	 * A specialized version of `baseCallback` which only supports `this` binding
@@ -40114,7 +40378,7 @@
 
 
 /***/ },
-/* 365 */
+/* 368 */
 /***/ function(module, exports) {
 
 	/**
@@ -40140,7 +40404,7 @@
 
 
 /***/ },
-/* 366 */
+/* 369 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var isArrayLike = __webpack_require__(291),
@@ -40174,7 +40438,7 @@
 
 
 /***/ },
-/* 367 */
+/* 370 */
 /***/ function(module, exports) {
 
 	/**
@@ -40193,7 +40457,7 @@
 
 
 /***/ },
-/* 368 */
+/* 371 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var restParam = __webpack_require__(294);
@@ -40221,7 +40485,7 @@
 
 
 /***/ },
-/* 369 */
+/* 372 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -40262,7 +40526,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 370 */
+/* 373 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40273,7 +40537,7 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 	
-	var _lodashArrayUnion = __webpack_require__(371);
+	var _lodashArrayUnion = __webpack_require__(374);
 	
 	var _lodashArrayUnion2 = _interopRequireDefault(_lodashArrayUnion);
 	
@@ -40319,10 +40583,10 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 371 */
+/* 374 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var baseFlatten = __webpack_require__(372),
+	var baseFlatten = __webpack_require__(375),
 	    baseUniq = __webpack_require__(299),
 	    restParam = __webpack_require__(294);
 	
@@ -40349,7 +40613,7 @@
 
 
 /***/ },
-/* 372 */
+/* 375 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var arrayPush = __webpack_require__(298),
@@ -40396,7 +40660,7 @@
 
 
 /***/ },
-/* 373 */
+/* 376 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40405,7 +40669,7 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
-	var _lodashFunctionMemoize = __webpack_require__(374);
+	var _lodashFunctionMemoize = __webpack_require__(377);
 	
 	var _lodashFunctionMemoize2 = _interopRequireDefault(_lodashFunctionMemoize);
 	
@@ -40421,10 +40685,10 @@
 	exports.isSafari = isSafari;
 
 /***/ },
-/* 374 */
+/* 377 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var MapCache = __webpack_require__(375);
+	var MapCache = __webpack_require__(378);
 	
 	/** Used as the `TypeError` message for "Functions" methods. */
 	var FUNC_ERROR_TEXT = 'Expected a function';
@@ -40507,13 +40771,13 @@
 
 
 /***/ },
-/* 375 */
+/* 378 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var mapDelete = __webpack_require__(376),
-	    mapGet = __webpack_require__(377),
-	    mapHas = __webpack_require__(378),
-	    mapSet = __webpack_require__(379);
+	var mapDelete = __webpack_require__(379),
+	    mapGet = __webpack_require__(380),
+	    mapHas = __webpack_require__(381),
+	    mapSet = __webpack_require__(382);
 	
 	/**
 	 * Creates a cache object to store key/value pairs.
@@ -40537,7 +40801,7 @@
 
 
 /***/ },
-/* 376 */
+/* 379 */
 /***/ function(module, exports) {
 
 	/**
@@ -40557,7 +40821,7 @@
 
 
 /***/ },
-/* 377 */
+/* 380 */
 /***/ function(module, exports) {
 
 	/**
@@ -40577,7 +40841,7 @@
 
 
 /***/ },
-/* 378 */
+/* 381 */
 /***/ function(module, exports) {
 
 	/** Used for native method references. */
@@ -40603,7 +40867,7 @@
 
 
 /***/ },
-/* 379 */
+/* 382 */
 /***/ function(module, exports) {
 
 	/**
@@ -40627,7 +40891,7 @@
 
 
 /***/ },
-/* 380 */
+/* 383 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40639,9 +40903,9 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
-	var _BrowserDetector = __webpack_require__(373);
+	var _BrowserDetector = __webpack_require__(376);
 	
-	var _MonotonicInterpolant = __webpack_require__(381);
+	var _MonotonicInterpolant = __webpack_require__(384);
 	
 	var _MonotonicInterpolant2 = _interopRequireDefault(_MonotonicInterpolant);
 	
@@ -40727,7 +40991,7 @@
 	}
 
 /***/ },
-/* 381 */
+/* 384 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -40844,7 +41108,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 382 */
+/* 385 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40862,7 +41126,7 @@
 	
 	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 	
-	var _NativeTypes = __webpack_require__(383);
+	var _NativeTypes = __webpack_require__(386);
 	
 	var NativeTypes = _interopRequireWildcard(_NativeTypes);
 	
@@ -40952,7 +41216,7 @@
 	}
 
 /***/ },
-/* 383 */
+/* 386 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -40966,7 +41230,7 @@
 	exports.TEXT = TEXT;
 
 /***/ },
-/* 384 */
+/* 387 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -40987,7 +41251,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 385 */
+/* 388 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -41088,6 +41352,22 @@
 	});
 	
 	module.exports = SessionForm;
+
+/***/ },
+/* 389 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Dispatcher = __webpack_require__(213);
+	var UserConstants = __webpack_require__(355);
+	
+	module.exports = {
+	  receiveUsers: function (users) {
+	    Dispatcher.dispatch({
+	      actionType: UserConstants.USERS_RECEIVED,
+	      users: users
+	    });
+	  }
+	};
 
 /***/ }
 /******/ ]);

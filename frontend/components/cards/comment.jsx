@@ -39,8 +39,6 @@ var Comment = React.createClass({
     this.setState({edit:false});
   },
 
-
-
   componentDidMount: function () {
     this.userListener = CurrentUserStore.addListener(this._onChange);
   },
