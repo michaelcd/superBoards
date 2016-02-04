@@ -25,7 +25,7 @@ Thursday:
 [ ] - React Auth error messages
 [ ] - SeedData
 [ ] - polish, icons, CSS
-[ ] - ShareMenu error message related to click handlers (might remove clickmixin for this one)
+
 
 
 
@@ -42,7 +42,7 @@ Polish / Optional :
 [ ] - superBoards logo
 [ ] - Tags
 [ ] - check for N+1 searches, look for optimizations
-
+[ ] - ShareMenu error message related to click handlers (reimplement click Mixin)
 
 React outside click info:
 http://stackoverflow.com/questions/23821768/listen-for-click-events-that-are-outside-of-a-component

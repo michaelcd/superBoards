@@ -6,6 +6,7 @@ var SessionForm = React.createClass({
   mixins: [History],
 
   submitLogin: function (e) {
+    event.preventDefault();
     var credentials = "username=" + this.state.password + "&password=" + this.state.password;
     SessionsApiUtil.login(credentials, function () {
       this.history.pushState({}, "/");
@@ -13,6 +14,7 @@ var SessionForm = React.createClass({
   },
 
   registerUser: function (e) {
+    event.preventDefault();
     var credentials = "username=" + this.state.password + "&password=" + this.state.password;
     SessionsApiUtil.createUser(credentials, function () {
       this.history.pushState({}, "/");
