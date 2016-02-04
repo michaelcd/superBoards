@@ -1268,6 +1268,11 @@ html, body {
   margin-bottom: 5px;
   background:white;
   border-radius: 3px;
+  border:1px solid rgb(204, 204, 204);
+}
+
+.search-result-container:hover {
+  background:#EDEFF0;
 }
 
 .search-spinner-container {
@@ -1286,7 +1291,9 @@ html, body {
 }
 
 .search-results-header-text {
-  padding: 7px 10px;
+  padding: 7px 0;
+  padding-right: 10px;
+  margin-left: 4px;
   width: 330px;
   font-size: 16px;
   border-bottom: 1px solid #D6DADC;
@@ -1298,6 +1305,7 @@ html, body {
   font-size: 16px;
   font-weight: bold;
   line-height: 20px;
+  margin-left: 6px;
   margin-bottom: 6px;
 }
 
