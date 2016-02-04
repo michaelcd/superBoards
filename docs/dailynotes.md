@@ -21,7 +21,7 @@ ellipsis-h
 
 
 
-Wednesday:
+Thursday:
 
 [ ] - Board sharing, enable sharing with other users
 [ ] - Comments - Edit and Delete options for corresponding user

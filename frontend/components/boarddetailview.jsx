@@ -54,7 +54,7 @@ BoardDetailView = React.createClass({
           <BoardTitleButton />
           <BoardMenu board={this.state.board}/>
         </div>
-        <Container />
+        <Container board={this.state.board}/>
         {this.props.children}
       </div>
     );

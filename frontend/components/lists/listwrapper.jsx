@@ -13,15 +13,17 @@ var DropTarget = require('react-dnd').DropTarget;
 
 var listSource = {
   beginDrag: function (props) {
-    return { list: props.list };
+    return { list: props.list, order: props.order, ord: props.list.ord };
   }
 };
 
 var listTarget = {
   hover: function (props, monitor) {
-    var draggedList = monitor.getItem().list;
-    if (draggedList.ord !== props.ord) {
-      props.swapLists(draggedList.ord, props.ord);
+    var draggedList = monitor.getItem();
+    console.log(monitor.getItem().ord + "to" + props.ord);
+    console.log(monitor.getItem().order + "to" + props.order);
+    if (draggedList.order !== props.order) {
+      props.swapLists(draggedList.order, props.order);
     }
   },
 
@@ -56,6 +58,7 @@ var ListWrapper = React.createClass({
     list: React.PropTypes.object.isRequired,
     swapLists: React.PropTypes.func.isRequired,
     ord: PropTypes.number.isRequired,
+    order: PropTypes.number.isRequired
   },
 
   render: function () {

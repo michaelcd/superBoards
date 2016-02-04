@@ -1,5 +1,6 @@
 var React = require('react');
 var ListWrapper = require("./listwrapper");
+var NewList = require("./newlist");
 var ReactDnD = require('react-dnd');
 var HTML5Backend = require('react-dnd-html5-backend');
 var DragDropContext = require('react-dnd').DragDropContext;
@@ -25,18 +26,16 @@ var Container = React.createClass({
   },
 
   compareLists: function(list1, list2){
-      return list1.ord - list2.ord;
+      return list1.order - list2.order;
   },
 
-  swapLists: function(id1, id2) {
+  swapLists: function(order1, order2) {
     var lists = this.state.lists;
-    console.log(lists);
-    var list1 = lists.filter(function(c){return c.id === id1;})[0];
-    var list2 = lists.filter(function(c){return c.id === id2;})[0];
-    var list1Order = list1.ord;
-    list1.ord = list2.ord;
-    list2.ord = list1Order;
-
+    var list1 = lists.filter(function(c){return c.ord === order1;})[0];
+    var list2 = lists.filter(function(c){return c.ord === order2;})[0];
+    var list1Order = list1.order;
+    list1.order = list2.order;
+    list2.order = list1Order;
     lists.sort(this.compareLists);
 
     this.setState({
@@ -52,6 +51,7 @@ var Container = React.createClass({
         return (
           <ListWrapper key={list.id}
             ord={list.ord}
+            order={list.ord}
             list={list}
             swapLists={this.swapLists} />
         );
@@ -64,6 +64,11 @@ var Container = React.createClass({
   return (
     <ul className="list-container">
       {lists}
+      <div className="list-wrapper">
+        <NewList
+          board={this.props.board}
+          ord={newListOrd} />
+      </div>
     </ul>
     );
   }

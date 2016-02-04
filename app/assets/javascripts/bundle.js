@@ -32658,7 +32658,7 @@
 	        React.createElement(BoardTitleButton, null),
 	        React.createElement(BoardMenu, { board: this.state.board })
 	      ),
-	      React.createElement(Container, null),
+	      React.createElement(Container, { board: this.state.board }),
 	      this.props.children
 	    );
 	  }
@@ -32685,15 +32685,17 @@
 	
 	var listSource = {
 	  beginDrag: function (props) {
-	    return { list: props.list };
+	    return { list: props.list, order: props.order, ord: props.list.ord };
 	  }
 	};
 	
 	var listTarget = {
 	  hover: function (props, monitor) {
-	    var draggedList = monitor.getItem().list;
-	    if (draggedList.ord !== props.ord) {
-	      props.swapLists(draggedList.ord, props.ord);
+	    var draggedList = monitor.getItem();
+	    console.log(monitor.getItem().ord + "to" + props.ord);
+	    console.log(monitor.getItem().order + "to" + props.order);
+	    if (draggedList.order !== props.order) {
+	      props.swapLists(draggedList.order, props.order);
 	    }
 	  },
 	
@@ -32729,7 +32731,8 @@
 	    isDragging: React.PropTypes.bool.isRequired,
 	    list: React.PropTypes.object.isRequired,
 	    swapLists: React.PropTypes.func.isRequired,
-	    ord: PropTypes.number.isRequired
+	    ord: PropTypes.number.isRequired,
+	    order: PropTypes.number.isRequired
 	  },
 	
 	  render: function () {
@@ -38550,6 +38553,7 @@
 	
 	  formOnSubmit: function (event) {
 	    event.preventDefault();
+	    console.log(this.props);
 	    var list = {
 	      title: this.state.formValue,
 	      board_id: this.props.board.id,
@@ -40716,6 +40720,7 @@
 
 	var React = __webpack_require__(1);
 	var ListWrapper = __webpack_require__(257);
+	var NewList = __webpack_require__(349);
 	var ReactDnD = __webpack_require__(258);
 	var HTML5Backend = __webpack_require__(352);
 	var DragDropContext = __webpack_require__(258).DragDropContext;
@@ -40723,7 +40728,7 @@
 	var ApiUtil = __webpack_require__(211);
 	
 	var Container = React.createClass({
-	  displayName: 'Container',
+	  displayName: "Container",
 	
 	  getInitialState: function () {
 	    return { lists: [] };
@@ -40742,22 +40747,20 @@
 	  },
 	
 	  compareLists: function (list1, list2) {
-	    return list1.ord - list2.ord;
+	    return list1.order - list2.order;
 	  },
 	
-	  swapLists: function (id1, id2) {
+	  swapLists: function (order1, order2) {
 	    var lists = this.state.lists;
-	    console.log(lists);
 	    var list1 = lists.filter(function (c) {
-	      return c.id === id1;
+	      return c.ord === order1;
 	    })[0];
 	    var list2 = lists.filter(function (c) {
-	      return c.id === id2;
+	      return c.ord === order2;
 	    })[0];
-	    var list1Order = list1.ord;
-	    list1.ord = list2.ord;
-	    list2.ord = list1Order;
-	
+	    var list1Order = list1.order;
+	    list1.order = list2.order;
+	    list2.order = list1Order;
 	    lists.sort(this.compareLists);
 	
 	    this.setState({
@@ -40772,17 +40775,25 @@
 	      lists = this.state.lists.map(function (list) {
 	        return React.createElement(ListWrapper, { key: list.id,
 	          ord: list.ord,
+	          order: list.ord,
 	          list: list,
 	          swapLists: this.swapLists });
 	      }, this);
 	    } else {
-	      lists = React.createElement('div', null);
+	      lists = React.createElement("div", null);
 	    }
 	
 	    return React.createElement(
-	      'ul',
-	      { className: 'list-container' },
-	      lists
+	      "ul",
+	      { className: "list-container" },
+	      lists,
+	      React.createElement(
+	        "div",
+	        { className: "list-wrapper" },
+	        React.createElement(NewList, {
+	          board: this.props.board,
+	          ord: newListOrd })
+	      )
 	    );
 	  }
 	});

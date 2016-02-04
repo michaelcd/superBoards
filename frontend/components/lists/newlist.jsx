@@ -74,6 +74,7 @@ var NewList = React.createClass({
 
   formOnSubmit: function (event) {
     event.preventDefault();
+    console.log(this.props);
     var list = {
       title: this.state.formValue,
       board_id: this.props.board.id,
