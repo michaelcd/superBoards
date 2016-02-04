@@ -1,0 +1,10 @@
+<ul className="list-container group">
+  {lists}
+  <div className="list-wrapper">
+    <NewList
+      board={this.state.board}
+      ord={newListOrd} />
+  </div>
+</ul>
+
+<List list={this.props.list}></List>

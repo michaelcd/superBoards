@@ -30,6 +30,7 @@ var ClickMixin = {
 
 var listSource = {
   beginDrag: function (props) {
+    console.log("dragging");
     return { list: props.list };
   }
 };
@@ -42,10 +43,10 @@ function collect(connect, monitor) {
 }
 
 var List = React.createClass({
-  propTypes: {
-    connectDragSource: PropTypes.func.isRequired,
-    isDragging: PropTypes.bool.isRequired
-  },
+  // propTypes: {
+  //   connectDragSource: PropTypes.func.isRequired,
+  //   isDragging: PropTypes.bool.isRequired
+  // },
 
   mixins: [ClickMixin],
 
@@ -132,7 +133,7 @@ var List = React.createClass({
       );
     }
 
-    return connectDragSource(
+    return (
       <li className="list">
         <div className="list-title-wrapper">{content}</div>
         <div className="cards">
@@ -148,4 +149,5 @@ var List = React.createClass({
   }
 });
 
-module.exports = DragSource(ItemTypes.LIST, listSource, collect)(List);
+// module.exports = DragSource(ItemTypes.LIST, listSource, collect)(List);
+module.exports = List;

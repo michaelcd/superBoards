@@ -7,6 +7,7 @@ var BoardTitleButton = require('./boards/boardtitle');
 var DragDropContext = require('react-dnd').DragDropContext;
 var HTML5Backend = require('react-dnd-html5-backend');
 var ApiUtil = require('../util/api_util');
+var Container = require('./lists/listcontainer');
 
 
 BoardDetailView = React.createClass({
@@ -38,14 +39,14 @@ BoardDetailView = React.createClass({
     var lists;
     var newListOrd = 0;
 
-    if (this.state.board.lists !== undefined) {
-      newListOrd = this.state.board.lists.length;
-      lists = (this.state.board.lists.map(function (list) {
-        return <ListWrapper key={list.id} list={list} ord={list.ord} />;
-      }));
-    } else {
-      lists = (<div></div>);
-    }
+    // if (this.state.board.lists !== undefined) {
+    //   newListOrd = this.state.board.lists.length;
+    //   lists = (this.state.board.lists.map(function (list) {
+    //     return <ListWrapper key={list.id} list={list} ord={list.ord} />;
+    //   }));
+    // } else {
+    //   lists = (<div></div>);
+    // }
 
     return (
       <div className="board-detail-view">
@@ -53,14 +54,7 @@ BoardDetailView = React.createClass({
           <BoardTitleButton />
           <BoardMenu board={this.state.board}/>
         </div>
-        <ul className="list-container group">
-          {lists}
-          <div className="list-wrapper">
-            <NewList
-              board={this.state.board}
-              ord={newListOrd} />
-          </div>
-        </ul>
+        <Container />
         {this.props.children}
       </div>
     );

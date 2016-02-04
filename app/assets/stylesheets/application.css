@@ -459,9 +459,9 @@ html, body {
   overflow-x:auto;
 }
 
-.list-container > div {
+/*.list-container > div {
   display:inline-block;
-}
+}*/
 
 .list-container > div:first-child {
   margin-left:10px;
