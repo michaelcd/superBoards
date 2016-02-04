@@ -12,19 +12,17 @@ plus
 minus
 ellipsis-h
 
-
-Thursday:
-[X] - Comments - Edit and Delete options for corresponding user
-[X] - readme
-[X] - drag and drop previews
-[X] - preview on add list
-[X] - Navbar Board button component
-[X] - Board sharing, enable sharing with other users
-[X] - only owner can archive/share board
-
 [ ] - React Auth error messages
+[ ] - icons in card detail view
+[ ] - polish, icons, CSSs
 [ ] - SeedData
-[ ] - polish, icons, CSS
+
+
+
+
+
+
+
 
 
 
@@ -36,10 +34,9 @@ Polish / Optional :
 [ ] - Archived Boards View
 [ ] - splash screen
 [ ] - BUG: Search will bring you to boards/lists/cards you don't own
-[ ] - icons in card detail view
 [ ] - refactor
 [ ] - File uploads
-[ ] - superBoards logo
+
 [ ] - Tags
 [ ] - check for N+1 searches, look for optimizations
 [ ] - ShareMenu error message related to click handlers (reimplement click Mixin)
@@ -131,3 +128,13 @@ Wednesday: Feb 3rd
 [X] - bug: search links dont always work
 [X] - bug: ListMenu updating when not mounted. Related to Clicks on List component
 [X] - OAuth locally and on superboards.xyz
+
+Thursday:
+[X] - Comments - Edit and Delete options for corresponding user
+[X] - readme
+[X] - drag and drop previews
+[X] - preview on add list
+[X] - Navbar Board button component
+[X] - Board sharing, enable sharing with other users
+[X] - only owner can archive/share board
+[X] - superBoards logo

@@ -31850,7 +31850,7 @@
 	      React.createElement(
 	        'a',
 	        { href: '#/', className: 'navbar-logo' },
-	        React.createElement('img', { src: logoPath })
+	        React.createElement('img', { src: logoNavBarPath })
 	      ),
 	      React.createElement(BoardButton, null),
 	      React.createElement(Search, null),

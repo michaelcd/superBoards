@@ -19,7 +19,7 @@ var Navbar = React.createClass({
     return(
       <div className="navbar group">
       <a href="#/" className="navbar-logo">
-        <img src={logoPath}/>
+        <img src={logoNavBarPath}/>
       </a>
         <BoardButton />
         <Search />
