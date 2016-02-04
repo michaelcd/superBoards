@@ -1,34 +1,19 @@
-# superBoards
+## superBoards
 
-[Live Site][site] Live Site
+[Live Site][site]
 
 [site]: http://www.superboards.xyz
 
-== README
+superBoards is a web application inspired by Trello built using Ruby on Rails and React.js. superBoards allows users to:
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+<!-- This is a Markdown checklist. Use it to keep track of your progress! -->
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+- Create an account
+- Log in / Log out
+- Create, read, edit, and delete boards
+- Create, read, edit, and delete lists
+- Organize cards and lists within boards
+- Create, read, edit, and delete cards
+- Search through cards for blocks of text
+- Create, read, edit, and delete comments on cards
+- Boards can be shared between users
