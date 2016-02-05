@@ -35,9 +35,9 @@ var CommentView = React.createClass({
         })
       );
     } else {
-      commentsList = (
-        <div>There are no comments on this card.</div>
-      );
+      // commentsList = (
+      //   <div>There are no comments on this card.</div>
+      // );
     }
 
     return (

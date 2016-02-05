@@ -38125,11 +38125,9 @@
 	        return React.createElement(Comment, { key: comment.id, comment: comment });
 	      });
 	    } else {
-	      commentsList = React.createElement(
-	        'div',
-	        null,
-	        'There are no comments on this card.'
-	      );
+	      // commentsList = (
+	      //   <div>There are no comments on this card.</div>
+	      // );
 	    }
 	
 	    return React.createElement(
