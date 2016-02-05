@@ -60,6 +60,7 @@ ycdi = Card.create(title: "You can do it!", list_id: 6, ord: 0, archived: false,
 # AppTour board and lists
 
 demo_board = Board.create(title: "Welcome to superBoards. Click this board!", author_id: 1)
+demo_board.shares.create(user_id: 2)
 demo_list_1 = demo_board.lists.create(title: "Cards", ord: 0)
 demo_list_2 = demo_board.lists.create(title: "Lists", ord: 1)
 demo_list_3 = demo_board.lists.create(title: "Boards", ord: 2)

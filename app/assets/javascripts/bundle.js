@@ -41301,51 +41301,61 @@
 	      { className: 'auth-form-window' },
 	      React.createElement(
 	        'div',
-	        { className: 'auth-form-container group' },
+	        { className: 'auth-container group' },
 	        React.createElement(
-	          'form',
-	          { className: 'auth-form' },
+	          'div',
+	          { className: 'auth-form-container group' },
 	          React.createElement(
-	            'div',
-	            { className: 'auth-form-title' },
-	            'superBoards Log In'
-	          ),
-	          React.createElement(
-	            'label',
-	            null,
-	            'Username'
-	          ),
-	          React.createElement('input', { className: 'auth-form-input', type: 'text', name: 'username', onChange: this.usernameCapture }),
-	          React.createElement(
-	            'label',
-	            null,
-	            'Password'
-	          ),
-	          React.createElement('input', { className: 'auth-form-input', type: 'password', name: 'password', onChange: this.passwordCapture }),
-	          React.createElement(
-	            'div',
-	            { className: 'auth-form-options-list' },
+	            'form',
+	            { className: 'auth-form' },
 	            React.createElement(
-	              'button',
-	              { className: 'auth-form-option', onClick: this.guestSignin },
-	              'Sign in as GuestUser'
+	              'div',
+	              { className: 'auth-form-title' },
+	              'superBoards Log In'
 	            ),
 	            React.createElement(
-	              'button',
-	              { className: 'auth-form-option', onClick: this.submitLogin },
-	              'Sign in with above credentials'
+	              'label',
+	              null,
+	              'Username'
 	            ),
+	            React.createElement('input', { className: 'auth-form-input', type: 'text', name: 'username', onChange: this.usernameCapture }),
 	            React.createElement(
-	              'button',
-	              { className: 'auth-form-option', onClick: this.registerUser },
-	              'Register with above credentials'
+	              'label',
+	              null,
+	              'Password'
 	            ),
+	            React.createElement('input', { className: 'auth-form-input', type: 'password', name: 'password', onChange: this.passwordCapture }),
 	            React.createElement(
-	              'a',
-	              { href: '/auth/facebook', className: 'auth-form-option' },
-	              'Sign in with Facebook'
+	              'div',
+	              { className: 'auth-form-options-list' },
+	              React.createElement(
+	                'button',
+	                { className: 'auth-form-option', onClick: this.guestSignin },
+	                'Sign in as GuestUser'
+	              ),
+	              React.createElement(
+	                'button',
+	                { className: 'auth-form-option', onClick: this.submitLogin },
+	                'Sign in with above credentials'
+	              ),
+	              React.createElement(
+	                'button',
+	                { className: 'auth-form-option', onClick: this.registerUser },
+	                'Register with above credentials'
+	              ),
+	              React.createElement(
+	                'a',
+	                { href: '/auth/facebook', className: 'auth-form-option' },
+	                'Sign in with Facebook'
+	              )
 	            )
 	          )
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'auth-logo-container' },
+	          React.createElement('img', { src: logoNavBarPath }),
+	          React.createElement('div', null)
 	        )
 	      )
 	    );
