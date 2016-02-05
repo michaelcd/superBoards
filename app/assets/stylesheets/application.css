@@ -1187,17 +1187,36 @@ html, body {
   width:100%;
 }
 
-.auth-form-container {
+.auth-container {
   position:absolute;
   display:block;
+  top: calc(50% - 140px);
+  left: calc(50% - 337px)
+}
+
+.auth-form-container {
+  float:left;
   background: #E2E4E6;
   color: #4D4D4D;
   border-radius: 3px;
   height:260px;
   width: 280px;
   padding:7px;
-  top: calc(50% - 140px);
-  left: calc(50% - 130px);
+
+}
+
+.auth-logo-container {
+  padding: 80px 10px;
+  margin:auto;
+  float:left;
+  display: block;
+  font-variant:
+}
+
+.auth-logo-container > div {
+  display:block;
+  color:white;
+  padding: 0 8px;
 }
 
 .auth-form-title {

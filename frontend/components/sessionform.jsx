@@ -40,20 +40,26 @@ var SessionForm = React.createClass({
   render: function() {
     return (
       <div className="auth-form-window">
-        <div className="auth-form-container group">
-          <form className="auth-form">
-            <div className="auth-form-title">superBoards Log In</div>
-            <label>Username</label>
-            <input className="auth-form-input" type="text" name="username" onChange={this.usernameCapture} />
-            <label>Password</label>
-            <input className="auth-form-input" type="password" name="password" onChange={this.passwordCapture}/>
-            <div className="auth-form-options-list">
-              <button className="auth-form-option" onClick={this.guestSignin}>Sign in as GuestUser</button>
-              <button className="auth-form-option" onClick={this.submitLogin}>Sign in with above credentials</button>
-              <button className="auth-form-option" onClick={this.registerUser}>Register with above credentials</button>
-              <a href="/auth/facebook" className="auth-form-option">Sign in with Facebook</a>
-            </div>
-          </form>
+        <div className="auth-container group">
+          <div className="auth-form-container group">
+            <form className="auth-form">
+              <div className="auth-form-title">superBoards Log In</div>
+              <label>Username</label>
+              <input className="auth-form-input" type="text" name="username" onChange={this.usernameCapture} />
+              <label>Password</label>
+              <input className="auth-form-input" type="password" name="password" onChange={this.passwordCapture}/>
+              <div className="auth-form-options-list">
+                <button className="auth-form-option" onClick={this.guestSignin}>Sign in as GuestUser</button>
+                <button className="auth-form-option" onClick={this.submitLogin}>Sign in with above credentials</button>
+                <button className="auth-form-option" onClick={this.registerUser}>Register with above credentials</button>
+                <a href="/auth/facebook" className="auth-form-option">Sign in with Facebook</a>
+              </div>
+            </form>
+          </div>
+          <div className="auth-logo-container">
+            <img src={logoNavBarPath}/>
+            <div></div>
+          </div>
         </div>
       </div>
     );
