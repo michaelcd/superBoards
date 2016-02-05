@@ -81,9 +81,10 @@ var CardDescription = React.createClass({
       );
     } else {
       description = (
-        <div className="edit-description-box" onClick={this.editDescription}>
+        <div className="edit-description-box">
           <div className="edit-description-heading">Description</div>
-          <div className="edit-description-box-description">{this.state.descriptionVal}</div>
+          <div className="edit-description-heading-edit" onClick={this.editDescription}>Edit</div>
+          <div className="edit-description-box-description" onClick={this.editDescription}>{this.state.descriptionVal}</div>
         </div>
       );
     }

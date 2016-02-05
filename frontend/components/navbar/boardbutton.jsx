@@ -62,10 +62,26 @@ var BoardButton = React.createClass({
 
   render: function () {
     var boards;
+    var sharedBoards;
     var menu;
 
     if (this.state.boards !== undefined) {
       boards = this.state.boards.map(function (board) {
+        return (
+          <div key={board.id} className="boards-button-tile">
+            <div className="tile-color-block"></div>
+            <a href={"#/boards/" + board.id}>
+              <div className="tile-title-container">
+                <div className="tile-title-wrap">{board.title}</div>
+              </div>
+            </a>
+          </div>
+        );
+      }.bind(this));
+    }
+
+    if (this.state.sharedBoards !== undefined) {
+      sharedBoards = this.state.sharedBoards.map(function (board) {
         return (
           <div key={board.id} className="boards-button-tile">
             <div className="tile-color-block"></div>
@@ -88,6 +104,11 @@ var BoardButton = React.createClass({
               <i className="fa fa-times fa-fw" />
             </div>
             {boards}
+            <div className="boards-button-header">Shared Boards</div>
+            <div className="boards-button-cancel" onClick={this.closeMenu}>
+              <i className="fa fa-times fa-fw" />
+            </div>
+            {sharedBoards}
           </div>
         </div>
       );

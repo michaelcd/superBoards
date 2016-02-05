@@ -954,6 +954,7 @@ html, body {
 
 .card-detail-description-heading {
   float:left;
+  /*display: inline-block;*/
   font-size: 14px;
   line-height: 17.5px;
   margin-bottom: 6px;
@@ -967,14 +968,28 @@ html, body {
 }
 
 .edit-description-heading {
-  cursor: pointer;
+  float:left;
   color:#8c8c8c;
   margin-bottom: 6px;
 }
 
-.edit-description-box-description {
+.edit-description-heading-edit {
+  cursor: pointer;
+  color:#8c8c8c;
+  display:inline-block;
+  margin-left: 6px;
   margin-bottom: 6px;
+  text-decoration: underline;
+}
 
+.edit-description-heading-edit:hover {
+  color:black;
+}
+
+.edit-description-box-description {
+  cursor:pointer;
+  margin-bottom: 6px;
+  display:block;
 }
 
 .edit-description-form {}

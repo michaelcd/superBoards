@@ -32709,10 +32709,34 @@
 	
 	  render: function () {
 	    var boards;
+	    var sharedBoards;
 	    var menu;
 	
 	    if (this.state.boards !== undefined) {
 	      boards = this.state.boards.map(function (board) {
+	        return React.createElement(
+	          'div',
+	          { key: board.id, className: 'boards-button-tile' },
+	          React.createElement('div', { className: 'tile-color-block' }),
+	          React.createElement(
+	            'a',
+	            { href: "#/boards/" + board.id },
+	            React.createElement(
+	              'div',
+	              { className: 'tile-title-container' },
+	              React.createElement(
+	                'div',
+	                { className: 'tile-title-wrap' },
+	                board.title
+	              )
+	            )
+	          )
+	        );
+	      }.bind(this));
+	    }
+	
+	    if (this.state.sharedBoards !== undefined) {
+	      sharedBoards = this.state.sharedBoards.map(function (board) {
 	        return React.createElement(
 	          'div',
 	          { key: board.id, className: 'boards-button-tile' },
@@ -32751,7 +32775,18 @@
 	            { className: 'boards-button-cancel', onClick: this.closeMenu },
 	            React.createElement('i', { className: 'fa fa-times fa-fw' })
 	          ),
-	          boards
+	          boards,
+	          React.createElement(
+	            'div',
+	            { className: 'boards-button-header' },
+	            'Shared Boards'
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'boards-button-cancel', onClick: this.closeMenu },
+	            React.createElement('i', { className: 'fa fa-times fa-fw' })
+	          ),
+	          sharedBoards
 	        )
 	      );
 	    }
@@ -38522,7 +38557,7 @@
 	    } else {
 	      description = React.createElement(
 	        'div',
-	        { className: 'edit-description-box', onClick: this.editDescription },
+	        { className: 'edit-description-box' },
 	        React.createElement(
 	          'div',
 	          { className: 'edit-description-heading' },
@@ -38530,7 +38565,12 @@
 	        ),
 	        React.createElement(
 	          'div',
-	          { className: 'edit-description-box-description' },
+	          { className: 'edit-description-heading-edit', onClick: this.editDescription },
+	          'Edit'
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'edit-description-box-description', onClick: this.editDescription },
 	          this.state.descriptionVal
 	        )
 	      );
