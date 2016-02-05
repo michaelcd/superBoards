@@ -37925,11 +37925,11 @@
 	
 	  getInitialState: function () {
 	    return {
-	      card: CardStore.card(),
+	      card: {},
 	      descriptionEdit: false,
 	      rename: false,
-	      descriptionVal: CardStore.card().description,
-	      renameVal: CardStore.card().title
+	      descriptionVal: "",
+	      renameVal: ""
 	    };
 	  },
 	

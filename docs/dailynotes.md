@@ -13,6 +13,7 @@ minus
 ellipsis-h
 
 Polish / Optional :
+[ ] - comment options menu: goes to new line when comment is too long. fix this for all cases
 [ ] - search results spinner: change so only shows up when search is actually happening
 [ ] - check for N+1 searches, look for optimizations
 [ ] - icons in card detail view
