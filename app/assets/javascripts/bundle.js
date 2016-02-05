@@ -32846,12 +32846,14 @@
 	var React = __webpack_require__(1);
 	var BoardStore = __webpack_require__(222);
 	var ListWrapper = __webpack_require__(260);
+	var ListContainer = __webpack_require__(391);
 	var NewList = __webpack_require__(353);
 	var BoardMenu = __webpack_require__(354);
 	var BoardTitleButton = __webpack_require__(357);
-	var DragDropContext = __webpack_require__(264).DragDropContext;
-	var HTML5Backend = __webpack_require__(358);
 	var ApiUtil = __webpack_require__(211);
+	
+	// var DragDropContext = require('react-dnd').DragDropContext;
+	// var HTML5Backend = require('react-dnd-html5-backend');
 	
 	BoardDetailView = React.createClass({
 	  displayName: 'BoardDetailView',
@@ -32881,18 +32883,6 @@
 	  },
 	
 	  render: function () {
-	    var lists;
-	    var newListOrd = 0;
-	
-	    if (this.state.board.lists !== undefined) {
-	      newListOrd = this.state.board.lists.length;
-	      lists = this.state.board.lists.map(function (list) {
-	        return React.createElement(ListWrapper, { key: list.id, list: list, ord: list.ord });
-	      });
-	    } else {
-	      lists = React.createElement('div', null);
-	    }
-	
 	    return React.createElement(
 	      'div',
 	      { className: 'board-detail-view' },
@@ -32902,30 +32892,20 @@
 	        React.createElement(BoardTitleButton, null),
 	        React.createElement(BoardMenu, { board: this.state.board })
 	      ),
-	      React.createElement(
-	        'ul',
-	        { className: 'list-container group' },
-	        lists,
-	        React.createElement(
-	          'div',
-	          { className: 'list-wrapper' },
-	          React.createElement(NewList, {
-	            board: this.state.board,
-	            ord: newListOrd })
-	        )
-	      ),
+	      React.createElement(ListContainer, null),
 	      this.props.children
 	    );
 	  }
 	});
 	
-	module.exports = DragDropContext(HTML5Backend)(BoardDetailView);
+	module.exports = BoardDetailView;
 
 /***/ },
 /* 260 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
+	var ReactDnD = __webpack_require__(264);
 	var List = __webpack_require__(261);
 	var DragSource = __webpack_require__(264).DragSource;
 	var PropTypes = React.PropTypes;
@@ -32937,13 +32917,25 @@
 	// render list, aware of position
 	// Wrapper needs source item position to render correctly (like Trello)
 	
+	var listSource = {
+	  beginDrag: function (props) {
+	    return { list: props.list, id: props.id };
+	  }
+	};
+	
 	var listTarget = {
+	  hover: function (props, monitor) {
+	    var draggedId = monitor.getItem().id;
+	
+	    if (draggedId !== props.id) {
+	      props.swapLists(draggedId, props.id);
+	    }
+	  },
+	
 	  drop: function (props, monitor) {
 	    var draggedList = monitor.getItem().list;
-	    if (draggedList.ord !== props.ord) {
-	      draggedList.ord = props.ord;
-	      ApiUtil.moveList(draggedList);
-	    }
+	    draggedList.ord = props.ord;
+	    ApiUtil.moveList(draggedList);
 	  }
 	};
 	
@@ -32958,15 +32950,19 @@
 	  displayName: 'ListWrapper',
 	
 	  propTypes: {
-	    ord: PropTypes.number.isRequired,
-	    isOver: PropTypes.bool.isRequired
+	    connectDragSource: React.PropTypes.func.isRequired,
+	    connectDropTarget: React.PropTypes.func.isRequired,
+	    isDragging: React.PropTypes.bool.isRequired,
+	    swapLists: React.PropTypes.func.isRequired,
+	    list: React.PropTypes.object.isRequired,
+	    ord: React.PropTypes.number.isRequired
 	  },
 	
 	  render: function () {
 	    var connectDropTarget = this.props.connectDropTarget;
 	    var isOver = this.props.isOver;
 	
-	    return connectDropTarget(React.createElement(
+	    return this.props.connectDragSource(this.props.connectDropTarget(React.createElement(
 	      'div',
 	      { className: 'list-wrapper' },
 	      React.createElement(
@@ -32975,11 +32971,24 @@
 	        React.createElement(List, { list: this.props.list }),
 	        isOver && React.createElement('div', { className: 'drag-drop-list-filler' })
 	      )
-	    ));
+	    )));
 	  }
 	});
 	
-	module.exports = DropTarget(ItemTypes.LIST, listTarget, collect)(ListWrapper);
+	var DragSourceDecorator = ReactDnD.DragSource(ItemTypes.LISTWRAPPER, listSource, function (connect, monitor) {
+	  return {
+	    connectDragSource: connect.dragSource(),
+	    isDragging: monitor.isDragging()
+	  };
+	});
+	
+	var DropTargetDecorator = ReactDnD.DropTarget(ItemTypes.LISTWRAPPER, listTarget, function (connect) {
+	  return {
+	    connectDropTarget: connect.dropTarget()
+	  };
+	});
+	
+	module.exports = DropTargetDecorator(DragSourceDecorator(ListWrapper));
 
 /***/ },
 /* 261 */
@@ -32988,14 +32997,10 @@
 	var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(158);
 	var CardWrapper = __webpack_require__(262);
+	var CardContainer = __webpack_require__(392);
 	var NewCard = __webpack_require__(351);
 	var ApiUtil = __webpack_require__(211);
-	var DragSource = __webpack_require__(264).DragSource;
-	var ItemTypes = __webpack_require__(342);
-	var PropTypes = React.PropTypes;
 	var ListMenu = __webpack_require__(352);
-	
-	// this.props.list
 	
 	var ClickMixin = {
 	  _clickDocument: function (e) {
@@ -33014,26 +33019,8 @@
 	  }
 	};
 	
-	var listSource = {
-	  beginDrag: function (props) {
-	    return { list: props.list };
-	  }
-	};
-	
-	function collect(connect, monitor) {
-	  return {
-	    connectDragSource: connect.dragSource(),
-	    isDragging: monitor.isDragging()
-	  };
-	}
-	
 	var List = React.createClass({
 	  displayName: 'List',
-	
-	  propTypes: {
-	    connectDragSource: PropTypes.func.isRequired,
-	    isDragging: PropTypes.bool.isRequired
-	  },
 	
 	  mixins: [ClickMixin],
 	
@@ -33087,8 +33074,8 @@
 	      });
 	    });
 	
-	    var connectDragSource = this.props.connectDragSource;
-	    var isDragging = this.props.isDragging;
+	    // var connectDragSource = this.props.connectDragSource;
+	    // var isDragging = this.props.isDragging;
 	
 	    var content;
 	
@@ -33132,7 +33119,7 @@
 	      );
 	    }
 	
-	    return connectDragSource(React.createElement(
+	    return React.createElement(
 	      'li',
 	      { className: 'list' },
 	      React.createElement(
@@ -33140,21 +33127,20 @@
 	        { className: 'list-title-wrapper' },
 	        content
 	      ),
-	      React.createElement(
-	        'div',
-	        { className: 'cards' },
-	        cards
-	      ),
+	      React.createElement(CardContainer, {
+	        cards: this.props.list.cards,
+	        list: this.props.list
+	      }),
 	      React.createElement(NewCard, {
 	        listId: that.props.list.id,
 	        list: that.props.list,
 	        ord: newCardOrd
 	      })
-	    ));
+	    );
 	  }
 	});
 	
-	module.exports = DragSource(ItemTypes.LIST, listSource, collect)(List);
+	module.exports = List;
 
 /***/ },
 /* 262 */
@@ -33167,17 +33153,39 @@
 	var PropTypes = React.PropTypes;
 	var ItemTypes = __webpack_require__(342);
 	var DropTarget = __webpack_require__(264).DropTarget;
+	var ReactDnD = __webpack_require__(264);
+	
+	var cardSource = {
+	  beginDrag: function (props) {
+	    return { card: props.card, id: props.id };
+	  }
+	};
 	
 	var cardTarget = {
+	  hover: function (props, monitor) {
+	    var draggedId = monitor.getItem().id;
+	    if (draggedId !== props.id) {
+	      props.swapCards(draggedId, props.id);
+	    }
+	  },
+	
 	  drop: function (props, monitor) {
 	    var draggedCard = monitor.getItem().card;
-	
-	    if (draggedCard.ord !== props.card.ord || draggedCard.list_id !== props.card.list_id) {
-	      draggedCard.ord = props.card.ord;
-	      draggedCard.list_id = props.card.list_id;
-	      ApiUtil.moveCard(draggedCard);
-	    }
+	    draggedCard.ord = props.card.ord;
+	    draggedCard.list_id = props.card.list_id;
+	    ApiUtil.moveCard(draggedCard);
 	  }
+	
+	  // drop: function (props, monitor) {
+	  //   var draggedCard = monitor.getItem().card;
+	  //
+	  //   if ((draggedCard.ord !== props.card.ord) ||
+	  //     (draggedCard.list_id !== props.card.list_id)) {
+	  //     draggedCard.ord = props.card.ord;
+	  //     draggedCard.list_id = props.card.list_id;
+	  //     ApiUtil.moveCard(draggedCard);
+	  //   }
+	  // }
 	};
 	
 	function collect(connect, monitor) {
@@ -33191,29 +33199,50 @@
 	  displayName: 'CardWrapper',
 	
 	  propTypes: {
-	    isOver: PropTypes.bool.isRequired,
-	    listId: PropTypes.number.isRequired,
-	    ord: PropTypes.number.isRequired
+	    connectDragSource: React.PropTypes.func.isRequired,
+	    connectDropTarget: React.PropTypes.func.isRequired,
+	    isDragging: React.PropTypes.bool.isRequired,
+	    isOver: React.PropTypes.bool.isRequired,
+	    swapCards: React.PropTypes.func.isRequired,
+	    card: React.PropTypes.object.isRequired,
+	    ord: React.PropTypes.number.isRequired
 	  },
 	
 	  render: function () {
+	    // var isOver = this.props.isOver;
 	    var isOver = this.props.isOver;
 	    var connectDropTarget = this.props.connectDropTarget;
+	    var cardOrPreview = "drag-drop-card-placeholder";
 	
-	    return connectDropTarget(React.createElement(
+	    if (isOver) {}
+	
+	    return this.props.connectDragSource(this.props.connectDropTarget(React.createElement(
 	      'div',
 	      { className: 'card-wrapper' },
 	      React.createElement(
 	        'div',
-	        { className: 'drag-drop-card-placeholder' },
-	        React.createElement(Card, { list: this.props.list, card: this.props.card }),
-	        isOver && React.createElement('div', { className: 'drag-drop-card-filler' })
+	        { className: cardOrPreview },
+	        React.createElement(Card, { list: this.props.list, card: this.props.card })
 	      )
-	    ));
+	    )));
 	  }
 	});
 	
-	module.exports = DropTarget(ItemTypes.CARD, cardTarget, collect)(CardWrapper);
+	var DragSourceDecorator = ReactDnD.DragSource(ItemTypes.CARD, cardSource, function (connect, monitor) {
+	  return {
+	    connectDragSource: connect.dragSource(),
+	    isDragging: monitor.isDragging()
+	  };
+	});
+	
+	var DropTargetDecorator = ReactDnD.DropTarget(ItemTypes.CARD, cardTarget, function (connect, monitor) {
+	  return {
+	    connectDropTarget: connect.dropTarget(),
+	    isOver: monitor.isOver()
+	  };
+	});
+	
+	module.exports = DropTargetDecorator(DragSourceDecorator(CardWrapper));
 
 /***/ },
 /* 263 */
@@ -33221,12 +33250,13 @@
 
 	var React = __webpack_require__(1);
 	var ApiUtil = __webpack_require__(211);
-	var DragSource = __webpack_require__(264).DragSource;
-	var PropTypes = React.PropTypes;
-	var ItemTypes = __webpack_require__(342);
-	var DropTarget = __webpack_require__(264).DropTarget;
 	var CardMenu = __webpack_require__(343);
 	var CardDetail = __webpack_require__(344);
+	
+	// var DragSource = require('react-dnd').DragSource;
+	// var PropTypes = React.PropTypes;
+	// var ItemTypes = require('../../constants/itemtypes');
+	// var DropTarget = require('react-dnd').DropTarget;
 	
 	//this.props.list
 	//this.props.card
@@ -33247,10 +33277,10 @@
 	var Card = React.createClass({
 	  displayName: 'Card',
 	
-	  propTypes: {
-	    connectDragSource: PropTypes.func.isRequired,
-	    isDragging: PropTypes.bool.isRequired
-	  },
+	  // propTypes: {
+	  //   connectDragSource: PropTypes.func.isRequired,
+	  //   isDragging: PropTypes.bool.isRequired
+	  // },
 	
 	  getInitialState: function () {
 	    return { detail: false };
@@ -33259,15 +33289,15 @@
 	  titleClick: function () {},
 	
 	  render: function () {
-	    var connectDragSource = this.props.connectDragSource;
-	    var isDragging = this.props.isDragging;
+	    // var connectDragSource = this.props.connectDragSource;
+	    // var isDragging = this.props.isDragging;
 	    var detail;
 	
 	    if (this.state.detail === true) {
 	      detail = React.createElement(CardDetail, { list: this.props.list, card: this.props.card });
 	    }
 	
-	    return connectDragSource(React.createElement(
+	    return React.createElement(
 	      'div',
 	      { className: 'card' },
 	      React.createElement(
@@ -33278,11 +33308,11 @@
 	      ),
 	      detail,
 	      React.createElement(CardMenu, { card: this.props.card })
-	    ));
+	    );
 	  }
 	});
 	
-	module.exports = DragSource(ItemTypes.CARD, cardSource, collect)(Card);
+	module.exports = Card;
 
 /***/ },
 /* 264 */
@@ -37762,7 +37792,8 @@
 
 	var ItemTypes = {
 	  CARD: 'Card',
-	  LIST: 'List'
+	  LIST: 'List',
+	  LISTWRAPPER: 'ListWrapper'
 	};
 	
 	module.exports = ItemTypes;
@@ -41420,6 +41451,196 @@
 	});
 	
 	module.exports = SessionForm;
+
+/***/ },
+/* 390 */,
+/* 391 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1),
+	    HTML5Backend = __webpack_require__(358),
+	    ListWrapper = __webpack_require__(260),
+	    ReactDnD = __webpack_require__(264);
+	var ApiUtil = __webpack_require__(211);
+	var NewList = __webpack_require__(353);
+	
+	// this.props.boards
+	
+	var ListContainer = React.createClass({
+	  displayName: 'ListContainer',
+	
+	  _onChange: function () {
+	    this.setState({ lists: BoardStore.single().lists, title: BoardStore.single().title });
+	  },
+	
+	  componentWillReceiveProps: function (props) {},
+	
+	  componentDidMount: function () {
+	    this.boardListener = BoardStore.addListener(this._onChange);
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.boardListener.remove();
+	  },
+	
+	  getInitialState: function () {
+	    return {
+	      lists: BoardStore.single().lists
+	    };
+	  },
+	
+	  compareLists: function (list1, list2) {
+	    return list1.ord - list2.ord;
+	  },
+	
+	  swapLists: function (id1, id2) {
+	    var lists = this.state.lists;
+	
+	    var list1 = lists.filter(function (c) {
+	      return c.id === id1;
+	    })[0];
+	    var list2 = lists.filter(function (c) {
+	      return c.id === id2;
+	    })[0];
+	    var list1Order = list1.ord;
+	    list1.ord = list2.ord;
+	    list2.ord = list1Order;
+	
+	    lists.sort(this.compareLists);
+	    console.log(lists);
+	
+	    this.setState({
+	      lists: lists
+	    });
+	  },
+	
+	  render: function () {
+	    var lists;
+	    var newListOrd = 0;
+	    var that = this;
+	
+	    if (this.state.lists !== undefined) {
+	      newListOrd = this.state.lists.length;
+	      lists = this.state.lists.map(function (list) {
+	        return React.createElement(ListWrapper, {
+	          key: list.id,
+	          id: list.id,
+	          list: list,
+	          order: list.ord,
+	          ord: list.ord,
+	          swapLists: that.swapLists });
+	      });
+	    } else {
+	      lists = React.createElement('div', null);
+	    }
+	
+	    return React.createElement(
+	      'ul',
+	      { className: 'list-container group' },
+	      lists,
+	      React.createElement(
+	        'div',
+	        { className: 'list-wrapper' },
+	        React.createElement(NewList, {
+	          board: this.state.board,
+	          ord: newListOrd })
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = ReactDnD.DragDropContext(HTML5Backend)(ListContainer);
+
+/***/ },
+/* 392 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1),
+	    HTML5Backend = __webpack_require__(358),
+	    CardWrapper = __webpack_require__(262),
+	    ReactDnD = __webpack_require__(264);
+	var ApiUtil = __webpack_require__(211);
+	var NewList = __webpack_require__(351);
+	
+	// this.props.cards
+	
+	// approach:
+	// set up so there is only one card container
+	// have list container handle card sorting as well
+	// sorted car
+	// Api Request for card movements works
+	
+	var CardContainer = React.createClass({
+	  displayName: 'CardContainer',
+	
+	  componentWillReceiveProps: function (props) {
+	    this.setState({ cards: props.cards });
+	  },
+	
+	  _onChange: function () {
+	    this.setState({});
+	  },
+	
+	  componentDidMount: function () {
+	    this.boardListener = BoardStore.addListener(this._onChange);
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.boardListener.remove();
+	  },
+	
+	  getInitialState: function () {
+	    return {};
+	  },
+	
+	  compareCards: function (card1, card2) {
+	    return card1.ord - card2.ord;
+	  },
+	
+	  swapCards: function (id1, id2) {
+	    var cards = this.state.cards;
+	
+	    var card1 = cards.filter(function (c) {
+	      return c.id === id1;
+	    })[0];
+	    var card2 = cards.filter(function (c) {
+	      return c.id === id2;
+	    })[0];
+	    var card1Order = card1.ord;
+	    card1.ord = card2.ord;
+	    card2.ord = card1Order;
+	
+	    cards.sort(this.compareCards);
+	
+	    this.setState({
+	      cards: cards
+	    });
+	  },
+	
+	  render: function () {
+	    var cards;
+	    var that = this;
+	    var newCardOrd = this.props.list.cards.length;
+	    cards = this.props.list.cards.map(function (card) {
+	      return React.createElement(CardWrapper, {
+	        id: card.id,
+	        key: card.id,
+	        card: card,
+	        list: that.props.list,
+	        ord: card.ord,
+	        swapCards: that.swapCards
+	      });
+	    });
+	
+	    return React.createElement(
+	      'div',
+	      { className: 'cards' },
+	      cards
+	    );
+	  }
+	});
+	
+	module.exports = CardContainer;
 
 /***/ }
 /******/ ]);

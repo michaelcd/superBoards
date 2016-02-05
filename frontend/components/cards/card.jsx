@@ -1,11 +1,13 @@
 var React = require('react');
 var ApiUtil = require('../../util/api_util');
-var DragSource = require('react-dnd').DragSource;
-var PropTypes = React.PropTypes;
-var ItemTypes = require('../../constants/itemtypes');
-var DropTarget = require('react-dnd').DropTarget;
 var CardMenu = require('./cardmenu');
 var CardDetail = require('./carddetail');
+
+// var DragSource = require('react-dnd').DragSource;
+// var PropTypes = React.PropTypes;
+// var ItemTypes = require('../../constants/itemtypes');
+// var DropTarget = require('react-dnd').DropTarget;
+
 
 //this.props.list
 //this.props.card
@@ -24,10 +26,10 @@ function collect(connect, monitor) {
 }
 
 var Card = React.createClass({
-  propTypes: {
-    connectDragSource: PropTypes.func.isRequired,
-    isDragging: PropTypes.bool.isRequired
-  },
+  // propTypes: {
+  //   connectDragSource: PropTypes.func.isRequired,
+  //   isDragging: PropTypes.bool.isRequired
+  // },
 
   getInitialState: function () {
     return ({detail: false});
@@ -36,8 +38,8 @@ var Card = React.createClass({
   titleClick: function () {},
 
   render: function () {
-    var connectDragSource = this.props.connectDragSource;
-    var isDragging = this.props.isDragging;
+    // var connectDragSource = this.props.connectDragSource;
+    // var isDragging = this.props.isDragging;
     var detail;
 
     if (this.state.detail === true) {
@@ -46,7 +48,7 @@ var Card = React.createClass({
       );
     }
 
-    return connectDragSource(
+    return (
       <div className="card">
         <a href={"#/boards/" + this.props.list.board_id + "/cards/" + this.props.card.id}
           className="card-title">
@@ -58,4 +60,4 @@ var Card = React.createClass({
   }
 });
 
-module.exports = DragSource(ItemTypes.CARD, cardSource, collect)(Card);
+module.exports = Card;

@@ -1,4 +1,5 @@
 var React = require('react');
+var ReactDnD = require('react-dnd');
 var List = require('./list');
 var DragSource = require('react-dnd').DragSource;
 var PropTypes = React.PropTypes;
@@ -10,13 +11,26 @@ var ApiUtil = require('../../util/api_util');
 // render list, aware of position
 // Wrapper needs source item position to render correctly (like Trello)
 
+
+var listSource = {
+  beginDrag: function (props) {
+    return { list: props.list, id: props.id };
+  }
+};
+
 var listTarget = {
+  hover: function (props, monitor) {
+    var draggedId = monitor.getItem().id;
+
+    if (draggedId !== props.id) {
+      props.swapLists(draggedId, props.id);
+    }
+  },
+
   drop: function (props, monitor) {
     var draggedList = monitor.getItem().list;
-    if (draggedList.ord !== props.ord) {
-      draggedList.ord = props.ord;
-      ApiUtil.moveList(draggedList);
-    }
+    draggedList.ord = props.ord;
+    ApiUtil.moveList(draggedList);
   }
 };
 
@@ -29,15 +43,19 @@ function collect(connect, monitor) {
 
 var ListWrapper = React.createClass({
   propTypes: {
-    ord: PropTypes.number.isRequired,
-    isOver: PropTypes.bool.isRequired
+    connectDragSource: React.PropTypes.func.isRequired,
+    connectDropTarget: React.PropTypes.func.isRequired,
+    isDragging: React.PropTypes.bool.isRequired,
+    swapLists: React.PropTypes.func.isRequired,
+    list: React.PropTypes.object.isRequired,
+    ord: React.PropTypes.number.isRequired
   },
 
   render: function () {
     var connectDropTarget = this.props.connectDropTarget;
     var isOver = this.props.isOver;
-    
-    return connectDropTarget(
+
+    return this.props.connectDragSource(this.props.connectDropTarget(
       <div className="list-wrapper">
         <div className="drag-drop-list-placeholder">
         <List list={this.props.list} />
@@ -45,8 +63,23 @@ var ListWrapper = React.createClass({
           <div className="drag-drop-list-filler"></div>}
         </div>
       </div>
-    );
+    ));
   }
 });
 
-module.exports = DropTarget(ItemTypes.LIST, listTarget, collect)(ListWrapper);
+var DragSourceDecorator = ReactDnD.DragSource(ItemTypes.LISTWRAPPER, listSource,
+    function(connect, monitor) {
+        return {
+            connectDragSource: connect.dragSource(),
+            isDragging: monitor.isDragging()
+        };
+});
+
+var DropTargetDecorator = ReactDnD.DropTarget(ItemTypes.LISTWRAPPER, listTarget,
+    function(connect) {
+        return {
+            connectDropTarget: connect.dropTarget()
+        };
+});
+
+module.exports = DropTargetDecorator(DragSourceDecorator(ListWrapper));

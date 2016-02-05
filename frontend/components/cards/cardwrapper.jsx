@@ -5,18 +5,39 @@ var DragSource = require('react-dnd').DragSource;
 var PropTypes = React.PropTypes;
 var ItemTypes = require('../../constants/itemtypes');
 var DropTarget = require('react-dnd').DropTarget;
+var ReactDnD = require('react-dnd');
+
+var cardSource = {
+  beginDrag: function (props) {
+    return { card: props.card, id: props.id };
+  }
+};
 
 var cardTarget = {
+  hover: function (props, monitor) {
+    var draggedId = monitor.getItem().id;
+    if (draggedId !== props.id) {
+      props.swapCards(draggedId, props.id);
+    }
+  },
+
   drop: function (props, monitor) {
     var draggedCard = monitor.getItem().card;
-
-    if ((draggedCard.ord !== props.card.ord) ||
-      (draggedCard.list_id !== props.card.list_id)) {
-      draggedCard.ord = props.card.ord;
-      draggedCard.list_id = props.card.list_id;
-      ApiUtil.moveCard(draggedCard);
-    }
+    draggedCard.ord = props.card.ord;
+    draggedCard.list_id = props.card.list_id;
+    ApiUtil.moveCard(draggedCard);
   }
+
+  // drop: function (props, monitor) {
+  //   var draggedCard = monitor.getItem().card;
+  //
+  //   if ((draggedCard.ord !== props.card.ord) ||
+  //     (draggedCard.list_id !== props.card.list_id)) {
+  //     draggedCard.ord = props.card.ord;
+  //     draggedCard.list_id = props.card.list_id;
+  //     ApiUtil.moveCard(draggedCard);
+  //   }
+  // }
 };
 
 function collect(connect, monitor) {
@@ -28,25 +49,47 @@ function collect(connect, monitor) {
 
 var CardWrapper = React.createClass({
   propTypes: {
-    isOver: PropTypes.bool.isRequired,
-    listId: PropTypes.number.isRequired,
-    ord: PropTypes.number.isRequired
+    connectDragSource: React.PropTypes.func.isRequired,
+    connectDropTarget: React.PropTypes.func.isRequired,
+    isDragging: React.PropTypes.bool.isRequired,
+    isOver: React.PropTypes.bool.isRequired,
+    swapCards: React.PropTypes.func.isRequired,
+    card: React.PropTypes.object.isRequired,
+    ord: React.PropTypes.number.isRequired,
   },
 
   render: function () {
+    // var isOver = this.props.isOver;
     var isOver = this.props.isOver;
     var connectDropTarget = this.props.connectDropTarget;
+    var cardOrPreview = "drag-drop-card-placeholder";
 
-    return connectDropTarget(
+    if (isOver) {}
+
+    return this.props.connectDragSource(this.props.connectDropTarget(
       <div className="card-wrapper">
-        <div className="drag-drop-card-placeholder">
+        <div className={cardOrPreview}>
           <Card list={this.props.list} card={this.props.card}/>
-          {isOver &&
-            <div className="drag-drop-card-filler"></div>}
         </div>
       </div>
-    );
+    ));
   }
 });
 
-module.exports = DropTarget(ItemTypes.CARD, cardTarget, collect)(CardWrapper);
+var DragSourceDecorator = ReactDnD.DragSource(ItemTypes.CARD, cardSource,
+    function(connect, monitor) {
+        return {
+            connectDragSource: connect.dragSource(),
+            isDragging: monitor.isDragging()
+        };
+});
+
+var DropTargetDecorator = ReactDnD.DropTarget(ItemTypes.CARD, cardTarget,
+    function(connect, monitor) {
+        return {
+            connectDropTarget: connect.dropTarget(),
+            isOver: monitor.isOver()
+        };
+});
+
+module.exports = DropTargetDecorator(DragSourceDecorator(CardWrapper));

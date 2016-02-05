@@ -1,12 +1,14 @@
 var React = require('react');
 var BoardStore = require('../stores/board');
 var ListWrapper = require('./lists/listwrapper');
+var ListContainer = require('./lists/listcontainer');
 var NewList = require('./lists/newlist');
 var BoardMenu = require('./boards/boardmenu');
 var BoardTitleButton = require('./boards/boardtitle');
-var DragDropContext = require('react-dnd').DragDropContext;
-var HTML5Backend = require('react-dnd-html5-backend');
 var ApiUtil = require('../util/api_util');
+
+// var DragDropContext = require('react-dnd').DragDropContext;
+// var HTML5Backend = require('react-dnd-html5-backend');
 
 
 BoardDetailView = React.createClass({
@@ -35,36 +37,17 @@ BoardDetailView = React.createClass({
   },
 
   render: function () {
-    var lists;
-    var newListOrd = 0;
-
-    if (this.state.board.lists !== undefined) {
-      newListOrd = this.state.board.lists.length;
-      lists = (this.state.board.lists.map(function (list) {
-        return <ListWrapper key={list.id} list={list} ord={list.ord} />;
-      }));
-    } else {
-      lists = (<div></div>);
-    }
-
     return (
       <div className="board-detail-view">
         <div className="board-header group">
           <BoardTitleButton />
           <BoardMenu board={this.state.board}/>
         </div>
-        <ul className="list-container group">
-          {lists}
-          <div className="list-wrapper">
-            <NewList
-              board={this.state.board}
-              ord={newListOrd} />
-          </div>
-        </ul>
+        <ListContainer />
         {this.props.children}
       </div>
     );
   }
 });
 
-module.exports = DragDropContext(HTML5Backend)(BoardDetailView);
+module.exports = BoardDetailView;

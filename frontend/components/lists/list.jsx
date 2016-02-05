@@ -1,14 +1,10 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 var CardWrapper = require('./../cards/cardwrapper');
+var CardContainer = require('./../cards/cardcontainer');
 var NewCard = require('./../cards/newcard');
 var ApiUtil = require('../../util/api_util');
-var DragSource = require('react-dnd').DragSource;
-var ItemTypes = require('../../constants/itemtypes');
-var PropTypes = React.PropTypes;
 var ListMenu = require('./listmenu');
-
-// this.props.list
 
 var ClickMixin = {
     _clickDocument: function (e) {
@@ -27,26 +23,7 @@ var ClickMixin = {
     },
 };
 
-
-var listSource = {
-  beginDrag: function (props) {
-    return { list: props.list };
-  }
-};
-
-function collect(connect, monitor) {
-  return {
-    connectDragSource: connect.dragSource(),
-    isDragging: monitor.isDragging()
-  };
-}
-
 var List = React.createClass({
-  propTypes: {
-    connectDragSource: PropTypes.func.isRequired,
-    isDragging: PropTypes.bool.isRequired
-  },
-
   mixins: [ClickMixin],
 
   getInitialState: function () {
@@ -99,8 +76,8 @@ var List = React.createClass({
         />;
     });
 
-    var connectDragSource = this.props.connectDragSource;
-    var isDragging = this.props.isDragging;
+    // var connectDragSource = this.props.connectDragSource;
+    // var isDragging = this.props.isDragging;
 
     var content;
 
@@ -132,12 +109,13 @@ var List = React.createClass({
       );
     }
 
-    return connectDragSource(
+    return (
       <li className="list">
         <div className="list-title-wrapper">{content}</div>
-        <div className="cards">
-          {cards}
-        </div>
+        <CardContainer
+          cards={this.props.list.cards}
+          list={this.props.list}
+          />
         <NewCard
           listId={that.props.list.id}
           list={that.props.list}
@@ -148,4 +126,4 @@ var List = React.createClass({
   }
 });
 
-module.exports = DragSource(ItemTypes.LIST, listSource, collect)(List);
+module.exports = List;

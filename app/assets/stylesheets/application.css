@@ -1414,7 +1414,8 @@ html, body {
   left: 0;
   height: 100%;
   width: 100%;
-  opacity: 0.5;
+  z-index: 150;
+  opacity: 1;
   background:#4D4D4D;
 }
 
