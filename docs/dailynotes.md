@@ -16,6 +16,9 @@ ellipsis-h
 [X] - fix seed data, weird stuff happening. make sure board shares work
 [X] - fix: board share menu shows Current User as option
 [X] - shared boards in board button
+[ ] - check Heroku build for bugs
+
+
 
 [ ] - icons in card detail view
 [ ] - polish, icons, CSSs
@@ -33,6 +36,7 @@ ellipsis-h
 
 
 Polish / Optional :
+[ ] - search results don't close when clicking a link
 [ ] - React Auth error messages
 [ ] - Rails validations on board sharing, front end prevents validations from being necessary
 [ ] - prevent boards from being shared twice to the same user

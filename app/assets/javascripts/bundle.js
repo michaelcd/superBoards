@@ -31978,7 +31978,7 @@
 	      ),
 	      React.createElement(
 	        'div',
-	        null,
+	        { onClick: this.closeSearch },
 	        results
 	      )
 	    );
