@@ -12,11 +12,7 @@ plus
 minus
 ellipsis-h
 
-[X] - redo splash page with logo
-[X] - fix seed data, weird stuff happening. make sure board shares work
-[X] - fix: board share menu shows Current User as option
-[X] - shared boards in board button
-[ ] - check Heroku build for bugs
+
 
 
 
@@ -28,15 +24,8 @@ ellipsis-h
 
 
 
-
-
-
-
-
-
-
 Polish / Optional :
-[ ] - search results don't close when clicking a link
+[ ] - search results don't close when clicking a link (better way to handle this)
 [ ] - React Auth error messages
 [ ] - Rails validations on board sharing, front end prevents validations from being necessary
 [ ] - prevent boards from being shared twice to the same user
@@ -147,3 +136,10 @@ Thursday:
 [X] - Board sharing, enable sharing with other users
 [X] - only owner can archive/share board
 [X] - superBoards logo
+
+Friday:
+[X] - redo splash page with logo
+[X] - fix seed data, weird stuff happening. make sure board shares work
+[X] - fix: board share menu shows Current User as option
+[X] - shared boards in board button
+[X] - check Heroku build for bugs
