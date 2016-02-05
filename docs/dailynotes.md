@@ -15,9 +15,8 @@ ellipsis-h
 [X] - redo splash page with logo
 [X] - fix seed data, weird stuff happening. make sure board shares work
 [X] - fix: board share menu shows Current User as option
+[X] - shared boards in board button
 
-[ ] - shared boards in board button
-[ ] - React Auth error messages
 [ ] - icons in card detail view
 [ ] - polish, icons, CSSs
 [ ] - more seed data
@@ -34,6 +33,7 @@ ellipsis-h
 
 
 Polish / Optional :
+[ ] - React Auth error messages
 [ ] - Rails validations on board sharing, front end prevents validations from being necessary
 [ ] - prevent boards from being shared twice to the same user
 [ ] - Favorited boards

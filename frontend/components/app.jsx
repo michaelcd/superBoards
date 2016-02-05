@@ -8,8 +8,7 @@ var LoadingScreen = require('./loadingscreen');
 
  var App = React.createClass({
    componentDidMount: function () {
-    this.appListener =
-      CurrentUserStore.addListener(this.forceUpdate.bind(this));
+    this.appListener = CurrentUserStore.addListener(this.forceUpdate.bind(this));
     SessionsApiUtil.fetchCurrentUser();
    },
 
