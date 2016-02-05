@@ -32858,8 +32858,8 @@
 	
 	  getInitialState: function () {
 	    return {
-	      board: BoardStore.single(),
-	      title: BoardStore.single().title,
+	      board: {},
+	      title: "",
 	      form: false };
 	  },
 	

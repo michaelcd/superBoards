@@ -12,8 +12,8 @@ var ApiUtil = require('../util/api_util');
 BoardDetailView = React.createClass({
   getInitialState: function () {
     return({
-      board: BoardStore.single(),
-      title: BoardStore.single().title,
+      board: {},
+      title: "",
       form: false});
   },
 
