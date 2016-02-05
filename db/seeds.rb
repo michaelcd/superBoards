@@ -9,8 +9,8 @@
 guestuser1 = User.create(username: "GuestUser", password: "GuestUser")
 guestuser2 = User.create(username: "superBoardsUser", password: "superBoardsUser")
 # AppAcademy Boards
-aa_board = Board.create(title: "App Academy", author_id: guestuser1.id)
-aa_board.shares.create(user_id: 2)
+aa_board = Board.create(title: "App Academy", author_id: guestuser2.id)
+aa_board.shares.create(user_id: 1)
 aa_board.shares.create(user_id: 3)
 tas = aa_board.lists.create(title: "TAs", ord: 0, archived: false)
 Card.create(title: "Dan", list_id: tas.id, ord: 0, archived: false, author_id: guestuser1.id)
