@@ -12,19 +12,11 @@ plus
 minus
 ellipsis-h
 
-
-
-
-
+Polish / Optional :
+[ ] - check for N+1 searches, look for optimizations
 [ ] - icons in card detail view
 [ ] - polish, icons, CSSs
 [ ] - more seed data
-
-
-
-
-
-Polish / Optional :
 [ ] - search results don't close when clicking a link (better way to handle this)
 [ ] - React Auth error messages
 [ ] - Rails validations on board sharing, front end prevents validations from being necessary
@@ -36,19 +28,13 @@ Polish / Optional :
 [ ] - refactor
 [ ] - File uploads
 [ ] - Tags
-[ ] - check for N+1 searches, look for optimizations
 [ ] - ShareMenu error message related to click handlers (reimplement click Mixin)
-
-React outside click info:
-http://stackoverflow.com/questions/23821768/listen-for-click-events-that-are-outside-of-a-component
-https://jsfiddle.net/0Lshs7mg/1/
 
 Drop and reseed database:
 rake db:drop db:create db:migrate db:seed
 
 Figaro command to send Application.yml config to heroku:
 figaro heroku:set -e production
-
 
 daily setup:
 cd desktop
