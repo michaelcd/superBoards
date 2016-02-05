@@ -108,7 +108,7 @@ var Comment = React.createClass({
         commentOrInput = (
           <div>
             <div className="comment-box" >
-              <div className="comment" onClick={this.openEdit}>
+              <div className="comment">
                 {this.props.comment.body}
               </div>
             </div>

@@ -38308,7 +38308,7 @@
 	            { className: 'comment-box' },
 	            React.createElement(
 	              'div',
-	              { className: 'comment', onClick: this.openEdit },
+	              { className: 'comment' },
 	              this.props.comment.body
 	            )
 	          ),
