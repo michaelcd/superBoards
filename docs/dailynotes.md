@@ -13,6 +13,7 @@ minus
 ellipsis-h
 
 Polish / Optional :
+[ ] - search results spinner: change so only shows up when search is actually happening
 [ ] - check for N+1 searches, look for optimizations
 [ ] - icons in card detail view
 [ ] - polish, icons, CSSs
