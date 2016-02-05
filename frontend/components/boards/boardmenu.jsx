@@ -95,7 +95,7 @@ var BoardMenu = React.createClass({
       if (this.state.currentUser.id === this.props.board.author_id) {
         contentForUser = (
           <div className="pop-up-menu-options-list group">
-            <ShareMenu board={this.props.board} />
+            <ShareMenu board={this.props.board} currentUser={this.state.currentUser}/>
             <a href="#" className="pop-up-menu-option" onClick={this.archiveShow}>Archive Board</a>
             {archiveConfirm}
           </div>

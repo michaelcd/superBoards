@@ -12,15 +12,15 @@ plus
 minus
 ellipsis-h
 
-[ ] - redo splash page with logo
-[ ] - fix seed data, weird stuff happening. make sure board shares work
-[ ] - fix: board share menu shows Current User as option
+[X] - redo splash page with logo
+[X] - fix seed data, weird stuff happening. make sure board shares work
+[X] - fix: board share menu shows Current User as option
+
 [ ] - shared boards in board button
 [ ] - React Auth error messages
 [ ] - icons in card detail view
 [ ] - polish, icons, CSSs
-[ ] - SeedData
-[ ] - Rails validations on board sharing, front end prevents validations from being necessary
+[ ] - more seed data
 
 
 
@@ -34,13 +34,14 @@ ellipsis-h
 
 
 Polish / Optional :
+[ ] - Rails validations on board sharing, front end prevents validations from being necessary
+[ ] - prevent boards from being shared twice to the same user
 [ ] - Favorited boards
 [ ] - Archived Boards View
 [ ] - splash screen
 [ ] - BUG: Search will bring you to boards/lists/cards you don't own
 [ ] - refactor
 [ ] - File uploads
-
 [ ] - Tags
 [ ] - check for N+1 searches, look for optimizations
 [ ] - ShareMenu error message related to click handlers (reimplement click Mixin)
