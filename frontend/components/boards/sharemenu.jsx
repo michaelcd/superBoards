@@ -4,6 +4,7 @@ var UserStore = require('../../stores/userstore');
 var ApiUtil = require('../../util/api_util');
 
 // this.props.board
+// this.props.currentUser
 
 // var ClickMixin = {
 //     _clickDocument: function (e) {
@@ -33,7 +34,6 @@ var ShareMenu = React.createClass({
   },
 
   closeMenu: function () {
-    console.log("close called");
     this.setState({menu: false});
   },
 
@@ -43,13 +43,11 @@ var ShareMenu = React.createClass({
   },
 
   componentDidMount: function () {
-    console.log("mounted");
     this.shareListener = UserStore.addListener(this._onChange);
     ApiUtil.fetchUsers();
   },
 
   componentWillUnmount: function () {
-    console.log("unmounted");
     this.shareListener.remove();
   },
 
@@ -77,8 +75,10 @@ var ShareMenu = React.createClass({
   render: function () {
     var popup;
     var users = this.state.users.map(function (user) {
-      return <option key={user.id} value={user.id}>{user.username}</option>;
-    });
+      if (user.id !== this.props.currentUser.id) {
+        return <option key={user.id} value={user.id}>{user.username}</option>;
+      }
+    }.bind(this));
 
     var dropdown = (
       <select id="share-dropdown"
