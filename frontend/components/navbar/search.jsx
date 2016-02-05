@@ -81,7 +81,7 @@ var Search = React.createClass({
         <div className="navbar-search-icon">
             <i className="fa fa-search fa-fw" />
         </div>
-        <div>{results}</div>
+        <div onClick={this.closeSearch}>{results}</div>
       </div>
     );
   }
