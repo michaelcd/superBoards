@@ -28,9 +28,9 @@ var ClickMixin = {
     _clickDocument: function (e) {
         var component = ReactDOM.findDOMNode(this.refs.newlist);
         if (e.target == component || $(component).has(e.target).length) {
-            this.openMenu(e);
+          this.openMenu(e);
         } else {
-            this.closeMenu(e);
+          this.closeMenu(e);
         }
     },
     componentDidMount: function () {
@@ -80,6 +80,9 @@ var NewList = React.createClass({
     };
     ApiUtil.createList(list);
     this.setState({formValue: ""});
+    $('.list-container').animate({
+      scrollLeft: $('.new-list').offset().left + 90000
+    });
   },
 
   formChangeHandler: function (event) {
@@ -123,7 +126,7 @@ var NewList = React.createClass({
 
 
     return connectDropTarget(
-      <li className="new-list">
+      <li className="new-list" id="new-list">
         {content}
       </li>
     );

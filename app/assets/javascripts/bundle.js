@@ -24547,14 +24547,20 @@
 	
 	  formOnSubmit: function (event) {
 	    event.preventDefault();
-	    var board = { title: this.state.formValue };
-	    ApiUtil.createBoard(board);
-	    this.setState({ form: false, formValue: "" });
 	
-	    var that = this;
-	    setTimeout(function () {
-	      that.history.pushState(null, "/boards/" + BoardStore.single().id);
-	    }, 500);
+	    if (this.state.formValue !== "") {
+	      var board = { title: this.state.formValue };
+	      ApiUtil.createBoard(board);
+	      this.setState({ form: false, formValue: "" });
+	      setTimeout(function () {
+	        this.history.pushState(null, "/boards/" + BoardStore.single().id);
+	      }.bind(this), 500);
+	    } else {
+	      this.setState({ formValue: "Board name cannot be blank!" });
+	      setTimeout(function () {
+	        this.setState({ formValue: "" });
+	      }.bind(this), 1200);
+	    }
 	  },
 	
 	  formChangeHandler: function (event) {
@@ -32546,7 +32552,8 @@
 
 	module.exports = {
 	  CURRENT_USER_RECEIVED: "CURRENT_USER_RECEIVED",
-	  LOGOUT_USER: "LOGOUT_USER"
+	  LOGOUT_USER: "LOGOUT_USER",
+	  ERRORS_RECEIVED: "ERRORS_RECEIVED"
 	};
 
 /***/ },
@@ -32566,8 +32573,8 @@
 	        CurrentUserActions.receiveCurrentUser(currentUser);
 	        success && success();
 	      },
-	      failure: function () {
-	        console.log("failed");
+	      error: function (errors) {
+	        CurrentUserActions.receiveErrors(errors);
 	      }
 	
 	    });
@@ -32583,8 +32590,8 @@
 	        CurrentUserActions.receiveCurrentUser(currentUser);
 	        success && success();
 	      },
-	      failure: function () {
-	        console.log("failed");
+	      error: function (errors) {
+	        CurrentUserActions.receiveErrors(errors);
 	      }
 	
 	    });
@@ -32596,7 +32603,6 @@
 	      type: 'DELETE',
 	      dataType: 'json',
 	      success: function () {
-	        // console.log("logged out!");
 	        CurrentUserActions.logoutUser();
 	      }
 	    });
@@ -32626,6 +32632,13 @@
 	var CurrentUserConstants = __webpack_require__(254);
 	
 	module.exports = {
+	  receiveErrors: function (errors) {
+	    Dispatcher.dispatch({
+	      actionType: CurrentUserConstants.ERRORS_RECEIVED,
+	      errors: errors
+	    });
+	  },
+	
 	  receiveCurrentUser: function (user) {
 	    Dispatcher.dispatch({
 	      actionType: CurrentUserConstants.CURRENT_USER_RECEIVED,
@@ -32904,7 +32917,7 @@
 	      ),
 	      React.createElement(
 	        'ul',
-	        { className: 'list-container group' },
+	        { className: 'list-container group', id: 'list-container' },
 	        lists,
 	        React.createElement(
 	          'div',
@@ -38931,6 +38944,9 @@
 	    };
 	    ApiUtil.createList(list);
 	    this.setState({ formValue: "" });
+	    $('.list-container').animate({
+	      scrollLeft: $('.new-list').offset().left + 90000
+	    });
 	  },
 	
 	  formChangeHandler: function (event) {
@@ -38989,7 +39005,7 @@
 	
 	    return connectDropTarget(React.createElement(
 	      'li',
-	      { className: 'new-list' },
+	      { className: 'new-list', id: 'new-list' },
 	      content
 	    ));
 	  }
@@ -41311,15 +41327,33 @@
 	var React = __webpack_require__(1);
 	var History = __webpack_require__(159).History;
 	var SessionsApiUtil = __webpack_require__(255);
+	var ErrorStore = __webpack_require__(390);
 	
 	var SessionForm = React.createClass({
 	  displayName: 'SessionForm',
 	
 	  mixins: [History],
 	
+	  getInitialState: function () {
+	    return { register: false, username: "", password: "", errors: [] };
+	  },
+	
+	  componentDidMount: function () {
+	    this.errorListener = ErrorStore.addListener(this._onChange);
+	  },
+	
+	  componeontWillUnmount: function () {
+	    this.errorListener();
+	  },
+	
+	  _onChange: function () {
+	    this.setState({ errors: ErrorStore.all() });
+	    console.log(this.state.errors);
+	  },
+	
 	  submitLogin: function (e) {
 	    event.preventDefault();
-	    var credentials = "username=" + this.state.password + "&password=" + this.state.password;
+	    var credentials = "username=" + this.state.username + "&password=" + this.state.password;
 	    SessionsApiUtil.login(credentials, function () {
 	      this.history.pushState({}, "/");
 	    }.bind(this));
@@ -41327,7 +41361,7 @@
 	
 	  registerUser: function (e) {
 	    event.preventDefault();
-	    var credentials = "username=" + this.state.password + "&password=" + this.state.password;
+	    var credentials = "username=" + this.state.username + "&password=" + this.state.password;
 	    SessionsApiUtil.createUser(credentials, function () {
 	      this.history.pushState({}, "/");
 	    }.bind(this));
@@ -41349,7 +41383,122 @@
 	    this.setState({ password: event.currentTarget.value });
 	  },
 	
+	  openReg: function () {
+	    this.setState({ register: true });
+	  },
+	
+	  closeReg: function () {
+	    this.setState({ register: false });
+	  },
+	
 	  render: function () {
+	    var content;
+	    var errors;
+	
+	    if (this.state.errors.length > 0) {
+	      errors = this.state.errors[0].map(function (error, i) {
+	        return React.createElement(
+	          'div',
+	          { key: i, className: 'error' },
+	          error
+	        );
+	      });
+	    }
+	
+	    if (this.state.register === false) {
+	      content = React.createElement(
+	        'div',
+	        { className: 'auth-form' },
+	        React.createElement(
+	          'div',
+	          { className: 'auth-form-title' },
+	          'Sign In'
+	        ),
+	        React.createElement(
+	          'label',
+	          null,
+	          'Username'
+	        ),
+	        React.createElement('input', { className: 'auth-form-input', type: 'text', name: 'username', onChange: this.usernameCapture }),
+	        React.createElement(
+	          'label',
+	          null,
+	          'Password'
+	        ),
+	        React.createElement('input', { className: 'auth-form-input', type: 'password', name: 'password', onChange: this.passwordCapture }),
+	        React.createElement(
+	          'div',
+	          { className: 'auth-form-errors' },
+	          errors
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'auth-form-options-list' },
+	          React.createElement(
+	            'button',
+	            { className: 'auth-form-option', onClick: this.submitLogin },
+	            'Sign in'
+	          ),
+	          React.createElement(
+	            'button',
+	            { className: 'auth-form-option', onClick: this.guestSignin },
+	            'Sign in as GuestUser'
+	          ),
+	          React.createElement(
+	            'a',
+	            { href: '/auth/facebook', className: 'auth-form-option' },
+	            'Sign in with Facebook'
+	          ),
+	          React.createElement(
+	            'button',
+	            { className: 'auth-form-option', onClick: this.openReg },
+	            'Register a new account'
+	          )
+	        )
+	      );
+	    } else {
+	      content = React.createElement(
+	        'div',
+	        { className: 'auth-form' },
+	        React.createElement(
+	          'div',
+	          { className: 'auth-form-title' },
+	          'Sign Up'
+	        ),
+	        React.createElement(
+	          'label',
+	          null,
+	          'Username'
+	        ),
+	        React.createElement('input', { className: 'auth-form-input', type: 'text', name: 'username', onChange: this.usernameCapture }),
+	        React.createElement(
+	          'label',
+	          null,
+	          'Password'
+	        ),
+	        React.createElement('input', { className: 'auth-form-input', type: 'password', name: 'password', onChange: this.passwordCapture }),
+	        React.createElement(
+	          'div',
+	          { className: 'auth-form-errors' },
+	          errors
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'auth-form-options-list' },
+	          React.createElement(
+	            'button',
+	            { className: 'auth-form-option', onClick: this.registerUser },
+	            'Create a new account'
+	          ),
+	          React.createElement(
+	            'button',
+	            { className: 'auth-form-option', onClick: this.closeReg },
+	            'I already have an account.'
+	          )
+	        )
+	      );
+	    }
+	
 	    return React.createElement(
 	      'div',
 	      { className: 'auth-form-window' },
@@ -41359,51 +41508,7 @@
 	        React.createElement(
 	          'div',
 	          { className: 'auth-form-container group' },
-	          React.createElement(
-	            'form',
-	            { className: 'auth-form' },
-	            React.createElement(
-	              'div',
-	              { className: 'auth-form-title' },
-	              'superBoards Log In'
-	            ),
-	            React.createElement(
-	              'label',
-	              null,
-	              'Username'
-	            ),
-	            React.createElement('input', { className: 'auth-form-input', type: 'text', name: 'username', onChange: this.usernameCapture }),
-	            React.createElement(
-	              'label',
-	              null,
-	              'Password'
-	            ),
-	            React.createElement('input', { className: 'auth-form-input', type: 'password', name: 'password', onChange: this.passwordCapture }),
-	            React.createElement(
-	              'div',
-	              { className: 'auth-form-options-list' },
-	              React.createElement(
-	                'button',
-	                { className: 'auth-form-option', onClick: this.guestSignin },
-	                'Sign in as GuestUser'
-	              ),
-	              React.createElement(
-	                'button',
-	                { className: 'auth-form-option', onClick: this.submitLogin },
-	                'Sign in with above credentials'
-	              ),
-	              React.createElement(
-	                'button',
-	                { className: 'auth-form-option', onClick: this.registerUser },
-	                'Register with above credentials'
-	              ),
-	              React.createElement(
-	                'a',
-	                { href: '/auth/facebook', className: 'auth-form-option' },
-	                'Sign in with Facebook'
-	              )
-	            )
-	          )
+	          content
 	        ),
 	        React.createElement(
 	          'div',
@@ -41418,6 +41523,37 @@
 	});
 	
 	module.exports = SessionForm;
+
+/***/ },
+/* 390 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var AppDispatcher = __webpack_require__(213);
+	var Store = __webpack_require__(223).Store;
+	var CurrentUserConstants = __webpack_require__(254);
+	
+	var ErrorStore = new Store(AppDispatcher);
+	
+	var _errors = [];
+	
+	var resetErrors = function (errors) {
+	  _errors = errors.responseJSON;
+	};
+	
+	ErrorStore.all = function () {
+	  return _errors.slice(0);
+	};
+	
+	ErrorStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case CurrentUserConstants.ERRORS_RECEIVED:
+	      resetErrors(payload.errors);
+	      ErrorStore.__emitChange();
+	      break;
+	  }
+	};
+	
+	module.exports = ErrorStore;
 
 /***/ }
 /******/ ]);

@@ -11,8 +11,8 @@ var SessionsApiUtil = {
         CurrentUserActions.receiveCurrentUser(currentUser);
         success && success();
       },
-      failure: function () {
-        console.log("failed");
+      error: function (errors) {
+        CurrentUserActions.receiveErrors(errors);
       }
 
     });
@@ -28,8 +28,8 @@ var SessionsApiUtil = {
         CurrentUserActions.receiveCurrentUser(currentUser);
         success && success();
       },
-      failure: function () {
-        console.log("failed");
+      error: function (errors) {
+        CurrentUserActions.receiveErrors(errors);
       }
 
     });
@@ -41,7 +41,6 @@ var SessionsApiUtil = {
       type: 'DELETE',
       dataType: 'json',
       success: function () {
-        // console.log("logged out!");
         CurrentUserActions.logoutUser();
       }
     });

@@ -56,14 +56,21 @@ NewBoardIndexItem = React.createClass({
 
   formOnSubmit: function (event) {
     event.preventDefault();
-    var board = {title: this.state.formValue};
-    ApiUtil.createBoard(board);
-    this.setState({form: false, formValue: ""});
 
-    var that = this;
-    setTimeout(function () {
-      that.history.pushState(null, "/boards/" + BoardStore.single().id);
-    }, 500);
+    if (this.state.formValue !== "") {
+      var board = {title: this.state.formValue};
+      ApiUtil.createBoard(board);
+      this.setState({form: false, formValue: ""});
+      setTimeout(function () {
+        this.history.pushState(null, "/boards/" + BoardStore.single().id);
+      }.bind(this), 500);
+    } else {
+      this.setState({formValue: "Board name cannot be blank!"});
+      setTimeout(function () {
+        this.setState({formValue: ""})
+      }.bind(this), 1200);
+    }
+
   },
 
   formChangeHandler: function (event) {

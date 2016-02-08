@@ -53,7 +53,7 @@ BoardDetailView = React.createClass({
           <BoardTitleButton />
           <BoardMenu board={this.state.board}/>
         </div>
-        <ul className="list-container group">
+        <ul className="list-container group" id="list-container">
           {lists}
           <div className="list-wrapper">
             <NewList

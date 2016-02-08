@@ -1,8 +1,19 @@
 Current Notes
 
 Biggest priority:
-[ ] - redo sign in page
-[ ] - comments / wrapping issues
+[X] - focus new list component after list creation
+[X] - comments / wrapping issues
+[X] - cannot make board without board name
+[X] - redo sign in page
+
+[ ] - React Auth error messages
+
+
+
+
+
+
+
 
 
 
@@ -14,7 +25,6 @@ Polish / Optional :
 [ ] - polish, icons, CSSs
 [ ] - more seed data
 [ ] - search results don't close when clicking a link (better way to handle this)
-[ ] - React Auth error messages
 [ ] - Rails validations on board sharing, front end prevents validations from being necessary
 [ ] - prevent boards from being shared twice to the same user
 [ ] - Favorited boards
