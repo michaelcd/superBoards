@@ -5,8 +5,7 @@ Biggest priority:
 [X] - comments / wrapping issues
 [X] - cannot make board without board name
 [X] - redo sign in page
-
-[ ] - React Auth error messages
+[X] - React Auth error messages
 
 
 

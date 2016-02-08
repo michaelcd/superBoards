@@ -20,7 +20,6 @@ var SessionForm = React.createClass({
 
   _onChange: function () {
     this.setState({errors: ErrorStore.all()});
-    console.log(this.state.errors);
   },
 
   submitLogin: function (e) {
@@ -65,12 +64,10 @@ var SessionForm = React.createClass({
 
   render: function() {
     var content;
-    var errors;
+    var error;
 
     if (this.state.errors.length > 0) {
-      errors = this.state.errors[0].map(function (error, i) {
-          return <div key={i} className="error">{error}</div>;
-        });
+      error = this.state.errors[0];
     }
 
     if (this.state.register === false) {
@@ -78,10 +75,16 @@ var SessionForm = React.createClass({
         <div className="auth-form">
           <div className="auth-form-title">Sign In</div>
           <label>Username</label>
-          <input className="auth-form-input" type="text" name="username" onChange={this.usernameCapture} />
+          <input
+            className="auth-form-input"
+            type="text" name="username"
+            onChange={this.usernameCapture}
+            />
           <label>Password</label>
-          <input className="auth-form-input" type="password" name="password" onChange={this.passwordCapture}/>
-          <div className="auth-form-errors">{errors}</div>
+          <input className="auth-form-input"
+            type="password" name="password"
+            onChange={this.passwordCapture}/>
+          <div className="auth-form-errors">{error}</div>
           <div className="auth-form-options-list">
             <button className="auth-form-option" onClick={this.submitLogin}>Sign in</button>
             <button className="auth-form-option" onClick={this.guestSignin}>Sign in as GuestUser</button>
@@ -98,7 +101,7 @@ var SessionForm = React.createClass({
           <input className="auth-form-input" type="text" name="username" onChange={this.usernameCapture} />
           <label>Password</label>
           <input className="auth-form-input" type="password" name="password" onChange={this.passwordCapture}/>
-          <div className="auth-form-errors">{errors}</div>
+          <div className="auth-form-errors">{error}</div>
           <div className="auth-form-options-list">
             <button className="auth-form-option" onClick={this.registerUser}>Create a new account</button>
             <button className="auth-form-option" onClick={this.closeReg}>I already have an account.</button>

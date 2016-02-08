@@ -41348,7 +41348,6 @@
 	
 	  _onChange: function () {
 	    this.setState({ errors: ErrorStore.all() });
-	    console.log(this.state.errors);
 	  },
 	
 	  submitLogin: function (e) {
@@ -41393,16 +41392,10 @@
 	
 	  render: function () {
 	    var content;
-	    var errors;
+	    var error;
 	
 	    if (this.state.errors.length > 0) {
-	      errors = this.state.errors[0].map(function (error, i) {
-	        return React.createElement(
-	          'div',
-	          { key: i, className: 'error' },
-	          error
-	        );
-	      });
+	      error = this.state.errors[0];
 	    }
 	
 	    if (this.state.register === false) {
@@ -41419,17 +41412,23 @@
 	          null,
 	          'Username'
 	        ),
-	        React.createElement('input', { className: 'auth-form-input', type: 'text', name: 'username', onChange: this.usernameCapture }),
+	        React.createElement('input', {
+	          className: 'auth-form-input',
+	          type: 'text', name: 'username',
+	          onChange: this.usernameCapture
+	        }),
 	        React.createElement(
 	          'label',
 	          null,
 	          'Password'
 	        ),
-	        React.createElement('input', { className: 'auth-form-input', type: 'password', name: 'password', onChange: this.passwordCapture }),
+	        React.createElement('input', { className: 'auth-form-input',
+	          type: 'password', name: 'password',
+	          onChange: this.passwordCapture }),
 	        React.createElement(
 	          'div',
 	          { className: 'auth-form-errors' },
-	          errors
+	          error
 	        ),
 	        React.createElement(
 	          'div',
@@ -41480,7 +41479,7 @@
 	        React.createElement(
 	          'div',
 	          { className: 'auth-form-errors' },
-	          errors
+	          error
 	        ),
 	        React.createElement(
 	          'div',
@@ -41537,7 +41536,8 @@
 	var _errors = [];
 	
 	var resetErrors = function (errors) {
-	  _errors = errors.responseJSON;
+	  _errors = errors.responseJSON[0];
+	  console.log(_errors);
 	};
 	
 	ErrorStore.all = function () {

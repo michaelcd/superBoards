@@ -1216,18 +1216,24 @@ html, body {
   background: #E2E4E6;
   color: #4D4D4D;
   border-radius: 3px;
-  height:260px;
+  height:305px;
   width: 280px;
   padding:7px;
 }
 
 .auth-form-errors {
   color:red;
+  padding: 6px 0px 10px 0px;
+  margin: 0 14px;
   font-size: 14px;
+  width:250px;
+  line-height: 18px;
+  min-height: 18px;
+  border-bottom: 1px solid #ccc;
 }
 
 .error {
-
+  padding: 6px 10px;
 }
 
 .auth-logo-container {
@@ -1275,7 +1281,7 @@ html, body {
 
 .auth-form-options-list {
   padding: 10px;
-  padding-top: 0;
+  padding-top: 4px;
 }
 
 .auth-form-option {

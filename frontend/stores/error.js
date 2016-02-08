@@ -7,7 +7,8 @@ var ErrorStore = new Store (AppDispatcher);
 var _errors = [];
 
 var resetErrors = function (errors) {
-  _errors = errors.responseJSON;
+  _errors = errors.responseJSON[0];
+  console.log(_errors);
 };
 
 ErrorStore.all = function () {
