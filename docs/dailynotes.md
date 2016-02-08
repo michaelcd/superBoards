@@ -1,16 +1,10 @@
 Current Notes
 
-<i class="fa fa-EXAMPLE fa-fw">
-fontawesome icons to use:
-fa-caret-square-o-down
-angle-down
-angle-double-down
-archive
-pencil
-search
-plus
-minus
-ellipsis-h
+Biggest priority:
+[ ] - redo sign in page
+[ ] - comments / wrapping issues
+
+
 
 Polish / Optional :
 [ ] - comment options menu: goes to new line when comment is too long. fix this for all cases
