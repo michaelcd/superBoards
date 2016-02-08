@@ -53,7 +53,7 @@ demo_card = demo_list_1.cards.create(title: "Click this card to see more details
 demo_list_2.cards.create(title: "You can have many lists within a board.", ord: 0, author_id: guestuser1.id)
 demo_list_2.cards.create(title: "And many cards within those lists.", ord: 1, author_id: guestuser1.id)
 demo_list_2.cards.create(title: "You can also reorder lists by dragging them.", ord: 2, author_id: guestuser1.id)
-demo_list_2.cards.create(title: "Guess what? YOu can drag and drop cards too.", ord: 3, author_id: guestuser1.id)
+demo_list_2.cards.create(title: "Guess what? You can drag and drop cards too.", ord: 3, author_id: guestuser1.id)
 demo_list_2.cards.create(title: "Try it. (We insist)", ord: 4, author_id: guestuser1.id)
 demo_list_3.cards.create(title: "Boards hold all your content in superBoards.", ord: 0, author_id: guestuser1.id)
 demo_list_3.cards.create(title: "Boards can be shared with other users to collaborate!", ord: 1, author_id: guestuser1.id)
