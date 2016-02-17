@@ -5,13 +5,13 @@
 [site]: http://www.superboards.xyz
 
 <!-- ![screenshot](./sboards.png) -->
-<img src="sboards.png" width="500" height="276" />
+<img src="sboards.png" width="600" height="331" />
 
 superBoards is a web application inspired by Trello built using Ruby on Rails and React.js.
-w
-• Implements drag-and-drop functionality using React DnD.
-• Allows secure authentication using BCrypt and Omniauth with Facebook.
-• Enables full text search through user’s data with PgSearch.
+
+Implements drag-and-drop functionality using React DnD.
+Allows secure authentication using BCrypt and Omniauth with Facebook.
+Enables full text search through user’s data with PgSearch.
 
 <!-- - Create an account
 - Log in / Log out
