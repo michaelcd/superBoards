@@ -26,7 +26,12 @@ class Api::BoardsController < ApplicationController
   def update
     @board = Board.find_by_id(board_params[:id])
     @board.update!(board_params)
-    render :show
+    if params[:archive]
+      @boards = current_user.boards.where(archived: false)
+      render :index
+    else
+      render :show
+    end
   end
 
   private

@@ -60,7 +60,7 @@ var BoardMenu = React.createClass({
     event.preventDefault();
     var board = this.props.board;
     board.archived = true;
-    ApiUtil.updateBoard(board);
+    ApiUtil.archiveBoard(board);
     this.history.pushState(null, "#/");
   },
 

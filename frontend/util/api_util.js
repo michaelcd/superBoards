@@ -123,6 +123,20 @@ var ApiUtil = {
    });
   },
 
+  archiveBoard: function (board) {
+    $.ajax({
+     url: "api/boards/" + board.id,
+     method: "PATCH",
+     data: {board: board, archive: true},
+     success: function (boards) {
+      BoardActions.receiveAllBoards(boards);
+     },
+     failure: function () {
+      console.log("failure");
+     }
+   });
+  },
+
   deleteBoard: function (board) {
     $.ajax({
      url: "api/boards/" + board.id,
