@@ -4,7 +4,7 @@
 
 [site]: http://www.superboards.xyz
 
-![screenshot](lib/asteroid.png)
+![screenshot](./sboards.png)
 
 superBoards is a web application inspired by Trello built using Ruby on Rails and React.js.
 
