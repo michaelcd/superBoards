@@ -18,12 +18,14 @@ class User < ActiveRecord::Base
 
     return user if user
 
-    User.create(
+    user = User.create(
       provider: provider,
       uid: uid,
       username: auth_hash[:info][:name],
       password: SecureRandom::urlsafe_base64
     )
+    Board.create_demo_board(user)
+    user
   end
 
   def self.find_by_credentials(username, password)
