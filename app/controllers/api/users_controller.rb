@@ -13,6 +13,7 @@ class Api::UsersController < ApplicationController
 
     if @user.save
       sign_in(@user)
+      Board.create_demo_board
       render "api/users/show"
     else
       flash.now[:errors] = @user.errors.full_messages
