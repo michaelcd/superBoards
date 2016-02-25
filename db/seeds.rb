@@ -38,8 +38,8 @@ Card.create(title: "East Village", list_id: pods.id, ord: 0, archived: false, au
 Card.create(title: "Harlem", list_id: pods.id, ord: 1, archived: false, author_id: 3)
 Card.create(title: "Brooklyn", list_id: pods.id, ord: 2, archived: false, author_id: 3)
 Card.create(title: "Soho", list_id: pods.id, ord: 3, archived: false, author_id: 3)
-jonathan = aa_board.lists.create(title: "Jonathan", ord: 5, archived: false)
-ycdi = jonathan.cards.create(title: "You can do it!", ord: 0, archived: false, author_id: 3)
+# jonathan = aa_board.lists.create(title: "Jonathan", ord: 5, archived: false)
+# ycdi = jonathan.cards.create(title: "You can do it!", ord: 0, archived: false, author_id: 3)
 # AppTour board and lists
 demo_board = Board.create(title: "Welcome to superBoards. Click this board!", author_id: guestuser1.id)
 demo_board.shares.create(user_id: 2)
