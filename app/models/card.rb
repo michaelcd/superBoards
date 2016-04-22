@@ -27,7 +27,6 @@ class Card < ActiveRecord::Base
   end
 
   def self.move_card_between_lists(card, destination_list_id, destination_ord)
-
     original_list_cards = card.list.cards.to_a
     original_list_cards.delete(card)
     self.reorder_cards(original_list_cards)

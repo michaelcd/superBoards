@@ -11,8 +11,7 @@ var CardDetail = require('./components/cards/carddetail');
 var CurrentUserStore = require('./stores/currentuser');
 var SessionsApiUtil = require('./util/sessions_api_util');
 var SessionForm = require('./components/sessionform');
-
-BoardStore = require('./stores/board');
+var BoardStore = require('./stores/board');
 
 var router = (
   <Router>

@@ -9,7 +9,7 @@ var HTML5Backend = require('react-dnd-html5-backend');
 var ApiUtil = require('../util/api_util');
 
 
-BoardDetailView = React.createClass({
+var BoardDetailView = React.createClass({
   getInitialState: function () {
     return({
       board: {},

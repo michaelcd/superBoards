@@ -10,8 +10,6 @@ class Api::UtilsController < ApplicationController
     @lists = @search_results.select {|result| result.class == List}
     @cards = @search_results.select {|result| result.class == Card}
     @comments = @search_results.select {|result| result.class == Comment}
-
-
   end
 
 
