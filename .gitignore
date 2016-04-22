@@ -4,6 +4,7 @@
 node_modules
 /tmp/
 /tmp/*
+/tmp/cache/
 /.bundle
 
 # Ignore application configuration
